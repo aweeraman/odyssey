@@ -2,3 +2,4 @@
 kernel
 *.iso
 cdrom/boot/kernel
+coreboot/
