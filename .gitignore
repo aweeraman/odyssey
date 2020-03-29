@@ -1,2 +1,4 @@
 *.o
 kernel
+*.iso
+cdrom/boot/kernel
