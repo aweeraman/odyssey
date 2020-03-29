@@ -1,19 +1,24 @@
 .global _start
 
 .section .text
+multiboot_start:
   .align 4
-  .long 0x1BADB002
+  .long 0xe85250d6
   .long 0x0
-  .long -0x1BADB002
-  .type _start, @function
+  .long multiboot_end - multiboot_start
+  .long 0x100000000 - (0xe85250d6 + 0 + (multiboot_end - multiboot_start))
+  .long 0x0
+  .long 0x0
+  .long 0x8
+multiboot_end:
 
-  _start:
-	mov $stack_top, %esp
-	call kernel_main
-	cli
+_start:
+  mov $stack_top, %esp
+  call kernel_main
+  cli
   hlt
 
 .section .bss
-  stack_bottom:
+stack_bottom:
   .skip 2048
-  stack_top:
+stack_top:

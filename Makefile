@@ -15,4 +15,7 @@ iso: kernel
 	grub-mkrescue -o image.iso cdrom
 
 boot: iso
-	qemu-system-i386 -cdrom image.iso
+	qemu-system-x86_64 -cdrom image.iso
+
+boot-efi: iso
+	qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -cdrom image.iso
