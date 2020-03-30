@@ -19,3 +19,6 @@ boot: iso
 
 boot-efi: iso
 	qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -cdrom image.iso
+
+boot-coreboot: iso
+	qemu-system-i386 -bios coreboot/build/coreboot.rom -cdrom image.iso
