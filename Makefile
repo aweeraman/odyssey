@@ -1,6 +1,7 @@
+.PHONY: clean iso boot boot-efi boot-coreboot
+
 kernel: boot.o kernel.o
 	ld -m elf_i386 -T linker.ld -o kernel boot.o kernel.o
-	cp kernel cdrom/boot/kernel
 
 boot.o:
 	as --32 -o boot.o boot.s
@@ -9,10 +10,14 @@ kernel.o:
 	gcc -m32 -o kernel.o -c kernel.c
 
 clean:
-	rm *.o kernel cdrom.iso cdrom/boot/kernel
+	-rm -f *.o kernel
+	-rm -rf image.iso iso
 
 iso: kernel
-	grub-mkrescue -o image.iso cdrom
+	mkdir -p iso/boot/grub/
+	cp grub.cfg iso/boot/grub/
+	cp kernel iso/boot/
+	grub-mkrescue -o image.iso iso
 
 boot: iso
 	qemu-system-x86_64 -cdrom image.iso
