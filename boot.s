@@ -1,8 +1,8 @@
-.set STACK_SIZE, 4096
+  .set STACK_SIZE, 4096
 
-.global _start
+  .global _start
 
-.section .text
+  .section .text
 multiboot_start:
   .align 4
   .long 0xe85250d6
@@ -20,7 +20,7 @@ _start:
   cli
   hlt
 
-.section .bss
+  .section .bss
   .align 4
 stack_bottom:
   .skip STACK_SIZE
