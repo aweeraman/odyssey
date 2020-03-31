@@ -5,10 +5,10 @@ NPROCS:=$(shell grep -c ^processor /proc/cpuinfo)
 kernel: boot.o kernel.o
 	ld -m elf_i386 -T linker.ld -o kernel boot.o kernel.o
 
-boot.o:
+boot.o: boot.s
 	as --32 -o boot.o boot.s
 
-kernel.o:
+kernel.o: kernel.c
 	gcc -m32 -o kernel.o -c kernel.c
 
 clean:

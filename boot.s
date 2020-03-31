@@ -1,3 +1,5 @@
+.set STACK_SIZE, 4096
+
 .global _start
 
 .section .text
@@ -19,6 +21,7 @@ _start:
   hlt
 
 .section .bss
+  .align 4
 stack_bottom:
-  .skip 2048
+  .skip STACK_SIZE
 stack_top:
