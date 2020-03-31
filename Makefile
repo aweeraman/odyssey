@@ -1,3 +1,5 @@
+NPROCS:=$(shell grep -c ^processor /proc/cpuinfo)
+
 .PHONY: clean iso boot boot-efi boot-coreboot
 
 kernel: boot.o kernel.o
@@ -27,3 +29,9 @@ boot-efi: iso
 
 boot-coreboot: iso
 	qemu-system-i386 -bios coreboot/build/coreboot.rom -cdrom image.iso
+
+build-coreboot:
+	[ -e coreboot/ ] || git clone git@github.com:coreboot/coreboot.git
+	cp coreboot.cfg coreboot/
+	make -C coreboot/ crossgcc-i386 CPUS=$(NPROCS)
+	make -C coreboot/ -j$(NPROCS)
