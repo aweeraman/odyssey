@@ -1,6 +1,6 @@
 NPROCS:=$(shell grep -c ^processor /proc/cpuinfo)
 
-.PHONY: clean iso boot boot-efi boot-coreboot
+.PHONY: clean iso boot boot-efi boot-coreboot build-coreboot
 
 kernel: boot.o kernel.o
 	ld -m elf_i386 -T linker.ld -o kernel boot.o kernel.o
@@ -27,7 +27,7 @@ boot: iso
 boot-efi: iso
 	qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -cdrom image.iso
 
-boot-coreboot: iso
+boot-coreboot: iso coreboot/build/coreboot.rom
 	qemu-system-i386 -bios coreboot/build/coreboot.rom -cdrom image.iso
 
 build-coreboot:
