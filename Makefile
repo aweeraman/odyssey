@@ -1,35 +1,46 @@
-NPROCS:=$(shell grep -c ^processor /proc/cpuinfo)
-CFLAGS:=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+CC      = gcc
+AS      = as
+LD      = ld
+OBJECTS = boot.o kernel.o
+CFLAGS  = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
+					-nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+LDFLAGS = -m elf_i386 -T linker.ld
+ASFLAGS = --32
+NPROCS  = $(shell grep -c ^processor /proc/cpuinfo)
+QEMU    = qemu-system-x86_64
+ISO     = kernel.iso
+CBROM   = coreboot/build/coreboot.rom
+EFIBIOS = /usr/share/ovmf/OVMF.fd
 
 .PHONY: clean iso boot boot-efi boot-coreboot build-coreboot
 
-kernel: boot.o kernel.o
-	ld -m elf_i386 -T linker.ld -o kernel boot.o kernel.o
+kernel: $(OBJECTS)
+	$(LD) $(LDFLAGS) -o kernel $(OBJECTS)
 
-boot.o: boot.s
-	as --32 -o boot.o boot.s
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-kernel.o: kernel.c
-	gcc $(CFLAGS) -o kernel.o -c kernel.c
+%.o: %.s
+	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
-	-rm -f *.o kernel
-	-rm -rf image.iso iso
+	-rm -f $(OBJECTS) kernel
+	-rm -rf $(ISO) iso
 
 iso: kernel
 	mkdir -p iso/boot/grub/
 	cp grub.cfg iso/boot/grub/
 	cp kernel iso/boot/
-	grub-mkrescue -o image.iso iso
+	grub-mkrescue -o $(ISO) iso
 
 boot: iso
-	qemu-system-x86_64 -cdrom image.iso
+	$(QEMU) -cdrom $(ISO)
 
 boot-efi: iso
-	qemu-system-x86_64 -bios /usr/share/ovmf/OVMF.fd -cdrom image.iso
+	$(QEMU) -bios $(EFIBIOS) -cdrom $(ISO)
 
-boot-coreboot: iso coreboot/build/coreboot.rom
-	qemu-system-i386 -bios coreboot/build/coreboot.rom -cdrom image.iso
+boot-coreboot: iso $(CBROM)
+	$(QEMU) -bios $(CBROM) -cdrom $(ISO)
 
 build-coreboot:
 	[ -e coreboot/ ] || git clone git@github.com:coreboot/coreboot.git
