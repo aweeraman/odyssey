@@ -3,7 +3,7 @@ AS      = as
 LD      = ld
 OBJECTS = boot.o kernel.o
 CFLAGS  = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-					-nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+          -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
 LDFLAGS = -m elf_i386 -T linker.ld
 ASFLAGS = --32
 NPROCS  = $(shell grep -c ^processor /proc/cpuinfo)
@@ -13,6 +13,8 @@ CBROM   = coreboot/build/coreboot.rom
 EFIBIOS = /usr/share/ovmf/OVMF.fd
 
 .PHONY: clean iso boot boot-efi boot-coreboot build-coreboot
+
+all: kernel iso
 
 kernel: $(OBJECTS)
 	$(LD) $(LDFLAGS) -o kernel $(OBJECTS)
