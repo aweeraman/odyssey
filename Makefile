@@ -1,4 +1,5 @@
 NPROCS:=$(shell grep -c ^processor /proc/cpuinfo)
+CFLAGS:=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
 
 .PHONY: clean iso boot boot-efi boot-coreboot build-coreboot
 
@@ -9,7 +10,7 @@ boot.o: boot.s
 	as --32 -o boot.o boot.s
 
 kernel.o: kernel.c
-	gcc -m32 -o kernel.o -c kernel.c
+	gcc $(CFLAGS) -o kernel.o -c kernel.c
 
 clean:
 	-rm -f *.o kernel
