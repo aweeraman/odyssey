@@ -1,4 +1,5 @@
 #include "print.h"
+#include "io.h"
 
 cell *matrix = (cell *) 0xb8000;
 

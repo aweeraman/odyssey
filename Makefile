@@ -1,7 +1,7 @@
 CC      = gcc
 AS      = as
 LD      = ld
-OBJECTS = boot.o print.o kernel.o
+OBJECTS = boot.o print.o io.o kernel.o
 CFLAGS  = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
           -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
 LDFLAGS = -m elf_i386 -T linker.ld
