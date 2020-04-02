@@ -8,10 +8,10 @@ static int cur_y = 0;
 void scroll() {
   for (int i=0; i<(ROWS-1); i++) {
     for (int j=0; j<COLS; j++) {
-      matrix[(i*COLS) + j].ch = matrix[(i+1)*COLS + j].ch;
-      matrix[(i*COLS) + j].clr = 15;
-      matrix[(i+1)*COLS + j].ch = 0;
-      matrix[(i+1)*COLS + j].clr = 15;
+      matrix[(i*COLS) + j].ch    = matrix[(i+1)*COLS + j].ch;
+      matrix[(i*COLS) + j].clr   = matrix[(i+1)*COLS + j].clr;
+      matrix[(i+1)*COLS + j].ch  = 0;
+      matrix[(i+1)*COLS + j].clr = 0;
     }
   }
 }
@@ -35,13 +35,16 @@ void print_char(char ch) {
     }
     return;
   }
-  matrix[(cur_x*COLS) + cur_y++].ch = ch;
+  matrix[(cur_x*COLS) + cur_y++] = (cell) {
+    .ch = ch,
+    .clr = CLR_WHITE
+  };
 }
 
 void clear_screen(void) {
   for (int i=0; i<(ROWS*COLS); i++) {
     matrix[i].ch = 0;
-    matrix[i].clr = 15;
+    matrix[i].clr = 0;
   }
 }
 
