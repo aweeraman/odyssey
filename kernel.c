@@ -1,3 +1,4 @@
+#include "multiboot2.h"
 #include "print.h"
 
 void kernel_main(void) {

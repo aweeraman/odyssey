@@ -3,11 +3,9 @@
   .set MB2_ARCH_FLAG, 0x0
   .set MB2_FB_TAG,    0x0
 
-  .global _start
-
-  .section .text
+  .section .multiboot
+  .align 8
 mb2_hdr:
-  .align 4
   .long MB2_MAGIC             # multiboot2 magic string
   .long MB2_ARCH_FLAG         # architecture
   .long mb2_hdr_end - mb2_hdr # header length
@@ -17,11 +15,14 @@ mb2_hdr:
   .long 0x8                   # size, 8 to terminate
 mb2_hdr_end:
 
+  .section .text
+  .global _start
 _start:
-  mov $stack_top, %esp
-  call kernel_main
-  cli
-  hlt
+   mov $stack_top, %esp
+   call kernel_main
+   cli
+1: hlt
+   jmp 1b
 
   .section .bss
   .align 4
