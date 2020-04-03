@@ -19,6 +19,8 @@ mb2_hdr_end:
   .global _start
 _start:
    mov $stack_top, %esp
+   pushl %ebx
+   pushl %eax
    call kernel_main
    cli
 1: hlt

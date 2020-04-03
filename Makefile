@@ -3,7 +3,7 @@ AS      = as
 LD      = ld
 OBJECTS = boot.o print.o io.o kernel.o
 CFLAGS  = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-          -nostartfiles -nodefaultlibs -Wall -Wextra -Werror
+          -nostartfiles -nodefaultlibs -Wall -Wextra
 LDFLAGS = -m elf_i386 -T linker.ld
 ASFLAGS = --32
 NPROCS  = $(shell grep -c ^processor /proc/cpuinfo)
