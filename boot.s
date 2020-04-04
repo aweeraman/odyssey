@@ -41,7 +41,7 @@ _start:
   jmp 1b
 
 shutdown_msg:
-  .asciz  "System shutdown."
+  .asciz  "System shutdown.\n"
 
   .section .bss
   .align 4

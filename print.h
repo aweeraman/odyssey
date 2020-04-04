@@ -3,9 +3,6 @@
 
 #include "types.h"
 
-#define ROWS 25
-#define COLS 80
-
 #define CLR_BLACK         0
 #define CLR_BLUE          1
 #define CLR_GREEN         2
@@ -22,6 +19,9 @@
 #define CLR_LIGHT_MAGENTA 13
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
+
+static const size_t TERMINAL_ROWS = 25;
+static const size_t TERMINAL_COLS = 80;
 
 typedef struct {
   __uint8_t ch;
