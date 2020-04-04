@@ -2,7 +2,7 @@
 #include "multiboot2.h"
 #include "print.h"
 
-void kernel_main(unsigned long magic, unsigned long addr) {
+void kernel_main(__uint64_t magic, __uint64_t addr) {
   clear_screen();
 
   // Initialize serial port for communication

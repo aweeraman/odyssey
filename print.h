@@ -1,7 +1,7 @@
-#include "types.h"
-
 #ifndef PRINT_H
 #define PRINT_H
+
+#include "types.h"
 
 #define ROWS 25
 #define COLS 80
@@ -24,8 +24,8 @@
 #define CLR_WHITE         15
 
 typedef struct {
-  unsigned char ch;
-  unsigned char clr;
+  __uint8_t ch;
+  __uint8_t clr;
 } __attribute__((packed)) cell;
 
 void init_serial();
