@@ -1,14 +1,14 @@
 CC      = gcc
-AS      = as
+AS      = gcc
 LD      = ld
 NPROCS  = $(shell grep -c ^processor /proc/cpuinfo)
 
-OBJECTS = $(patsubst %.s, %.o, $(wildcard *.s)) \
+OBJECTS = $(patsubst %.S, %.o, $(wildcard *.S)) \
 					$(patsubst %.c, %.o, $(wildcard *.c))
-CFLAGS  = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
+CFLAGS  = -m32 -c -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
           -nostartfiles -nodefaultlibs -Wall -Wextra -ffreestanding
 LDFLAGS = -m elf_i386 -T linker.ld
-ASFLAGS = --32
+
 
 QEMU    = qemu-system-x86_64
 ISO     = kernel.iso
@@ -23,8 +23,8 @@ kernel: $(OBJECTS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-%.o: %.s
-	$(AS) $(ASFLAGS) -o $@ $<
+%.o: %.S
+	$(AS) $(CFLAGS) -o $@ $<
 
 clean:
 	-rm -f $(OBJECTS) kernel

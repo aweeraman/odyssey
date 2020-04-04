@@ -3,32 +3,44 @@
 
 // Reference: https://wiki.osdev.org/Serial_Ports
 
+static __uint16_t port = SERIAL_BASE(COM1);
+
 void init_serial() {
-   outb(COM1 + 1, 0x00);    // Disable all interrupts
-   outb(COM1 + 3, 0x80);    // Enable DLAB (set baud rate divisor)
-   outb(COM1 + 0, 0x01);    // Set divisor to 1 (lo byte) 115200 baud
-   outb(COM1 + 1, 0x00);    //                  (hi byte)
-   outb(COM1 + 3, 0x03);    // 8 bits, no parity, one stop bit
-   outb(COM1 + 2, 0xC7);    // Enable FIFO, clear them, with 14-byte threshold
-   outb(COM1 + 4, 0x0B);    // IRQs enabled, RTS/DSR set
+  port = SERIAL_BASE(COM1);
+
+  outb(SERIAL_BASE(port), 0x00);               // Disable all interrupts
+  //
+  // Enable DLAB to set baud rate divisor.
+  // Line Control Register. The most significant bit of this register is the DLAB (Divisor
+  // Latch Access Bit).
+  outb(SERIAL_LINE_CONTROL_PORT(port), 0x80);
+
+  // Set divisor to 1 (lo byte) for 115200 baud, 2 for 57600 and 3
+  // for 38400. The next byte holds the most significant byte of the divisor.
+  outb(SERIAL_BASE(port), BAUD_115200);
+  outb(SERIAL_BASE(port) + 1, 0x00);
+
+  outb(SERIAL_LINE_CONTROL_PORT(port), 0x03);  // 8 bits, no parity, one stop bit
+  outb(SERIAL_FIFO_CONTROL_PORT(port), 0xC7);  // Enable FIFO, clear them, with 14-byte threshold
+  outb(SERIAL_MODEM_CONTROL_PORT(port), 0x0B); // IRQs enabled, RTS/DSR set
 }
 
 int serial_received() {
-   return inb(COM1 + 5) & 1;
+   return inb(SERIAL_LINE_STATUS_PORT(port)) & 1;
 }
 
 char read_serial() {
    while (serial_received() == 0);
 
-   return inb(COM1);
+   return inb(SERIAL_BASE(port));
 }
 
 int is_transmit_empty() {
-   return inb(COM1 + 5) & 0x20;
+   return inb(SERIAL_LINE_STATUS_PORT(port)) & 0x20;
 }
 
 void write_serial(char a) {
    while (is_transmit_empty() == 0);
 
-   outb(COM1,a);
+   outb(SERIAL_BASE(port),a);
 }

@@ -2,6 +2,7 @@
 #define PRINT_H
 
 #include "types.h"
+#include "serial.h"
 
 #define CLR_BLACK         0
 #define CLR_BLUE          1
@@ -28,7 +29,6 @@ typedef struct {
   __uint8_t clr;
 } __attribute__((packed)) cell;
 
-void init_serial();
 void clear_screen(void);
 void print(char *str);
 
