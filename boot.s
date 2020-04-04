@@ -21,13 +21,23 @@ mb2_hdr_end:
   .section .text
   .global _start
 _start:
-   mov $stack_top, %esp
-   pushl %ebx
-   pushl %eax
-   call kernel_main
-   cli
+  mov $stack_top, %esp
+  pushl %ebx
+  pushl %eax
+
+  # Jump to function in kernel.c
+  call kernel_main
+
+  # returning from the kernel
+  pushl $shutdown_msg
+  call print
+
+  cli
 1: hlt
-   jmp 1b
+  jmp 1b
+
+shutdown_msg:
+  .asciz  "System shutdown."
 
   .section .bss
   .align 4
