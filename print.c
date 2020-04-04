@@ -35,6 +35,7 @@ void print_char(__uint8_t ch) {
       scroll();
       cur_x = TERMINAL_ROWS-1;
     }
+    write_serial('\r');
     write_serial('\n');
     return;
   }
