@@ -1,5 +1,6 @@
 #include "print.h"
 #include "io.h"
+#include "serial.h"
 
 cell *matrix = (cell *) 0xb8000;
 
@@ -34,12 +35,14 @@ void print_char(char ch) {
       scroll();
       cur_x = ROWS-1;
     }
+    write_serial('\n');
     return;
   }
   matrix[(cur_x*COLS) + cur_y++] = (cell) {
     .ch = ch,
     .clr = CLR_WHITE
   };
+  write_serial(ch);
 }
 
 void clear_screen(void) {

@@ -26,6 +26,7 @@ typedef struct {
   unsigned char clr;
 } __attribute__((packed)) cell;
 
+void init_serial();
 void clear_screen(void);
 void print(char *str);
 

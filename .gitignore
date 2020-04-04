@@ -3,3 +3,4 @@ kernel
 *.iso
 iso/
 coreboot/
+notes/

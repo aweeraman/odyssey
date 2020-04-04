@@ -1,7 +1,7 @@
 CC      = gcc
 AS      = as
 LD      = ld
-OBJECTS = boot.o print.o io.o kernel.o
+OBJECTS = boot.o print.o io.o serial.o kernel.o
 CFLAGS  = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
           -nostartfiles -nodefaultlibs -Wall -Wextra
 LDFLAGS = -m elf_i386 -T linker.ld
@@ -36,13 +36,13 @@ iso: kernel
 	grub-mkrescue -o $(ISO) iso
 
 boot: iso
-	$(QEMU) -cdrom $(ISO)
+	$(QEMU) -serial stdio -cdrom $(ISO)
 
 boot-efi: iso
-	$(QEMU) -bios $(EFIBIOS) -cdrom $(ISO)
+	$(QEMU) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
 boot-coreboot: iso $(CBROM)
-	$(QEMU) -bios $(CBROM) -cdrom $(ISO)
+	$(QEMU) -serial stdio -bios $(CBROM) -cdrom $(ISO)
 
 build-coreboot:
 	[ -e coreboot/ ] || git clone git@github.com:coreboot/coreboot.git
