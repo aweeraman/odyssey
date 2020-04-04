@@ -1,20 +1,21 @@
 CC      = gcc
 AS      = as
 LD      = ld
-OBJECTS = boot.o print.o io.o serial.o kernel.o
+NPROCS  = $(shell grep -c ^processor /proc/cpuinfo)
+
+OBJECTS = $(patsubst %.s, %.o, $(wildcard *.s)) \
+					$(patsubst %.c, %.o, $(wildcard *.c))
 CFLAGS  = -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-          -nostartfiles -nodefaultlibs -Wall -Wextra
+          -nostartfiles -nodefaultlibs -Wall -Wextra -ffreestanding
 LDFLAGS = -m elf_i386 -T linker.ld
 ASFLAGS = --32
-NPROCS  = $(shell grep -c ^processor /proc/cpuinfo)
+
 QEMU    = qemu-system-x86_64
 ISO     = kernel.iso
 CBROM   = coreboot/build/coreboot.rom
 EFIBIOS = /usr/share/ovmf/OVMF.fd
 
 .PHONY: clean iso boot boot-efi boot-coreboot build-coreboot
-
-all: kernel iso
 
 kernel: $(OBJECTS)
 	$(LD) $(LDFLAGS) -o kernel $(OBJECTS)

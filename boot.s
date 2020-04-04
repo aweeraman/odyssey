@@ -22,7 +22,11 @@ mb2_hdr_end:
   .global _start
 _start:
   mov $stack_top, %esp
+
+  # Pointer to the Multiboot2 information structure
   pushl %ebx
+
+  # Multiboot2 magic value
   pushl %eax
 
   # Jump to function in kernel.c
