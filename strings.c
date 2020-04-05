@@ -52,6 +52,7 @@ char* itoa(int value, char* result, int base) {
   return result;
 }
 
+// Reference: https://www.eskimo.com/~scs/cclass/int/sx11b.html
 void printf(const char *fmt, ...) {
   const char *p;
   char print_buf[128];
