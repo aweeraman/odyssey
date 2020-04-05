@@ -14,9 +14,8 @@
  *
  * Copyright 2020, Anuradha Weeraman
  *
- * C++ version 0.4 char* style "itoa", Copyright Lukás Chmela
- * Released under GPLv3.
- * http://www.strudel.org.uk/itoa/
+ * This program includes code that is Copyright (C) 1999, 2010 Free
+ * Software Foundation, Inc.
  */
 
 #include "string.h"
@@ -28,62 +27,103 @@ size_t strlen(char *str) {
   return sz;
 }
 
-char* itoa(__uint64_t value, char* result, int base) {
-  // check that the base if valid
-  if (base < 2 || base > 36) { *result = '\0'; return result; }
+void itoa (char *buf, int base, int d) {
+  char *p = buf;
+  char *p1, *p2;
+  unsigned long ud = d;
+  int divisor = 10;
 
-  char* ptr = result, *ptr1 = result, tmp_char;
-  int tmp_value;
+  /*  If %d is specified and D is minus, put ‘-’ in the head. */
+  if (base == 'd' && d < 0)
+    {
+      *p++ = '-';
+      buf++;
+      ud = -d;
+    }
+  else if (base == 'x')
+    divisor = 16;
 
-  do {
-    tmp_value = value;
-    value /= base;
-    *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
-  } while ( value );
+  /*  Divide UD by DIVISOR until UD == 0. */
+  do
+    {
+      int remainder = ud % divisor;
 
-  // Apply negative sign
-  if (tmp_value < 0) *ptr++ = '-';
-  *ptr-- = '\0';
-  while(ptr1 < ptr) {
-    tmp_char = *ptr;
-    *ptr--= *ptr1;
-    *ptr1++ = tmp_char;
-  }
-  return result;
+      *p++ = (remainder < 10) ? remainder + '0' : remainder + 'a' - 10;
+    }
+  while (ud /= divisor);
+
+  /*  Terminate BUF. */
+  *p = 0;
+
+  /*  Reverse BUF. */
+  p1 = buf;
+  p2 = p - 1;
+  while (p1 < p2)
+    {
+      char tmp = *p1;
+      *p1 = *p2;
+      *p2 = tmp;
+      p1++;
+      p2--;
+    }
 }
 
-// Reference: https://www.eskimo.com/~scs/cclass/int/sx11b.html
-void printf(const char *fmt, ...) {
-  const char *p;
-  char print_buf[128];
-  char **arg = (char **) &fmt;
+void printf (const char *format, ...) {
+  char **arg = (char **) &format;
+  int c;
+  char buf[20];
 
-  for(p = fmt; *p != '\0'; p++) {
-    if(*p != '%') {
-      print_char(*p);
-      continue;
+  arg++;
+
+  while ((c = *format++) != 0)
+    {
+      if (c != '%')
+        print_char (c);
+      else
+        {
+          char *p, *p2;
+          int pad0 = 0, pad = 0;
+
+          c = *format++;
+          if (c == '0')
+            {
+              pad0 = 1;
+              c = *format++;
+            }
+
+          if (c >= '0' && c <= '9')
+            {
+              pad = c - '0';
+              c = *format++;
+            }
+
+          switch (c)
+            {
+            case 'd':
+            case 'u':
+            case 'x':
+              itoa (buf, c, *((int *) arg++));
+              p = buf;
+              goto string;
+              break;
+
+            case 's':
+              p = *arg++;
+              if (! p)
+                p = "(null)";
+
+            string:
+              for (p2 = p; *p2; p2++);
+              for (; p2 < p + pad; p2++)
+                print_char (pad0 ? '0' : ' ');
+              while (*p)
+                print_char (*p++);
+              break;
+
+            default:
+              print_char (*((int *) arg++));
+              break;
+            }
+        }
     }
-
-    switch(*++p) {
-      case 'c':
-        print_char((size_t) *(++arg));
-        break;
-
-      case 'd':
-        print(itoa((size_t) *(++arg), print_buf, 10));
-        break;
-
-      case 's':
-        print((char *) *(++arg));
-        break;
-
-      case 'x':
-        print(itoa((__uint64_t) *(++arg), print_buf, 16));
-        break;
-
-      case '%':
-        print("%");
-        break;
-    }
-  }
 }
