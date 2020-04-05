@@ -46,7 +46,7 @@ void print_char(__uint8_t ch) {
   write_serial(ch);
 }
 
-void clear_screen(void) {
+void clear(void) {
   for (size_t i=0; i<(TERMINAL_ROWS*TERMINAL_COLS); i++) {
     matrix[i].ch = 0;
     matrix[i].clr = 0;
@@ -57,4 +57,9 @@ void print(char *str) {
   for (size_t i=0; str[i] != '\0'; i++) {
     print_char(str[i]);
   }
+}
+
+void println(char *str) {
+  print(str);
+  print("\n");
 }

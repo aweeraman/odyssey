@@ -3,16 +3,16 @@
 #include "print.h"
 
 void kernel_main(__uint64_t magic, __uint64_t addr) {
-  clear_screen();
+  clear();
 
   // Initialize serial port for communication
   init_serial();
-  print("Initialized COM1\n");
+  println("Initialized COM1");
 
   // Check if bootloader complies with multiboot2
   if (magic == MULTIBOOT2_BOOTLOADER_MAGIC) {
-    print("Multiboot2 header valid\n");
+    println("Multiboot2 header valid");
   }
 
-  print("Boot complete, exiting kernel\n");
+  println("Boot complete, exiting kernel");
 }

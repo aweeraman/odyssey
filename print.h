@@ -29,7 +29,8 @@ typedef struct {
   __uint8_t clr;
 } __attribute__((packed)) cell;
 
-void clear_screen(void);
+void clear(void);
 void print(char *str);
+void println(char *str);
 
 #endif
