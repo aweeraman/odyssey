@@ -17,8 +17,8 @@
 
 #include "kernel.h"
 #include "multiboot2.h"
-#include "print.h"
-#include "strings.h"
+#include "tty.h"
+#include "string.h"
 
 void kernel_main(__uint64_t magic, __uint64_t addr) {
   struct multiboot_tag *tag;

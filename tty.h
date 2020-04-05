@@ -15,8 +15,8 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
-#ifndef PRINT_H
-#define PRINT_H
+#ifndef TTY_H
+#define TTY_H
 
 #include "types.h"
 #include "serial.h"

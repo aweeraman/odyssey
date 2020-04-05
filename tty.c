@@ -16,7 +16,7 @@
  */
 
 #include "types.h"
-#include "print.h"
+#include "tty.h"
 #include "serial.h"
 
 cell *matrix = (cell *) 0xb8000;

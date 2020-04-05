@@ -19,8 +19,8 @@
  * http://www.strudel.org.uk/itoa/
  */
 
-#include "strings.h"
-#include "print.h"
+#include "string.h"
+#include "tty.h"
 
 size_t strlen(char *str) {
   size_t sz = 0;
