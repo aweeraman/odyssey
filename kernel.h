@@ -18,6 +18,6 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
-const char *MEMORY_REGION_T[6] = { "", "AVAILABLE", "RESERVED", "ACPI", "ACPI NVS", "BAD" };
+const char *MEMORY_REGION_T[6] = { "", "RAM", "RESERVED", "ACPI", "ACPI NVS", "BAD" };
 
 #endif
