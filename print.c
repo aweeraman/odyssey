@@ -45,7 +45,7 @@ void print_char(__uint8_t ch) {
     cur_x = TERMINAL_ROWS-1;
     cur_y = 0;
   }
-  if (ch == '\n') {
+  if (ch == '\n' || ch == '\r') {
     cur_x++;
     cur_y = 0;
     if (cur_x >= TERMINAL_ROWS) {
