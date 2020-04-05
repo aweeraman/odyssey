@@ -15,15 +15,13 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
-#include "io.h"
+#ifndef STRINGS_H
+#define STRINGS_H
+
 #include "types.h"
 
-void outb(__uint16_t port, __uint8_t val) {
-    asm volatile("outb %0, %1" : : "a"(val), "Nd"(port));
-}
+char*  itoa(int value, char* result, int base);
+size_t strlen(char *str);
+void   printf(const char *fmt, ...);
 
-unsigned char inb(__uint16_t port) {
-    __uint8_t ret;
-    asm volatile("inb %1, %0" : "=a"(ret) : "Nd"(port));
-    return ret;
-}
+#endif
