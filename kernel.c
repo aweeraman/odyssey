@@ -72,8 +72,8 @@ void kernel_main(__uint64_t magic, __uint64_t addr) {
                    ((unsigned long) mmap + ((struct multiboot_tag_mmap *) tag)->entry_size)) {
           printf("    %d: 0x%x - 0x%x [%s]\n",
               counter++,
-              (unsigned) (mmap->addr),
-              (unsigned) (mmap->addr) + (unsigned) mmap->len,
+              (__uint64_t) (mmap->addr),
+              (__uint64_t) (mmap->addr) + (__uint64_t) mmap->len,
               MEMORY_REGION_T[(unsigned) (mmap->type)]);
         }
         break;

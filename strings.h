@@ -20,7 +20,7 @@
 
 #include "types.h"
 
-char*  itoa(int value, char* result, int base);
+char*  itoa(__uint64_t value, char* result, int base);
 size_t strlen(char *str);
 void   printf(const char *fmt, ...);
 

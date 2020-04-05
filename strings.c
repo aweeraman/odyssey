@@ -28,7 +28,7 @@ size_t strlen(char *str) {
   return sz;
 }
 
-char* itoa(int value, char* result, int base) {
+char* itoa(__uint64_t value, char* result, int base) {
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 
@@ -78,7 +78,7 @@ void printf(const char *fmt, ...) {
         break;
 
       case 'x':
-        print(itoa((size_t) *(++arg), print_buf, 16));
+        print(itoa((__uint64_t) *(++arg), print_buf, 16));
         break;
 
       case '%':
