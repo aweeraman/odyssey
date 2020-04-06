@@ -1,14 +1,20 @@
-QEMU      := qemu-system-x86_64
+DEBUG     := yes
+QEMU_32   := qemu-system-i386
+QEMU_64   := qemu-system-x86_64
 MEMORY    := 32
 ISO       := kernel.iso
 CBROM     := coreboot/build/coreboot.rom
 EFIBIOS   := /usr/share/ovmf/OVMF.fd
 NPROCS    := $(shell grep -c ^processor /proc/cpuinfo)
 
+ifeq ($(DEBUG),yes)
+	QEMU_ARGS += -s -S
+endif
+
 .PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot
 
 all:
-	+$(MAKE) -C src
+	+$(MAKE) DEBUG=$(DEBUG) -C src
 
 clean:
 	+$(MAKE) -C src clean
@@ -21,14 +27,15 @@ iso: all
 	grub-mkrescue -o $(ISO) iso
 
 boot: iso
-	$(QEMU) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
+	$(QEMU_32) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
+
+boot-coreboot: iso $(CBROM)
+	$(QEMU_32) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
 
 boot-efi: iso
 	# Qemu hangs when specifying the memory argument
-	$(QEMU) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
-
-boot-coreboot: iso $(CBROM)
-	$(QEMU) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
+	# Cannot attach gdb to qemu_64 as the binaries are built for i386
+	$(QEMU_64) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
 build-coreboot:
 	[ -e coreboot/ ] || git clone git@github.com:coreboot/coreboot.git

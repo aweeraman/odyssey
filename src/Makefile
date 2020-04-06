@@ -11,11 +11,17 @@ else
 	ASM_EXT := asm
 endif
 
+ifeq ($(DEBUG),yes)
+	ADDL_CFLAGS     += -g
+	ADDL_NASM_FLAGS += -g
+endif
+
 OBJECTS   := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
 					   $(patsubst %.c, %.o, $(wildcard *.c))
-ASFLAGS   := -felf
-CFLAGS    := -m32 -c -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-             -nostartfiles -nodefaultlibs -Wall -Wextra -ffreestanding
+ASFLAGS   := -felf $(ADDL_NASM_FLAGS)
+CFLAGS    := -m32 -c -nostdlib -nostdinc -fno-builtin \
+             -fno-stack-protector -nostartfiles -nodefaultlibs -Wall \
+             -Wextra -ffreestanding $(ADDL_CFLAGS)
 LDFLAGS   := -m elf_i386 -T linker.ld
 NPROCS    := $(shell grep -c ^processor /proc/cpuinfo)
 

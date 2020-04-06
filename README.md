@@ -38,3 +38,25 @@ To boot with coreboot:
 $ make build-coreboot
 $ make boot-coreboot
 ```
+
+# Debugging
+
+Enable following in the top level Makefile:
+
+```
+DEBUG     := yes
+```
+
+Run 'make boot' and in a different shell start gdb and set a breakpoint to
+step through the code:
+
+```
+$ gdb src/kernel
+Reading symbols from src/kernel...
+(gdb) target remote :1234
+Remote debugging using :1234
+0x0000fff0 in ?? ()
+(gdb) break kernel_main
+Breakpoint 1 at 0x1007c0: file kernel.c, line 26.
+(gdb) c
+```
