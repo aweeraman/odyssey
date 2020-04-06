@@ -25,8 +25,8 @@
   .section .multiboot
   .align 8
 mb2_hdr:
-  .long MULTIBOOT2_HEADER_MAGIC             # multiboot2 magic string
-  .long MB2_ARCH_FLAG         # architecture
+  .long MULTIBOOT2_HEADER_MAGIC
+  .long MB2_ARCH_FLAG
   .long mb2_hdr_end - mb2_hdr
   .long -(0xe85250d6 + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
   .align 8

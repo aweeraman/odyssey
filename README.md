@@ -3,5 +3,5 @@
 # Dependencies
 
 ```
-apt-get install gcc make grub2-common mtools git qemu-system-x86 ovmf
+apt-get install gcc make grub2-common mtools git qemu-system-x86 ovmf nasm
 ```

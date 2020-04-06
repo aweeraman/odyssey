@@ -1,19 +1,27 @@
-CC      := gcc
-AS      := gcc
-LD      := ld
-NPROCS  := $(shell grep -c ^processor /proc/cpuinfo)
+CC        := gcc
+LD        := ld
 
-OBJECTS := $(patsubst %.S, %.o, $(wildcard *.S)) \
-					 $(patsubst %.c, %.o, $(wildcard *.c))
-CFLAGS  := -m32 -c -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-           -nostartfiles -nodefaultlibs -Wall -Wextra -ffreestanding
-LDFLAGS := -m elf_i386 -T linker.ld
+# Specify either 'gcc' or 'nasm' for compiling assembly programs
+AS        := nasm
+ifeq ($(AS),gcc)
+  ASM_EXT := S
+else
+	ASM_EXT := asm
+endif
 
-QEMU    := qemu-system-x86_64
-MEMORY  := 32
-ISO     := kernel.iso
-CBROM   := coreboot/build/coreboot.rom
-EFIBIOS := /usr/share/ovmf/OVMF.fd
+OBJECTS   := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
+					   $(patsubst %.c, %.o, $(wildcard *.c))
+ASFLAGS   := -felf
+CFLAGS    := -m32 -c -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
+             -nostartfiles -nodefaultlibs -Wall -Wextra -ffreestanding
+LDFLAGS   := -m elf_i386 -T linker.ld
+
+QEMU      := qemu-system-x86_64
+MEMORY    := 32
+ISO       := kernel.iso
+CBROM     := coreboot/build/coreboot.rom
+EFIBIOS   := /usr/share/ovmf/OVMF.fd
+NPROCS    := $(shell grep -c ^processor /proc/cpuinfo)
 
 .PHONY: clean iso boot boot-efi boot-coreboot build-coreboot
 
@@ -25,6 +33,9 @@ kernel: $(OBJECTS)
 
 %.o: %.S
 	$(AS) $(CFLAGS) -o $@ $<
+
+%.o: %.asm
+	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
 	-rm -f $(OBJECTS) kernel
