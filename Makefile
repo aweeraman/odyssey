@@ -1,8 +1,10 @@
+# Specify either 'gcc' or 'clang' for compiling C programs
 CC        := gcc
 LD        := ld
 
 # Specify either 'gcc' or 'nasm' for compiling assembly programs
-AS        := nasm
+AS        := gcc
+
 ifeq ($(AS),gcc)
   ASM_EXT := S
 else
@@ -38,7 +40,7 @@ kernel: $(OBJECTS)
 	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
-	-rm -f $(OBJECTS) kernel
+	-rm -f $(OBJECTS) *.o kernel
 	-rm -rf $(ISO) iso
 
 iso: kernel
@@ -51,7 +53,8 @@ boot: iso
 	$(QEMU) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
 
 boot-efi: iso
-	$(QEMU) -m size=$(MEMORY) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
+	# Qemu hangs when specifying the memory argument
+	$(QEMU) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
 boot-coreboot: iso $(CBROM)
 	$(QEMU) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
