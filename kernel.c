@@ -77,8 +77,8 @@ void kernel_main(__uint64_t magic, __uint64_t addr) {
               counter++,
               (size_t) (mmap->addr >> 32),
               (size_t) (mmap->addr & 0xffffffff),
-              (size_t) (mmap->len >> 32),
-              (size_t) (mmap->len & 0xffffffff),
+              (__uint64_t) ((mmap->addr >> 32) + (mmap->len >> 32)),
+              (__uint64_t) ((mmap->addr & 0xffffffff) + (mmap->len & 0xffffffff)),
               (__uint64_t) mmap->len,
               (size_t) (mmap->type),
               MEMORY_REGION_T[(size_t) (mmap->type)]);
