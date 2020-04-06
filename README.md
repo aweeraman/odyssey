@@ -12,7 +12,7 @@ Optionally, build using clang and nasm:
 apt-get install clang nasm
 ```
 
-Set the following variables in the Makefile:
+Set the following variables in the src/Makefile:
 
 ```
 CC        := clang

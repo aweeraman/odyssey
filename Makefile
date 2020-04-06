@@ -1,23 +1,3 @@
-# Specify either 'gcc' or 'clang' for compiling C programs
-CC        := gcc
-LD        := ld
-
-# Specify either 'gcc' or 'nasm' for compiling assembly programs
-AS        := gcc
-
-ifeq ($(AS),gcc)
-  ASM_EXT := S
-else
-	ASM_EXT := asm
-endif
-
-OBJECTS   := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
-					   $(patsubst %.c, %.o, $(wildcard *.c))
-ASFLAGS   := -felf
-CFLAGS    := -m32 -c -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-             -nostartfiles -nodefaultlibs -Wall -Wextra -ffreestanding
-LDFLAGS   := -m elf_i386 -T linker.ld
-
 QEMU      := qemu-system-x86_64
 MEMORY    := 32
 ISO       := kernel.iso
@@ -25,28 +5,19 @@ CBROM     := coreboot/build/coreboot.rom
 EFIBIOS   := /usr/share/ovmf/OVMF.fd
 NPROCS    := $(shell grep -c ^processor /proc/cpuinfo)
 
-.PHONY: clean iso boot boot-efi boot-coreboot build-coreboot
+.PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot
 
-kernel: $(OBJECTS)
-	$(LD) $(LDFLAGS) -o kernel $(OBJECTS)
-
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-%.o: %.S
-	$(AS) $(CFLAGS) -o $@ $<
-
-%.o: %.asm
-	$(AS) $(ASFLAGS) -o $@ $<
+all:
+	+$(MAKE) -C src
 
 clean:
-	-rm -f $(OBJECTS) *.o kernel
+	+$(MAKE) -C src clean
 	-rm -rf $(ISO) iso
 
-iso: kernel
+iso: all
 	mkdir -p iso/boot/grub/
-	cp grub.cfg iso/boot/grub/
-	cp kernel iso/boot/
+	cp config/grub.cfg iso/boot/grub/
+	cp src/kernel iso/boot/
 	grub-mkrescue -o $(ISO) iso
 
 boot: iso
@@ -61,6 +32,6 @@ boot-coreboot: iso $(CBROM)
 
 build-coreboot:
 	[ -e coreboot/ ] || git clone git@github.com:coreboot/coreboot.git
-	cp coreboot.cfg coreboot/
+	cp config/coreboot.cfg coreboot/.config
 	make -C coreboot/ crossgcc-i386 CPUS=$(NPROCS)
 	make -C coreboot/ -j$(NPROCS)
