@@ -1,19 +1,19 @@
-CC      = gcc
-AS      = gcc
-LD      = ld
-NPROCS  = $(shell grep -c ^processor /proc/cpuinfo)
+CC      := gcc
+AS      := gcc
+LD      := ld
+NPROCS  := $(shell grep -c ^processor /proc/cpuinfo)
 
-OBJECTS = $(patsubst %.S, %.o, $(wildcard *.S)) \
-					$(patsubst %.c, %.o, $(wildcard *.c))
-CFLAGS  = -m32 -c -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-          -nostartfiles -nodefaultlibs -Wall -Wextra -ffreestanding
-LDFLAGS = -m elf_i386 -T linker.ld
+OBJECTS := $(patsubst %.S, %.o, $(wildcard *.S)) \
+					 $(patsubst %.c, %.o, $(wildcard *.c))
+CFLAGS  := -m32 -c -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
+           -nostartfiles -nodefaultlibs -Wall -Wextra -ffreestanding
+LDFLAGS := -m elf_i386 -T linker.ld
 
-
-QEMU    = qemu-system-x86_64
-ISO     = kernel.iso
-CBROM   = coreboot/build/coreboot.rom
-EFIBIOS = /usr/share/ovmf/OVMF.fd
+QEMU    := qemu-system-x86_64
+MEMORY  := 32
+ISO     := kernel.iso
+CBROM   := coreboot/build/coreboot.rom
+EFIBIOS := /usr/share/ovmf/OVMF.fd
 
 .PHONY: clean iso boot boot-efi boot-coreboot build-coreboot
 
@@ -37,13 +37,13 @@ iso: kernel
 	grub-mkrescue -o $(ISO) iso
 
 boot: iso
-	$(QEMU) -serial stdio -cdrom $(ISO)
+	$(QEMU) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
 
 boot-efi: iso
-	$(QEMU) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
+	$(QEMU) -m size=$(MEMORY) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
 boot-coreboot: iso $(CBROM)
-	$(QEMU) -serial stdio -bios $(CBROM) -cdrom $(ISO)
+	$(QEMU) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
 
 build-coreboot:
 	[ -e coreboot/ ] || git clone git@github.com:coreboot/coreboot.git
