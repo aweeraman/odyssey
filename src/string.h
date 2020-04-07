@@ -22,6 +22,6 @@
 
 char* itoa(__uint64_t value, char* result, int base);
 size_t strlen(char *str);
-void printf(const char *fmt, ...);
+void printk(const char *fmt, ...);
 
 #endif

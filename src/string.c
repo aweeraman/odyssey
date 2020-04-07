@@ -54,7 +54,7 @@ char* itoa(__uint64_t value, char* result, int base) {
 }
 
 // Reference: https://www.eskimo.com/~scs/cclass/int/sx11b.html
-void printf(const char *fmt, ...) {
+void printk(const char *fmt, ...) {
   const char *p;
   char print_buf[128];
   char **arg = (char **) &fmt;
