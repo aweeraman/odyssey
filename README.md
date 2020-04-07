@@ -12,7 +12,7 @@ Optionally, build using clang and nasm:
 apt-get install clang nasm
 ```
 
-Set the following variables in the src/Makefile:
+Set the following variables in config/build.cfg:
 
 ```
 CC        := clang
@@ -41,7 +41,7 @@ $ make boot-coreboot
 
 # Debugging
 
-Enable following in the top level Makefile:
+Enable following in config/build.cfg:
 
 ```
 DEBUG     := yes

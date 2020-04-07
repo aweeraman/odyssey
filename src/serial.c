@@ -15,6 +15,8 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
+#ifdef CONFIG_SERIAL
+
 #include "serial.h"
 #include "io.h"
 
@@ -61,3 +63,5 @@ void write_serial(char a) {
 
    outb(SERIAL_BASE(port),a);
 }
+
+#endif

@@ -1,11 +1,5 @@
-DEBUG     := no
-QEMU_32   := qemu-system-i386
-QEMU_64   := qemu-system-x86_64
-MEMORY    := 32
-ISO       := kernel.iso
-CBROM     := coreboot/build/coreboot.rom
-EFIBIOS   := /usr/share/ovmf/OVMF.fd
-NPROCS    := $(shell grep -c ^processor /proc/cpuinfo)
+CONFIG := config/build.cfg
+include $(CONFIG)
 
 ifeq ($(DEBUG),yes)
 	QEMU_ARGS += -s -S
@@ -14,10 +8,10 @@ endif
 .PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot
 
 all:
-	+$(MAKE) DEBUG=$(DEBUG) -C src
+	$(MAKE) -C src
 
 clean:
-	+$(MAKE) -C src clean
+	-$(MAKE) -C src clean
 	-rm -rf $(ISO) iso
 
 iso: all

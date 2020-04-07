@@ -15,6 +15,8 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
+#ifdef CONFIG_SERIAL
+
 #ifndef SERIAL_H
 #define SERIAL_H
 
@@ -41,5 +43,7 @@ int serial_received();
 char read_serial();
 int is_transmit_empty();
 void write_serial(char a);
+
+#endif
 
 #endif

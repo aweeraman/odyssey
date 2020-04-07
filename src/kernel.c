@@ -29,9 +29,11 @@ void kernel_main(__uint64_t magic, __uint64_t addr) {
 
   clear();
 
+#ifdef CONFIG_SERIAL
   // Initialize serial port for communication
   init_serial();
   println("Initialized serial: COM1");
+#endif
 
   // Check if bootloader complies with multiboot2
   if (magic == MULTIBOOT2_BOOTLOADER_MAGIC) {

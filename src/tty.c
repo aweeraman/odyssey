@@ -17,7 +17,10 @@
 
 #include "types.h"
 #include "tty.h"
+
+#ifdef CONFIG_SERIAL
 #include "serial.h"
+#endif
 
 cell *matrix = (cell *) 0xb8000;
 
@@ -52,15 +55,19 @@ void print_char(__uint8_t ch) {
       scroll();
       cur_x = TERMINAL_ROWS-1;
     }
+#ifdef CONFIG_SERIAL
     write_serial('\r');
     write_serial('\n');
+#endif
     return;
   }
   matrix[(cur_x*TERMINAL_COLS) + cur_y++] = (cell) {
     .ch = ch,
     .clr = CLR_WHITE
   };
+#ifdef CONFIG_SERIAL
   write_serial(ch);
+#endif
 }
 
 void clear(void) {
