@@ -1,4 +1,4 @@
-DEBUG     := yes
+DEBUG     := no
 QEMU_32   := qemu-system-i386
 QEMU_64   := qemu-system-x86_64
 MEMORY    := 32
