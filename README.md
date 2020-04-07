@@ -39,6 +39,13 @@ $ make build-coreboot
 $ make boot-coreboot
 ```
 
+# Configuration
+
+List capabilities to be included in the kernel in config/kernel.cfg.
+Currently available options are:
+
+* CONFIG_SERIAL - serial output to COM1
+
 # Debugging
 
 Enable following in config/build.cfg:
