@@ -23,18 +23,18 @@
 #include "string.h"
 #include "tty.h"
 
-size_t strlen(char *str) {
-  size_t sz = 0;
+uint32_t strlen(char *str) {
+  uint32_t sz = 0;
   while (str[sz++] != '\0');
   return sz;
 }
 
-char* uitoa(size_t value, char* result, int base) {
+char* uitoa(uint32_t value, char* result, int base) {
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 
   char* ptr = result, *ptr1 = result, tmp_char;
-  size_t tmp_value;
+  uint32_t tmp_value;
 
   do {
     tmp_value = value;
@@ -65,12 +65,12 @@ void printk(const char *fmt, ...) {
 
     switch(*++p) {
       case 'c':
-        print_char((size_t) *(++arg));
+        print_char((uint32_t) *(++arg));
         break;
 
       case 'd':
         // TODO: replace with a signed implementation
-        print(uitoa((size_t) *(++arg), print_buf, 10));
+        print(uitoa((uint32_t) *(++arg), print_buf, 10));
         break;
 
       case 's':
@@ -78,7 +78,7 @@ void printk(const char *fmt, ...) {
         break;
 
       case 'u':
-        print(uitoa((size_t) *(++arg), print_buf, 16));
+        print(uitoa((uint32_t) *(++arg), print_buf, 16));
         break;
 
       case '%':

@@ -18,9 +18,10 @@
 #ifndef IO_H
 #define IO_H
 
-#include "types.h"
+#include <stdint.h>
+#include <stddef.h>
 
-void outb(__uint16_t port, __uint8_t val);
-__uint8_t inb(__uint16_t port);
+void outb(uint16_t port, uint8_t val);
+uint8_t inb(uint16_t port);
 
 #endif

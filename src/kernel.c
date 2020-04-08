@@ -26,7 +26,7 @@
 /*
  * The entry point into the kernel.
  */
-void kernel_main(__uint64_t magic, __uint64_t addr) {
+void kernel_main(uint32_t magic, uint32_t addr) {
   struct multiboot_tag *tag;
   multiboot_memory_map_t *mmap;
 
@@ -43,7 +43,7 @@ void kernel_main(__uint64_t magic, __uint64_t addr) {
     printk("Multiboot2 header: 0x%u [valid]\n", magic);
   }
 
-  printk("Multiboot2 structure size: 0x%u\n", *(size_t *) addr);
+  printk("Multiboot2 structure size: 0x%u\n", *(uint32_t *) addr);
 
   for (tag = (struct multiboot_tag *) (addr + 8);
        tag->type != MULTIBOOT_TAG_TYPE_END;
@@ -80,13 +80,13 @@ void kernel_main(__uint64_t magic, __uint64_t addr) {
                    ((unsigned long) mmap + ((struct multiboot_tag_mmap *) tag)->entry_size)) {
           printk("    %d: 0x%u%u - 0x%u%u (%d) [%d, %s]\n",
               counter++,
-              (size_t) (mmap->addr >> 32),
-              (size_t) (mmap->addr & 0xffffffff),
-              (size_t) ((mmap->addr >> 32) + (mmap->len >> 32)),
-              (size_t) ((mmap->addr & 0xffffffff) + (mmap->len & 0xffffffff)),
-              (size_t) mmap->len,
-              (size_t) (mmap->type),
-              MEMORY_REGION_T[(size_t) (mmap->type)]);
+              (uint32_t) (mmap->addr >> 32),
+              (uint32_t) (mmap->addr & 0xffffffff),
+              (uint32_t) ((mmap->addr >> 32) + (mmap->len >> 32)),
+              (uint32_t) ((mmap->addr & 0xffffffff) + (mmap->len & 0xffffffff)),
+              (uint32_t) mmap->len,
+              (uint32_t) (mmap->type),
+              MEMORY_REGION_T[(uint32_t) (mmap->type)]);
         }
         break;
 

@@ -18,10 +18,9 @@ KERNELOPTS += $(foreach opt, $(OPTIONS), -D$(opt))
 OBJECTS   := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
 					   $(patsubst %.c, %.o, $(wildcard *.c))
 ASFLAGS   := -felf $(ADDL_NASM_FLAGS)
-CFLAGS    := -m32 -c -nostdlib -nostdinc -fno-builtin \
-             -fno-stack-protector -nostartfiles -nodefaultlibs -Wall \
-             -Wextra -ffreestanding $(ADDL_CFLAGS) $(KERNELOPTS)
-LDFLAGS   := -m elf_i386 -T linker.ld
+CFLAGS    := -m32 -c -ffreestanding -O2 -Wall -Wextra \
+             $(ADDL_CFLAGS) $(KERNELOPTS)
+LDFLAGS   := -m elf_i386 -T linker.ld -O2 -nostdlib
 NPROCS    := $(shell grep -c ^processor /proc/cpuinfo)
 
 .PHONY: clean

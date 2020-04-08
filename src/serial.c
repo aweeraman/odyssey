@@ -22,7 +22,7 @@
 
 // Reference: https://wiki.osdev.org/Serial_Ports
 
-static __uint16_t port = SERIAL_BASE(COM1);
+static uint16_t port = SERIAL_BASE(COM1);
 
 /*
  * Initialize the serial port writing kernel output at startup.

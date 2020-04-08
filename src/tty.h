@@ -18,7 +18,8 @@
 #ifndef TTY_H
 #define TTY_H
 
-#include "types.h"
+#include <stdint.h>
+#include <stddef.h>
 #include "serial.h"
 
 #define CLR_BLACK         0
@@ -38,17 +39,17 @@
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
 
-static const size_t TERMINAL_ROWS = 25;
-static const size_t TERMINAL_COLS = 80;
+static const uint32_t TERMINAL_ROWS = 25;
+static const uint32_t TERMINAL_COLS = 80;
 
 typedef struct {
-  __uint8_t ch;
-  __uint8_t clr;
+  uint8_t ch;
+  uint8_t clr;
 } __attribute__((packed)) cell;
 
 void clear(void);
 void print(char *str);
 void println(char *str);
-void print_char(__uint8_t ch);
+void print_char(uint8_t ch);
 
 #endif

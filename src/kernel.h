@@ -18,6 +18,9 @@
 #ifndef KERNEL_H
 #define KERNEL_H
 
+#include <stdint.h>
+#include <stddef.h>
+
 const char *MEMORY_REGION_T[6] = { "", "RAM", "RESERVED", "ACPI", "ACPI NVS", "BAD" };
 
 #endif
