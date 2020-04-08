@@ -24,6 +24,9 @@
 
 static __uint16_t port = SERIAL_BASE(COM1);
 
+/*
+ * Initialize the serial port writing kernel output at startup.
+ */
 void init_serial() {
   port = SERIAL_BASE(COM1);
 
@@ -44,20 +47,32 @@ void init_serial() {
   outb(SERIAL_MODEM_CONTROL_PORT(port), 0x0B); // IRQs enabled, RTS/DSR set
 }
 
+/*
+ * Check to see if data can be read from the serial port
+ */
 int serial_received() {
    return inb(SERIAL_LINE_STATUS_PORT(port)) & 1;
 }
 
+/*
+ * Reads one character from the serial input buffer
+ */
 char read_serial() {
    while (serial_received() == 0);
 
    return inb(SERIAL_BASE(port));
 }
 
+/*
+ * Checks to see if data is ready to be sent
+ */
 int is_transmit_empty() {
    return inb(SERIAL_LINE_STATUS_PORT(port)) & 0x20;
 }
 
+/*
+ * Write one character to the serial port
+ */
 void write_serial(char a) {
    while (is_transmit_empty() == 0);
 

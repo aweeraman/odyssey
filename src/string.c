@@ -29,12 +29,12 @@ size_t strlen(char *str) {
   return sz;
 }
 
-char* itoa(__uint64_t value, char* result, int base) {
+char* uitoa(size_t value, char* result, int base) {
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 
   char* ptr = result, *ptr1 = result, tmp_char;
-  int tmp_value;
+  size_t tmp_value;
 
   do {
     tmp_value = value;
@@ -42,8 +42,6 @@ char* itoa(__uint64_t value, char* result, int base) {
     *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
   } while ( value );
 
-  // Apply negative sign
-  if (tmp_value < 0) *ptr++ = '-';
   *ptr-- = '\0';
   while(ptr1 < ptr) {
     tmp_char = *ptr;
@@ -71,15 +69,16 @@ void printk(const char *fmt, ...) {
         break;
 
       case 'd':
-        print(itoa((size_t) *(++arg), print_buf, 10));
+        // TODO: replace with a signed implementation
+        print(uitoa((size_t) *(++arg), print_buf, 10));
         break;
 
       case 's':
         print((char *) *(++arg));
         break;
 
-      case 'x':
-        print(itoa((__uint64_t) *(++arg), print_buf, 16));
+      case 'u':
+        print(uitoa((size_t) *(++arg), print_buf, 16));
         break;
 
       case '%':

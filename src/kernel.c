@@ -23,6 +23,9 @@
 #include "tty.h"
 #include "string.h"
 
+/*
+ * The entry point into the kernel.
+ */
 void kernel_main(__uint64_t magic, __uint64_t addr) {
   struct multiboot_tag *tag;
   multiboot_memory_map_t *mmap;
@@ -37,10 +40,10 @@ void kernel_main(__uint64_t magic, __uint64_t addr) {
 
   // Check if bootloader complies with multiboot2
   if (magic == MULTIBOOT2_BOOTLOADER_MAGIC) {
-    printk("Multiboot2 header: 0x%x [valid]\n", magic);
+    printk("Multiboot2 header: 0x%u [valid]\n", magic);
   }
 
-  printk("Multiboot2 structure size: 0x%x\n", *(size_t *) addr);
+  printk("Multiboot2 structure size: 0x%u\n", *(size_t *) addr);
 
   for (tag = (struct multiboot_tag *) (addr + 8);
        tag->type != MULTIBOOT_TAG_TYPE_END;
@@ -48,7 +51,7 @@ void kernel_main(__uint64_t magic, __uint64_t addr) {
                                       ((tag->size + 7) & ~7))) {
     switch (tag->type) {
       case MULTIBOOT_TAG_TYPE_CMDLINE:
-        printk("  CMDLINE, size 0x%x\n", tag->size);
+        printk("  CMDLINE, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
@@ -57,94 +60,94 @@ void kernel_main(__uint64_t magic, __uint64_t addr) {
         break;
 
       case MULTIBOOT_TAG_TYPE_MODULE:
-        printk("  MODULE, size 0x%x\n", tag->size);
+        printk("  MODULE, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
-        printk("  BASIC_MEMINFO, size 0x%x\n", tag->size);
+        printk("  BASIC_MEMINFO, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_BOOTDEV:
-        printk("  BOOTDEV, size 0x%x\n", tag->size);
+        printk("  BOOTDEV, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_MMAP:
-        printk("  MMAP, size 0x%x\n", tag->size);
+        printk("  MMAP, size 0x%u\n", tag->size);
         int counter = 0;
         for (mmap = ((struct multiboot_tag_mmap *) tag)->entries;
             (multiboot_uint8_t *) mmap < (multiboot_uint8_t *) tag + tag->size;
             mmap = (multiboot_memory_map_t *)
                    ((unsigned long) mmap + ((struct multiboot_tag_mmap *) tag)->entry_size)) {
-          printk("    %d: 0x%x%x - 0x%x%x (%d) [%d, %s]\n",
+          printk("    %d: 0x%u%u - 0x%u%u (%d) [%d, %s]\n",
               counter++,
               (size_t) (mmap->addr >> 32),
               (size_t) (mmap->addr & 0xffffffff),
-              (__uint64_t) ((mmap->addr >> 32) + (mmap->len >> 32)),
-              (__uint64_t) ((mmap->addr & 0xffffffff) + (mmap->len & 0xffffffff)),
-              (__uint64_t) mmap->len,
+              (size_t) ((mmap->addr >> 32) + (mmap->len >> 32)),
+              (size_t) ((mmap->addr & 0xffffffff) + (mmap->len & 0xffffffff)),
+              (size_t) mmap->len,
               (size_t) (mmap->type),
               MEMORY_REGION_T[(size_t) (mmap->type)]);
         }
         break;
 
       case MULTIBOOT_TAG_TYPE_VBE:
-        printk("  VBE, size 0x%x\n", tag->size);
+        printk("  VBE, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
-        printk("  FRAMEBUFFER, size 0x%x\n", tag->size);
+        printk("  FRAMEBUFFER, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
-        printk("  ELF_SECTIONS, size 0x%x\n", tag->size);
+        printk("  ELF_SECTIONS, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_APM:
-        printk("  APM, size 0x%x\n", tag->size);
+        printk("  APM, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI32:
-        printk("  EFI32, size 0x%x\n", tag->size);
+        printk("  EFI32, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI64:
-        printk("  EFI64, size 0x%x\n", tag->size);
+        printk("  EFI64, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_SMBIOS:
-        printk("  SMBIOS, size 0x%x\n", tag->size);
+        printk("  SMBIOS, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_ACPI_OLD:
-        printk("  ACPI_OLD, size 0x%x\n", tag->size);
+        printk("  ACPI_OLD, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_ACPI_NEW:
-        printk("  ACPI_NEW, size 0x%x\n", tag->size);
+        printk("  ACPI_NEW, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_NETWORK:
-        printk("  NETWORK, size 0x%x\n", tag->size);
+        printk("  NETWORK, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI_MMAP:
-        printk("  EFI_MMAP, size 0x%x\n", tag->size);
+        printk("  EFI_MMAP, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI_BS:
-        printk("  EFI_BS, size 0x%x\n", tag->size);
+        printk("  EFI_BS, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI32_IH:
-        printk("  EFI32_IH, size 0x%x\n", tag->size);
+        printk("  EFI32_IH, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI64_IH:
-        printk("  EFI64_IH, size 0x%x\n", tag->size);
+        printk("  EFI64_IH, size 0x%u\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
-        printk("  LOAD_BASE_ADDR, size 0x%x\n", tag->size);
+        printk("  LOAD_BASE_ADDR, size 0x%u\n", tag->size);
         break;
     }
   }
