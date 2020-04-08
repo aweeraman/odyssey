@@ -42,6 +42,10 @@ section .text
 _start:
   mov esp, stack_top
 
+  ; Clear EFLAGS
+  push 0
+  popf
+
   ; Pointer to the Multiboot2 information structure
   push ebx
 

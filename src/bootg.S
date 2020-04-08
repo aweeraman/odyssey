@@ -42,6 +42,10 @@ mb2_hdr_end:
 _start:
   mov $stack_top, %esp
 
+  # Clear EFLAGS
+  pushl $0
+  popf
+
   # Pointer to the Multiboot2 information structure
   pushl %ebx
 
