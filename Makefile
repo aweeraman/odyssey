@@ -8,7 +8,7 @@ endif
 .PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot
 
 all:
-	$(MAKE) -C src
+	$(MAKE) -j $(NPROC) -C src
 
 clean:
 	-$(MAKE) -C src clean

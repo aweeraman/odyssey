@@ -1,27 +1,23 @@
 CONFIG := ../config/build.cfg
 include $(CONFIG)
 
+# Look for .S files when gcc is used as the assembler
 ifeq ($(AS),gcc)
   ASM_EXT := S
 else
 	ASM_EXT := asm
 endif
 
+# Include debug symbols during build
 ifeq ($(DEBUG),yes)
 	ADDL_CFLAGS     += -g
 	ADDL_NASM_FLAGS += -g
 endif
 
-OPTIONS := $(shell grep -v "^\#" ../config/kernel.cfg)
-KERNELOPTS += $(foreach opt, $(OPTIONS), -D$(opt))
-
-OBJECTS   := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
-					   $(patsubst %.c, %.o, $(wildcard *.c))
-ASFLAGS   := -felf $(ADDL_NASM_FLAGS)
-CFLAGS    := -m32 -c -ffreestanding -O2 -Wall -Wextra \
-             $(ADDL_CFLAGS) $(KERNELOPTS)
-LDFLAGS   := -m elf_i386 -T linker.ld -O2 -nostdlib
-NPROCS    := $(shell grep -c ^processor /proc/cpuinfo)
+OPTS       := $(shell grep -v "^\#" ../config/kernel.cfg)
+CFLAGS     += $(foreach opt, $(OPTS), -D$(opt))
+OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
+              $(patsubst %.c, %.o, $(wildcard *.c))
 
 .PHONY: clean
 
