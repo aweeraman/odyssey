@@ -36,7 +36,7 @@ void kernel_main(uint32_t magic, uint32_t addr) {
   // Initialize serial port for communication
   init_serial();
   printk("MINOS %s\n", CONFIG_VERSION);
-  printk("Initialized serial: COM1\n");
+  printk("Initialized serial: %s\n", STRINGIFY(CONFIG_SERIAL));
 #else
   printk("MINOS %s\n", CONFIG_VERSION);
 #endif
