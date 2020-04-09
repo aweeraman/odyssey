@@ -18,7 +18,7 @@
 #define ASM_FILE 1
 #include "multiboot2.h"
 
-  .set STACK_SIZE,     4096
+  .set STACK_SIZE,     CONFIG_STACK
   .set MB2_ARCH_FLAG,  0x0
   .set MB2_FB_TAG,     0x0
 
@@ -28,7 +28,7 @@ mb2_hdr:
   .long MULTIBOOT2_HEADER_MAGIC
   .long MB2_ARCH_FLAG
   .long mb2_hdr_end - mb2_hdr
-  .long -(0xe85250d6 + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
+  .long -(MULTIBOOT2_HEADER_MAGIC + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
   .align 8
 tag_end:
   .word 0                   # end tag type

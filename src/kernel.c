@@ -35,8 +35,13 @@ void kernel_main(uint32_t magic, uint32_t addr) {
 #ifdef CONFIG_SERIAL
   // Initialize serial port for communication
   init_serial();
-  println("Initialized serial: COM1");
+  printk("MINOS %s\n", CONFIG_VERSION);
+  printk("Initialized serial: COM1\n");
+#else
+  printk("MINOS %s\n", CONFIG_VERSION);
 #endif
+
+  printk("Stack size: %d\n", CONFIG_STACK);
 
   // Check if bootloader complies with multiboot2
   if (magic == MULTIBOOT2_BOOTLOADER_MAGIC) {
@@ -152,5 +157,5 @@ void kernel_main(uint32_t magic, uint32_t addr) {
     }
   }
 
-  println("Boot complete, exiting kernel");
+  printk("Boot complete, exiting kernel\n");
 }

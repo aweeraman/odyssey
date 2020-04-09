@@ -31,7 +31,7 @@ void init_serial() {
   port = SERIAL_BASE(COM1);
 
   outb(SERIAL_BASE(port), 0x00);               // Disable all interrupts
-  //
+
   // Enable DLAB to set baud rate divisor.
   // Line Control Register. The most significant bit of this register is the DLAB (Divisor
   // Latch Access Bit).

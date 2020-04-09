@@ -21,6 +21,11 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define STRINGIFY2(ver) #ver
+#define STRINGIFY(ver) STRINGIFY2(ver)
+#define CONFIG_VERSION "v" STRINGIFY(CONFIG_VERSION_MAJOR) "." \
+  STRINGIFY(CONFIG_VERSION_MINOR)
+
 const char *MEMORY_REGION_T[6] = { "", "RAM", "RESERVED", "ACPI", "ACPI NVS", "BAD" };
 
 #endif
