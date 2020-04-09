@@ -34,4 +34,6 @@ kernel: $(OBJECTS)
 	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
-	-rm -f $(OBJECTS) *.o kernel
+	-rm -f $(OBJECTS) *.o *.d kernel
+
+-include $(OBJECTS:.o=.d)
