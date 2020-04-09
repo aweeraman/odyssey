@@ -44,7 +44,15 @@ $ make boot-coreboot
 List capabilities to be included in the kernel in config/kernel.cfg.
 Currently available options are:
 
-* CONFIG_SERIAL - serial output to COM1
+```
+CONFIG_VERSION_MAJOR=0
+CONFIG_VERSION_MINOR=1
+
+CONFIG_STACK=4096
+
+# COM1=0x3F8,COM2=0x2F8,COM3=0x3E8,COM4=0x2E8
+CONFIG_SERIAL=0x3F8
+```
 
 # Debugging
 
