@@ -24,24 +24,11 @@
 #include "string.h"
 
 /*
- * The entry point into the kernel.
+ * Extract multiboot provided information
  */
-void kernel_main(uint32_t magic, uint32_t addr) {
+void init_mb(uint32_t magic, uint32_t addr) {
   struct multiboot_tag *tag;
   multiboot_memory_map_t *mmap;
-
-  clear();
-
-#ifdef CONFIG_SERIAL
-  // Initialize serial port for communication
-  init_serial();
-  printk("MINOS %s\n", CONFIG_VERSION);
-  printk("Initialized serial: %s\n", STRINGIFY(CONFIG_SERIAL));
-#else
-  printk("MINOS %s\n", CONFIG_VERSION);
-#endif
-
-  printk("Stack size: %d\n", CONFIG_STACK);
 
   // Check if bootloader complies with multiboot2
   if (magic == MULTIBOOT2_BOOTLOADER_MAGIC) {
@@ -156,6 +143,26 @@ void kernel_main(uint32_t magic, uint32_t addr) {
         break;
     }
   }
+}
+
+/*
+ * The entry point into the kernel
+ */
+void kernel_main(uint32_t magic, uint32_t addr) {
+  clear();
+
+#ifdef CONFIG_SERIAL
+  // Initialize serial port for communication
+  init_serial();
+  printk("MINOS %s\n", CONFIG_VERSION);
+  printk("Initialized serial: %s\n", STRINGIFY(CONFIG_SERIAL));
+#else
+  printk("MINOS %s\n", CONFIG_VERSION);
+#endif
+
+  printk("Stack size: %d\n", CONFIG_STACK);
+
+  init_mb(magic, addr);
 
   printk("Boot complete, exiting kernel\n");
 }

@@ -22,15 +22,15 @@
 
 // Reference: https://wiki.osdev.org/Serial_Ports
 
-static uint16_t port = SERIAL_BASE(COM1);
+static uint16_t port = SERIAL_BASE(CONFIG_SERIAL);
 
 /*
  * Initialize the serial port writing kernel output at startup.
  */
 void init_serial() {
-  port = SERIAL_BASE(COM1);
 
-  outb(SERIAL_BASE(port), 0x00);               // Disable all interrupts
+  // Disable all interrupts
+  outb(SERIAL_BASE(port), 0x00);
 
   // Enable DLAB to set baud rate divisor.
   // Line Control Register. The most significant bit of this register is the DLAB (Divisor
