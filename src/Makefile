@@ -5,13 +5,13 @@ include $(CONFIG)
 ifeq ($(AS),gcc)
   ASM_EXT := S
 else
-	ASM_EXT := asm
+  ASM_EXT := asm
 endif
 
 # Include debug symbols during build
 ifeq ($(DEBUG),yes)
-	ADDL_CFLAGS     += -g
-	ADDL_NASM_FLAGS += -g
+  ADDL_CFLAGS     += -g
+  ADDL_NASM_FLAGS += -g
 endif
 
 OPTS       := $(shell grep -v "^\#" ../config/kernel.cfg)
