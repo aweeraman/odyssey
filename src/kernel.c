@@ -29,7 +29,7 @@
  */
 void kernel_main(uint32_t magic, uint32_t addr) {
   clear();
-  enable_cursor(14, 15);
+  enable_cursor(1, 15);
 
 #ifdef CONFIG_SERIAL
   // Initialize serial port for communication

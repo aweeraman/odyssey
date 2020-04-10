@@ -61,18 +61,18 @@ void print_char(uint8_t ch) {
 #endif
     matrix[(cur_x*TERMINAL_COLS) + cur_y] = (cell) {
       .ch = 0,
-      .clr = CLR_WHITE
+      .clr = CLR_LIGHT_GREEN
     };
     update_cursor(cur_x, TERMINAL_COLS, cur_y);
     return;
   }
   matrix[(cur_x*TERMINAL_COLS) + cur_y++] = (cell) {
     .ch = ch,
-    .clr = CLR_WHITE
+    .clr = CLR_LIGHT_GREEN
   };
   matrix[(cur_x*TERMINAL_COLS) + cur_y] = (cell) {
     .ch = 0,
-    .clr = CLR_WHITE
+    .clr = CLR_LIGHT_GREEN
   };
   update_cursor(cur_x, TERMINAL_COLS, cur_y);
 #ifdef CONFIG_SERIAL
