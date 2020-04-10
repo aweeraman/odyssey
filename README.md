@@ -75,3 +75,7 @@ Remote debugging using :1234
 Breakpoint 1 at 0x1007c0: file kernel.c, line 26.
 (gdb) c
 ```
+
+# Reference
+
+* [OSDev Wiki](https://wiki.osdev.org/Main_Page)

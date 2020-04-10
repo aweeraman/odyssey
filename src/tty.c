@@ -16,6 +16,7 @@
  */
 
 #include "tty.h"
+#include "io.h"
 
 #ifdef CONFIG_SERIAL
 #include "serial.h"
@@ -58,12 +59,22 @@ void print_char(uint8_t ch) {
     write_serial('\r');
     write_serial('\n');
 #endif
+    matrix[(cur_x*TERMINAL_COLS) + cur_y] = (cell) {
+      .ch = 0,
+      .clr = CLR_WHITE
+    };
+    update_cursor(cur_x, TERMINAL_COLS, cur_y);
     return;
   }
   matrix[(cur_x*TERMINAL_COLS) + cur_y++] = (cell) {
     .ch = ch,
     .clr = CLR_WHITE
   };
+  matrix[(cur_x*TERMINAL_COLS) + cur_y] = (cell) {
+    .ch = 0,
+    .clr = CLR_WHITE
+  };
+  update_cursor(cur_x, TERMINAL_COLS, cur_y);
 #ifdef CONFIG_SERIAL
   write_serial(ch);
 #endif
