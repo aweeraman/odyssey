@@ -19,7 +19,6 @@
 #define TTY_H
 
 #include <stdint.h>
-#include <stddef.h>
 #include "serial.h"
 
 #define CLR_BLACK         0

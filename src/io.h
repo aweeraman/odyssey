@@ -19,7 +19,6 @@
 #define IO_H
 
 #include <stdint.h>
-#include <stddef.h>
 
 #define VGA_IDX_PORT  0x3D4
 #define VGA_DATA_PORT (VGA_IDX_PORT+1)

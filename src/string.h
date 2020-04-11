@@ -19,7 +19,6 @@
 #define STRINGS_H
 
 #include <stdint.h>
-#include <stddef.h>
 
 char* uitoa(uint32_t value, char* result, int base);
 uint32_t strlen(char *str);

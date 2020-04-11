@@ -19,7 +19,6 @@
 #define KERNEL_H
 
 #include <stdint.h>
-#include <stddef.h>
 
 #define STRINGIFY2(ver) #ver
 #define STRINGIFY(ver) STRINGIFY2(ver)
