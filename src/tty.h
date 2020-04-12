@@ -38,6 +38,8 @@
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
 
+#define VGA_IO_ADDR       0xb8000
+
 static const uint32_t TERMINAL_ROWS = 25;
 static const uint32_t TERMINAL_COLS = 80;
 
@@ -45,6 +47,11 @@ typedef struct {
   uint8_t ch;
   uint8_t clr;
 } __attribute__((packed)) cell;
+
+static cell *matrix = (cell *) VGA_IO_ADDR;
+
+static uint32_t cur_x = 0;
+static uint32_t cur_y = 0;
 
 void clear(void);
 void print(char *str);

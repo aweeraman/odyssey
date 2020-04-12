@@ -22,11 +22,6 @@
 #include "serial.h"
 #endif
 
-cell *matrix = (cell *) 0xb8000;
-
-static uint32_t cur_x = 0;
-static uint32_t cur_y = 0;
-
 void scroll() {
   for (uint32_t i=0; i<(TERMINAL_ROWS-1); i++) {
     for (uint32_t j=0; j<TERMINAL_COLS; j++) {
