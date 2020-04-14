@@ -8,15 +8,15 @@ SECTIONS
     *(.multiboot)
     *(.text)
   }
-	.rodata ALIGN(8):
+  .rodata ALIGN(8):
   {
     *(.rodata)
   }
-	.data   ALIGN(8):
+  .data   ALIGN(8):
   {
     *(.data)
   }
-	.bss    ALIGN(8):
+  .bss    ALIGN(8):
   {
     *(.bss)
   }
