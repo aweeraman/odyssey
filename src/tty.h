@@ -48,14 +48,8 @@ typedef struct {
   uint8_t clr;
 } __attribute__((packed)) cell;
 
-static cell *matrix = (cell *) VGA_IO_ADDR;
-
-static uint32_t cur_x = 0;
-static uint32_t cur_y = 0;
-
 void clear(void);
-void print(char *str);
-void println(char *str);
-void print_char(uint8_t ch);
+void printc(uint8_t ch);
+void prints(char *str);
 
 #endif

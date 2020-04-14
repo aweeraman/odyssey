@@ -17,11 +17,9 @@
  * C++ version 0.4 char* style "itoa", Copyright Lukás Chmela
  * Released under GPLv3.
  * http://www.strudel.org.uk/itoa/
- *
  */
 
 #include "string.h"
-#include "tty.h"
 
 uint32_t strlen(char *str) {
   uint32_t sz = 0;
@@ -49,41 +47,4 @@ char* uitoa(uint32_t value, char* result, int base) {
     *ptr1++ = tmp_char;
   }
   return result;
-}
-
-// Reference: https://www.eskimo.com/~scs/cclass/int/sx11b.html
-void printk(const char *fmt, ...) {
-  const char *p;
-  char print_buf[128];
-  char **arg = (char **) &fmt;
-
-  for(p = fmt; *p != '\0'; p++) {
-    if(*p != '%') {
-      print_char(*p);
-      continue;
-    }
-
-    switch(*++p) {
-      case 'c':
-        print_char((uint32_t) *(++arg));
-        break;
-
-      case 'd':
-        // TODO: replace with a signed implementation
-        print(uitoa((uint32_t) *(++arg), print_buf, 10));
-        break;
-
-      case 's':
-        print((char *) *(++arg));
-        break;
-
-      case 'u':
-        print(uitoa((uint32_t) *(++arg), print_buf, 16));
-        break;
-
-      case '%':
-        print("%");
-        break;
-    }
-  }
 }

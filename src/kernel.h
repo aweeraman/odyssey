@@ -25,8 +25,4 @@
 #define CONFIG_VERSION "v" STRINGIFY(CONFIG_VERSION_MAJOR) "." \
   STRINGIFY(CONFIG_VERSION_MINOR)
 
-const char *MEMORY_REGION_T[6] = { "", "RAM", "RESERVED", "ACPI", "ACPI NVS", "BAD" };
-
-void init_mb(uint32_t magic, uint32_t addr);
-
 #endif

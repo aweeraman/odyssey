@@ -13,35 +13,14 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
  * Copyright 2020, Anuradha Weeraman
- *
- * This program includes code that is Copyright (C) 1999, 2010 Free
- * Software Foundation, Inc.
  */
 
-#include "kernel.h"
-#include "boothdr.h"
+#ifndef BOOTHDR_H
+#define BOOTHDR_H
+
+#include "multiboot2.h"
 #include "printk.h"
-#include "io.h"
 
-/*
- * The entry point into the kernel
- */
-void kernel_main(uint32_t magic, uint32_t addr) {
-  clear();
-  enable_cursor(1, 15);
+void init_mb(uint32_t magic, uint32_t addr);
 
-#ifdef CONFIG_SERIAL
-  // Initialize serial port for communication
-  init_serial();
-  printk("MINOS %s\n", CONFIG_VERSION);
-  printk("Initialized serial: %s\n", STRINGIFY(CONFIG_SERIAL));
-#else
-  printk("MINOS %s\n", CONFIG_VERSION);
 #endif
-
-  printk("Stack size: %d\n", CONFIG_STACK);
-
-  init_mb(magic, addr);
-
-  printk("Boot complete, exiting kernel\n");
-}

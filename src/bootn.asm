@@ -18,7 +18,7 @@
 global _start
 
 extern kernel_main
-extern print
+extern prints
 
 MB2_MAGIC     equ 0xe85250d6
 MB2_ARCH_FLAG equ 0x0
@@ -57,7 +57,7 @@ _start:
 
   ; returning from the kernel
   push message
-  call print
+  call prints
 
   cli
   hlt

@@ -22,6 +22,11 @@
 #include "serial.h"
 #endif
 
+static uint32_t cur_x = 0;
+static uint32_t cur_y = 0;
+
+static cell *matrix = (cell *) VGA_IO_ADDR;
+
 void scroll() {
   for (uint32_t i=0; i<(TERMINAL_ROWS-1); i++) {
     for (uint32_t j=0; j<TERMINAL_COLS; j++) {
@@ -33,7 +38,7 @@ void scroll() {
   }
 }
 
-void print_char(uint8_t ch) {
+void printc(uint8_t ch) {
   if (cur_y >= TERMINAL_COLS) {
     cur_x++;
     cur_y = 0;
@@ -82,13 +87,8 @@ void clear(void) {
   }
 }
 
-void print(char *str) {
+void prints(char *str) {
   for (uint32_t i=0; str[i] != '\0'; i++) {
-    print_char(str[i]);
+    printc(str[i]);
   }
-}
-
-void println(char *str) {
-  print(str);
-  print("\n");
 }
