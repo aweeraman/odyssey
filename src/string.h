@@ -22,6 +22,5 @@
 
 char* uitoa(uint32_t value, char* result, int base);
 uint32_t strlen(char *str);
-void printk(const char *fmt, ...);
 
 #endif
