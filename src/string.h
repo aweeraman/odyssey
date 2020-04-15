@@ -21,7 +21,7 @@
 #include <stdint.h>
 #include <stddef.h>
 
-char*  uitoa(size_t value, char* result, int base);
-size_t strnlen(const char *s, size_t maxlen);
+char*    uitoa(uint32_t value, char* result, int base);
+uint32_t strnlen(const char *s, uint32_t maxlen);
 
 #endif

@@ -15,13 +15,19 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
+#include <stdarg.h>
 #include "printk.h"
 
 // Reference: https://www.eskimo.com/~scs/cclass/int/sx11b.html
 void printk(const char *fmt, ...) {
   const char *p;
+  uint32_t ui;
+  int32_t i;
+  char *str;
   char print_buf[128];
-  char **arg = (char **) &fmt;
+
+  va_list arg;
+  va_start(arg, fmt);
 
   for(p = fmt; *p != '\0'; p++) {
     if(*p != '%') {
@@ -31,20 +37,27 @@ void printk(const char *fmt, ...) {
 
     switch(*++p) {
       case 'c':
-        printc((uint32_t) *(++arg));
+        i = va_arg(arg, int);
+        printc(i);
         break;
 
       case 'd':
-        // TODO: replace with a signed implementation
-        prints(uitoa((uint32_t) *(++arg), print_buf, 10));
+        i = va_arg(arg, int32_t);
+        if (i < 0) {
+          i *= -1;
+          printc('-');
+        }
+        prints(uitoa((int32_t) i, print_buf, 10));
         break;
 
       case 's':
-        prints((char *) *(++arg));
+        str = va_arg(arg, char*);
+        prints(str);
         break;
 
       case 'u':
-        prints(uitoa((uint32_t) *(++arg), print_buf, 16));
+        ui = va_arg(arg, uint32_t);
+        prints(uitoa((uint32_t) ui, print_buf, 16));
         break;
 
       case '%':
@@ -52,4 +65,6 @@ void printk(const char *fmt, ...) {
         break;
     }
   }
+
+  va_end(arg);
 }
