@@ -5,7 +5,12 @@ ifeq ($(DEBUG),yes)
 	QEMU_ARGS += -s -S
 endif
 
-.PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot coverity coverity-submit
+MAJOR_VERSION := $(shell grep CONFIG_VERSION_MAJOR config/kernel.cfg  | cut -d"=" -f2)
+MINOR_VERSION := $(shell grep CONFIG_VERSION_MINOR config/kernel.cfg  | cut -d"=" -f2)
+VERSION       := "$(MAJOR_VERSION).$(MINOR_VERSION)"
+
+.PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot \
+	      coverity coverity-submit
 
 all:
 	$(MAKE) -j $(NPROC) -C src
@@ -17,14 +22,20 @@ clean:
 	-rm -rf cov-int
 
 coverity:
+ifeq (, $(shell which cov-build))
+	$(error cov-build is not available in the PATH)
+endif
 	cov-build --dir cov-int $(MAKE) all
 	tar zcvf minos-coverity.tar.gz cov-int
 
-coverity-submit: coverity
+coverity-submit: clean coverity
+ifndef COVERITY_TOKEN
+	$(error COVERITY_TOKEN is not set)
+endif
 	curl --form token=$(COVERITY_TOKEN) \
 	--form email=anuradha@weeraman.com \
 	--form file=@minos-coverity.tar.gz \
-	--form version="0.1" \
+	--form version="$(VERSION)" \
 	--form description="An experimental x86 operating system" \
 	https://scan.coverity.com/builds?project=minos
 
