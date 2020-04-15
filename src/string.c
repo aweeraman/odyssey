@@ -21,18 +21,19 @@
 
 #include "string.h"
 
-uint32_t strlen(char *str) {
-  uint32_t sz = 0;
-  while (str[sz++] != '\0');
+size_t strnlen(const char *str, size_t maxlen) {
+  size_t sz = 0;
+  if (str == NULL) return 0;
+  while (str[sz] != '\0' && sz++ < maxlen-1);
   return sz;
 }
 
-char* uitoa(uint32_t value, char* result, int base) {
+char* uitoa(size_t value, char* result, int base) {
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 
   char* ptr = result, *ptr1 = result, tmp_char;
-  uint32_t tmp_value;
+  size_t tmp_value;
 
   do {
     tmp_value = value;
