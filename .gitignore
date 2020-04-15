@@ -5,3 +5,4 @@ kernel
 iso/
 coreboot/
 notes/
+cov-int/

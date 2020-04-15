@@ -5,7 +5,7 @@ ifeq ($(DEBUG),yes)
 	QEMU_ARGS += -s -S
 endif
 
-.PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot
+.PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot coverity coverity-submit
 
 all:
 	$(MAKE) -j $(NPROC) -C src
@@ -13,6 +13,20 @@ all:
 clean:
 	-$(MAKE) -C src clean
 	-rm -rf $(ISO) iso
+	-rm -f minos-coverity.tar.gz
+	-rm -rf cov-int
+
+coverity:
+	cov-build --dir cov-int $(MAKE) all
+	tar zcvf minos-coverity.tar.gz cov-int
+
+coverity-submit: coverity
+	curl --form token=$(COVERITY_TOKEN) \
+	--form email=anuradha@weeraman.com \
+	--form file=@minos-coverity.tar.gz \
+	--form version="0.1" \
+	--form description="An experimental x86 operating system" \
+	https://scan.coverity.com/builds?project=minos
 
 iso: all
 	mkdir -p iso/boot/grub/
