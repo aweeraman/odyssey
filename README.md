@@ -1,3 +1,5 @@
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/20852/badge.svg)](https://scan.coverity.com/projects/20852/badge.svg)
+
 # Minos - an experimental operating system for x86
 
 # Build dependencies
