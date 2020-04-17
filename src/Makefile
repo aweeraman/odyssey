@@ -1,15 +1,15 @@
 CONFIG := ../config/build.cfg
 include $(CONFIG)
 
-ifeq ($(CC),clang)
+ifneq (,$(findstring clang,$(CC)))
 	ARCHFLAGS := --target=i686-pc-none-elf -march=i686
 endif
 
 # Look for .S files when gcc is used as the assembler
-ifeq ($(AS),gcc)
-  ASM_EXT := S
-else
+ifneq (,$(findstring nasm,$(AS)))
   ASM_EXT := asm
+else
+  ASM_EXT := S
 endif
 
 # Include debug symbols during build
@@ -26,7 +26,7 @@ OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
 .PHONY: clean
 
 kernel: $(OBJECTS)
-	$(LD) $(LDFLAGS) -o kernel $(OBJECTS)
+	$(LD) -o kernel $(OBJECTS) $(LDFLAGS)
 
 %.o: %.c
 	$(CC) $(ARCHFLAGS) $(CFLAGS) -c $< -o $@

@@ -17,12 +17,12 @@
 
 #include "boothdr.h"
 
-const char *MEMORY_REGION_T[6] = { "", "RAM", "RESERVED", "ACPI", "ACPI NVS", "BAD" };
+const char *MEMORY_REGION_T[6] = { "", "AVAILABLE", "RESERVED", "ACPI", "ACPI NVS", "BAD" };
 
 /*
  * Extract multiboot provided information
  */
-void init_mb(uint32_t magic, uint32_t addr) {
+void init_mb(uint64_t magic, uint64_t addr) {
   struct multiboot_tag *tag;
   multiboot_memory_map_t *mmap;
 
@@ -30,8 +30,6 @@ void init_mb(uint32_t magic, uint32_t addr) {
   if (magic == MULTIBOOT2_BOOTLOADER_MAGIC) {
     printk("Multiboot2 header: 0x%u [valid]\n", magic);
   }
-
-  printk("Multiboot2 structure size: 0x%u\n", *(uint32_t *) addr);
 
   for (tag = (struct multiboot_tag *) (addr + 8);
        tag->type != MULTIBOOT_TAG_TYPE_END;
@@ -66,15 +64,13 @@ void init_mb(uint32_t magic, uint32_t addr) {
             (multiboot_uint8_t *) mmap < (multiboot_uint8_t *) tag + tag->size;
             mmap = (multiboot_memory_map_t *)
                    ((unsigned long) mmap + ((struct multiboot_tag_mmap *) tag)->entry_size)) {
-          printk("    %d: 0x%u%u - 0x%u%u (%d) [%d, %s]\n",
+          printk("    %d: 0x%u - 0x%u (%d) [%d, %s]\n",
               counter++,
-              (uint32_t) (mmap->addr >> 32),
-              (uint32_t) (mmap->addr & 0xffffffff),
-              (uint32_t) ((mmap->addr >> 32) + (mmap->len >> 32)),
-              (uint32_t) ((mmap->addr & 0xffffffff) + (mmap->len & 0xffffffff)),
-              (uint32_t) mmap->len,
-              (uint32_t) (mmap->type),
-              MEMORY_REGION_T[(uint32_t) (mmap->type)]);
+              (uint64_t) mmap->addr,
+              (uint64_t) (mmap->addr + mmap->len),
+              (uint64_t) mmap->len,
+              (uint32_t) mmap->type,
+              MEMORY_REGION_T[(int32_t) (mmap->type)]);
         }
         break;
 

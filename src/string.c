@@ -28,12 +28,12 @@ uint32_t strnlen(const char *str, uint32_t maxlen) {
   return sz;
 }
 
-char* uitoa(uint32_t value, char* result, int base) {
+char* uitoa(uint64_t value, char* result, int base) {
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 
   char* ptr = result, *ptr1 = result, tmp_char;
-  uint32_t tmp_value;
+  uint64_t tmp_value;
 
   do {
     tmp_value = value;

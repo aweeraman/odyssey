@@ -8,17 +8,37 @@
 apt-get install gcc make grub2-common mtools git qemu-system-x86 ovmf
 ```
 
-Optionally, build using clang and nasm:
+Build GCC cross compiler and openboot:
 
 ```
-apt-get install clang nasm
+$ make build-coreboot
 ```
 
-Set the following variables in config/build.cfg:
+Once built, the cross compiler toolchain locations relative to 'src' are:
+
+```
+CC        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
+CC        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
+LD        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
+```
+
+Optionally, install clang:
+
+```
+apt-get install clang
+```
+
+Set the following variables in config/build.cfg to use clang:
 
 ```
 CC        := clang
-AS        := nasm
+```
+
+nasm can be used for the assembly programs by setting the following in
+in config/build.cfg:
+
+```
+AS        := ../coreboot/util/crossgcc/xgcc/bin/nasm
 ```
 
 # Running in qemu
@@ -35,9 +55,7 @@ $ make boot-efi
 ```
 
 To boot with coreboot:
-
 ```
-$ make build-coreboot
 $ make boot-coreboot
 ```
 

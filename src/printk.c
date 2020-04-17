@@ -21,8 +21,8 @@
 // Reference: https://www.eskimo.com/~scs/cclass/int/sx11b.html
 void printk(const char *fmt, ...) {
   const char *p;
-  uint32_t ui;
   int32_t i;
+  uint64_t ul;
   char *str;
   char print_buf[128];
 
@@ -56,8 +56,8 @@ void printk(const char *fmt, ...) {
         break;
 
       case 'u':
-        ui = va_arg(arg, uint32_t);
-        prints(uitoa((uint32_t) ui, print_buf, 16));
+        ul = va_arg(arg, uint64_t);
+        prints(uitoa((uint64_t) ul, print_buf, 16));
         break;
 
       case '%':

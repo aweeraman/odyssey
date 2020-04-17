@@ -21,6 +21,6 @@
 #include "multiboot2.h"
 #include "printk.h"
 
-void init_mb(uint32_t magic, uint32_t addr);
+void init_mb(uint64_t magic, uint64_t addr);
 
 #endif
