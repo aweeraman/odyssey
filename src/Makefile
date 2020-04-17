@@ -1,6 +1,10 @@
 CONFIG := ../config/build.cfg
 include $(CONFIG)
 
+ifeq ($(CC),clang)
+	ARCHFLAGS := --target=i686-pc-none-elf -march=i686
+endif
+
 # Look for .S files when gcc is used as the assembler
 ifeq ($(AS),gcc)
   ASM_EXT := S
@@ -25,7 +29,7 @@ kernel: $(OBJECTS)
 	$(LD) $(LDFLAGS) -o kernel $(OBJECTS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(ARCHFLAGS) $(CFLAGS) -c $< -o $@
 
 %.o: %.S
 	$(AS) $(CFLAGS) -o $@ $<
