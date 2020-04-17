@@ -26,15 +26,27 @@ OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
 .PHONY: clean
 
 kernel: $(OBJECTS)
+ifeq (, $(shell which $(LD)))
+	$(error $(LD) not found)
+endif
 	$(LD) -o kernel $(OBJECTS) $(LDFLAGS)
 
 %.o: %.c
+ifeq (, $(shell which $(CC)))
+	$(error $(CC) not found)
+endif
 	$(CC) $(ARCHFLAGS) $(CFLAGS) -c $< -o $@
 
 %.o: %.S
+ifeq (, $(shell which $(AS)))
+	$(error $(AS) not found)
+endif
 	$(AS) $(CFLAGS) -o $@ $<
 
 %.o: %.asm
+ifeq (, $(shell which $(AS)))
+	$(error $(AS) not found)
+endif
 	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
