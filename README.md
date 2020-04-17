@@ -18,7 +18,7 @@ Once built, the cross compiler toolchain locations relative to 'src' are:
 
 ```
 CC        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
-CC        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
+AS        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
 LD        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
 ```
 
