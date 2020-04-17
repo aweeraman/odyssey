@@ -46,15 +46,15 @@ iso: all
 	grub-mkrescue -o $(ISO) iso
 
 boot: iso
-	$(QEMU_32) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
+	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
 
 boot-coreboot: iso $(CBROM)
-	$(QEMU_32) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
+	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
 
 boot-efi: iso
 	# Qemu hangs when specifying the memory argument
 	# Cannot attach gdb to qemu_64 as the binaries are built for i386
-	$(QEMU_64) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
+	$(QEMU) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
 build-coreboot:
 	[ -e coreboot/ ] || git clone git@github.com:coreboot/coreboot.git
