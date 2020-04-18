@@ -17,6 +17,7 @@
 
 #include "memory.h"
 #include "tty.h"
+#include "libk.h"
 
 static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
   "UNKNOWN",
@@ -59,6 +60,11 @@ void set_num_mem_regions(int num) {
 }
 
 void add_mem_region(int idx, uint64_t start, uint64_t end, uint32_t len, uint32_t type) {
+  // TODO: deprecate this with dynamic memory allocation
+  if (idx >= MAX_REGIONS) {
+    panic("exceeded maximum number of memory regions");
+  }
+
   mem_regions[idx].start = start;
   mem_regions[idx].end   = end;
   mem_regions[idx].len   = len;
