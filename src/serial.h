@@ -37,9 +37,9 @@
 #define BAUD_38400  3
 
 void init_serial();
-int serial_received();
+int  serial_received();
 char read_serial();
-int is_transmit_empty();
+int  is_transmit_empty();
 void write_serial(char a);
 
 #endif
