@@ -21,7 +21,7 @@
 #include <stdint.h>
 
 #define MAX_REGION_TYPES  6
-#define MAX_REGIONS       25
+#define MAX_REGIONS       100
 
 typedef struct memory_region_struct {
   uint64_t start;
