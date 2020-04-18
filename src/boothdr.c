@@ -31,7 +31,7 @@ void init_mb(uint64_t magic, uint64_t addr) {
     printk("Multiboot2 header: 0x%u [valid]\n", magic);
   }
 
-  for (tag = (struct multiboot_tag *) (addr + 8);
+  for (tag = (struct multiboot_tag *) ((uint32_t) (addr + 8));
        tag->type != MULTIBOOT_TAG_TYPE_END;
        tag = (struct multiboot_tag *) ((multiboot_uint8_t *) tag +
                                       ((tag->size + 7) & ~7))) {
