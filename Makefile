@@ -9,8 +9,7 @@ MAJOR_VERSION := $(shell grep CONFIG_VERSION_MAJOR config/kernel.cfg  | cut -d"=
 MINOR_VERSION := $(shell grep CONFIG_VERSION_MINOR config/kernel.cfg  | cut -d"=" -f2)
 VERSION       := "$(MAJOR_VERSION).$(MINOR_VERSION)"
 
-.PHONY: all clean iso boot boot-efi boot-coreboot build-coreboot \
-	      coverity coverity-submit
+.PHONY: all clean iso boot boot-efi deps coverity coverity-submit
 
 all:
 	$(MAKE) -j $(NPROC) -C src
@@ -46,19 +45,15 @@ iso: all
 	cp src/kernel iso/boot/
 	grub-mkrescue -o $(ISO) iso
 
-boot: iso
-	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
-
-boot-coreboot: iso $(CBROM)
+boot: iso $(CBROM)
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
 
 boot-efi: iso
 	# Qemu hangs when specifying the memory argument
-	# Cannot attach gdb to qemu_64 as the binaries are built for i386
-	$(QEMU) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
+	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
-build-coreboot:
-	[ -e coreboot/ ] || git clone git@github.com:coreboot/coreboot.git
+deps:
+	[ -e coreboot/ ] || git clone https://github.com/coreboot/coreboot.git
 	cp config/coreboot.cfg coreboot/.config
 	make -C coreboot/ crossgcc-i386 CPUS=$(NPROCS)
 	make -C coreboot/ -j$(NPROCS)

@@ -4,25 +4,24 @@
 
 # Build dependencies
 
-```
-apt-get install gcc make grub2-common mtools git qemu-system-x86 ovmf
-```
-
 Build GCC cross compiler and openboot:
 
 ```
-$ make build-coreboot
+$ sudo apt-get install git gcc g++ make m4 bison flex bzip2 xz-utils curl zlib1g-dev gnat python
+$ git clone https://github.com/aweeraman/minos.git
+$ cd minos
+$ make deps
 ```
 
-Once built, the cross compiler toolchain locations relative to 'src' are:
+Install additional dependencies required for building and running minos
+in qemu:
 
 ```
-CC        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
-AS        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
-LD        := ../coreboot/util/crossgcc/xgcc/bin/i386-elf-gcc
+apt-get install grub-common mtools qemu-system-x86 ovmf
 ```
 
-Optionally, install clang:
+Optionally, if you wish to use clang, you can install it and configure
+it in the build config as follows:
 
 ```
 apt-get install clang
@@ -34,8 +33,10 @@ Set the following variables in config/build.cfg to use clang:
 CC        := clang
 ```
 
-nasm can be used for the assembly programs by setting the following in
-in config/build.cfg:
+nasm is available as part of the cross compiler dependencies and can
+be used in place GNU as for building the assembly programs by setting
+the following in in config/build.cfg.  The GNU assembler will be used
+by default.
 
 ```
 AS        := ../coreboot/util/crossgcc/xgcc/bin/nasm
@@ -52,11 +53,6 @@ To boot in qemu with EFI:
 
 ```
 $ make boot-efi
-```
-
-To boot with coreboot:
-```
-$ make boot-coreboot
 ```
 
 # Configuration
