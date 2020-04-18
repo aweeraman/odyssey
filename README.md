@@ -2,7 +2,7 @@
 
 # Minos - an experimental operating system for x86
 
-# Build dependencies
+# Build and runtime dependencies
 
 Build GCC cross compiler and openboot:
 
@@ -33,9 +33,9 @@ Set the following variables in config/build.cfg to use clang:
 CC        := clang
 ```
 
-nasm is available as part of the cross compiler dependencies and can
-be used in place GNU as for building the assembly programs by setting
-the following in in config/build.cfg.  The GNU assembler will be used
+nasm is built as part of the cross compiler dependencies and can be
+used in place GNU as for building the assembly programs by setting
+the following in in config/build.cfg. The GNU assembler will be used
 by default.
 
 ```
@@ -44,12 +44,13 @@ AS        := ../coreboot/util/crossgcc/xgcc/bin/nasm
 
 # Running in qemu
 
+To build and run in qemu with coreboot:
+
 ```
-$ make
 $ make boot
 ```
 
-To boot in qemu with EFI:
+To build and run in qemu with OVMS/EFI:
 
 ```
 $ make boot-efi
