@@ -23,7 +23,7 @@ CFLAGS     += $(foreach opt, $(OPTS), -D$(opt))
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard *.c))
 
-.PHONY: clean
+.PHONY: clean cov-configure
 
 kernel: $(OBJECTS)
 ifeq (, $(shell which $(LD)))
@@ -51,5 +51,11 @@ endif
 
 clean:
 	-rm -f $(OBJECTS) *.o *.d kernel
+
+cov-configure:
+ifeq (, $(shell which cov-configure))
+	$(error cov-configure is not available in the PATH)
+endif
+	cov-configure -co $(CC) -- -ffreestanding
 
 -include $(OBJECTS:.o=.d)

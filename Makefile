@@ -25,6 +25,7 @@ coverity:
 ifeq (, $(shell which cov-build))
 	$(error cov-build is not available in the PATH)
 endif
+	$(MAKE) -C src cov-configure
 	cov-build --dir cov-int $(MAKE) all
 	tar zcvf minos-coverity.tar.gz cov-int
 
