@@ -20,15 +20,13 @@
 
 #include "kernel.h"
 #include "boothdr.h"
-#include "printk.h"
-#include "io.h"
+#include "tty.h"
 
 /*
  * The entry point into the kernel
  */
 void kernel_main(uint32_t magic, uint32_t addr) {
-  clear();
-  enable_cursor(1, 15);
+  init_console();
 
 #ifdef CONFIG_SERIAL
   // Initialize serial port for communication

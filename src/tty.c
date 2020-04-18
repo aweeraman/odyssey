@@ -15,8 +15,10 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
+#include <stdarg.h>
 #include "tty.h"
 #include "io.h"
+#include "string.h"
 
 #ifdef CONFIG_SERIAL
 #include "serial.h"
@@ -91,4 +93,59 @@ void prints(char *str) {
   for (uint32_t i=0; str[i] != '\0'; i++) {
     printc(str[i]);
   }
+}
+
+void init_console() {
+  clear();
+  enable_cursor(1, 15);
+}
+
+void printk(const char *fmt, ...) {
+  const char *p;
+  int32_t i;
+  uint64_t ul;
+  char *str;
+  char print_buf[128];
+
+  va_list arg;
+  va_start(arg, fmt);
+
+  for(p = fmt; *p != '\0'; p++) {
+    if(*p != '%') {
+      printc(*p);
+      continue;
+    }
+
+    switch(*++p) {
+      case 'c':
+        i = va_arg(arg, int);
+        printc(i);
+        break;
+
+      case 'd':
+        i = va_arg(arg, int32_t);
+        if (i < 0) {
+          i *= -1;
+          printc('-');
+        }
+        prints(uitoa((int32_t) i, print_buf, 10));
+        break;
+
+      case 's':
+        str = va_arg(arg, char*);
+        prints(str);
+        break;
+
+      case 'u':
+        ul = va_arg(arg, uint64_t);
+        prints(uitoa((uint64_t) ul, print_buf, 16));
+        break;
+
+      case '%':
+        prints("%");
+        break;
+    }
+  }
+
+  va_end(arg);
 }
