@@ -21,6 +21,7 @@
 #include "kernel.h"
 #include "boothdr.h"
 #include "tty.h"
+#include "memory.h"
 
 /*
  * The entry point into the kernel
@@ -40,6 +41,8 @@ void kernel_main(uint32_t magic, uint32_t addr) {
   printk("Stack size: %d\n", CONFIG_STACK);
 
   init_mb(magic, addr);
+
+  print_mem_regions();
 
   printk("Boot complete, exiting kernel\n");
 }

@@ -16,21 +16,7 @@
  */
 
 #include "boothdr.h"
-
-#define REGION_MAX 6
-
-static char *MEMORY_REGION_T[REGION_MAX] = { "UNKNOWN", "AVAILABLE", "RESERVED", "ACPI", "ACPI NVS", "BAD" };
-
-/*
- * Extract the type of memory region
- */
-static char *mem_reg_lookup(int type) {
-  if (type >= REGION_MAX) {
-    return MEMORY_REGION_T[0];
-  }
-
-  return MEMORY_REGION_T[type];
-}
+#include "memory.h"
 
 /*
  * Extract multiboot provided information
@@ -77,12 +63,12 @@ void init_mb(uint64_t magic, uint64_t addr) {
             (multiboot_uint8_t *) mmap < (multiboot_uint8_t *) tag + tag->size;
             mmap = (multiboot_memory_map_t *)
                    ((unsigned long) mmap + ((struct multiboot_tag_mmap *) tag)->entry_size)) {
-          printk("    %d: 0x%u - 0x%u %d [%s]\n",
-              counter++,
-              (uint64_t) mmap->addr,
-              (uint64_t) (mmap->addr + mmap->len),
-              (uint32_t) mmap->len,
-              mem_reg_lookup((uint32_t) mmap->type));
+                add_mem_region(counter,
+                               (uint64_t) mmap->addr,
+                               (uint64_t) (mmap->addr + mmap->len),
+                               (uint32_t) mmap->len,
+                               (uint32_t) mmap->type);
+                set_num_mem_regions(counter++);
         }
         break;
 
