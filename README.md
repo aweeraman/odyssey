@@ -76,6 +76,14 @@ CONFIG_SERIAL=0x3F8
 
 # Debugging
 
+~/.gdbinit:
+
+```
+set print pretty on
+set architecture i386:x86-64
+target remote :1234
+```
+
 Enable following in config/build.cfg:
 
 ```
