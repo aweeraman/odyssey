@@ -23,6 +23,10 @@
 #include "tty.h"
 #include "memory.h"
 
+#ifdef CONFIG_TEST
+#include "test.h"
+#endif
+
 /*
  * The entry point into the kernel
  */
@@ -43,6 +47,10 @@ void kernel_main(uint32_t magic, uint32_t addr) {
   init_mb(magic, addr);
 
   print_mem_regions();
+
+#ifdef CONFIG_TEST
+  run_tests();
+#endif
 
   printk("Boot complete, exiting kernel\n");
 }

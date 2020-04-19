@@ -23,6 +23,10 @@ CFLAGS     += $(foreach opt, $(OPTS), -D$(opt))
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard *.c))
 
+ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
+OBJECTS  := $(filter-out test.o, $(OBJECTS))
+endif
+
 .PHONY: clean cov-configure
 
 kernel: $(OBJECTS)
