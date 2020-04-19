@@ -18,6 +18,7 @@
 #include "test.h"
 #include "tty.h"
 #include "string.h"
+#include "memory.h"
 
 static int tests_passed;
 static int tests_failed;
@@ -31,6 +32,21 @@ static int strnlen_1() {
   char *str = "123";
   if (strnlen(str, 5) != 3) {
     fail(__FUNCTION__, "string length doesn't match");
+    ret = 1;
+  }
+  return ret;
+}
+
+static int multiboot2_magic_1() {
+  int ret = 0;
+  mem_ptr_t *p = (mem_ptr_t *) 0x100000;
+  // Checking for the multiboot 2 magic string
+  if (p->word.w1 != 0x50d6) {
+    fail(__FUNCTION__, "peek at mem location 0x100000 is not 50d6");
+    ret = 1;
+  }
+  if (p->word.w2 != 0xe852) {
+    fail(__FUNCTION__, "peek at mem location 0x100002 is not e852");
     ret = 1;
   }
   return ret;
@@ -50,6 +66,9 @@ void run_tests() {
   tests_failed = 0;
 
   run(strnlen_1);
+#ifdef CONFIG_ARCH_X86_32
+  run(multiboot2_magic_1);
+#endif
 
   printk("Tests %d / %d passed\n", tests_passed, tests_passed+tests_failed);
 }
