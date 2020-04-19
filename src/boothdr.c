@@ -21,7 +21,7 @@
 /*
  * Extract multiboot provided information
  */
-void init_mb(uint64_t magic, uint64_t addr) {
+void init_mb(uint32_t magic, uint32_t addr) {
   struct multiboot_tag *tag;
   multiboot_memory_map_t *mmap;
 
@@ -64,7 +64,7 @@ void init_mb(uint64_t magic, uint64_t addr) {
             mmap = (multiboot_memory_map_t *)
                    ((unsigned long) mmap + ((struct multiboot_tag_mmap *) tag)->entry_size)) {
                 add_mem_region(counter,
-                               (uint64_t) mmap->addr,
+                               (uint32_t) mmap->addr,
                                (uint32_t) mmap->len,
                                (uint32_t) mmap->type);
                 set_num_mem_regions(counter++);

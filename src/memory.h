@@ -24,13 +24,13 @@
 #define MAX_REGIONS       100
 
 typedef struct memory_region_struct {
-  uint64_t start;
-  uint64_t end;
+  uint32_t start;
+  uint32_t end;
   uint32_t len;
   uint32_t type;
 } memory_region_t;
 
-void add_mem_region(int idx, uint64_t start, uint32_t len, uint32_t type);
+void add_mem_region(int idx, uint32_t start, uint32_t len, uint32_t type);
 memory_region_t get_mem_region(int idx);
 void set_num_mem_regions(int num);
 void print_mem_regions();

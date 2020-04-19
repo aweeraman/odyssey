@@ -59,7 +59,7 @@ void set_num_mem_regions(int num) {
   num_regions = num;
 }
 
-void add_mem_region(int idx, uint64_t start, uint32_t len, uint32_t type) {
+void add_mem_region(int idx, uint32_t start, uint32_t len, uint32_t type) {
   // TODO: deprecate this with dynamic memory allocation
   if (idx >= MAX_REGIONS) {
     panic("exceeded maximum number of memory regions");
