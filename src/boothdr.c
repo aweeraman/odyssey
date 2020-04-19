@@ -17,6 +17,7 @@
 
 #include "boothdr.h"
 #include "memory.h"
+#include "libk.h"
 
 /*
  * Extract multiboot provided information
@@ -26,8 +27,8 @@ void init_mb(uint32_t magic, uint32_t addr) {
   multiboot_memory_map_t *mmap;
 
   // Check if bootloader complies with multiboot2
-  if (magic == MULTIBOOT2_BOOTLOADER_MAGIC) {
-    printk("Multiboot2 header: 0x%u [valid]\n", magic);
+  if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
+    panic("Please use a bootloader that supports the Multiboot2 specification.");
   }
 
   for (tag = (struct multiboot_tag *) ((uint32_t) (addr + 8));
