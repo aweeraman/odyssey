@@ -23,10 +23,10 @@
 #include <stddef.h>
 #include "tty.h"
 
-char*    cnv_str(uint32_t value, char* result, int base);
-uint32_t str_len(const char *s, uint32_t maxlen);
+char*    itoa(uint32_t value, char* result, int base);
+uint32_t strnlen(const char *s, uint32_t maxlen);
+void     printf(const char *fmt, ...);
 
-void panic(char *str);
-void printk(const char *fmt, ...);
+void     panic(char *str);
 
 #endif

@@ -22,11 +22,11 @@
 #include "libk.h"
 
 void panic(char *str) {
-  printk("kernel panic: %s\n", str);
+  printf("kernel panic: %s\n", str);
   while(1) {}
 }
 
-void printk(const char *fmt, ...) {
+void printf(const char *fmt, ...) {
   int32_t     i;
   uint32_t    ui;
   char       *str;
@@ -55,12 +55,12 @@ void printk(const char *fmt, ...) {
 
       case 'b':
         ui = va_arg(arg, uint32_t);
-        prints(cnv_str((uint32_t) ui, print_buf, 2));
+        prints(itoa((uint32_t) ui, print_buf, 2));
         break;
 
       case 'o':
         ui = va_arg(arg, uint32_t);
-        prints(cnv_str((uint32_t) ui, print_buf, 8));
+        prints(itoa((uint32_t) ui, print_buf, 8));
         break;
 
       case 'i':
@@ -70,17 +70,17 @@ void printk(const char *fmt, ...) {
           i *= -1;
           printc('-');
         }
-        prints(cnv_str((int32_t) i, print_buf, 10));
+        prints(itoa((int32_t) i, print_buf, 10));
         break;
 
       case 'u':
         ui = va_arg(arg, uint32_t);
-        prints(cnv_str((uint32_t) ui, print_buf, 10));
+        prints(itoa((uint32_t) ui, print_buf, 10));
         break;
 
       case 'x':
         ui = va_arg(arg, uint32_t);
-        prints(cnv_str((uint32_t) ui, print_buf, 16));
+        prints(itoa((uint32_t) ui, print_buf, 16));
         break;
 
       case '%':
@@ -92,14 +92,14 @@ void printk(const char *fmt, ...) {
   va_end(arg);
 }
 
-uint32_t str_len(const char *str, uint32_t maxlen) {
+uint32_t strnlen(const char *str, uint32_t maxlen) {
   uint32_t sz = 0;
   if (str == NULL) return 0;
   while (str[sz] != '\0' && sz++ < maxlen-1);
   return sz;
 }
 
-char* cnv_str(uint32_t value, char* result, int base) {
+char* itoa(uint32_t value, char* result, int base) {
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 
