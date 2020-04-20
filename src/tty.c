@@ -102,7 +102,7 @@ void init_console() {
 
 void printk(const char *fmt, ...) {
   int32_t i;
-  uint32_t l;
+  uint32_t ui;
   char *str;
   char print_buf[128];
   const char *p;
@@ -137,8 +137,8 @@ void printk(const char *fmt, ...) {
         break;
 
       case 'u':
-        l = va_arg(arg, uint32_t);
-        prints(uitoa((uint32_t) l, print_buf, 16));
+        ui = va_arg(arg, uint32_t);
+        prints(uitoa((uint32_t) ui, print_buf, 16));
         break;
 
       case '%':
