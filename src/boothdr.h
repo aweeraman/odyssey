@@ -18,9 +18,10 @@
 #ifndef BOOTHDR_H
 #define BOOTHDR_H
 
+#include <stddef.h>
 #include "multiboot2.h"
 #include "tty.h"
 
-void init_mb(uint32_t magic, uint32_t addr);
+void init_mb(size_t magic, size_t addr);
 
 #endif

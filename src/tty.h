@@ -40,8 +40,8 @@
 
 #define VGA_IO_ADDR       0xb8000
 
-static const uint32_t TERMINAL_ROWS = 25;
-static const uint32_t TERMINAL_COLS = 80;
+static const size_t TERMINAL_ROWS = 25;
+static const size_t TERMINAL_COLS = 80;
 
 typedef struct {
   uint8_t ch;

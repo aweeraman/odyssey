@@ -22,7 +22,7 @@
 /*
  * Extract multiboot provided information
  */
-void init_mb(uint32_t magic, uint32_t addr) {
+void init_mb(size_t magic, size_t addr) {
   struct multiboot_tag *tag;
   multiboot_memory_map_t *mmap;
 
@@ -31,7 +31,7 @@ void init_mb(uint32_t magic, uint32_t addr) {
     panic("Please use a bootloader that supports the Multiboot2 specification.");
   }
 
-  for (tag = (struct multiboot_tag *) ((uint32_t) (addr + 8));
+  for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
        tag->type != MULTIBOOT_TAG_TYPE_END;
        tag = (struct multiboot_tag *) ((multiboot_uint8_t *) tag +
                                       ((tag->size + 7) & ~7))) {
@@ -65,9 +65,9 @@ void init_mb(uint32_t magic, uint32_t addr) {
             mmap = (multiboot_memory_map_t *)
                    ((unsigned long) mmap + ((struct multiboot_tag_mmap *) tag)->entry_size)) {
                 add_mem_region(counter,
-                               (uint32_t) mmap->addr,
-                               (uint32_t) mmap->len,
-                               (uint32_t) mmap->type);
+                               (size_t) mmap->addr,
+                               (size_t) mmap->len,
+                               (size_t) mmap->type);
                 set_num_mem_regions(counter++);
         }
         break;

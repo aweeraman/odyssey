@@ -30,7 +30,7 @@
 /*
  * The entry point into the kernel
  */
-void kernel_main(uint32_t magic, uint32_t addr) {
+void kernel_main(size_t magic, size_t addr) {
   init_console();
 
 #ifdef CONFIG_SERIAL

@@ -31,7 +31,7 @@ static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
 static memory_region_t mem_regions[MAX_REGIONS];
 static int num_regions = 0;
 
-void peek(uint32_t addr, int count) {
+void peek(size_t addr, int count) {
   mem_ptr_t *p = (mem_ptr_t *) addr;
 #ifdef CONFIG_ARCH_X86_32
   for (int i = 0; i < count; i++) {
@@ -71,7 +71,7 @@ void set_num_mem_regions(int num) {
   num_regions = num;
 }
 
-void add_mem_region(int idx, uint32_t start, uint32_t len, uint32_t type) {
+void add_mem_region(int idx, size_t start, size_t len, size_t type) {
   // TODO: deprecate this with dynamic memory allocation
   if (idx >= MAX_REGIONS) {
     panic("exceeded maximum number of memory regions");

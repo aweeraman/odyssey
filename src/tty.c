@@ -16,6 +16,7 @@
  */
 
 #include <stdarg.h>
+#include <stddef.h>
 #include "tty.h"
 #include "io.h"
 
@@ -23,14 +24,14 @@
 #include "serial.h"
 #endif
 
-static uint32_t cur_x = 0;
-static uint32_t cur_y = 0;
+static size_t cur_x = 0;
+static size_t cur_y = 0;
 
 static cell *matrix = (cell *) VGA_IO_ADDR;
 
 void scroll() {
-  for (uint32_t i=0; i<(TERMINAL_ROWS-1); i++) {
-    for (uint32_t j=0; j<TERMINAL_COLS; j++) {
+  for (size_t i=0; i<(TERMINAL_ROWS-1); i++) {
+    for (size_t j=0; j<TERMINAL_COLS; j++) {
       matrix[(i*TERMINAL_COLS) + j].ch    = matrix[(i+1)*TERMINAL_COLS + j].ch;
       matrix[(i*TERMINAL_COLS) + j].clr   = matrix[(i+1)*TERMINAL_COLS + j].clr;
       matrix[(i+1)*TERMINAL_COLS + j].ch  = 0;
@@ -82,14 +83,14 @@ void printc(uint8_t ch) {
 }
 
 void clear(void) {
-  for (uint32_t i=0; i<(TERMINAL_ROWS*TERMINAL_COLS); i++) {
+  for (size_t i=0; i<(TERMINAL_ROWS*TERMINAL_COLS); i++) {
     matrix[i].ch = 0;
     matrix[i].clr = 0;
   }
 }
 
 void prints(char *str) {
-  for (uint32_t i=0; str[i] != '\0'; i++) {
+  for (size_t i=0; str[i] != '\0'; i++) {
     printc(str[i]);
   }
 }

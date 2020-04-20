@@ -23,10 +23,9 @@
 #include <stddef.h>
 #include "tty.h"
 
-char*    itoa(uint32_t value, char* result, int base);
-uint32_t strnlen(const char *s, uint32_t maxlen);
-void     printf(const char *fmt, ...);
-
-void     panic(char *str);
+char*  itoa(size_t value, char* result, int base);
+size_t strnlen(const char *s, size_t maxlen);
+void   printf(const char *fmt, ...);
+void   panic(char *str);
 
 #endif

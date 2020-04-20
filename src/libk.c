@@ -27,8 +27,8 @@ void panic(char *str) {
 }
 
 void printf(const char *fmt, ...) {
-  int32_t     i;
-  uint32_t    ui;
+  int         i;
+  size_t      ui;
   char       *str;
   char        print_buf[128];
   const char *p;
@@ -54,33 +54,33 @@ void printf(const char *fmt, ...) {
         break;
 
       case 'b':
-        ui = va_arg(arg, uint32_t);
-        prints(itoa((uint32_t) ui, print_buf, 2));
+        ui = va_arg(arg, size_t);
+        prints(itoa((size_t) ui, print_buf, 2));
         break;
 
       case 'o':
-        ui = va_arg(arg, uint32_t);
-        prints(itoa((uint32_t) ui, print_buf, 8));
+        ui = va_arg(arg, size_t);
+        prints(itoa((size_t) ui, print_buf, 8));
         break;
 
       case 'i':
       case 'd':
-        i = va_arg(arg, int32_t);
+        i = va_arg(arg, int);
         if (i < 0) {
           i *= -1;
           printc('-');
         }
-        prints(itoa((int32_t) i, print_buf, 10));
+        prints(itoa((int) i, print_buf, 10));
         break;
 
       case 'u':
-        ui = va_arg(arg, uint32_t);
-        prints(itoa((uint32_t) ui, print_buf, 10));
+        ui = va_arg(arg, size_t);
+        prints(itoa((size_t) ui, print_buf, 10));
         break;
 
       case 'x':
-        ui = va_arg(arg, uint32_t);
-        prints(itoa((uint32_t) ui, print_buf, 16));
+        ui = va_arg(arg, size_t);
+        prints(itoa((size_t) ui, print_buf, 16));
         break;
 
       case '%':
@@ -92,19 +92,19 @@ void printf(const char *fmt, ...) {
   va_end(arg);
 }
 
-uint32_t strnlen(const char *str, uint32_t maxlen) {
-  uint32_t sz = 0;
+size_t strnlen(const char *str, size_t maxlen) {
+  size_t sz = 0;
   if (str == NULL) return 0;
   while (str[sz] != '\0' && sz++ < maxlen-1);
   return sz;
 }
 
-char* itoa(uint32_t value, char* result, int base) {
+char* itoa(size_t value, char* result, int base) {
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 
   char* ptr = result, *ptr1 = result, tmp_char;
-  uint32_t tmp_value;
+  size_t tmp_value;
 
   do {
     tmp_value = value;
