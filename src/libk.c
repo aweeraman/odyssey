@@ -21,6 +21,12 @@
 
 #include "libk.h"
 
+static void prints(char *str) {
+  for (size_t i=0; str[i] != '\0'; i++) {
+    printc(str[i]);
+  }
+}
+
 void panic(char *str) {
   printf("kernel panic: %s\n", str);
   while(1) {}

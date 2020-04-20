@@ -29,7 +29,7 @@ static size_t cur_y = 0;
 
 static cell *matrix = (cell *) VGA_IO_ADDR;
 
-void scroll() {
+static void scroll() {
   for (size_t i=0; i<(TERMINAL_ROWS-1); i++) {
     for (size_t j=0; j<TERMINAL_COLS; j++) {
       matrix[(i*TERMINAL_COLS) + j].ch    = matrix[(i+1)*TERMINAL_COLS + j].ch;
@@ -86,12 +86,6 @@ void clear(void) {
   for (size_t i=0; i<(TERMINAL_ROWS*TERMINAL_COLS); i++) {
     matrix[i].ch = 0;
     matrix[i].clr = 0;
-  }
-}
-
-void prints(char *str) {
-  for (size_t i=0; str[i] != '\0'; i++) {
-    printc(str[i]);
   }
 }
 
