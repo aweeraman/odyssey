@@ -79,7 +79,7 @@ void add_mem_region(int idx, uint32_t start, uint32_t len, uint32_t type) {
 
   mem_regions[idx].start = start;
   mem_regions[idx].end   = start+len-1;
-  mem_regions[idx].len   = len;
+  mem_regions[idx].len   = len-1;
   mem_regions[idx].type  = type;
 }
 
