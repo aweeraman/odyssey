@@ -29,10 +29,20 @@ static void fail(const char *test, const char *str) {
 
 static int strnlen_1() {
   int ret = 0;
-  char *str = "123";
-  if (strnlen(str, 5) != 3) {
-    fail(__FUNCTION__, "string length doesn't match");
+  char *str1 = "123";
+  char *str2 = "12345";
+  char *str3 = "123456";
+  if (strnlen(str1, 5) != 3) {
+    fail(__FUNCTION__, "string length doesn't match, expected 3");
     ret = 1;
+  }
+  if (strnlen(str2, 5) != 5) {
+    fail(__FUNCTION__, "string length doesn't match, expected 5");
+    ret = 2;
+  }
+  if (strnlen(str3, 5) != 5) {
+    fail(__FUNCTION__, "string length doesn't match, expected 5, not 6");
+    ret = 3;
   }
   return ret;
 }
@@ -47,7 +57,7 @@ static int multiboot2_magic_1() {
   }
   if (p->word.w2 != 0xe852) {
     fail(__FUNCTION__, "peek at mem location 0x100002 is not e852");
-    ret = 1;
+    ret = 2;
   }
   return ret;
 }
