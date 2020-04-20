@@ -21,14 +21,14 @@
 
 #include "string.h"
 
-uint32_t strnlen(const char *str, uint32_t maxlen) {
+uint32_t str_len(const char *str, uint32_t maxlen) {
   uint32_t sz = 0;
   if (str == NULL) return 0;
   while (str[sz] != '\0' && sz++ < maxlen-1);
   return sz;
 }
 
-char* uitoa(uint32_t value, char* result, int base) {
+char* cnv_str(uint32_t value, char* result, int base) {
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 

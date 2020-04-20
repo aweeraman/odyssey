@@ -27,20 +27,20 @@ static void fail(const char *test, const char *str) {
   printk("Test fail %s: %s\n", test, str);
 }
 
-static int strnlen_1() {
+static int str_len_1() {
   int ret = 0;
   char *str1 = "123";
   char *str2 = "12345";
   char *str3 = "123456";
-  if (strnlen(str1, 5) != 3) {
+  if (str_len(str1, 5) != 3) {
     fail(__FUNCTION__, "string length doesn't match, expected 3");
     ret = 1;
   }
-  if (strnlen(str2, 5) != 5) {
+  if (str_len(str2, 5) != 5) {
     fail(__FUNCTION__, "string length doesn't match, expected 5");
     ret = 2;
   }
-  if (strnlen(str3, 5) != 5) {
+  if (str_len(str3, 5) != 5) {
     fail(__FUNCTION__, "string length doesn't match, expected 5, not 6");
     ret = 3;
   }
@@ -75,7 +75,7 @@ void run_tests() {
   tests_passed = 0;
   tests_failed = 0;
 
-  run(strnlen_1);
+  run(str_len_1);
 #ifdef CONFIG_ARCH_X86_32
   run(multiboot2_magic_1);
 #endif

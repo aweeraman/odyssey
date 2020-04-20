@@ -128,7 +128,7 @@ void printk(const char *fmt, ...) {
           i *= -1;
           printc('-');
         }
-        prints(uitoa((int32_t) i, print_buf, 10));
+        prints(cnv_str((int32_t) i, print_buf, 10));
         break;
 
       case 's':
@@ -138,7 +138,7 @@ void printk(const char *fmt, ...) {
 
       case 'u':
         ui = va_arg(arg, uint32_t);
-        prints(uitoa((uint32_t) ui, print_buf, 16));
+        prints(cnv_str((uint32_t) ui, print_buf, 16));
         break;
 
       case '%':
