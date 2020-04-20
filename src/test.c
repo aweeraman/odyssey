@@ -16,8 +16,7 @@
  */
 
 #include "test.h"
-#include "tty.h"
-#include "string.h"
+#include "libk.h"
 #include "memory.h"
 
 static int tests_passed;

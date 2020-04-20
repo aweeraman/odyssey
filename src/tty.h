@@ -52,6 +52,5 @@ void clear(void);
 void printc(uint8_t ch);
 void prints(char *str);
 void init_console();
-void printk(const char *fmt, ...);
 
 #endif

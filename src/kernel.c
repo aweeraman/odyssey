@@ -19,8 +19,8 @@
  */
 
 #include "kernel.h"
+#include "libk.h"
 #include "boothdr.h"
-#include "tty.h"
 #include "memory.h"
 
 #ifdef CONFIG_TEST

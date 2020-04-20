@@ -18,7 +18,12 @@
 #ifndef LIBK_H
 #define LIBK_H
 
+#include <stdarg.h>
+#include "string.h"
+#include "tty.h"
+
 void panic(char *str);
+void printk(const char *fmt, ...);
 
 #endif
 
