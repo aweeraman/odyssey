@@ -22,7 +22,7 @@ Install additional dependencies required for building and running minos
 in qemu:
 
 ```
-apt-get install grub-common mtools qemu-system-x86 ovmf
+$ sudo apt-get install grub-common mtools qemu-system-x86 ovmf
 ```
 
 Optionally, if you wish to use clang, you can install it and configure
