@@ -18,7 +18,6 @@
 #include <stdarg.h>
 #include "tty.h"
 #include "io.h"
-#include "string.h"
 
 #ifdef CONFIG_SERIAL
 #include "serial.h"

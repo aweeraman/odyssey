@@ -19,11 +19,14 @@
 #define LIBK_H
 
 #include <stdarg.h>
-#include "string.h"
+#include <stdint.h>
+#include <stddef.h>
 #include "tty.h"
+
+char*    cnv_str(uint32_t value, char* result, int base);
+uint32_t str_len(const char *s, uint32_t maxlen);
 
 void panic(char *str);
 void printk(const char *fmt, ...);
 
 #endif
-
