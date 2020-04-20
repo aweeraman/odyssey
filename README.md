@@ -4,11 +4,16 @@
 
 # Build and runtime dependencies
 
+Clone repo and install build dependencies:
+
+```
+$ git clone https://github.com/aweeraman/minos.git
+$ sudo apt-get install git gcc g++ make m4 bison flex bzip2 xz-utils curl zlib1g-dev gnat python
+```
+
 Build GCC cross compiler and openboot:
 
 ```
-$ sudo apt-get install git gcc g++ make m4 bison flex bzip2 xz-utils curl zlib1g-dev gnat python
-$ git clone https://github.com/aweeraman/minos.git
 $ cd minos
 $ make deps
 ```
@@ -24,7 +29,7 @@ Optionally, if you wish to use clang, you can install it and configure
 it in the build config as follows:
 
 ```
-apt-get install clang
+$ sudo apt-get install clang
 ```
 
 Set the following variables in config/build.cfg to use clang:
@@ -65,10 +70,16 @@ Currently available options are:
 CONFIG_VERSION_MAJOR=0
 CONFIG_VERSION_MINOR=1
 
+# Target x86 32-bit architecture
+CONFIG_ARCH_X86_32
+
 CONFIG_STACK=4096
 
 # COM1=0x3F8,COM2=0x2F8,COM3=0x3E8,COM4=0x2E8
 CONFIG_SERIAL=0x3F8
+
+# To run tests during boot
+CONFIG_TEST
 ```
 
 # Debugging
