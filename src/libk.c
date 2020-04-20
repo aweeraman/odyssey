@@ -23,10 +23,10 @@ void panic(char *str) {
 }
 
 void printk(const char *fmt, ...) {
-  int32_t i;
-  uint32_t ui;
-  char *str;
-  char print_buf[128];
+  int32_t     i;
+  uint32_t    ui;
+  char       *str;
+  char        print_buf[128];
   const char *p;
 
   va_list arg;
@@ -44,6 +44,22 @@ void printk(const char *fmt, ...) {
         printc(i);
         break;
 
+      case 's':
+        str = va_arg(arg, char*);
+        prints(str);
+        break;
+
+      case 'b':
+        ui = va_arg(arg, uint32_t);
+        prints(cnv_str((uint32_t) ui, print_buf, 2));
+        break;
+
+      case 'o':
+        ui = va_arg(arg, uint32_t);
+        prints(cnv_str((uint32_t) ui, print_buf, 8));
+        break;
+
+      case 'i':
       case 'd':
         i = va_arg(arg, int32_t);
         if (i < 0) {
@@ -53,12 +69,12 @@ void printk(const char *fmt, ...) {
         prints(cnv_str((int32_t) i, print_buf, 10));
         break;
 
-      case 's':
-        str = va_arg(arg, char*);
-        prints(str);
+      case 'u':
+        ui = va_arg(arg, uint32_t);
+        prints(cnv_str((uint32_t) ui, print_buf, 10));
         break;
 
-      case 'u':
+      case 'x':
         ui = va_arg(arg, uint32_t);
         prints(cnv_str((uint32_t) ui, print_buf, 16));
         break;
