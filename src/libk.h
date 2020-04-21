@@ -23,7 +23,7 @@
 #include <stddef.h>
 #include "tty.h"
 
-char*  strncpy(char *dest, const char *src, size_t n);
+char*  strncpy(char * restrict dest, const char * restrict src, size_t n);
 int    prints(char *str);
 int    putchar(int c);
 char*  itoa(size_t value, char* result, int base);
