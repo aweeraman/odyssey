@@ -22,6 +22,8 @@
 #include "multiboot2.h"
 #include "tty.h"
 
+#define BOOT_CMDLINE_MAX 100
+
 void init_mb(size_t magic, size_t addr);
 
 #endif

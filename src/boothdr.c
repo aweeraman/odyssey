@@ -19,6 +19,8 @@
 #include "memory.h"
 #include "libk.h"
 
+static char boot_cmdline[BOOT_CMDLINE_MAX];
+
 /*
  * Extract multiboot provided information
  */
@@ -39,26 +41,26 @@ void init_mb(size_t magic, size_t addr) {
                                       ((tag->size + 7) & ~7))) {
     switch (tag->type) {
       case MULTIBOOT_TAG_TYPE_CMDLINE:
-        printf("  CMDLINE, size 0x%x\n", tag->size);
+        printf("BOOT ARGUMENTS: %s\n", ((struct multiboot_tag_string *) tag)->string);
         break;
 
       case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
-        printf("  BOOT_LOADER: %s\n",
-            ((struct multiboot_tag_string *) tag)->string);
+        strncpy(boot_cmdline, ((struct multiboot_tag_string *) tag)->string, BOOT_CMDLINE_MAX);
+        printf("BOOT LOADER: %s\n", boot_cmdline);
         break;
 
       case MULTIBOOT_TAG_TYPE_MODULE:
-        printf("  MODULE, size 0x%x\n", tag->size);
+        printf("MODULE: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
-        printf("  BASIC_MEMINFO, size 0x%x\n", tag->size);
         meminfo = (struct multiboot_tag_basic_meminfo *) tag;
         set_basic_meminfo(meminfo->mem_lower, meminfo->mem_upper);
+        printf("BASIC MEMORY INFO: lower=%dkB, upper=%dkB\n", meminfo->mem_lower, meminfo->mem_upper);
         break;
 
       case MULTIBOOT_TAG_TYPE_BOOTDEV:
-        printf("  BOOTDEV, size 0x%x\n", tag->size);
+        printf("BOOT DEVICE: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_MMAP:
@@ -72,66 +74,68 @@ void init_mb(size_t magic, size_t addr) {
                                (size_t) mmap->type);
                 set_num_mem_regions(counter);
         }
+        print_mem_regions();
         break;
 
       case MULTIBOOT_TAG_TYPE_VBE:
-        printf("  VBE, size 0x%x\n", tag->size);
+        printf("VBE: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
-        printf("  FRAMEBUFFER, size 0x%x\n", tag->size);
+        printf("FRAMEBUFFER: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
-        printf("  ELF_SECTIONS, size 0x%x\n", tag->size);
+        printf("ELF SECTIONS: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_APM:
-        printf("  APM, size 0x%x\n", tag->size);
+        printf("APM: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI32:
-        printf("  EFI32, size 0x%x\n", tag->size);
+        printf("EFI32: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI64:
-        printf("  EFI64, size 0x%x\n", tag->size);
+        printf("EFI64: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_SMBIOS:
-        printf("  SMBIOS, size 0x%x\n", tag->size);
+        printf("SMBIOS: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_ACPI_OLD:
-        printf("  ACPI_OLD, size 0x%x\n", tag->size);
+        printf("ACPI OLD: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_ACPI_NEW:
-        printf("  ACPI_NEW, size 0x%x\n", tag->size);
+        printf("ACPI NEW: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_NETWORK:
-        printf("  NETWORK, size 0x%x\n", tag->size);
+        printf("NETWORK: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI_MMAP:
-        printf("  EFI_MMAP, size 0x%x\n", tag->size);
+        printf("EFI MMAP: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI_BS:
-        printf("  EFI_BS, size 0x%x\n", tag->size);
+        printf("EFI BS: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI32_IH:
-        printf("  EFI32_IH, size 0x%x\n", tag->size);
+        printf("EFI32 IH: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_EFI64_IH:
-        printf("  EFI64_IH, size 0x%x\n", tag->size);
+        printf("EFI64 IH: size 0x%x\n", tag->size);
         break;
 
       case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
-        printf("  LOAD_BASE_ADDR, size 0x%x\n", tag->size);
+        printf("LOAD BASE ADDRESS: 0x%x\n",
+            ((struct multiboot_tag_load_base_addr *) tag)->load_base_addr);
         break;
     }
   }

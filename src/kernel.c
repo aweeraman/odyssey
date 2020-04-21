@@ -37,20 +37,20 @@ void kernel_main(size_t magic, size_t addr) {
   // Initialize serial port for communication
   init_serial();
   printf("MINOS %s\n", CONFIG_VERSION);
-  printf("Initialized serial: %s\n", STRINGIFY(CONFIG_SERIAL));
+  printf("INITIALIZED SERIAL: %s\n", STRINGIFY(CONFIG_SERIAL));
 #else
   printf("MINOS %s\n", CONFIG_VERSION);
 #endif
 
-  printf("Stack size: %d\n", CONFIG_STACK);
+  printf("STACK SIZE: %d\n", CONFIG_STACK);
 
   init_mb(magic, addr);
-
-  print_mem_regions();
 
 #ifdef CONFIG_TEST
   run_tests();
 #endif
 
-  printf("Boot complete, exiting kernel\n");
+  while (1) {}
+
+  printf("EXITING KERNEL\n");
 }

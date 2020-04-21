@@ -62,7 +62,6 @@ static char *mem_reg_lookup(int type) {
 
 void print_mem_regions() {
   printf("MEMORY MAP\n");
-  printf("  Lower: %dkB, Upper: %dkB\n", mem_info.lower, mem_info.upper);
   for (int idx = 0; idx <= num_regions; idx++) {
     memory_region_t mem_reg = get_mem_region(idx);
     printf("  %d: 0x%x - 0x%x %d [%s]\n",

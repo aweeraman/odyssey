@@ -26,6 +26,20 @@ int putchar(int c) {
   return c;
 }
 
+char* strncpy(char *dest, const char *src, size_t n) {
+  size_t i = 0;
+
+  for (; src[i] != '\0' && i < n; i++) {
+    dest[i] = src[i];
+  }
+
+  for (; i < n; i++) {
+    dest[i] = '\0';
+  }
+
+  return dest;
+}
+
 /*
  * Like puts, without a newline at the end
  */

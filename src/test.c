@@ -23,7 +23,7 @@ static int tests_passed;
 static int tests_failed;
 
 static void fail(const char *test, const char *str) {
-  printf("Test fail %s: %s\n", test, str);
+  printf("TEST FAIL %s: %s\n", test, str);
 }
 
 static int strnlen_1() {
@@ -79,6 +79,6 @@ void run_tests() {
   run(multiboot2_magic_1);
 #endif
 
-  printf("Tests %d / %d passed\n", tests_passed, tests_passed+tests_failed);
+  printf("TESTS %d / %d passed\n", tests_passed, tests_passed+tests_failed);
 }
 
