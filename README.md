@@ -2,6 +2,8 @@
 
 # Minos - an experimental operating system for x86
 
+![Minos running in Qemu](https://raw.githubusercontent.com/aweeraman/minos/master/minos.png "Minos running in Qemu")
+
 # Build and runtime dependencies
 
 Clone repo and install build dependencies:
