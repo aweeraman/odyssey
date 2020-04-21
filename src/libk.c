@@ -21,10 +21,20 @@
 
 #include "libk.h"
 
-static void prints(char *str) {
-  for (size_t i=0; str[i] != '\0'; i++) {
+int putchar(int c) {
+  printc(c);
+  return c;
+}
+
+/*
+ * Like puts, without a newline at the end
+ */
+int prints(char *str) {
+  size_t i = 0;
+  for (; str[i] != '\0'; i++) {
     printc(str[i]);
   }
+  return i;
 }
 
 void panic(char *str) {
@@ -44,14 +54,14 @@ void printf(const char *fmt, ...) {
 
   for(p = fmt; *p != '\0'; p++) {
     if(*p != '%') {
-      printc(*p);
+      putchar(*p);
       continue;
     }
 
     switch(*++p) {
       case 'c':
         i = va_arg(arg, int);
-        printc(i);
+        putchar(i);
         break;
 
       case 's':
@@ -74,7 +84,7 @@ void printf(const char *fmt, ...) {
         i = va_arg(arg, int);
         if (i < 0) {
           i *= -1;
-          printc('-');
+          putchar('-');
         }
         prints(itoa((int) i, print_buf, 10));
         break;

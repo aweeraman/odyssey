@@ -23,6 +23,8 @@
 #include <stddef.h>
 #include "tty.h"
 
+int    prints(char *str);
+int    putchar(int c);
 char*  itoa(size_t value, char* result, int base);
 size_t strnlen(const char *s, size_t maxlen);
 void   printf(const char *fmt, ...);
