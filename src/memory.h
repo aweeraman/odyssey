@@ -24,6 +24,12 @@
 #define MAX_REGION_TYPES  6
 #define MAX_REGIONS       100
 
+typedef struct basic_meminfo {
+  size_t lower;
+  size_t upper;
+  size_t size;
+} basic_meminfo_t;
+
 typedef struct memory_region_struct {
   size_t start;
   size_t end;
@@ -58,6 +64,7 @@ union mem_ptr {
 } __attribute__((packed));
 typedef union mem_ptr mem_ptr_t;
 
+void set_basic_meminfo(size_t lower, size_t upper);
 void add_mem_region(int idx, size_t start, size_t len, size_t type);
 memory_region_t get_mem_region(int idx);
 void set_num_mem_regions(int num);

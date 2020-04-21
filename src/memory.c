@@ -28,8 +28,14 @@ static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
   "BAD"
 };
 
+static basic_meminfo_t mem_info;
 static memory_region_t mem_regions[MAX_REGIONS];
 static int num_regions = 0;
+
+void set_basic_meminfo(size_t lower, size_t upper) {
+  mem_info.lower = lower;
+  mem_info.upper = upper;
+}
 
 void peek(size_t addr, int count) {
   mem_ptr_t *p = (mem_ptr_t *) addr;
@@ -56,6 +62,7 @@ static char *mem_reg_lookup(int type) {
 
 void print_mem_regions() {
   printf("MEMORY MAP\n");
+  printf("  Lower: %dkB, Upper: %dkB\n", mem_info.lower, mem_info.upper);
   for (int idx = 0; idx <= num_regions; idx++) {
     memory_region_t mem_reg = get_mem_region(idx);
     printf("  %d: 0x%x - 0x%x %d [%s]\n",

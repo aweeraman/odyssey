@@ -23,8 +23,10 @@
  * Extract multiboot provided information
  */
 void init_mb(size_t magic, size_t addr) {
-  struct multiboot_tag *tag;
+  int counter;
   multiboot_memory_map_t *mmap;
+  struct multiboot_tag *tag;
+  struct multiboot_tag_basic_meminfo *meminfo;
 
   // Check if bootloader complies with multiboot2
   if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
@@ -51,6 +53,8 @@ void init_mb(size_t magic, size_t addr) {
 
       case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
         printf("  BASIC_MEMINFO, size 0x%x\n", tag->size);
+        meminfo = (struct multiboot_tag_basic_meminfo *) tag;
+        set_basic_meminfo(meminfo->mem_lower, meminfo->mem_upper);
         break;
 
       case MULTIBOOT_TAG_TYPE_BOOTDEV:
@@ -58,17 +62,15 @@ void init_mb(size_t magic, size_t addr) {
         break;
 
       case MULTIBOOT_TAG_TYPE_MMAP:
-        printf("  MMAP, size 0x%x\n", tag->size);
-        int counter = 0;
-        for (mmap = ((struct multiboot_tag_mmap *) tag)->entries;
+        for (counter = 0, mmap = ((struct multiboot_tag_mmap *) tag)->entries;
             (multiboot_uint8_t *) mmap < (multiboot_uint8_t *) tag + tag->size;
-            mmap = (multiboot_memory_map_t *)
+            counter++, mmap = (multiboot_memory_map_t *)
                    ((unsigned long) mmap + ((struct multiboot_tag_mmap *) tag)->entry_size)) {
                 add_mem_region(counter,
                                (size_t) mmap->addr,
                                (size_t) mmap->len,
                                (size_t) mmap->type);
-                set_num_mem_regions(counter++);
+                set_num_mem_regions(counter);
         }
         break;
 
