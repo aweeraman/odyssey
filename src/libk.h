@@ -23,6 +23,8 @@
 #include <stddef.h>
 #include "tty.h"
 
+void*  memcpy(void * restrict dest, const void * restrict src, size_t n);
+void*  memset(void *s, int c, size_t n);
 char*  strncpy(char * restrict dest, const char * restrict src, size_t n);
 int    prints(char *str);
 int    putchar(int c);

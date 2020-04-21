@@ -26,6 +26,55 @@ static void fail(const char *test, const char *str) {
   printf("TEST FAIL %s: %s\n", test, str);
 }
 
+static int memcpy_1() {
+  int ret = 0;
+  char str1[5];
+  char *str2 = "123";
+  char *str3 = "12345";
+  char str4[5] = {'1', '2', '\0', '3', '4' };
+  char str5[5] = { 'p', 'p', 'p', 'p', 'p' };
+  void *p;
+
+  p = memcpy(str1, str2, 5);
+  if (strnlen(str1, 5) != 3) {
+    fail(__FUNCTION__, "string length doesn't match, expected 3");
+    ret = 1;
+  }
+  if (p != str1) {
+    fail(__FUNCTION__, "invalid pointer returned");
+    ret = 2;
+  }
+  memcpy(str1, str3, 5);
+  if (!(str1[0] == '1' && str1[1] == '2' && str1[2] == '3' && str1[3] == '4' && str1[4] == '5')) {
+    fail(__FUNCTION__, "string is not identical");
+    ret = 3;
+  }
+  memcpy(str5, str4, 5);
+  if (!(str5[0] == '1' && str5[1] == '2' && str5[2] == '\0' && str5[3] == '3' && str5[4] == '4')) {
+    fail(__FUNCTION__, "string is not identical, interleaving null");
+    ret = 4;
+  }
+  return ret;
+}
+
+static int memset_1() {
+  int ret = 0;
+  char str[3];
+  void *p;
+
+  p = memset(str, 'a', sizeof(str));
+  if (!(str[0] == 'a' && str[1] == 'a' && str[2] == 'a')) {
+    fail(__FUNCTION__, "all elements are not updated correctly");
+    ret = 1;
+  }
+  if (p != str) {
+    fail(__FUNCTION__, "invalid pointer returned");
+    ret = 2;
+  }
+
+  return ret;
+}
+
 static int strnlen_1() {
   int ret = 0;
   char *str1 = "123";
@@ -51,19 +100,33 @@ static int strncpy_1() {
   char str1[5];
   char *str2 = "123";
   char *str3 = "12345";
-  strncpy(str1, str2, 5);
+  char str4[5] = {'1', '2', '\0', '3' };
+  char str5[5] = { 'p', 'p', 'p', 'p', 'p' };
+  void *p;
+
+  p = strncpy(str1, str2, 5);
   if (strnlen(str1, 5) != 3) {
     fail(__FUNCTION__, "string length doesn't match, expected 3");
     ret = 1;
   }
-  strncpy(str1, str3, 5);
-  if (str1[0] != '1' && str1[1] != 2 && str1[2] != 3 && str1[3] != '\0') {
-    fail(__FUNCTION__, "string is not identical/null terminated");
+  if (p != str1) {
+    fail(__FUNCTION__, "invalid pointer returned");
     ret = 2;
   }
-  if (str1[0] != '1' && str1[1] != 2 && str1[2] != 3 && str1[3] != '4' && str1[4] != '5') {
+  strncpy(str1, str2, 5);
+  if (!(str1[0] == '1' && str1[1] == '2' && str1[2] == '3' && str1[3] == '\0')) {
+    fail(__FUNCTION__, "string is not identical/null terminated");
+    ret = 3;
+  }
+  strncpy(str1, str3, 5);
+  if (!(str1[0] == '1' && str1[1] == '2' && str1[2] == '3' && str1[3] == '4' && str1[4] == '5')) {
     fail(__FUNCTION__, "string is not identical");
-    ret = 2;
+    ret = 4;
+  }
+  strncpy(str5, str4, 5);
+  if (!(str5[0] == '1' && str5[1] == '2' && str5[2] == '\0' && str5[3] == '\0' && str5[4] == '\0')) {
+    fail(__FUNCTION__, "copy doesn't honor null");
+    ret = 5;
   }
   return ret;
 }
@@ -98,6 +161,8 @@ void run_tests() {
 
   run(strnlen_1);
   run(strncpy_1);
+  run(memset_1);
+  run(memcpy_1);
 #ifdef CONFIG_ARCH_X86_32
   run(multiboot2_magic_1);
 #endif
