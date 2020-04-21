@@ -31,7 +31,7 @@ static int memcpy_1() {
   char str1[5];
   char *str2 = "123";
   char *str3 = "12345";
-  char str4[5] = {'1', '2', '\0', '3', '4' };
+  char str4[5] = { '1', '2', '\0', '3', '4' };
   char str5[5] = { 'p', 'p', 'p', 'p', 'p' };
   void *p;
 
@@ -100,7 +100,7 @@ static int strncpy_1() {
   char str1[5];
   char *str2 = "123";
   char *str3 = "12345";
-  char str4[5] = {'1', '2', '\0', '3' };
+  char str4[5] = { '1', '2', '\0', '3' };
   char str5[5] = { 'p', 'p', 'p', 'p', 'p' };
   void *p;
 

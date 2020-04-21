@@ -3,21 +3,23 @@ ENTRY(_start)
 SECTIONS
 {
   . = 1M;
-  .text ALIGN(8):
+  kernel_begin = .;
+  .text ALIGN(0x1000):
   {
     *(.multiboot)
     *(.text)
   }
-  .rodata ALIGN(8):
+  .rodata ALIGN(0x1000):
   {
     *(.rodata)
   }
-  .data   ALIGN(8):
+  .data ALIGN(0x1000):
   {
     *(.data)
   }
-  .bss    ALIGN(8):
+  .bss ALIGN(0x1000):
   {
     *(.bss)
   }
+  kernel_end = .;
 }

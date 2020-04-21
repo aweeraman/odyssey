@@ -27,6 +27,9 @@
 #include "test.h"
 #endif
 
+extern size_t kernel_begin;
+extern size_t kernel_end;
+
 /*
  * The entry point into the kernel
  */
@@ -42,6 +45,7 @@ void kernel_main(size_t magic, size_t addr) {
   printf("MINOS %s\n", CONFIG_VERSION);
 #endif
 
+  printf("KERNEL: size=%d start=0x%x end=0x%x\n", &kernel_end - &kernel_begin, &kernel_begin, &kernel_end);
   printf("STACK SIZE: %d\n", CONFIG_STACK);
 
   init_mb(magic, addr);
