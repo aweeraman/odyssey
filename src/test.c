@@ -46,6 +46,28 @@ static int strnlen_1() {
   return ret;
 }
 
+static int strncpy_1() {
+  int ret = 0;
+  char str1[5];
+  char *str2 = "123";
+  char *str3 = "12345";
+  strncpy(str1, str2, 5);
+  if (strnlen(str1, 5) != 3) {
+    fail(__FUNCTION__, "string length doesn't match, expected 3");
+    ret = 1;
+  }
+  strncpy(str1, str3, 5);
+  if (str1[0] != '1' && str1[1] != 2 && str1[2] != 3 && str1[3] != '\0') {
+    fail(__FUNCTION__, "string is not identical/null terminated");
+    ret = 2;
+  }
+  if (str1[0] != '1' && str1[1] != 2 && str1[2] != 3 && str1[3] != '4' && str1[4] != '5') {
+    fail(__FUNCTION__, "string is not identical");
+    ret = 2;
+  }
+  return ret;
+}
+
 static int multiboot2_magic_1() {
   int ret = 0;
   mem_ptr_t *p = (mem_ptr_t *) 0x100000;
@@ -75,6 +97,7 @@ void run_tests() {
   tests_failed = 0;
 
   run(strnlen_1);
+  run(strncpy_1);
 #ifdef CONFIG_ARCH_X86_32
   run(multiboot2_magic_1);
 #endif
