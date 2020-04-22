@@ -48,7 +48,7 @@ void kernel_main(size_t magic, size_t addr) {
   printf("Minos version %s\n", CONFIG_VERSION);
 #endif
 
-  printf("Kernel loaded at 0x%x, %d bytes\n", &kernel_begin, &kernel_end - &kernel_begin);
+  printf("Kernel loaded at 0x%x - 0x%x, %d bytes\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
   printf("Stack size: %d bytes\n", CONFIG_STACK);
 
   init_mb(magic, addr);
