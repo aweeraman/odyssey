@@ -23,7 +23,7 @@ static int tests_passed;
 static int tests_failed;
 
 static void fail(const char *test, const char *str) {
-  printf("TEST FAIL %s: %s\n", test, str);
+  printf("Test %s failed: %s\n", test, str);
 }
 
 static int memcpy_1() {
@@ -35,7 +35,7 @@ static int memcpy_1() {
   char str5[5] = { 'p', 'p', 'p', 'p', 'p' };
   void *p;
 
-  p = memcpy(str1, str2, 5);
+  p = memcpy(str1, str2, 4);
   if (strnlen(str1, 5) != 3) {
     fail(__FUNCTION__, "string length doesn't match, expected 3");
     ret = 1;
@@ -167,6 +167,6 @@ void run_tests() {
   run(multiboot2_magic_1);
 #endif
 
-  printf("TESTS %d / %d passed\n", tests_passed, tests_passed+tests_failed);
+  printf("Tests run, %d / %d passed\n", tests_passed, tests_passed+tests_failed);
 }
 
