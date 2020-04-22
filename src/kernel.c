@@ -27,6 +27,10 @@
 #include "test.h"
 #endif
 
+#if defined MM && MM == flat
+#include "flatmm.h"
+#endif
+
 extern uintptr_t kernel_begin;
 extern uintptr_t kernel_end;
 
@@ -37,7 +41,6 @@ void kernel_main(size_t magic, size_t addr) {
   init_console();
 
 #ifdef CONFIG_SERIAL
-  // Initialize serial port for communication
   init_serial();
   printf("Minos version %s\n", CONFIG_VERSION);
   printf("Initialized serial on %s\n", STRINGIFY(CONFIG_SERIAL));
@@ -49,6 +52,10 @@ void kernel_main(size_t magic, size_t addr) {
   printf("Stack size: %d bytes\n", CONFIG_STACK);
 
   init_mb(magic, addr);
+
+#if defined MM && MM == flat
+  init_flatmm();
+#endif
 
 #ifdef CONFIG_TEST
   run_tests();
