@@ -35,6 +35,8 @@ void init_mb(size_t magic, size_t addr) {
     panic("Please use a bootloader that supports the Multiboot2 specification.");
   }
 
+  printf("Multiboot information structure: start=0x%x, %u bytes\n", addr, *(size_t *) addr);
+
   for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
        tag->type != MULTIBOOT_TAG_TYPE_END;
        tag = (struct multiboot_tag *) ((multiboot_uint8_t *) tag +
