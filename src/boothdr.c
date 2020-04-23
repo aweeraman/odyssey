@@ -18,12 +18,13 @@
 #include "boothdr.h"
 #include "memory.h"
 #include "libk.h"
-#include "acpi.h"
+#include "kernel.h"
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];
 
 extern struct acpi_descriptor_v1 *acpi_v1;
 extern struct acpi_descriptor_v2 *acpi_v2;
+extern struct boot_device        *boot_dev;
 
 /*
  * Extract multiboot provided information
@@ -33,13 +34,14 @@ void init_mb(size_t magic, size_t addr) {
   multiboot_memory_map_t *mmap;
   struct multiboot_tag *tag;
   struct multiboot_tag_basic_meminfo *meminfo;
+  struct multiboot_tag_bootdev *bootdev_tag;
 
   // Check if bootloader complies with multiboot2
   if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
     panic("Please use a bootloader that supports the Multiboot2 specification.");
   }
 
-  printf("Multiboot information structure: start=0x%x, %u bytes\n", addr, *(size_t *) addr);
+  printf("Multiboot information structure: start=0x%x %uB\n", addr, *(size_t *) addr);
 
   for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
        tag->type != MULTIBOOT_TAG_TYPE_END;
@@ -62,11 +64,16 @@ void init_mb(size_t magic, size_t addr) {
       case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
         meminfo = (struct multiboot_tag_basic_meminfo *) tag;
         set_basic_meminfo(meminfo->mem_lower, meminfo->mem_upper);
-        printf("Basic memory info: lower=%dkB, upper=%dkB\n", meminfo->mem_lower, meminfo->mem_upper);
+        printf("Basic memory info: lower=%dkB upper=%dkB\n", meminfo->mem_lower, meminfo->mem_upper);
         break;
 
       case MULTIBOOT_TAG_TYPE_BOOTDEV:
-        printf("Boot device: size 0x%x\n", tag->size);
+        bootdev_tag = (struct multiboot_tag_bootdev *) tag;
+        boot_dev->biosdev = bootdev_tag->biosdev;
+        boot_dev->partition = bootdev_tag->slice;
+        boot_dev->sub_partition = bootdev_tag->part;
+        printf("Boot device: dev=0x%x slice=0x%x part=0x%x\n",
+            boot_dev->biosdev, boot_dev->partition, boot_dev->sub_partition);
         break;
 
       case MULTIBOOT_TAG_TYPE_MMAP:

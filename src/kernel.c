@@ -34,6 +34,10 @@
 extern uintptr_t kernel_begin;
 extern uintptr_t kernel_end;
 
+struct boot_device        *boot_dev;
+struct acpi_descriptor_v1 *acpi_v1;
+struct acpi_descriptor_v2 *acpi_v2;
+
 /*
  * The entry point into the kernel
  */
@@ -48,7 +52,7 @@ void kernel_main(size_t magic, size_t addr) {
   printf("Minos version %s\n", CONFIG_VERSION);
 #endif
 
-  printf("Kernel loaded at 0x%x - 0x%x, %d bytes\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
+  printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
   printf("Stack size: %d bytes\n", CONFIG_STACK);
 
   init_mb(magic, addr);
