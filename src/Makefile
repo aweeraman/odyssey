@@ -18,8 +18,9 @@ ifeq ($(DEBUG),yes)
   ASFLAGS    += -g
 endif
 
-OPTS       := $(shell grep -v "^\#" ../config/kernel.cfg)
-CFLAGS     += $(foreach opt, $(OPTS), -D$(opt))
+OPTS_LIST  := $(shell grep -v "^\#" ../config/kernel.cfg)
+OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
+CFLAGS     += $(OPTS)
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard *.c))
 
@@ -51,7 +52,7 @@ endif
 ifeq (, $(shell which $(AS)))
 	$(error $(AS) not found)
 endif
-	$(AS) $(ASFLAGS) -o $@ $<
+	$(AS) $(ASFLAGS) $(OPTS) -o $@ $<
 
 clean:
 	-rm -f $(OBJECTS) *.o *.d kernel

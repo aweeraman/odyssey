@@ -30,6 +30,17 @@ mb2_hdr:
   .long mb2_hdr_end - mb2_hdr
   .long -(MULTIBOOT2_HEADER_MAGIC + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
   .align 8
+#if defined CONSOLE_GRAPHICS
+framebuffer_tag_start:
+  .short MULTIBOOT_HEADER_TAG_FRAMEBUFFER
+  .short MULTIBOOT_HEADER_TAG_OPTIONAL
+  .long framebuffer_tag_end - framebuffer_tag_start
+  .long FB_WIDTH
+  .long FB_HEIGHT
+  .long FB_BPP
+framebuffer_tag_end:
+  .align 8
+#endif
 tag_end:
   .word 0                   # end tag type
   .word 0                   # end tag flags

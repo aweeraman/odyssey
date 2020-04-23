@@ -85,6 +85,15 @@ CONFIG_TEST
 
 # Memory manager
 MM=flat
+
+# Text-based VGA 80x25 console
+CONSOLE_TEXT
+
+# Graphical framebuffer console with custom resolution
+#CONSOLE_GRAPHICS
+#FB_WIDTH=640
+#FB_HEIGHT=480
+#FB_BPP=32
 ```
 
 # Debugging
