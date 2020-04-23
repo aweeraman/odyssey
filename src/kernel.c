@@ -37,6 +37,7 @@ extern uintptr_t kernel_end;
 struct boot_device        *boot_dev;
 struct acpi_descriptor_v1 *acpi_v1;
 struct acpi_descriptor_v2 *acpi_v2;
+struct framebuffer        *framebuffer;
 
 /*
  * The entry point into the kernel

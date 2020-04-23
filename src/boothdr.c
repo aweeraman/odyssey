@@ -25,6 +25,7 @@ static char boot_cmdline[BOOT_CMDLINE_MAX];
 extern struct acpi_descriptor_v1 *acpi_v1;
 extern struct acpi_descriptor_v2 *acpi_v2;
 extern struct boot_device        *boot_dev;
+extern struct framebuffer        *framebuffer;
 
 /*
  * Extract multiboot provided information
@@ -95,7 +96,15 @@ void init_mb(size_t magic, size_t addr) {
         break;
 
       case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
-        printf("Framebuffer: size 0x%x\n", tag->size);
+        framebuffer->addr   = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_addr;
+        framebuffer->pitch  = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_pitch;
+        framebuffer->width  = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_width;
+        framebuffer->height = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_height;
+        framebuffer->bpp    = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_bpp;
+        framebuffer->type   = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_type;
+        printf("Framebuffer: addr=%x pitch=%d width=%d height=%d bpp=%d type=%d\n",
+            framebuffer->addr, framebuffer->pitch, framebuffer->width,
+            framebuffer->height, framebuffer->bpp, framebuffer->type);
         break;
 
       case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
