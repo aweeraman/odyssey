@@ -19,6 +19,7 @@
 #define TTY_H
 
 #include <stdint.h>
+#include <stddef.h>
 #include "serial.h"
 
 #define CLR_BLACK         0
@@ -38,8 +39,6 @@
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
 
-#define VGA_IO_ADDR       0xb8000
-
 static const size_t TERMINAL_ROWS = 25;
 static const size_t TERMINAL_COLS = 80;
 
@@ -48,8 +47,8 @@ typedef struct {
   uint8_t clr;
 } __attribute__((packed)) cell;
 
-void clear(void);
 void printc(uint8_t ch);
+void clear_screen(void);
 void init_console();
 
 #endif

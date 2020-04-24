@@ -37,26 +37,27 @@ extern uintptr_t kernel_end;
 struct boot_device        *boot_dev;
 struct acpi_descriptor_v1 *acpi_v1;
 struct acpi_descriptor_v2 *acpi_v2;
-struct framebuffer        *framebuffer;
 
 /*
  * The entry point into the kernel
  */
 void kernel_main(size_t magic, size_t addr) {
-  init_console();
 
 #ifdef CONFIG_SERIAL
   init_serial();
-  printf("Minos version %s\n", CONFIG_VERSION);
-  printf("Initialized serial on %s\n", STRINGIFY(CONFIG_SERIAL));
-#else
-  printf("Minos version %s\n", CONFIG_VERSION);
 #endif
 
+  early_framebuffer_console_init(magic, addr);
+
+#ifdef CONFIG_SERIAL
+  printf("Initialized serial at %s\n", STRINGIFY(CONFIG_SERIAL));
+#endif
+
+  printf("Minos version %s\n", CONFIG_VERSION);
   printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
   printf("Stack size: %d bytes\n", CONFIG_STACK);
 
-  init_mb(magic, addr);
+  read_multiboot_header_tags(magic, addr);
 
 #if defined MM && MM == flat
   init_flatmm();

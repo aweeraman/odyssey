@@ -19,6 +19,7 @@
 #include <stddef.h>
 #include "tty.h"
 #include "io.h"
+#include "kernel.h"
 
 #ifdef CONFIG_SERIAL
 #include "serial.h"
@@ -27,7 +28,8 @@
 static size_t cur_x = 0;
 static size_t cur_y = 0;
 
-static cell *matrix = (cell *) VGA_IO_ADDR;
+static cell *matrix = NULL;
+struct framebuffer *framebuffer;
 
 static void scroll() {
   for (size_t i=0; i<(TERMINAL_ROWS-1); i++) {
@@ -82,14 +84,15 @@ void printc(uint8_t ch) {
 #endif
 }
 
-void clear(void) {
-  for (size_t i=0; i<(TERMINAL_ROWS*TERMINAL_COLS); i++) {
+void clear_screen(void) {
+  for (size_t i = 0; i < (TERMINAL_ROWS * TERMINAL_COLS); i++) {
     matrix[i].ch = 0;
     matrix[i].clr = 0;
   }
 }
 
 void init_console() {
-  clear();
+  matrix = (cell *) ((struct framebuffer *) framebuffer)->addr;
+  clear_screen();
   enable_cursor(1, 15);
 }

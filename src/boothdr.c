@@ -19,6 +19,7 @@
 #include "memory.h"
 #include "libk.h"
 #include "kernel.h"
+#include "tty.h"
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];
 
@@ -28,9 +29,49 @@ extern struct boot_device        *boot_dev;
 extern struct framebuffer        *framebuffer;
 
 /*
+ * Extract video/framebuffer details first to initialize console for output
+ */
+void early_framebuffer_console_init(size_t magic, size_t addr) {
+  struct multiboot_tag *tag;
+
+  // Check if bootloader complies with multiboot2
+  if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
+    panic("Please use a bootloader that supports the Multiboot2 specification.");
+  }
+
+  for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
+       tag->type != MULTIBOOT_TAG_TYPE_END;
+       tag = (struct multiboot_tag *) ((multiboot_uint8_t *) tag +
+                                      ((tag->size + 7) & ~7))) {
+
+    if (tag->type == MULTIBOOT_TAG_TYPE_FRAMEBUFFER) {
+        framebuffer->addr   = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_addr;
+        framebuffer->pitch  = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_pitch;
+        framebuffer->width  = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_width;
+        framebuffer->height = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_height;
+        framebuffer->bpp    = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_bpp;
+        framebuffer->type   = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_type;
+
+      init_console();
+
+      printf("Video addr=0x%x pitch=%d width=%d height=%d bpp=%d type=%d\n",
+          framebuffer->addr, framebuffer->pitch, framebuffer->width,
+          framebuffer->height, framebuffer->bpp, framebuffer->type);
+
+      if (framebuffer->type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT) {
+        printf("Initialized EGA video at 0x%x\n", framebuffer->addr);
+      } else {
+        printf("Video mode %d not supported\n", framebuffer->type, framebuffer->addr);
+      }
+
+    }
+  }
+}
+
+/*
  * Extract multiboot provided information
  */
-void init_mb(size_t magic, size_t addr) {
+void read_multiboot_header_tags(size_t magic, size_t addr) {
   int counter;
   multiboot_memory_map_t *mmap;
   struct multiboot_tag *tag;
@@ -48,6 +89,7 @@ void init_mb(size_t magic, size_t addr) {
        tag->type != MULTIBOOT_TAG_TYPE_END;
        tag = (struct multiboot_tag *) ((multiboot_uint8_t *) tag +
                                       ((tag->size + 7) & ~7))) {
+
     switch (tag->type) {
       case MULTIBOOT_TAG_TYPE_CMDLINE:
         printf("Command line: %s\n", ((struct multiboot_tag_string *) tag)->string);
@@ -96,15 +138,6 @@ void init_mb(size_t magic, size_t addr) {
         break;
 
       case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
-        framebuffer->addr   = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_addr;
-        framebuffer->pitch  = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_pitch;
-        framebuffer->width  = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_width;
-        framebuffer->height = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_height;
-        framebuffer->bpp    = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_bpp;
-        framebuffer->type   = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_type;
-        printf("Framebuffer: addr=%x pitch=%d width=%d height=%d bpp=%d type=%d\n",
-            framebuffer->addr, framebuffer->pitch, framebuffer->width,
-            framebuffer->height, framebuffer->bpp, framebuffer->type);
         break;
 
       case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
