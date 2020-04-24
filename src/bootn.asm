@@ -24,7 +24,7 @@ MB2_MAGIC                equ 0xe85250d6
 MB2_ARCH_FLAG            equ 0x0
 MB2_HEADER_TAG_FB        equ 0x5
 MB2_HEADER_TAG_OPTIONAL  equ 0x1
-STACK_SIZE               equ 4096
+STACK_SIZE               equ CONFIG_STACK
 
 section .multiboot
 align 8
