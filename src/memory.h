@@ -24,6 +24,8 @@
 #define MAX_REGION_TYPES  6
 #define MAX_REGIONS       100
 
+#define PRINTABLE_CHAR(x) (((x >= 32 && x <= 126) ? x : '.'))
+
 typedef struct basic_meminfo {
   size_t lower;
   size_t upper;

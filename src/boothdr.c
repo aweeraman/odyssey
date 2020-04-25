@@ -172,11 +172,10 @@ void read_multiboot_header_tags(size_t magic, size_t addr) {
       case MULTIBOOT_TAG_TYPE_ACPI_NEW:
         acpi_v2 = (struct acpi_descriptor_v2 *)
           ((struct multiboot_tag_new_acpi *) tag)->rsdp;
-        printf("ACPI v2 RSDP: rev=%d rsdt_addr=0x%x xsdt_addr=0x%x OEM=%s\n",
+        printf("ACPI v2 RSDP: rev=%d rsdt_addr=0x%x xsdt_addr=0x%x\n",
             acpi_v2->revision,
             acpi_v2->rsdt_addr,
-            acpi_v2->xsdt_addr,
-            acpi_v2->oem_id);
+            acpi_v2->xsdt_addr);
         break;
 
       case MULTIBOOT_TAG_TYPE_NETWORK:
