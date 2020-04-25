@@ -20,12 +20,12 @@
 #include "libk.h"
 
 static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
-  "UNKNOWN",
-  "AVAILABLE",
-  "RESERVED",
-  "ACPI",
-  "ACPI NVS",
-  "BAD"
+  "other",
+  "available",
+  "reserved",
+  "acpi",
+  "acpi nvs",
+  "bad"
 };
 
 static basic_meminfo_t mem_info;
@@ -66,7 +66,7 @@ void print_mem_regions() {
   printf("Memory map\n");
   for (int idx = 0; idx <= num_regions; idx++) {
     memory_region_t mem_reg = get_mem_region(idx);
-    printf("  %d: 0x%x - 0x%x %d [%s]\n",
+    printf("  %d: 0x%x - 0x%x %d (%s)\n",
         idx,
         mem_reg.start,
         mem_reg.end,

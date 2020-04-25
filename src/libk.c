@@ -80,11 +80,11 @@ char* strncpy(char * restrict dest, const char * restrict src, size_t n) {
 }
 
 void printf(const char *fmt, ...) {
-  int         i;
-  size_t      ui;
-  char       *str;
-  char        print_buf[128];
-  const char *p;
+  int           i;
+  unsigned long ul;
+  char          *str;
+  char          print_buf[128];
+  const char    *p;
 
   va_list arg;
   va_start(arg, fmt);
@@ -107,13 +107,13 @@ void printf(const char *fmt, ...) {
         break;
 
       case 'b':
-        ui = va_arg(arg, size_t);
-        prints(itoa((size_t) ui, print_buf, 2));
+        ul = va_arg(arg, unsigned long);
+        prints(itoa((unsigned long) ul, print_buf, 2));
         break;
 
       case 'o':
-        ui = va_arg(arg, size_t);
-        prints(itoa((size_t) ui, print_buf, 8));
+        ul = va_arg(arg, unsigned long);
+        prints(itoa((unsigned long) ul, print_buf, 8));
         break;
 
       case 'i':
@@ -127,13 +127,13 @@ void printf(const char *fmt, ...) {
         break;
 
       case 'u':
-        ui = va_arg(arg, size_t);
-        prints(itoa((size_t) ui, print_buf, 10));
+        ul = va_arg(arg, unsigned long);
+        prints(itoa((unsigned long) ul, print_buf, 10));
         break;
 
       case 'x':
-        ui = va_arg(arg, size_t);
-        prints(itoa((size_t) ui, print_buf, 16));
+        ul = va_arg(arg, unsigned long);
+        prints(itoa((unsigned long) ul, print_buf, 16));
         break;
 
       case '%':
