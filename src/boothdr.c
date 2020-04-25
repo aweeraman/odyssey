@@ -61,7 +61,7 @@ void early_framebuffer_console_init(size_t magic, size_t addr) {
       if (framebuffer->type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT) {
         printf("Initialized EGA video at 0x%x\n", framebuffer->addr);
       } else {
-        printf("Video mode %d not supported\n", framebuffer->type, framebuffer->addr);
+        printf("Video mode %d not supported\n", framebuffer->type);
       }
 
     }
@@ -96,7 +96,7 @@ void read_multiboot_header_tags(size_t magic, size_t addr) {
         break;
 
       case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
-        strncpy(boot_cmdline, ((struct multiboot_tag_string *) tag)->string, BOOT_CMDLINE_MAX);
+        strncpy(boot_cmdline, ((struct multiboot_tag_string *) tag)->string, BOOT_CMDLINE_MAX-1);
         printf("Boot loader: %s\n", boot_cmdline);
         break;
 
