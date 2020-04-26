@@ -81,7 +81,8 @@ char* strncpy(char * restrict dest, const char * restrict src, size_t n) {
 
 void printf(const char *fmt, ...) {
   int           i;
-  unsigned long ul;
+  uint32_t      ul;
+  uint64_t      ull;
   char          *str;
   char          print_buf[128];
   const char    *p;
@@ -107,13 +108,13 @@ void printf(const char *fmt, ...) {
         break;
 
       case 'b':
-        ul = va_arg(arg, unsigned long);
-        prints(itoa((unsigned long) ul, print_buf, 2));
+        ul = va_arg(arg, uint32_t);
+        prints(itoa((uint32_t) ul, print_buf, 2));
         break;
 
       case 'o':
-        ul = va_arg(arg, unsigned long);
-        prints(itoa((unsigned long) ul, print_buf, 8));
+        ul = va_arg(arg, uint32_t);
+        prints(itoa((uint32_t) ul, print_buf, 8));
         break;
 
       case 'i':
@@ -127,13 +128,18 @@ void printf(const char *fmt, ...) {
         break;
 
       case 'u':
-        ul = va_arg(arg, unsigned long);
-        prints(itoa((unsigned long) ul, print_buf, 10));
+        ul = va_arg(arg, uint32_t);
+        prints(itoa((uint32_t) ul, print_buf, 10));
         break;
 
       case 'x':
-        ul = va_arg(arg, unsigned long);
-        prints(itoa((unsigned long) ul, print_buf, 16));
+        ul = va_arg(arg, uint32_t);
+        prints(itoa((uint32_t) ul, print_buf, 16));
+        break;
+
+      case 'X':
+        ull = va_arg(arg, uint64_t);
+        prints(itoa((uint64_t) ul, print_buf, 16));
         break;
 
       case '%':
