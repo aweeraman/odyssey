@@ -139,7 +139,7 @@ void printf(const char *fmt, ...) {
 
       case 'X':
         ull = va_arg(arg, uint64_t);
-        prints(itoa((uint64_t) ul, print_buf, 16));
+        prints(itoa((uint64_t) ull, print_buf, 16));
         break;
 
       case '%':
