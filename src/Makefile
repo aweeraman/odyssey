@@ -28,7 +28,7 @@ ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS  := $(filter-out test.o, $(OBJECTS))
 endif
 
-.PHONY: clean cov-configure
+.PHONY: clean cov-configure tags
 
 kernel: $(OBJECTS)
 ifeq (, $(shell which $(LD)))
@@ -53,6 +53,9 @@ ifeq (, $(shell which $(AS)))
 	$(error $(AS) not found)
 endif
 	$(AS) $(ASFLAGS) $(OPTS) -o $@ $<
+
+tags:
+	ctags -R .
 
 clean:
 	-rm -f $(OBJECTS) *.o *.d kernel
