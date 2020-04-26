@@ -30,7 +30,7 @@ endif
 
 .PHONY: clean cov-configure tags
 
-kernel: $(OBJECTS)
+kernel: $(OBJECTS) tags
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
