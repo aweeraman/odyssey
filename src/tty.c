@@ -21,6 +21,7 @@
 #include "io.h"
 #include "kernel.h"
 #include "multiboot2.h"
+#include "libk.h"
 
 #ifdef CONFIG_SERIAL
 #include "serial.h"
@@ -94,7 +95,7 @@ void clear_screen(void) {
 
 void init_console() {
   if (framebuffer->framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_RGB) {
-    unsigned* fb = (unsigned*) framebuffer->framebuffer_addr;
+    size_t* fb = (size_t *) framebuffer->framebuffer_addr;
     for (size_t i = 0; i < (framebuffer->framebuffer_width *
 			    framebuffer->framebuffer_height); i++) {
         fb[i] = 0x0000ff00;
