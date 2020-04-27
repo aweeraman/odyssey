@@ -20,6 +20,7 @@
 #include "tty.h"
 #include "io.h"
 #include "kernel.h"
+#include "multiboot2.h"
 
 #ifdef CONFIG_SERIAL
 #include "serial.h"
@@ -29,7 +30,7 @@ static size_t cur_x = 0;
 static size_t cur_y = 0;
 
 static cell *matrix = NULL;
-struct framebuffer *framebuffer;
+struct multiboot_tag_framebuffer_common *framebuffer;
 
 static void scroll() {
   for (size_t i=0; i<(TERMINAL_ROWS-1); i++) {
@@ -92,7 +93,19 @@ void clear_screen(void) {
 }
 
 void init_console() {
-  matrix = (cell *) ((struct framebuffer *) framebuffer)->addr;
-  clear_screen();
-  enable_cursor(1, 15);
+  if (framebuffer->framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_RGB) {
+    unsigned* fb = (unsigned*) framebuffer->framebuffer_addr;
+    for (size_t i = 0; i < (framebuffer->framebuffer_width *
+			    framebuffer->framebuffer_height); i++) {
+        fb[i] = 0x0000ff00;
+    }
+    printf("Initialized RGB video at 0x%x\n", framebuffer->framebuffer_addr);
+  } else if (framebuffer->framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT) {
+    matrix = (cell *) framebuffer->framebuffer_addr;
+    clear_screen();
+    enable_cursor(1, 15);
+    printf("Initialized EGA video at 0x%x\n", framebuffer->framebuffer_addr);
+  } else {
+    printf("Video mode %d not supported\n", framebuffer->framebuffer_type);
+  }
 }

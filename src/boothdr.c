@@ -23,10 +23,10 @@
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];
 
-extern struct acpi_descriptor_v1 *acpi_v1;
-extern struct acpi_descriptor_v2 *acpi_v2;
-extern struct boot_device        *boot_dev;
-extern struct framebuffer        *framebuffer;
+extern struct acpi_descriptor_v1               *acpi_v1;
+extern struct acpi_descriptor_v2               *acpi_v2;
+extern struct boot_device                      *boot_dev;
+extern struct multiboot_tag_framebuffer_common *framebuffer;
 
 /*
  * Extract video/framebuffer details first to initialize console for output
@@ -45,25 +45,14 @@ void early_framebuffer_console_init(size_t magic, size_t addr) {
                                       ((tag->size + 7) & ~7))) {
 
     if (tag->type == MULTIBOOT_TAG_TYPE_FRAMEBUFFER) {
-        framebuffer->addr   = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_addr;
-        framebuffer->pitch  = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_pitch;
-        framebuffer->width  = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_width;
-        framebuffer->height = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_height;
-        framebuffer->bpp    = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_bpp;
-        framebuffer->type   = ((struct multiboot_tag_framebuffer_common *) tag)->framebuffer_type;
+      framebuffer = (struct multiboot_tag_framebuffer_common *) tag;
 
       init_console();
 
       printf("Video addr=0x%x pitch=%d width=%d height=%d bpp=%d type=%d\n",
-          framebuffer->addr, framebuffer->pitch, framebuffer->width,
-          framebuffer->height, framebuffer->bpp, framebuffer->type);
-
-      if (framebuffer->type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT) {
-        printf("Initialized EGA video at 0x%x\n", framebuffer->addr);
-      } else {
-        printf("Video mode %d not supported\n", framebuffer->type);
-      }
-
+          framebuffer->framebuffer_addr,  framebuffer->framebuffer_pitch,
+          framebuffer->framebuffer_width, framebuffer->framebuffer_height,
+          framebuffer->framebuffer_bpp,   framebuffer->framebuffer_type);
     }
   }
 }
