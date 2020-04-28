@@ -39,9 +39,6 @@
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
 
-static const size_t TERMINAL_ROWS = 25;
-static const size_t TERMINAL_COLS = 80;
-
 typedef struct {
   uint8_t ch;
   uint8_t clr;

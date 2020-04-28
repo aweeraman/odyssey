@@ -87,13 +87,13 @@ CONFIG_TEST
 MM=flat
 
 # Text-based VGA 80x25 console
-CONSOLE_TEXT
+#CONSOLE_TEXT
 
 # Graphical framebuffer console with custom resolution
-#CONSOLE_GRAPHICS
-#FB_WIDTH=640
-#FB_HEIGHT=480
-#FB_BPP=32
+CONSOLE_GRAPHICS
+FB_WIDTH=800
+FB_HEIGHT=600
+FB_BPP=32
 ```
 
 # Debugging
@@ -126,6 +126,19 @@ Breakpoint 1 at 0x1007c0: file kernel.c, line 26.
 (gdb) c
 ```
 
+# Attribution
+
+Minos makes use of following software:
+
+* [Coreboot](https://github.com/coreboot/coreboot) - GPL
+* [Scalable Screen Font](https://gitlab.com/bztsrc/scalable-font) - MIT License
+* [GNU unifont](http://unifoundry.com/unifont/index.html) - GPL
+
 # Reference
 
-* [OSDev Wiki](https://wiki.osdev.org/Main_Page)
+[OSDev Wiki](https://wiki.osdev.org/Main_Page) is an invaluable resource
+for hobbyist operating systems development.
+
+# License
+
+Minos is distributed under the GPLv3 license.

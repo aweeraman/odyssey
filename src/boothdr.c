@@ -23,10 +23,10 @@
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];
 
-extern struct acpi_descriptor_v1               *acpi_v1;
-extern struct acpi_descriptor_v2               *acpi_v2;
-extern struct boot_device                      *boot_dev;
-extern struct multiboot_tag_framebuffer_common *framebuffer;
+extern struct acpi_descriptor_v1        *acpi_v1;
+extern struct acpi_descriptor_v2        *acpi_v2;
+extern struct boot_device               *boot_dev;
+extern struct multiboot_tag_framebuffer *framebuffer;
 
 /*
  * Extract video/framebuffer details first to initialize console for output
@@ -45,14 +45,14 @@ void early_framebuffer_console_init(size_t magic, size_t addr) {
                                       ((tag->size + 7) & ~7))) {
 
     if (tag->type == MULTIBOOT_TAG_TYPE_FRAMEBUFFER) {
-      framebuffer = (struct multiboot_tag_framebuffer_common *) tag;
+      framebuffer = (struct multiboot_tag_framebuffer *) tag;
 
       init_console();
 
-      printf("Video addr=0x%x pitch=%d width=%d height=%d bpp=%d type=%d\n",
-          framebuffer->framebuffer_addr,  framebuffer->framebuffer_pitch,
-          framebuffer->framebuffer_width, framebuffer->framebuffer_height,
-          framebuffer->framebuffer_bpp,   framebuffer->framebuffer_type);
+      printf("Video addr=0x%X pitch=%d width=%d height=%d bpp=%d type=%d\n",
+          framebuffer->common.framebuffer_addr,  framebuffer->common.framebuffer_pitch,
+          framebuffer->common.framebuffer_width, framebuffer->common.framebuffer_height,
+          framebuffer->common.framebuffer_bpp,   framebuffer->common.framebuffer_type);
     }
   }
 }

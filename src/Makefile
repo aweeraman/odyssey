@@ -22,7 +22,7 @@ OPTS_LIST  := $(shell grep -v "^\#" ../config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
 CFLAGS     += $(OPTS)
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
-              $(patsubst %.c, %.o, $(wildcard *.c))
+              $(patsubst %.c, %.o, $(wildcard *.c)) font.o
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS  := $(filter-out test.o, $(OBJECTS))
@@ -35,6 +35,9 @@ ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
 	$(LD) -o kernel $(OBJECTS) $(LDFLAGS)
+
+font.o:
+	$(OBJCOPY) -O elf32-i386 -B i386 -I binary unifont.sfn font.o
 
 %.o: %.c
 ifeq (, $(shell which $(CC)))
