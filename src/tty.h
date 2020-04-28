@@ -20,7 +20,12 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#include <stdarg.h>
 #include "serial.h"
+#include "io.h"
+#include "kernel.h"
+#include "multiboot2.h"
+#include "libk.h"
 
 #define CLR_BLACK         0
 #define CLR_BLUE          1
@@ -38,6 +43,11 @@
 #define CLR_LIGHT_MAGENTA 13
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
+
+#define FB_RGB (framebuffer->common.framebuffer_type \
+		== MULTIBOOT_FRAMEBUFFER_TYPE_RGB)
+#define FB_EGA (framebuffer->common.framebuffer_type \
+		== MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT)
 
 typedef struct {
   uint8_t ch;

@@ -15,13 +15,7 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
-#include <stdarg.h>
-#include <stddef.h>
 #include "tty.h"
-#include "io.h"
-#include "kernel.h"
-#include "multiboot2.h"
-#include "libk.h"
 
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
@@ -45,12 +39,26 @@ static size_t fb_width;
 struct multiboot_tag_framebuffer *framebuffer;
 
 static void scroll() {
-  for (size_t i=0; i<(rows-1); i++) {
-    for (size_t j=0; j<cols; j++) {
-      matrix[(i*cols) + j].ch    = matrix[(i+1)*cols + j].ch;
-      matrix[(i*cols) + j].clr   = matrix[(i+1)*cols + j].clr;
-      matrix[(i+1)*cols + j].ch  = 0;
-      matrix[(i+1)*cols + j].clr = 0;
+
+  if (FB_RGB) {
+    for (size_t i = 0; i < fb_height-16; i++) {
+      for (size_t j = 0; j < fb_width; j++) {
+	fb[(i*fb_width) + j] = fb[((i+16) * fb_width) + j];
+      }
+    }
+    for (size_t i = fb_height-16; i < fb_height; i++) {
+      for (size_t j = 0; j < fb_width; j++) {
+	fb[(i*fb_width) + j] = 0;
+      }
+    }
+  } else if (FB_EGA) {
+    for (size_t i = 0; i < (rows - 1); i++) {
+      for (size_t j = 0; j < cols; j++) {
+        matrix[(i*cols) + j].ch    = matrix[(i+1)*cols + j].ch;
+        matrix[(i*cols) + j].clr   = matrix[(i+1)*cols + j].clr;
+        matrix[(i+1)*cols + j].ch  = 0;
+        matrix[(i+1)*cols + j].clr = 0;
+      }
     }
   }
 }
@@ -76,7 +84,7 @@ void printc(uint8_t ch) {
     write_serial('\r');
     write_serial('\n');
 #endif
-    if (framebuffer->common.framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT) {
+    if (FB_EGA) {
       matrix[(cur_x*cols) + cur_y] = (cell) {
         .ch = 0,
         .clr = CLR_LIGHT_GREEN
@@ -85,12 +93,12 @@ void printc(uint8_t ch) {
     }
     return;
   }
-  if (framebuffer->common.framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_RGB) {
+  if (FB_RGB) {
     ssfn_y = cur_x*16;
     ssfn_x = cur_y*8;
     cur_y++;
     ssfn_putc(ch);
-  } else if (framebuffer->common.framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT) {
+  } else if (FB_EGA) {
     matrix[(cur_x*cols) + cur_y++] = (cell) {
       .ch = ch,
       .clr = CLR_LIGHT_GREEN
@@ -111,13 +119,13 @@ static void draw_pixel(int x, int y, int color) {
 }
 
 void clear_screen(void) {
-  if (framebuffer->common.framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_RGB) {
+  if (FB_RGB) {
     for (size_t x = 0; x < fb_height; x++) {
       for (size_t y = 0; y < fb_width; y++) {
         draw_pixel(x, y, 0x00000000);
       }
     }
-  } else if (framebuffer->common.framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT) {
+  } else if (FB_EGA) {
     for (size_t i = 0; i < (rows * cols); i++) {
       matrix[i].ch = 0;
       matrix[i].clr = 0;
@@ -126,7 +134,7 @@ void clear_screen(void) {
 }
 
 void init_console() {
-  if (framebuffer->common.framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_RGB) {
+  if (FB_RGB) {
 
     fb = (size_t *) framebuffer->common.framebuffer_addr;
     fb_height = framebuffer->common.framebuffer_height;
@@ -144,9 +152,9 @@ void init_console() {
     ssfn_x = 0;
     ssfn_y = 0;
 
-    printf("Initialized RGB video at 0x%x\n", framebuffer->common.framebuffer_addr);
+    printf("Initialized RGB framebuffer at 0x%x\n", framebuffer->common.framebuffer_addr);
 
-  } else if (framebuffer->common.framebuffer_type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT) {
+  } else if (FB_EGA) {
 
     matrix = (cell *) framebuffer->common.framebuffer_addr;
     rows = framebuffer->common.framebuffer_height;
@@ -154,9 +162,9 @@ void init_console() {
     clear_screen();
     enable_cursor(1, 15);
 
-    printf("Initialized EGA video at 0x%x\n", framebuffer->common.framebuffer_addr);
+    printf("Initialized EGA framebuffer at 0x%x\n", framebuffer->common.framebuffer_addr);
 
   } else {
-    printf("Video mode %d not supported\n", framebuffer->common.framebuffer_type);
+    printf("Framebuffer type %d not supported\n", framebuffer->common.framebuffer_type);
   }
 }
