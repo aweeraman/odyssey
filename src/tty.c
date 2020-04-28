@@ -43,12 +43,12 @@ static void scroll() {
   if (FB_RGB) {
     for (size_t i = 0; i < fb_height-16; i++) {
       for (size_t j = 0; j < fb_width; j++) {
-	fb[(i*fb_width) + j] = fb[((i+16) * fb_width) + j];
+        fb[(i*fb_width) + j] = fb[((i+16) * fb_width) + j];
       }
     }
     for (size_t i = fb_height-16; i < fb_height; i++) {
       for (size_t j = 0; j < fb_width; j++) {
-	fb[(i*fb_width) + j] = 0;
+        fb[(i*fb_width) + j] = 0;
       }
     }
   } else if (FB_EGA) {
