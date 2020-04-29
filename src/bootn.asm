@@ -33,7 +33,7 @@ mb2_hdr:
   dd MB2_ARCH_FLAG
   dd mb2_hdr_end - mb2_hdr
   dd -(MB2_MAGIC + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
-%ifdef CONSOLE_GRAPHICS
+%ifdef CONSOLE_FRAMEBUFFER
 framebuffer_tag_start:
   dw MB2_HEADER_TAG_FB
   dw MB2_HEADER_TAG_OPTIONAL
