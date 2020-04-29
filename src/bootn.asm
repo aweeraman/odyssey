@@ -33,14 +33,14 @@ mb2_hdr:
   dd MB2_ARCH_FLAG
   dd mb2_hdr_end - mb2_hdr
   dd -(MB2_MAGIC + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
-%ifdef CONSOLE_FRAMEBUFFER
+%ifdef CONFIG_FRAMEBUFFER_RGB
 framebuffer_tag_start:
   dw MB2_HEADER_TAG_FB
   dw MB2_HEADER_TAG_OPTIONAL
   dd framebuffer_tag_end - framebuffer_tag_start
-  dd FB_WIDTH
-  dd FB_HEIGHT
-  dd FB_BPP
+  dd CONFIG_FRAMEBUFFER_WIDTH
+  dd CONFIG_FRAMEBUFFER_HEIGHT
+  dd CONFIG_FRAMEBUFFER_BPP
 framebuffer_tag_end:
 %endif
   align 8

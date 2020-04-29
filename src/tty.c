@@ -25,7 +25,9 @@
 #include "serial.h"
 #endif
 
+#ifdef CONFIG_FRAMEBUFFER_RGB
 extern char _binary_unifont_sfn_start;
+#endif
 
 static cell *matrix = NULL;
 static size_t rows  = 0;
@@ -134,7 +136,10 @@ void clear_screen(void) {
 }
 
 void init_console() {
+
   if (FB_RGB) {
+
+#ifdef CONFIG_FRAMEBUFFER_RGB
 
     fb = (size_t *) framebuffer->common.framebuffer_addr;
     fb_height = framebuffer->common.framebuffer_height;
@@ -153,6 +158,8 @@ void init_console() {
     ssfn_y = 0;
 
     printf("Initialized RGB framebuffer at 0x%x\n", framebuffer->common.framebuffer_addr);
+
+#endif
 
   } else if (FB_EGA) {
 

@@ -27,7 +27,7 @@
 #include "test.h"
 #endif
 
-#if defined MM && MM == flat
+#if defined CONFIG_MM && CONFIG_MM == flat
 #include "flatmm.h"
 #endif
 
@@ -59,7 +59,7 @@ void kernel_main(size_t magic, size_t addr) {
 
   read_multiboot_header_tags(magic, addr);
 
-#if defined MM && MM == flat
+#if defined CONFIG_MM && CONFIG_MM == flat
   init_flatmm();
 #endif
 

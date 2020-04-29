@@ -80,20 +80,17 @@ CONFIG_STACK=4096
 # COM1=0x3F8,COM2=0x2F8,COM3=0x3E8,COM4=0x2E8
 CONFIG_SERIAL=0x3F8
 
-# To run tests during boot
-CONFIG_TEST
-
 # Memory manager
-MM=flat
+CONFIG_MM=flat
 
-# Text-based VGA 80x25 console
-#CONSOLE_TEXT
+# Framebuffer console
+CONFIG_FRAMEBUFFER_RGB
+CONFIG_FRAMEBUFFER_WIDTH=1024
+CONFIG_FRAMEBUFFER_HEIGHT=768
+CONFIG_FRAMEBUFFER_BPP=32
 
-# Graphical framebuffer console with custom resolution
-CONSOLE_GRAPHICS
-FB_WIDTH=800
-FB_HEIGHT=600
-FB_BPP=32
+# Run tests during boot
+CONFIG_TEST
 ```
 
 # Debugging

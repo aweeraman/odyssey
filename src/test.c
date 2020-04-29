@@ -19,7 +19,7 @@
 #include "libk.h"
 #include "memory.h"
 
-#if defined MM && MM == flat
+#if defined CONFIG_MM && CONFIG_MM == flat
 #include "flatmm.h"
 #endif
 
@@ -30,7 +30,7 @@ static void fail(const char *test, const char *str) {
   printf("Test %s failed: %s\n", test, str);
 }
 
-#if defined MM && MM == flat
+#if defined CONFIG_MM && CONFIG_MM == flat
 static int flatmm_1() {
   int ret = 0;
   char* frame;
@@ -201,7 +201,7 @@ void run_tests() {
   run(multiboot2_magic_1);
 #endif
 
-#if defined MM && MM == flat
+#if defined CONFIG_MM && CONFIG_MM == flat
   run(flatmm_1);
 #endif
 

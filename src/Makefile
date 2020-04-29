@@ -28,6 +28,10 @@ ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS  := $(filter-out test.o, $(OBJECTS))
 endif
 
+ifneq (CONFIG_FRAMEBUFFER_RGB,$(findstring CONFIG_FRAMEBUFFER_RGB,$(OPTS)))
+OBJECTS  := $(filter-out font.o, $(OBJECTS))
+endif
+
 .PHONY: clean cov-configure tags
 
 kernel: $(OBJECTS) tags
