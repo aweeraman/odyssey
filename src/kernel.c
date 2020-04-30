@@ -22,6 +22,7 @@
 #include "libk.h"
 #include "boothdr.h"
 #include "memory.h"
+#include "gdt.h"
 
 #ifdef CONFIG_TEST
 #include "test.h"
@@ -42,7 +43,6 @@ struct acpi_descriptor_v2 *acpi_v2;
  * The entry point into the kernel
  */
 void kernel_main(size_t magic, size_t addr) {
-
 #ifdef CONFIG_SERIAL
   init_serial();
 #endif
@@ -55,7 +55,7 @@ void kernel_main(size_t magic, size_t addr) {
 
   printf("Minos version %s\n", CONFIG_VERSION);
   printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
-  printf("Stack size: %d bytes\n", CONFIG_STACK);
+  gdt_init();
 
   read_multiboot_header_tags(magic, addr);
 
