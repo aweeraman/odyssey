@@ -21,9 +21,9 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#define MEM_START_ADDR 0x200000 // initialize mm at the 2MB mark
+#define MEM_START_ADDR 0x300000 // initialize mm at the 3MB mark
 #define MEM_FRAME_SIZE 5        // size of each frame of memory
-#define MEM_END_ADDR   0x200100
+#define MEM_END_ADDR   0x300100
 
 #define FRAME_ROOT       1
 #define FRAME_AVAILABLE  2
