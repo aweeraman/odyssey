@@ -29,10 +29,10 @@
 #define FRAME_AVAILABLE  2
 
 struct flat_mem_page {
-  uint8_t flags;
-  size_t  next;
-  size_t  prev;
-  uint8_t frame[MEM_FRAME_SIZE];
+        uint8_t flags;
+        size_t  next;
+        size_t  prev;
+        uint8_t frame[MEM_FRAME_SIZE];
 };
 
 typedef struct flat_mem_page flat_mem_page_t;

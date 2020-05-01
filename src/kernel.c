@@ -46,30 +46,30 @@ void kernel_main(size_t magic, size_t addr)
 {
 
 #ifdef CONFIG_SERIAL
-  init_serial();
+        init_serial();
 #endif
 
-  early_framebuffer_console_init(magic, addr);
+        early_framebuffer_console_init(magic, addr);
 
 #ifdef CONFIG_SERIAL
-  printf("Initialized serial at %s\n", STRINGIFY(CONFIG_SERIAL));
+        printf("Initialized serial at %s\n", STRINGIFY(CONFIG_SERIAL));
 #endif
 
-  printf("Minos version %s\n", CONFIG_VERSION);
-  printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
-  gdt_init();
+        printf("Minos version %s\n", CONFIG_VERSION);
+        printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
+        gdt_init();
 
-  read_multiboot_header_tags(magic, addr);
+        read_multiboot_header_tags(magic, addr);
 
 #if defined CONFIG_MM && CONFIG_MM == flat
-  init_flatmm();
+        init_flatmm();
 #endif
 
 #ifdef CONFIG_TEST
-  run_tests();
+        run_tests();
 #endif
 
-  while (1) {}
+        while (1) {}
 
-  printf("EXITING KERNEL\n");
+        printf("EXITING KERNEL\n");
 }

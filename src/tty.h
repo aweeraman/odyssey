@@ -50,8 +50,8 @@
 		== MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT)
 
 typedef struct {
-  uint8_t ch;
-  uint8_t clr;
+        uint8_t ch;
+        uint8_t clr;
 } __attribute__((packed)) cell;
 
 void printc(uint8_t ch);

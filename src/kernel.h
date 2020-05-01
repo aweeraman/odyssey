@@ -26,29 +26,29 @@
   STRINGIFY(CONFIG_VERSION_MINOR)
 
 struct acpi_descriptor_v1 {
-  char     signature[8];
-  uint8_t  checksum;
-  char     oem_id[6];
-  uint8_t  revision;
-  uint32_t rsdt_addr;
+        char     signature[8];
+        uint8_t  checksum;
+        char     oem_id[6];
+        uint8_t  revision;
+        uint32_t rsdt_addr;
 } __attribute__((packed));
 
 struct acpi_descriptor_v2 {
-  char     signature[8];
-  uint8_t  checksum;
-  char     oem_id[6];
-  uint8_t  revision;
-  uint32_t rsdt_addr;
-  uint32_t length;
-  uint64_t xsdt_addr;
-  uint8_t  xchecksum;
-  uint8_t  reserved[3];
+        char     signature[8];
+        uint8_t  checksum;
+        char     oem_id[6];
+        uint8_t  revision;
+        uint32_t rsdt_addr;
+        uint32_t length;
+        uint64_t xsdt_addr;
+        uint8_t  xchecksum;
+        uint8_t  reserved[3];
 } __attribute__((packed));
 
 struct boot_device {
-  uint32_t biosdev;
-  uint32_t partition;
-  uint32_t sub_partition;
+        uint32_t biosdev;
+        uint32_t partition;
+        uint32_t sub_partition;
 } __attribute__((packed));
 
 #endif
