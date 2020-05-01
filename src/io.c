@@ -21,17 +21,20 @@
 
 #include "io.h"
 
-void outb(uint16_t port, uint8_t val) {
+void outb(uint16_t port, uint8_t val)
+{
   asm volatile("outb %0, %1" : : "a"(val), "Nd"(port));
 }
 
-unsigned char inb(uint16_t port) {
+unsigned char inb(uint16_t port)
+{
   uint8_t ret;
   asm volatile("inb %1, %0" : "=a"(ret) : "Nd"(port));
   return ret;
 }
 
-void enable_cursor(uint8_t cursor_start, uint8_t cursor_end) {
+void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
+{
   outb(VGA_IDX_PORT, 0x0A);
   outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xC0) | cursor_start);
 
@@ -39,12 +42,14 @@ void enable_cursor(uint8_t cursor_start, uint8_t cursor_end) {
   outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xE0) | cursor_end);
 }
 
-void disable_cursor() {
+void disable_cursor()
+{
   outb(VGA_IDX_PORT, 0x0A);
   outb(VGA_DATA_PORT, 0x20);
 }
 
-void update_cursor(uint8_t x, uint8_t width, uint8_t y) {
+void update_cursor(uint8_t x, uint8_t width, uint8_t y)
+{
   uint16_t pos = (x * width) + y;
 
   outb(VGA_IDX_PORT, 0x0F);
@@ -53,7 +58,8 @@ void update_cursor(uint8_t x, uint8_t width, uint8_t y) {
   outb(VGA_DATA_PORT, (uint8_t) ((pos >> 8) & 0xFF));
 }
 
-uint16_t get_cursor_position(void) {
+uint16_t get_cursor_position(void)
+{
   uint16_t pos = 0;
   outb(VGA_IDX_PORT, 0x0F);
   pos |= inb(VGA_DATA_PORT);

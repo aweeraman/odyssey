@@ -26,12 +26,14 @@
 static int tests_passed;
 static int tests_failed;
 
-static void fail(const char *test, const char *str) {
+static void fail(const char *test, const char *str)
+{
   printf("Test %s failed: %s\n", test, str);
 }
 
 #if defined CONFIG_MM && CONFIG_MM == flat
-static int flatmm_1() {
+static int flatmm_1()
+{
   int ret = 0;
   char* frame;
 
@@ -59,7 +61,8 @@ static int flatmm_1() {
 }
 #endif
 
-static int memcpy_1() {
+static int memcpy_1()
+{
   int ret = 0;
   char str1[5];
   char *str2 = "123";
@@ -90,7 +93,8 @@ static int memcpy_1() {
   return ret;
 }
 
-static int memset_1() {
+static int memset_1()
+{
   int ret = 0;
   char str[3];
   void *p;
@@ -108,7 +112,8 @@ static int memset_1() {
   return ret;
 }
 
-static int strnlen_1() {
+static int strnlen_1()
+{
   int ret = 0;
   char *str1 = "123";
   char *str2 = "12345";
@@ -128,7 +133,8 @@ static int strnlen_1() {
   return ret;
 }
 
-static int strncpy_1() {
+static int strncpy_1()
+{
   int ret = 0;
   char str1[5];
   char *str2 = "123";
@@ -164,7 +170,8 @@ static int strncpy_1() {
   return ret;
 }
 
-static int multiboot2_magic_1() {
+static int multiboot2_magic_1()
+{
   int ret = 0;
   mem_ptr_t *p = (mem_ptr_t *) 0x100000;
   // Checking for the multiboot 2 magic string
@@ -179,7 +186,8 @@ static int multiboot2_magic_1() {
   return ret;
 }
 
-static void run(int (*test)()) {
+static void run(int (*test)())
+{
   int ret = (*test)();
   if (ret == 0) {
     tests_passed++;
@@ -207,4 +215,3 @@ void run_tests() {
 
   printf("Tests run, %d / %d passed\n", tests_passed, tests_passed+tests_failed);
 }
-

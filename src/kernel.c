@@ -42,7 +42,9 @@ struct acpi_descriptor_v2 *acpi_v2;
 /*
  * The entry point into the kernel
  */
-void kernel_main(size_t magic, size_t addr) {
+void kernel_main(size_t magic, size_t addr)
+{
+
 #ifdef CONFIG_SERIAL
   init_serial();
 #endif

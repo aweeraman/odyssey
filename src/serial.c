@@ -27,7 +27,8 @@ static uint16_t port = SERIAL_BASE(CONFIG_SERIAL);
 /*
  * Initialize the serial port writing kernel output at startup.
  */
-void init_serial() {
+void init_serial()
+{
 
   // Disable all interrupts
   outb(SERIAL_BASE(port), 0x00);
@@ -50,14 +51,16 @@ void init_serial() {
 /*
  * Check to see if data can be read from the serial port
  */
-int serial_received() {
+int serial_received()
+{
    return inb(SERIAL_LINE_STATUS_PORT(port)) & 1;
 }
 
 /*
  * Reads one character from the serial input buffer
  */
-char read_serial() {
+char read_serial()
+{
    while (serial_received() == 0);
 
    return inb(SERIAL_BASE(port));
@@ -66,14 +69,16 @@ char read_serial() {
 /*
  * Checks to see if data is ready to be sent
  */
-int is_transmit_empty() {
+int is_transmit_empty()
+{
    return inb(SERIAL_LINE_STATUS_PORT(port)) & 0x20;
 }
 
 /*
  * Write one character to the serial port
  */
-void write_serial(char a) {
+void write_serial(char a)
+{
    while (is_transmit_empty() == 0);
 
    outb(SERIAL_BASE(port),a);

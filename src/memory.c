@@ -32,12 +32,14 @@ static basic_meminfo_t mem_info;
 static memory_region_t mem_regions[MAX_REGIONS];
 static int num_regions = 0;
 
-void set_basic_meminfo(size_t lower, size_t upper) {
+void set_basic_meminfo(size_t lower, size_t upper)
+{
   mem_info.lower = lower;
   mem_info.upper = upper;
 }
 
-void peek(size_t addr, int count) {
+void peek(size_t addr, int count)
+{
   mem_ptr_t *p = (mem_ptr_t *) addr;
 #ifdef CONFIG_ARCH_X86_32
   for (int i = 0; i < count; i++) {
@@ -54,7 +56,8 @@ void peek(size_t addr, int count) {
 /*
  * Extract the type of memory region
  */
-static char *mem_reg_lookup(int type) {
+static char *mem_reg_lookup(int type)
+{
   if (type >= MAX_REGION_TYPES) {
     return MEMORY_REGION_T[0];
   }
@@ -62,7 +65,8 @@ static char *mem_reg_lookup(int type) {
   return MEMORY_REGION_T[type];
 }
 
-void print_mem_regions() {
+void print_mem_regions()
+{
   printf("Memory map\n");
   for (int idx = 0; idx <= num_regions; idx++) {
     memory_region_t mem_reg = get_mem_region(idx);
@@ -75,11 +79,13 @@ void print_mem_regions() {
   }
 }
 
-void set_num_mem_regions(int num) {
+void set_num_mem_regions(int num)
+{
   num_regions = num;
 }
 
-void add_mem_region(int idx, size_t start, size_t len, size_t type) {
+void add_mem_region(int idx, size_t start, size_t len, size_t type)
+{
   // TODO: deprecate this with dynamic memory allocation
   if (idx >= MAX_REGIONS) {
     panic("exceeded maximum number of memory regions");
@@ -91,6 +97,7 @@ void add_mem_region(int idx, size_t start, size_t len, size_t type) {
   mem_regions[idx].type  = type;
 }
 
-memory_region_t get_mem_region(int idx) {
+memory_region_t get_mem_region(int idx)
+{
   return mem_regions[idx];
 }

@@ -21,7 +21,8 @@
 gdt_descriptor_t gdt;
 gdt_entry_t      gdt_entries[GDT_ENTRIES];
 
-void gdt_init() {
+void gdt_init()
+{
   printf("GDT [%d]\n", GDT_ENTRIES);
 
   gdt_entry(0, 0, 0, 0, 0);
@@ -35,7 +36,8 @@ void gdt_init() {
 }
 
 void gdt_entry(int entry, int32_t base, int32_t limit,
-               uint8_t access, uint8_t flags) {
+               uint8_t access, uint8_t flags)
+{
 
   gdt_entries[entry].limit_lo = limit & 0xFFFF;
   gdt_entries[entry].base_lo  = base  & 0xFFFF;

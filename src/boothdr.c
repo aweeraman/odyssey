@@ -31,7 +31,8 @@ extern struct multiboot_tag_framebuffer *framebuffer;
 /*
  * Extract video/framebuffer details first to initialize console for output
  */
-void early_framebuffer_console_init(size_t magic, size_t addr) {
+void early_framebuffer_console_init(size_t magic, size_t addr)
+{
   struct multiboot_tag *tag;
 
   // Check if bootloader complies with multiboot2
@@ -60,7 +61,8 @@ void early_framebuffer_console_init(size_t magic, size_t addr) {
 /*
  * Extract multiboot provided information
  */
-void read_multiboot_header_tags(size_t magic, size_t addr) {
+void read_multiboot_header_tags(size_t magic, size_t addr)
+{
   int counter;
   multiboot_memory_map_t *mmap;
   struct multiboot_tag *tag;

@@ -40,8 +40,8 @@ static size_t fb_height;
 static size_t fb_width;
 struct multiboot_tag_framebuffer *framebuffer;
 
-static void scroll() {
-
+static void scroll()
+{
   if (FB_RGB) {
     for (size_t i = 0; i < fb_height-16; i++) {
       for (size_t j = 0; j < fb_width; j++) {
@@ -65,7 +65,8 @@ static void scroll() {
   }
 }
 
-void printc(uint8_t ch) {
+void printc(uint8_t ch)
+{
   if (cur_y >= cols) {
     cur_x++;
     cur_y = 0;
@@ -116,11 +117,13 @@ void printc(uint8_t ch) {
 #endif
 }
 
-static void draw_pixel(int x, int y, int color) {
+static void draw_pixel(int x, int y, int color)
+{
   fb[x * fb_width + y ] = color;
 }
 
-void clear_screen(void) {
+void clear_screen(void)
+{
   if (FB_RGB) {
     for (size_t x = 0; x < fb_height; x++) {
       for (size_t y = 0; y < fb_width; y++) {
@@ -135,8 +138,8 @@ void clear_screen(void) {
   }
 }
 
-void init_console() {
-
+void init_console()
+{
   if (FB_RGB) {
 
 #ifdef CONFIG_FRAMEBUFFER_RGB

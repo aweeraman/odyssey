@@ -21,7 +21,8 @@
 
 #include "libk.h"
 
-int putchar(int c) {
+int putchar(int c)
+{
   printc(c);
   return c;
 }
@@ -29,7 +30,8 @@ int putchar(int c) {
 /*
  * Like puts, without a newline at the end
  */
-int prints(char *str) {
+int prints(char *str)
+{
   size_t i = 0;
   for (; str[i] != '\0'; i++) {
     printc(str[i]);
@@ -37,12 +39,14 @@ int prints(char *str) {
   return i;
 }
 
-void panic(char *str) {
+void panic(char *str)
+{
   printf("kernel panic: %s\n", str);
   while(1) {}
 }
 
-void* memcpy(void * restrict d, const void * restrict s, size_t n) {
+void* memcpy(void * restrict d, const void * restrict s, size_t n)
+{
   char *dest = d;
   const char *src = s;
 
@@ -53,21 +57,24 @@ void* memcpy(void * restrict d, const void * restrict s, size_t n) {
   return dest;
 }
 
-void* memset(void *s, int c, size_t n) {
+void* memset(void *s, int c, size_t n)
+{
   unsigned char *ch = s;
   for (size_t i = 0; i < n; i++)
     ch[i] = (char) c;
   return s;
 }
 
-size_t strnlen(const char *str, size_t maxlen) {
+size_t strnlen(const char *str, size_t maxlen)
+{
   size_t sz = 0;
   if (str == NULL) return 0;
   while (str[sz] != '\0' && sz++ < maxlen-1);
   return sz;
 }
 
-char* strncpy(char * restrict dest, const char * restrict src, size_t n) {
+char* strncpy(char * restrict dest, const char * restrict src, size_t n)
+{
   size_t i = 0;
 
   for (; src[i] != '\0' && i < n; i++)
@@ -79,7 +86,8 @@ char* strncpy(char * restrict dest, const char * restrict src, size_t n) {
   return dest;
 }
 
-void printf(const char *fmt, ...) {
+void printf(const char *fmt, ...)
+{
   int           i;
   uint32_t      ul;
   uint64_t      ull;
@@ -151,7 +159,8 @@ void printf(const char *fmt, ...) {
   va_end(arg);
 }
 
-char* itoa(size_t value, char* result, int base) {
+char* itoa(size_t value, char* result, int base)
+{
   // check that the base if valid
   if (base < 2 || base > 36) { *result = '\0'; return result; }
 
