@@ -3,7 +3,7 @@
 kernel
 *.iso
 iso/
-coreboot/
 notes/
 cov-int/
 tags
+deps/

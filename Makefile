@@ -53,7 +53,9 @@ boot-efi: iso
 	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
 deps:
-	[ -e coreboot/ ] || git clone https://github.com/coreboot/coreboot.git
-	cp config/coreboot.cfg coreboot/.config
-	make -C coreboot/ crossgcc-i386 CPUS=$(NPROCS)
-	make -C coreboot/ -j$(NPROCS)
+	mkdir -p deps
+	[ -e deps/coreboot/ ] || git clone https://github.com/coreboot/coreboot.git deps/coreboot
+	[ -e deps/scalable-font/ ] || git clone https://gitlab.com/bztsrc/scalable-font.git deps/scalable-font
+	cp config/coreboot.cfg deps/coreboot/.config
+	make -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
+	make -C deps/coreboot/ -j$(NPROCS)
