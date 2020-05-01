@@ -21,18 +21,18 @@
 global load_gdt
 
 load_gdt:
-  mov eax, [esp + 4]
-  lgdt [eax]
+        mov eax, [esp + 4]
+        lgdt [eax]
 
-  mov ax, KERNEL_DATA_SEGMENT
-  mov ds, ax
-  mov es, ax
-  mov fs, ax
-  mov gs, ax
-  mov ss, ax
+        mov ax, KERNEL_DATA_SEGMENT
+        mov ds, ax
+        mov es, ax
+        mov fs, ax
+        mov gs, ax
+        mov ss, ax
 
-  jmp KERNEL_CODE_SEGMENT:reload
-  ret
+        jmp KERNEL_CODE_SEGMENT:reload
+        ret
 
 reload:
-  ret
+        ret

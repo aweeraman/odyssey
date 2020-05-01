@@ -29,56 +29,58 @@ STACK_SIZE               equ CONFIG_STACK
 section .multiboot
 align 8
 mb2_hdr:
-  dd MB2_MAGIC
-  dd MB2_ARCH_FLAG
-  dd mb2_hdr_end - mb2_hdr
-  dd -(MB2_MAGIC + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
+        dd MB2_MAGIC
+        dd MB2_ARCH_FLAG
+        dd mb2_hdr_end - mb2_hdr
+        dd -(MB2_MAGIC + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
+
 %ifdef CONFIG_FRAMEBUFFER_RGB
 framebuffer_tag_start:
-  dw MB2_HEADER_TAG_FB
-  dw MB2_HEADER_TAG_OPTIONAL
-  dd framebuffer_tag_end - framebuffer_tag_start
-  dd CONFIG_FRAMEBUFFER_WIDTH
-  dd CONFIG_FRAMEBUFFER_HEIGHT
-  dd CONFIG_FRAMEBUFFER_BPP
+        dw MB2_HEADER_TAG_FB
+        dw MB2_HEADER_TAG_OPTIONAL
+        dd framebuffer_tag_end - framebuffer_tag_start
+        dd CONFIG_FRAMEBUFFER_WIDTH
+        dd CONFIG_FRAMEBUFFER_HEIGHT
+        dd CONFIG_FRAMEBUFFER_BPP
 framebuffer_tag_end:
 %endif
-  align 8
+
+        align 8
 tag_end:
-  dw 0
-  dw 0
-  dw 8
+        dw 0
+        dw 0
+        dw 8
 tag_end_end:
 mb2_hdr_end:
 
 section .text
 _start:
-  mov esp, stack_top
+        mov esp, stack_top
 
-  ; Clear EFLAGS
-  push 0
-  popf
+        ; Clear EFLAGS
+        push 0
+        popf
 
-  ; Pointer to the Multiboot2 information structure
-  push ebx
+        ; Pointer to the Multiboot2 information structure
+        push ebx
 
-  ; Multiboot2 magic value
-  push eax
+        ; Multiboot2 magic value
+        push eax
 
-  ; Jump to function in kernel.c
-  call kernel_main
+        ; Jump to function in kernel.c
+        call kernel_main
 
-  ; returning from the kernel
-  push message
-  call printf
+        ; returning from the kernel
+        push message
+        call printf
 
-  cli
-  hlt
+        cli
+        hlt
 
 message db "System shutdown.", 10, 0
 
 section .bss
 align 32
 stack_bottom:
-  resb STACK_SIZE
+        resb STACK_SIZE
 stack_top:
