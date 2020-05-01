@@ -28,22 +28,22 @@ void gdt_init() {
   gdt_entry(1, 0, 0xFFFFFFFF, 0x9A, 0xC); /* kernel code segment */
   gdt_entry(2, 0, 0xFFFFFFFF, 0x92, 0xC); /* kernel data segment */
 
-  gdt.size   = GDT_ENTRIES - 1;
+  gdt.size   = sizeof(gdt_entries);
   gdt.offset = gdt_entries;
+
+  load_gdt((uint32_t) (&gdt));
 }
 
 void gdt_entry(int entry, int32_t base, int32_t limit,
                uint8_t access, uint8_t flags) {
 
-  gdt_entry_t ent = gdt_entries[entry];
-
-  ent.limit_lo = limit & 0xFFFF;
-  ent.base_lo  = base  & 0xFFFF;
-  ent.base_mid = (base >> 16)  & 0xFF;
-  ent.access   = access;
-  ent.limit_hi = (limit >> 16) & 0xF;
-  ent.flags    = flags & 0xF;
-  ent.base_hi  = (base >> 24)  & 0xFF;
+  gdt_entries[entry].limit_lo = limit & 0xFFFF;
+  gdt_entries[entry].base_lo  = base  & 0xFFFF;
+  gdt_entries[entry].base_mid = (base >> 16)  & 0xFF;
+  gdt_entries[entry].access   = access;
+  gdt_entries[entry].limit_hi = (limit >> 16) & 0xF;
+  gdt_entries[entry].flags    = flags & 0xF;
+  gdt_entries[entry].base_hi  = (base >> 24)  & 0xFF;
 
   printf("  %d: base=%x limit=%x access=%b flags=%b\n",
                entry, base, limit, access, flags);

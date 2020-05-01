@@ -49,17 +49,19 @@ ifeq (, $(shell which $(CC)))
 endif
 	$(CC) $(ARCHFLAGS) $(CFLAGS) -c $< -o $@
 
-%.o: %.S
-ifeq (, $(shell which $(AS)))
-	$(error $(AS) not found)
-endif
-	$(AS) $(CFLAGS) -o $@ $<
-
+ifneq (,$(findstring nasm,$(AS)))
 %.o: %.asm
-ifeq (, $(shell which $(AS)))
+  ifeq (, $(shell which $(AS)))
 	$(error $(AS) not found)
-endif
+  endif
 	$(AS) $(ASFLAGS) $(OPTS) -o $@ $<
+else
+%.o: %.S
+  ifeq (, $(shell which $(AS)))
+	$(error $(AS) not found)
+  endif
+	$(AS) $(CFLAGS) -o $@ $<
+endif
 
 tags:
 	ctags -R .
