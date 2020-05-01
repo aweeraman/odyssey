@@ -49,6 +49,7 @@ ifeq (, $(shell which $(CC)))
 endif
 	$(CC) $(ARCHFLAGS) $(CFLAGS) -c $< -o $@
 
+# Compile either .asm or .S files depending on the choice of assembler
 ifneq (,$(findstring nasm,$(AS)))
 %.o: %.asm
   ifeq (, $(shell which $(AS)))
