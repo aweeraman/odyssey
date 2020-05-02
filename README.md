@@ -23,6 +23,8 @@
 - [ ] File system
 - [ ] Multitasking
 - [ ] Process scheduler
+- [ ] Standard C-library
+- [ ] Shell and basic UNIX commands
 
 # Build and runtime dependencies
 
