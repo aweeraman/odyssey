@@ -19,6 +19,7 @@
 #include "io.h"
 #include "libk.h"
 #include "pic.h"
+#include "keyboard.h"
 
 /*
  * Progammable Interrupt Timer
@@ -33,9 +34,9 @@ void irq0_handler()
  */
 void irq1_handler()
 {
-        char keycode;
-        keycode = inb(0x60);
-        printf("%d\n", keycode);
+#if CONFIG_DRV_KEYBOARD
+        kbd_interrupt();
+#endif
         pic_eoi(1);
 }
 
@@ -124,7 +125,6 @@ void irq11_handler()
  */
 void irq12_handler()
 {
-        printf(".");
         pic_eoi(12);
 }
 

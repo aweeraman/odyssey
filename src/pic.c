@@ -43,7 +43,10 @@ void pic_init()
         outb(PIC_SLAVE_DATA,   0x0);
 
         // Unmask interrupts that are supported
+        pic_mask(0, PIC_UNMASK);
+#if CONFIG_DRV_KEYBOARD
         pic_mask(1, PIC_UNMASK);
+#endif
 }
 
 void pic_mask(int irq, short mask)
