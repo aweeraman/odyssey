@@ -4,6 +4,26 @@
 
 ![Minos running in Qemu](https://raw.githubusercontent.com/aweeraman/minos/master/minos.png "Minos running in Qemu")
 
+# Current Development Status
+
+- [X] Multiboot2
+- [X] EGA 80x25 console
+- [X] Scalable console fonts
+- [X] Serial output
+- [X] RGB framebuffer
+- [X] Build-time customization of features
+- [X] Segmentation
+- [ ] Timers
+- [ ] FirstFit memory manager
+- [ ] Interrupt handling
+- [ ] Keyboard support
+- [ ] Paging
+- [ ] User-mode
+- [ ] System calls
+- [ ] File system
+- [ ] Multitasking
+- [ ] Process scheduler
+
 # Build and runtime dependencies
 
 Clone repo and install build dependencies:
