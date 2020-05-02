@@ -23,6 +23,7 @@
 #include "boothdr.h"
 #include "memory.h"
 #include "gdt.h"
+#include "pic.h"
 #include "idt.h"
 
 #ifdef CONFIG_TEST
@@ -60,6 +61,7 @@ void kernel_main(size_t magic, size_t addr)
         printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
 
         gdt_init();
+        pic_init();
         idt_init();
 
         read_multiboot_header_tags(magic, addr);

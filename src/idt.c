@@ -18,25 +18,10 @@
 #include "idt.h"
 #include "libk.h"
 #include "isr.h"
+#include "pic.h"
 
 static idt_descriptor_t idt;
 static idt_entry_t idt_entries[256];
-
-unsigned long irq1_address;
-
-static void pic_init()
-{
-	outb(0x20, 0x11);
-        outb(0xA0, 0x11);
-        outb(0x21, 0x20);
-        outb(0xA1, 0x28);
-        outb(0x21, 0x04);
-        outb(0xA1, 0x02);
-        outb(0x21, 0x01);
-        outb(0xA1, 0x01);
-        outb(0x21, 0x0);
-        outb(0xA1, 0x0);
-}
 
 static void idt_entry(int idx, uint32_t offset)
 {
@@ -49,9 +34,6 @@ static void idt_entry(int idx, uint32_t offset)
 
 void idt_init()
 {
-        printf("Initializing PIC\n");
-        pic_init();
-
         printf("Initializing Interrupts Vector Table\n");
         idt_entry(32, (uint32_t) irq0);
         idt_entry(33, (uint32_t) irq1);

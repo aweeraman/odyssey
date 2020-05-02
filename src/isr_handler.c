@@ -18,95 +18,136 @@
 #include "isr.h"
 #include "io.h"
 #include "libk.h"
+#include "pic.h"
 
+/*
+ * Progammable Interrupt Timer
+ */
 void irq0_handler()
 {
-        outb(0x20, 0x20);
+        pic_eoi(0);
 }
 
+/*
+ * Keyboard
+ */
 void irq1_handler()
 {
         char keycode;
         keycode = inb(0x60);
-        printf(".\n");
-        outb(0x20, 0x20);
+        printf("%d\n", keycode);
+        pic_eoi(1);
 }
 
+/*
+ * Used internally by the two PICs. Never raised.
+ */
 void irq2_handler()
 {
-        outb(0x20, 0x20);
+        pic_eoi(2);
 }
 
+/*
+ * COM2
+ */
 void irq3_handler()
 {
-        outb(0x20, 0x20);
+        pic_eoi(3);
 }
 
+/*
+ * COM1
+ */
 void irq4_handler()
 {
-        outb(0x20, 0x20);
+        pic_eoi(4);
 }
 
+/*
+ * LPT2
+ */
 void irq5_handler()
 {
-        outb(0x20, 0x20);
+        pic_eoi(5);
 }
 
+/*
+ * Floppy disk
+ */
 void irq6_handler()
 {
-        outb(0x20, 0x20);
+        pic_eoi(6);
 }
 
+/*
+ * LPT1 / unreliable "spurious" interrupt
+ */
 void irq7_handler()
 {
-        outb(0x20, 0x20);
+        pic_eoi(7);
 }
 
-// IRQ greater than 7 EOI must be sent to both master and slave
+/*
+ * CMOS real-time clock
+ */
 void irq8_handler()
 {
-        outb(0xA0, 0x20);
-        outb(0x20, 0x20);
+        pic_eoi(8);
 }
 
+/*
+ * Free for peripherals / legacy SCSCI / NIC
+ */
 void irq9_handler()
 {
-        outb(0xA0, 0x20);
-        outb(0x20, 0x20);
+        pic_eoi(9);
 }
 
+/*
+ * Free for peripherals / SCSI / NIC
+ */
 void irq10_handler()
 {
-        outb(0xA0, 0x20);
-        outb(0x20, 0x20);
+        pic_eoi(10);
 }
 
+/*
+ * Free for peripherals / SCSI / NIC
+ */
 void irq11_handler()
 {
-        outb(0xA0, 0x20);
-        outb(0x20, 0x20);
+        pic_eoi(11);
 }
 
+/*
+ * PS/2: auxiliary device
+ */
 void irq12_handler()
 {
-        outb(0xA0, 0x20);
-        outb(0x20, 0x20);
+        printf(".");
+        pic_eoi(12);
 }
 
+/*
+ * FPU / Coprocessor / Inter-processor
+ */
 void irq13_handler()
 {
-        outb(0xA0, 0x20);
-        outb(0x20, 0x20);
+        pic_eoi(13);
 }
 
+/*
+ * Primary ATA hard disk
+ */
 void irq14_handler()
 {
-        outb(0xA0, 0x20);
-        outb(0x20, 0x20);
+        pic_eoi(14);
 }
 
+/*
+ * Secondary ATA hard disk
+ */
 void irq15_handler()
 {
-        outb(0xA0, 0x20);
-        outb(0x20, 0x20);
+        pic_eoi(15);
 }
