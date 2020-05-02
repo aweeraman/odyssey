@@ -13,10 +13,10 @@
 - [X] RGB framebuffer
 - [X] Build-time customization of features
 - [X] Segmentation
-- [ ] Timers
-- [ ] FirstFit memory manager
 - [ ] Interrupt handling
 - [ ] Keyboard support
+- [ ] Timers
+- [ ] Memory manager
 - [ ] Paging
 - [ ] User-mode
 - [ ] System calls
