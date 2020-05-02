@@ -21,21 +21,7 @@
 gdt_descriptor_t gdt;
 gdt_entry_t      gdt_entries[GDT_ENTRIES];
 
-void gdt_init()
-{
-        printf("GDT [%d]\n", GDT_ENTRIES);
-
-        gdt_entry(0, 0, 0, 0, 0);
-        gdt_entry(1, 0, 0xFFFFFFFF, 0x9A, 0xC); /* kernel code segment */
-        gdt_entry(2, 0, 0xFFFFFFFF, 0x92, 0xC); /* kernel data segment */
-
-        gdt.size   = sizeof(gdt_entries);
-        gdt.offset = gdt_entries;
-
-        load_gdt((uint32_t) (&gdt));
-}
-
-void gdt_entry(int entry, int32_t base, int32_t limit,
+static void gdt_entry(int entry, int32_t base, int32_t limit,
                uint8_t access, uint8_t flags)
 {
 
@@ -49,4 +35,18 @@ void gdt_entry(int entry, int32_t base, int32_t limit,
 
         printf("  %d: base=%x limit=%x access=%b flags=%b\n",
                entry,base, limit, access, flags);
+}
+
+void gdt_init()
+{
+        printf("GDT [%d]\n", GDT_ENTRIES);
+
+        gdt_entry(0, 0, 0, 0, 0);
+        gdt_entry(1, 0, 0xFFFFFFFF, 0x9A, 0xC); /* kernel code segment */
+        gdt_entry(2, 0, 0xFFFFFFFF, 0x92, 0xC); /* kernel data segment */
+
+        gdt.size   = sizeof(gdt_entries);
+        gdt.offset = gdt_entries;
+
+        load_gdt((uint32_t) (&gdt));
 }

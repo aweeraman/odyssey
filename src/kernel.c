@@ -23,6 +23,7 @@
 #include "boothdr.h"
 #include "memory.h"
 #include "gdt.h"
+#include "idt.h"
 
 #ifdef CONFIG_TEST
 #include "test.h"
@@ -57,7 +58,9 @@ void kernel_main(size_t magic, size_t addr)
 
         printf("Minos version %s\n", CONFIG_VERSION);
         printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
+
         gdt_init();
+        idt_init();
 
         read_multiboot_header_tags(magic, addr);
 
@@ -69,7 +72,9 @@ void kernel_main(size_t magic, size_t addr)
         run_tests();
 #endif
 
-        while (1) {}
+        for (;;) {
+                asm("hlt");
+        }
 
         printf("EXITING KERNEL\n");
 }
