@@ -41,5 +41,29 @@ void pic_init()
         outb(PIC_SLAVE_DATA,  0x01);
         outb(PIC_MASTER_DATA,  0x0);
         outb(PIC_SLAVE_DATA,   0x0);
+
+        // Unmask interrupts that are supported
+        pic_mask(1, PIC_UNMASK);
 }
 
+void pic_mask(int irq, short mask)
+{
+        uint16_t port;
+        uint8_t val;
+
+        if (irq < 8)
+                port = PIC_MASTER_DATA;
+        else {
+                port = PIC_SLAVE_DATA;
+                port -= 8;
+        }
+
+        if (mask == PIC_MASK)
+                val = inb(port) | (1 << irq);
+        else if (mask == PIC_UNMASK)
+                val = inb(port) & ~(1 << irq);
+        else
+                val = inb(port);
+
+        outb(port, val);
+}
