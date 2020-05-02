@@ -77,6 +77,4 @@ void kernel_main(size_t magic, size_t addr)
         for (;;) {
                 asm("hlt");
         }
-
-        printf("EXITING KERNEL\n");
 }
