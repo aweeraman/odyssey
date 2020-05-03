@@ -20,7 +20,7 @@
 
 #include <stdint.h>
 
-#define MAX_READLINE_LENGTH 80
+#define MAX_READLINE_LENGTH 78
 #define READLINE_READY      0
 #define READLINE_BLOCKED    1
 

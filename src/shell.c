@@ -40,7 +40,9 @@ void start_interactive_shell()
                 printf("# ");
                 block_and_readline(line);
 
-                if (cmd("help", line) == 0) {
+                if  (cmd("", line) == 0) {
+                        // do nothing
+                } else if (cmd("help", line) == 0) {
                         printf ("%s\n", commands);
                 } else if (cmd("exit", line) == 0) {
                         break;
