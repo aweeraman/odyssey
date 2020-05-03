@@ -1,20 +1,4 @@
         .global load_idt
-        .global irq0
-        .global irq1
-        .global irq2
-        .global irq3
-        .global irq4
-        .global irq5
-        .global irq6
-        .global irq7
-        .global irq8
-        .global irq9
-        .global irq10
-        .global irq11
-        .global irq12
-        .global irq13
-        .global irq14
-        .global irq15
 
 load_idt:
         movl 4(%esp), %edx
@@ -22,98 +6,29 @@ load_idt:
         sti
         ret
 
-irq0:
-        pusha
-        call irq0_handler
-        popa
-        iret
+.macro irq_handler num
+        .global irq\num
 
-irq1:
+irq\num\() :
         pusha
-        call irq1_handler
+        call irq\num\()_handler
         popa
         iret
+.endm
 
-irq2:
-        pusha
-        call irq2_handler
-        popa
-        iret
-
-irq3:
-        pusha
-        call irq3_handler
-        popa
-        iret
-
-irq4:
-        pusha
-        call irq4_handler
-        popa
-        iret
-
-irq5:
-        pusha
-        call irq5_handler
-        popa
-        iret
-
-irq6:
-        pusha
-        call irq6_handler
-        popa
-        iret
-
-irq7:
-        pusha
-        call irq7_handler
-        popa
-        iret
-
-irq8:
-        pusha
-        call irq8_handler
-        popa
-        iret
-
-irq9:
-        pusha
-        call irq9_handler
-        popa
-        iret
-
-irq10:
-        pusha
-        call irq10_handler
-        popa
-        iret
-
-irq11:
-        pusha
-        call irq11_handler
-        popa
-        iret
-
-irq12:
-        pusha
-        call irq12_handler
-        popa
-        iret
-
-irq13:
-        pusha
-        call irq13_handler
-        popa
-        iret
-
-irq14:
-        pusha
-        call irq14_handler
-        popa
-        iret
-
-irq15:
-        pusha
-        call irq15_handler
-        popa
-        iret
+irq_handler 0
+irq_handler 1
+irq_handler 2
+irq_handler 3
+irq_handler 4
+irq_handler 5
+irq_handler 6
+irq_handler 7
+irq_handler 8
+irq_handler 9
+irq_handler 10
+irq_handler 11
+irq_handler 12
+irq_handler 13
+irq_handler 14
+irq_handler 15
