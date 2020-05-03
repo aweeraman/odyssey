@@ -14,7 +14,7 @@
 - [X] Build-time customization of features
 - [X] Segmentation
 - [X] Interrupt handling
-- [ ] Keyboard support
+- [X] Keyboard support
 - [ ] Timers
 - [ ] Memory manager
 - [ ] Paging
