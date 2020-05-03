@@ -72,10 +72,11 @@ unsigned const char kbdus[128] =
     0,	/* All other keys are undefined */
 };
 
-void kbd_interrupt() {
+void kbd_interrupt()
+{
         unsigned char scancode;
 
-        scancode = inb(0x60);
+        scancode = inb(KBD_DATA_PORT);
         if (!(scancode & 0x80)) {
                 char last_char = kbdus[scancode];
                 if (line_status == READLINE_BLOCKED) {
@@ -99,7 +100,8 @@ void kbd_interrupt() {
         }
 }
 
-uint8_t block_and_readline(char *line) {
+uint8_t block_and_readline(char *line)
+{
         if (line_status == READLINE_BLOCKED)
                 return EINUSE;
 
@@ -109,4 +111,19 @@ uint8_t block_and_readline(char *line) {
 
         strncpy(line, linebuf, MAX_READLINE_LENGTH);
         return strnlen(line, MAX_READLINE_LENGTH);
+}
+
+void keyboard_init()
+{
+        // Flush keyboard buffer
+        while (inb(KBD_CMD_PORT) & 1)
+                inb(KBD_DATA_PORT);
+
+        // Activate keyboard
+        outb(KBD_CMD_PORT, 0xae);
+        io_wait();
+
+        // Enable keyboard scanning
+        outb(KBD_DATA_PORT, 0xf4);
+        io_wait();
 }

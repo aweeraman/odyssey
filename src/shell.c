@@ -23,7 +23,8 @@ char line[MAX_READLINE_LENGTH];
 
 const char* commands = "Available commands: help, exit";
 
-static int cmd(const char *cmd, char *input) {
+static int cmd(const char *cmd, char *input)
+{
         if (strncmp (cmd, input, MAX_READLINE_LENGTH) == 0)
                 return 0;
 

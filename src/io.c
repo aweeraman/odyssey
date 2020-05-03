@@ -33,6 +33,12 @@ unsigned char inb(uint16_t port)
         return ret;
 }
 
+void io_wait()
+{
+        // TODO: replace with a timer
+        for (uint32_t i = 0; i < 10000000; i++);
+}
+
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 {
         outb(VGA_IDX_PORT, 0x0A);

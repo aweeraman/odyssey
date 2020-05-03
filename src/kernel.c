@@ -64,6 +64,10 @@ void kernel_main(size_t magic, size_t addr)
         pic_init();
         idt_init();
 
+#ifdef CONFIG_DRV_KEYBOARD
+        keyboard_init();
+#endif
+
         read_multiboot_header_tags(magic, addr);
 
 #if defined CONFIG_MM && CONFIG_MM == flat

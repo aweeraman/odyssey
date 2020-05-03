@@ -26,6 +26,10 @@
 
 #define EINUSE              -1
 
+#define KBD_DATA_PORT       0x60
+#define KBD_CMD_PORT        0x64
+
+void keyboard_init();
 void kbd_interrupt();
 uint8_t block_and_readline(char *line);
 
