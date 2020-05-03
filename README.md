@@ -13,7 +13,7 @@
 - [X] RGB framebuffer
 - [X] Build-time customization of features
 - [X] Segmentation
-- [ ] Interrupt handling
+- [X] Interrupt handling
 - [ ] Keyboard support
 - [ ] Timers
 - [ ] Memory manager
