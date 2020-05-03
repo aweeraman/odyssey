@@ -176,6 +176,35 @@ static int strncpy_1()
         return ret;
 }
 
+static int strncmp_1()
+{
+        int ret = 0;
+        char *str1 = "123";
+        char *str2 = "123";
+        char *str3 = "124";
+        char *str4 = "123456";
+        char *str5 = "123457";
+
+        if (strncmp(str1, str2, 5) != 0) {
+                fail(__FUNCTION__, "strings are not identical");
+                ret = 1;
+        }
+        if (strncmp(str1, str3, 5) >= 0) {
+                fail(__FUNCTION__, "str1 should be lesser");
+                ret = 2;
+        }
+        if (strncmp(str3, str1, 5) <= 0) {
+                fail(__FUNCTION__, "str3 should be greater");
+                ret = 3;
+        }
+        if (strncmp(str4, str5, 5) != 0) {
+                fail(__FUNCTION__, "out of bounds strings are not identical");
+                ret = 4;
+        }
+
+        return ret;
+}
+
 static int multiboot2_magic_1()
 {
         int ret = 0;
@@ -208,6 +237,7 @@ void run_tests()
 
         run(strnlen_1);
         run(strncpy_1);
+        run(strncmp_1);
         run(memset_1);
         run(memcpy_1);
 

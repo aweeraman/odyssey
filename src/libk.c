@@ -87,6 +87,24 @@ char* strncpy(char * restrict dest, const char * restrict src, size_t n)
         return dest;
 }
 
+int strncmp(const char *s1, const char *s2, size_t n)
+{
+        for (size_t i = 0; i < n; i++) {
+                if (s1[i] == '\0' && s2[i] == '\0') {
+                        return 0;
+                } else {
+                        if (s1[i] != s2[i]) {
+                                if (s1[i] < s2[i])
+                                        return -1;
+                                else
+                                        return 1;
+                        }
+                }
+        }
+
+        return 0;
+}
+
 void printf(const char *fmt, ...)
 {
         int           i;
