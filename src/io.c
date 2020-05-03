@@ -20,6 +20,9 @@
  */
 
 #include "io.h"
+#include "timer.h"
+
+extern uint32_t ticks;
 
 void outb(uint16_t port, uint8_t val)
 {
@@ -35,8 +38,8 @@ unsigned char inb(uint16_t port)
 
 void io_wait()
 {
-        // TODO: replace with a timer
-        for (uint32_t i = 0; i < 10000000; i++);
+        uint32_t end = ticks + 2;
+        while (ticks < end);
 }
 
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)

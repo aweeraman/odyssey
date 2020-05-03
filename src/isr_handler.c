@@ -20,12 +20,14 @@
 #include "libk.h"
 #include "pic.h"
 #include "keyboard.h"
+#include "timer.h"
 
 /*
  * Progammable Interrupt Timer
  */
 void irq0_handler()
 {
+        tick();
         pic_eoi(0);
 }
 
