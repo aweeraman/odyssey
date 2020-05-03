@@ -21,6 +21,10 @@
 #include "io.h"
 #include "libk.h"
 
+static char    linebuf[MAX_READLINE_LENGTH];
+static int     line_counter = 0;
+static uint8_t line_status  = READLINE_READY;
+
 /* KBDUS means US Keyboard Layout. This is a scancode table
 *  used to layout a standard US keyboard. I have left some
 *  comments in to give you an idea of what key is what, even
@@ -73,6 +77,35 @@ void kbd_interrupt() {
 
         scancode = inb(0x60);
         if (!(scancode & 0x80)) {
-                putchar(kbdus[scancode]);
+                char last_char = kbdus[scancode];
+                if (line_status == READLINE_BLOCKED) {
+                        if (line_counter < MAX_READLINE_LENGTH-1) {
+                                linebuf[line_counter] = last_char;
+                                putchar(last_char);
+                                line_counter = line_counter + 1;
+                                if (last_char == '\n') {
+                                        linebuf[line_counter] = '\0';
+                                        line_counter = 0;
+                                        line_status  = READLINE_READY;
+                                }
+                        } else {
+                                putchar('\n');
+                                linebuf[line_counter] = '\0';
+                                line_counter = 0;
+                                line_status  = READLINE_READY;
+                        }
+                }
         }
+}
+
+uint8_t block_and_readline(char *line) {
+        if (line_status == READLINE_BLOCKED)
+                return EINUSE;
+
+        line_status = READLINE_BLOCKED;
+        while (line_status == READLINE_BLOCKED)
+                asm("hlt");
+
+        strncpy(line, linebuf, MAX_READLINE_LENGTH);
+        return strnlen(line, MAX_READLINE_LENGTH);
 }

@@ -25,6 +25,7 @@
 #include "gdt.h"
 #include "pic.h"
 #include "idt.h"
+#include "shell.h"
 
 #ifdef CONFIG_TEST
 #include "test.h"
@@ -57,7 +58,6 @@ void kernel_main(size_t magic, size_t addr)
         printf("Initialized serial at %s\n", STRINGIFY(CONFIG_SERIAL));
 #endif
 
-        printf("Minos version %s\n", CONFIG_VERSION);
         printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
 
         gdt_init();
@@ -74,7 +74,5 @@ void kernel_main(size_t magic, size_t addr)
         run_tests();
 #endif
 
-        for (;;) {
-                asm("hlt");
-        }
+        start_interactive_shell();
 }

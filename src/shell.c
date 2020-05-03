@@ -15,18 +15,24 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#include "shell.h"
+#include "keyboard.h"
 
-#include <stdint.h>
+char line[MAX_READLINE_LENGTH];
 
-#define MAX_READLINE_LENGTH 80
-#define READLINE_READY      0
-#define READLINE_BLOCKED    1
+void start_interactive_shell()
+{
+        printf("\nMinos version %s\n", CONFIG_VERSION);
 
-#define EINUSE              -1
-
-void kbd_interrupt();
-uint8_t block_and_readline(char *line);
-
+#if CONFIG_DRV_KEYBOARD
+        for (;;) {
+                printf("# ");
+                block_and_readline(line);
+        }
+#else
+        printf("Enable keyboard driver for interactive shell\n");
+        for (;;) {
+                asm("hlt");
+        }
 #endif
+}

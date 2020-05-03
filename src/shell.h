@@ -15,18 +15,12 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
-#ifndef KEYBOARD_H
-#define KEYBOARD_H
+#ifndef SHELL_H
+#define SHELL_H
 
-#include <stdint.h>
+#include "kernel.h"
+#include "libk.h"
 
-#define MAX_READLINE_LENGTH 80
-#define READLINE_READY      0
-#define READLINE_BLOCKED    1
-
-#define EINUSE              -1
-
-void kbd_interrupt();
-uint8_t block_and_readline(char *line);
+void start_interactive_shell();
 
 #endif
