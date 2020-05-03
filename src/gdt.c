@@ -46,7 +46,7 @@ void gdt_init()
         gdt_entry(2, 0, 0xFFFFFFFF, 0x92, 0xC); /* kernel data segment */
 
         gdt.size   = sizeof(gdt_entries);
-        gdt.offset = gdt_entries;
+        gdt.offset = (uint32_t) &gdt_entries;
 
         load_gdt((uint32_t) (&gdt));
 }

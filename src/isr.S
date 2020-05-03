@@ -16,8 +16,6 @@
         .global irq14
         .global irq15
 
-        .extern irq0_handler
-
 load_idt:
         movl 4(%esp), %edx
         lidt (%edx)

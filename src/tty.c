@@ -152,8 +152,8 @@ void init_console()
         clear_screen();
 
         //Setup scalable font library
-        ssfn_font = &_binary_unifont_sfn_start;
-        ssfn_dst_ptr = framebuffer->common.framebuffer_addr;
+        ssfn_font = (ssfn_font_t *) &_binary_unifont_sfn_start;
+        ssfn_dst_ptr = (uint8_t *) framebuffer->common.framebuffer_addr;
         ssfn_dst_pitch = framebuffer->common.framebuffer_pitch;
         ssfn_fg = 0xFFFF;
         ssfn_x = 0;

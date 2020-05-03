@@ -35,6 +35,10 @@
 #include "flatmm.h"
 #endif
 
+#ifdef CONFIG_DRV_KEYBOARD
+#include "keyboard.h"
+#endif
+
 extern uintptr_t kernel_begin;
 extern uintptr_t kernel_end;
 

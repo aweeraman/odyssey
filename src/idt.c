@@ -34,7 +34,7 @@ static void idt_entry(int idx, uint32_t offset)
 
 void idt_init()
 {
-        printf("Initializing Interrupts Vector Table\n");
+        printf("Initializing interrupt vector table\n");
         idt_entry(32, (uint32_t) irq0);
         idt_entry(33, (uint32_t) irq1);
         idt_entry(34, (uint32_t) irq2);
