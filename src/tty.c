@@ -142,7 +142,7 @@ void init_console()
 {
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-        fb = (size_t *) framebuffer->common.framebuffer_addr;
+        fb = (size_t *) (size_t) framebuffer->common.framebuffer_addr;
 
         fb_height = framebuffer->common.framebuffer_height;
         fb_width  = framebuffer->common.framebuffer_width;
@@ -153,7 +153,7 @@ void init_console()
 
         //Setup scalable font library
         ssfn_font = (ssfn_font_t *) &_binary_unifont_sfn_start;
-        ssfn_dst_ptr = (uint8_t *) framebuffer->common.framebuffer_addr;
+        ssfn_dst_ptr = (uint8_t *) (size_t) framebuffer->common.framebuffer_addr;
         ssfn_dst_pitch = framebuffer->common.framebuffer_pitch;
         ssfn_fg = 0xFFFF;
         ssfn_x = 0;
@@ -163,7 +163,7 @@ void init_console()
                         framebuffer->common.framebuffer_addr);
 #endif
         } else if (FB_EGA) {
-                matrix = (cell *) framebuffer->common.framebuffer_addr;
+                matrix = (cell *) (size_t) framebuffer->common.framebuffer_addr;
                 rows = framebuffer->common.framebuffer_height;
                 cols = framebuffer->common.framebuffer_width;
                 clear_screen();
