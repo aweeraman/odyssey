@@ -18,7 +18,7 @@
 #include "timer.h"
 #include "libk.h"
 
-uint32_t ticks = 0;
+uint32_t volatile ticks = 0;
 
 void tick()
 {
