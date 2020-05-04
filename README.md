@@ -46,7 +46,7 @@ Install additional dependencies required for building and running minos
 in qemu:
 
 ```
-$ sudo apt-get install grub-common mtools qemu-system-x86 ovmf exuberant-ctags
+$ sudo apt-get install grub-common mtools qemu-system-gui qemu-system-x86 ovmf exuberant-ctags
 ```
 
 Optionally, if you wish to use clang, you can install it and configure
