@@ -40,6 +40,41 @@ static size_t fb_height;
 static size_t fb_width;
 struct multiboot_tag_framebuffer *framebuffer;
 
+void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
+{
+        outb(VGA_IDX_PORT, 0x0A);
+        outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xC0) | cursor_start);
+
+        outb(VGA_IDX_PORT, 0x0B);
+        outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xE0) | cursor_end);
+}
+
+void disable_cursor()
+{
+        outb(VGA_IDX_PORT, 0x0A);
+        outb(VGA_DATA_PORT, 0x20);
+}
+
+void update_cursor(uint8_t x, uint8_t width, uint8_t y)
+{
+        uint16_t pos = (x * width) + y;
+
+        outb(VGA_IDX_PORT, 0x0F);
+        outb(VGA_DATA_PORT, (uint8_t) (pos & 0xFF));
+        outb(VGA_IDX_PORT, 0x0E);
+        outb(VGA_DATA_PORT, (uint8_t) ((pos >> 8) & 0xFF));
+}
+
+uint16_t get_cursor_position(void)
+{
+        uint16_t pos = 0;
+        outb(VGA_IDX_PORT, 0x0F);
+        pos |= inb(VGA_DATA_PORT);
+        outb(VGA_IDX_PORT, 0x0E);
+        pos |= ((uint16_t) inb(VGA_DATA_PORT)) << 8;
+        return pos;
+}
+
 static void scroll()
 {
         if (FB_RGB) {
