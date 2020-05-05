@@ -18,10 +18,10 @@ uint32_t get_loops_per_tick()
         uint32_t start_tick = ticks;
 
         for (loops = 0; start_tick == ticks; loops++);
-        start_tick = ticks;
 
-        for (loops = 0; start_tick == ticks; loops++);
+        // Do it again, this one is more accurate
         start_tick = ticks;
+        for (loops = 0; start_tick == ticks; loops++);
 
         return (loops_per_tick = loops);
 }
