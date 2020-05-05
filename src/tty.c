@@ -61,6 +61,31 @@ void disable_cursor()
         }
 }
 
+static void scroll()
+{
+        if (FB_RGB) {
+                for (size_t i = 0; i < fb_height-16; i++) {
+                        for (size_t j = 0; j < fb_width; j++) {
+                                fb[(i*fb_width) + j] = fb[((i+16) * fb_width) + j];
+                        }
+                }
+                for (size_t i = fb_height-16; i < fb_height; i++) {
+                        for (size_t j = 0; j < fb_width; j++) {
+                                fb[(i*fb_width) + j] = 0;
+                        }
+                }
+        } else if (FB_EGA) {
+                for (size_t i = 0; i < (rows - 1); i++) {
+                        for (size_t j = 0; j < cols; j++) {
+                                matrix[(i*cols) + j].ch    = matrix[(i+1)*cols + j].ch;
+                                matrix[(i*cols) + j].clr   = matrix[(i+1)*cols + j].clr;
+                                matrix[(i+1)*cols + j].ch  = 0;
+                                matrix[(i+1)*cols + j].clr = 0;
+                        }
+                }
+        }
+}
+
 void blink_cursor()
 {
         update_cursor(cur_x, cols, cur_y);
@@ -99,31 +124,6 @@ uint16_t get_cursor_position(void)
         }
 
         return pos;
-}
-
-static void scroll()
-{
-        if (FB_RGB) {
-                for (size_t i = 0; i < fb_height-16; i++) {
-                        for (size_t j = 0; j < fb_width; j++) {
-                                fb[(i*fb_width) + j] = fb[((i+16) * fb_width) + j];
-                        }
-                }
-                for (size_t i = fb_height-16; i < fb_height; i++) {
-                        for (size_t j = 0; j < fb_width; j++) {
-                                fb[(i*fb_width) + j] = 0;
-                        }
-                }
-        } else if (FB_EGA) {
-                for (size_t i = 0; i < (rows - 1); i++) {
-                        for (size_t j = 0; j < cols; j++) {
-                                matrix[(i*cols) + j].ch    = matrix[(i+1)*cols + j].ch;
-                                matrix[(i*cols) + j].clr   = matrix[(i+1)*cols + j].clr;
-                                matrix[(i+1)*cols + j].ch  = 0;
-                                matrix[(i+1)*cols + j].clr = 0;
-                        }
-                }
-        }
 }
 
 void printc(uint8_t ch)
@@ -178,6 +178,16 @@ void printc(uint8_t ch)
                 ssfn_putc(ch);
 
                 cur_y++;
+
+                if (cur_y >= cols) {
+                        cur_x++;
+                        cur_y = 0;
+                }
+                if (cur_x >= rows) {
+                        scroll();
+                        cur_x = rows-1;
+                        cur_y = 0;
+                }
         } else if (FB_EGA) {
                 matrix[(cur_x*cols) + cur_y++] = (cell) {
                         .ch = ch,
