@@ -56,8 +56,6 @@ void kernel_main(size_t magic, size_t addr)
         pic_init();
         idt_init();
 
-        printf("Loops per tick: %d\n", get_loops_per_tick());
-
 #ifdef CONFIG_DRV_KEYBOARD
         keyboard_init();
 #endif
@@ -67,6 +65,8 @@ void kernel_main(size_t magic, size_t addr)
 #if defined CONFIG_MM && CONFIG_MM == flat
         init_flatmm();
 #endif
+
+        printf("Loops per tick: %d\n", get_loops_per_tick());
 
 #ifdef CONFIG_TEST
         run_tests();
