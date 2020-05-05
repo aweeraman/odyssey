@@ -26,6 +26,7 @@
 #include "pic.h"
 #include "idt.h"
 #include "shell.h"
+#include "timer.h"
 
 #ifdef CONFIG_TEST
 #include "test.h"
@@ -41,6 +42,8 @@
 
 extern uintptr_t kernel_begin;
 extern uintptr_t kernel_end;
+
+extern void blink_cursor();
 
 struct boot_device        *boot_dev;
 struct acpi_descriptor_v1 *acpi_v1;
@@ -81,6 +84,8 @@ void kernel_main(size_t magic, size_t addr)
 #ifdef CONFIG_TEST
         run_tests();
 #endif
+
+        register_n_ticks_timer(5, blink_cursor);
 
         start_interactive_shell();
 }

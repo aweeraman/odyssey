@@ -24,8 +24,6 @@
 #define READLINE_READY      0
 #define READLINE_BLOCKED    1
 
-#define EINUSE              -1
-
 #define KBD_DATA_PORT       0x60
 #define KBD_CMD_PORT        0x64
 

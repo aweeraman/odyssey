@@ -15,21 +15,12 @@
  * Copyright 2020, Anuradha Weeraman
  */
 
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef ERROR_H
+#define ERROR_H
 
-#include <stdint.h>
-#include <stddef.h>
-#include "error.h"
-
-#define MAX_N_TICKS_TIMERS 5
-
-typedef struct n_ticks_timer {
-        int n_ticks;
-        void (*callback)();
-} n_ticks_timer_t;
-
-void tick();
-int  register_n_ticks_timer(int n_ticks, void (*timer_callback)());
+#define SUCCESS    1
+#define EINUSE    -1
+#define EMAXLIMIT -2
+#define ENULLPTR  -3
 
 #endif

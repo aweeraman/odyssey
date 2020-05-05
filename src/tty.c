@@ -16,6 +16,7 @@
  */
 
 #include "tty.h"
+#include "timer.h"
 
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
