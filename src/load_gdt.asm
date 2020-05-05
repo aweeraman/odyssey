@@ -1,8 +1,5 @@
-;**
+; SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
 ; SPDX-License-Identifier: GPL-3.0-or-later
-;
-; Copyright 2020, Anuradha Weeraman
-;
 
 %define KERNEL_CODE_SEGMENT 0x08
 %define KERNEL_DATA_SEGMENT 0x10

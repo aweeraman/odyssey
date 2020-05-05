@@ -1,10 +1,6 @@
 /**
+ * SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
  * SPDX-License-Identifier: GPL-3.0-or-later
- *
- * Copyright 2020, Anuradha Weeraman
- *
- * This program includes code that is Copyright (C) 1999, 2010 Free
- * Software Foundation, Inc.
  */
 
 #include "kernel.h"

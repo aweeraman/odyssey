@@ -1,11 +1,9 @@
 /**
+ * SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
  * SPDX-License-Identifier: GPL-3.0-or-later
  *
- * Copyright 2020, Anuradha Weeraman
- *
  * C++ version 0.4 char* style "itoa", Copyright Lukás Chmela
- * Released under GPLv3.
- * http://www.strudel.org.uk/itoa/
+ * Released under GPLv3. http://www.strudel.org.uk/itoa/
  */
 
 #include "libk.h"

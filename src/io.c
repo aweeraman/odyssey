@@ -1,11 +1,6 @@
 /**
+ * SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
  * SPDX-License-Identifier: GPL-3.0-or-later
- *
- * Copyright 2020, Anuradha Weeraman
- *
- * Inline Assembly: https://wiki.osdev.org/Inline_Assembly
- * Text Mode Cursor Reference: https://wiki.osdev.org/Text_Mode_Cursor
- * VGA Hardware: https://wiki.osdev.org/VGA_Hardware
  */
 
 #include "io.h"
