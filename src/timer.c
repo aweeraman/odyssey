@@ -17,10 +17,15 @@
 
 #include "timer.h"
 #include "libk.h"
+#include "tty.h"
 
 uint32_t volatile ticks = 0;
 
 void tick()
 {
         ticks++;
+
+        // TODO use a timer
+        if (ticks % 5 == 0)
+                blink_cursor();
 }

@@ -29,6 +29,8 @@
 extern char _binary_unifont_sfn_start;
 #endif
 
+static uint32_t counter = 0;
+
 static cell *matrix = NULL;
 static size_t rows  = 0;
 static size_t cols  = 0;
@@ -59,14 +61,23 @@ void disable_cursor()
         }
 }
 
+void blink_cursor()
+{
+        update_cursor(cur_x, cols, cur_y);
+}
+
 void update_cursor(uint8_t x, uint8_t width, uint8_t y)
 {
         uint16_t pos = (x * width) + y;
+        counter++;
 
         if (FB_RGB) {
-                ssfn_y  = cur_x*16;
-                ssfn_x  = cur_y*8;
-                ssfn_fg = RGB_FG;
+                ssfn_y  = x*16;
+                ssfn_x  = y*8;
+                if (counter % 2 == 0)
+                        ssfn_fg = RGB_FG;
+                else
+                        ssfn_fg = RGB_BLACK;
                 ssfn_putc(UNICODE_CURSOR);
         } else if (FB_EGA) {
                 outb(VGA_IDX_PORT, 0x0F);
