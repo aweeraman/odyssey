@@ -44,6 +44,13 @@
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
 
+#define RGB_BLACK         0
+#define RGB_WHITE         0xffffffff
+#define RGB_CYAN          0x0000ffff
+#define RGB_FG            RGB_CYAN
+
+#define UNICODE_CURSOR    0x2588
+
 #define FB_RGB (framebuffer->common.framebuffer_type \
 		== MULTIBOOT_FRAMEBUFFER_TYPE_RGB)
 #define FB_EGA (framebuffer->common.framebuffer_type \

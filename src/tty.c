@@ -42,36 +42,51 @@ struct multiboot_tag_framebuffer *framebuffer;
 
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 {
-        outb(VGA_IDX_PORT, 0x0A);
-        outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xC0) | cursor_start);
+        if (FB_EGA) {
+                outb(VGA_IDX_PORT, 0x0A);
+                outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xC0) | cursor_start);
 
-        outb(VGA_IDX_PORT, 0x0B);
-        outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xE0) | cursor_end);
+                outb(VGA_IDX_PORT, 0x0B);
+                outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xE0) | cursor_end);
+        }
 }
 
 void disable_cursor()
 {
-        outb(VGA_IDX_PORT, 0x0A);
-        outb(VGA_DATA_PORT, 0x20);
+        if (FB_EGA) {
+                outb(VGA_IDX_PORT, 0x0A);
+                outb(VGA_DATA_PORT, 0x20);
+        }
 }
 
 void update_cursor(uint8_t x, uint8_t width, uint8_t y)
 {
         uint16_t pos = (x * width) + y;
 
-        outb(VGA_IDX_PORT, 0x0F);
-        outb(VGA_DATA_PORT, (uint8_t) (pos & 0xFF));
-        outb(VGA_IDX_PORT, 0x0E);
-        outb(VGA_DATA_PORT, (uint8_t) ((pos >> 8) & 0xFF));
+        if (FB_RGB) {
+                ssfn_y  = cur_x*16;
+                ssfn_x  = cur_y*8;
+                ssfn_fg = RGB_FG;
+                ssfn_putc(UNICODE_CURSOR);
+        } else if (FB_EGA) {
+                outb(VGA_IDX_PORT, 0x0F);
+                outb(VGA_DATA_PORT, (uint8_t) (pos & 0xFF));
+                outb(VGA_IDX_PORT, 0x0E);
+                outb(VGA_DATA_PORT, (uint8_t) ((pos >> 8) & 0xFF));
+        }
 }
 
 uint16_t get_cursor_position(void)
 {
         uint16_t pos = 0;
-        outb(VGA_IDX_PORT, 0x0F);
-        pos |= inb(VGA_DATA_PORT);
-        outb(VGA_IDX_PORT, 0x0E);
-        pos |= ((uint16_t) inb(VGA_DATA_PORT)) << 8;
+
+        if (FB_EGA) {
+                outb(VGA_IDX_PORT, 0x0F);
+                pos |= inb(VGA_DATA_PORT);
+                outb(VGA_IDX_PORT, 0x0E);
+                pos |= ((uint16_t) inb(VGA_DATA_PORT)) << 8;
+        }
+
         return pos;
 }
 
@@ -102,6 +117,9 @@ static void scroll()
 
 void printc(uint8_t ch)
 {
+        uint32_t ssfn_old_adv_x;
+        uint32_t ssfn_old_adv_y;
+
         if (cur_y >= cols) {
                 cur_x++;
                 cur_y = 0;
@@ -112,6 +130,12 @@ void printc(uint8_t ch)
                 cur_y = 0;
         }
         if (ch == '\n' || ch == '\r') {
+                if (FB_RGB) {
+                        ssfn_y = cur_x*16;
+                        ssfn_x = cur_y*8;
+                        ssfn_fg = RGB_BLACK;
+                        ssfn_putc(UNICODE_CURSOR);
+                }
                 cur_x++;
                 cur_y = 0;
                 if (cur_x >= rows) {
@@ -134,8 +158,15 @@ void printc(uint8_t ch)
         if (FB_RGB) {
                 ssfn_y = cur_x*16;
                 ssfn_x = cur_y*8;
-                cur_y++;
+                ssfn_fg = RGB_BLACK;
+                ssfn_putc(UNICODE_CURSOR);
+
+                ssfn_y = cur_x*16;
+                ssfn_x = cur_y*8;
+                ssfn_fg = RGB_FG;
                 ssfn_putc(ch);
+
+                cur_y++;
         } else if (FB_EGA) {
                 matrix[(cur_x*cols) + cur_y++] = (cell) {
                         .ch = ch,
@@ -190,7 +221,7 @@ void init_console()
         ssfn_font = (ssfn_font_t *) &_binary_unifont_sfn_start;
         ssfn_dst_ptr = (uint8_t *) (size_t) framebuffer->common.framebuffer_addr;
         ssfn_dst_pitch = framebuffer->common.framebuffer_pitch;
-        ssfn_fg = 0xFFFF;
+        ssfn_fg = 0xFFFFFFFFF;
         ssfn_x = 0;
         ssfn_y = 0;
 
