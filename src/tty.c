@@ -128,9 +128,6 @@ uint16_t get_cursor_position(void)
 
 void printc(uint8_t ch)
 {
-        uint32_t ssfn_old_adv_x;
-        uint32_t ssfn_old_adv_y;
-
         if (cur_y >= cols) {
                 cur_x++;
                 cur_y = 0;
@@ -209,6 +206,26 @@ static void draw_pixel(int x, int y, int color)
         fb[x * fb_width + y ] = color;
 }
 
+void backspace()
+{
+        if (FB_RGB) {
+                if (cur_y > 0) {
+                        cur_y--;
+                        ssfn_y = cur_x*16;
+                        ssfn_x = cur_y*8;
+                        ssfn_fg = RGB_WHITE;
+                        ssfn_putc(UNICODE_CURSOR);
+                }
+                update_cursor(cur_x, cols, cur_y);
+        } else if (FB_EGA) {
+                if (cur_y > 0) {
+                        cur_y--;
+                        matrix[cur_x * cur_y].ch = 0;
+                        matrix[cur_x * cur_y].clr = 0;
+                }
+        }
+}
+
 void clear_screen(void)
 {
         if (FB_RGB) {
@@ -242,7 +259,7 @@ void init_console()
         ssfn_font = (ssfn_font_t *) &_binary_unifont_sfn_start;
         ssfn_dst_ptr = (uint8_t *) (size_t) framebuffer->common.framebuffer_addr;
         ssfn_dst_pitch = framebuffer->common.framebuffer_pitch;
-        ssfn_fg = 0xFFFFFFFFF;
+        ssfn_fg = 0xFFFFFFFF;
         ssfn_x = 0;
         ssfn_y = 0;
 

@@ -81,13 +81,15 @@ void kbd_interrupt()
                 char last_char = kbdus[scancode];
                 if (line_status == READLINE_BLOCKED) {
                         if (line_counter < MAX_READLINE_LENGTH-1) {
-                                if (last_char == '\n') {
+                                if (last_char == '\b') {
+                                        linebuf[line_counter--] = '\0';
+                                        backspace();
+                                } else if (last_char == '\n') {
                                         linebuf[line_counter] = '\0';
                                         line_counter = 0;
                                         line_status  = READLINE_READY;
                                 } else {
-                                        linebuf[line_counter] = last_char;
-                                        line_counter = line_counter + 1;
+                                        linebuf[line_counter++] = last_char;
                                 }
                                 putchar(last_char);
                         } else {

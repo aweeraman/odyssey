@@ -68,6 +68,7 @@ void     blink_cursor();
 void     update_cursor(uint8_t x, uint8_t width, uint8_t y);
 uint16_t get_cursor_position(void);
 void     printc(uint8_t ch);
+void     backspace();
 void     clear_screen(void);
 
 #endif
