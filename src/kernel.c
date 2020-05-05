@@ -85,7 +85,9 @@ void kernel_main(size_t magic, size_t addr)
         run_tests();
 #endif
 
+#if CONFIG_FRAMEBUFFER_RGB
         register_n_ticks_timer(5, blink_cursor);
+#endif
 
         start_interactive_shell();
 }
