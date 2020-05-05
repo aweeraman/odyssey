@@ -7,9 +7,24 @@
 #include "libk.h"
 #include "tty.h"
 
-uint32_t volatile ticks  = 0;
-static int n_ticks_timer_idx = 0;
+uint32_t volatile ticks        = 0;
+static uint32_t loops_per_tick = 0;
+static int n_ticks_timer_idx   = 0;
 static n_ticks_timer_t n_ticks_timers[MAX_N_TICKS_TIMERS];
+
+uint32_t get_loops_per_tick()
+{
+        uint32_t loops = 0;
+        uint32_t start_tick = ticks;
+
+        for (loops = 0; start_tick == ticks; loops++);
+        start_tick = ticks;
+
+        for (loops = 0; start_tick == ticks; loops++);
+        start_tick = ticks;
+
+        return (loops_per_tick = loops);
+}
 
 void tick()
 {

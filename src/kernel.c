@@ -56,6 +56,8 @@ void kernel_main(size_t magic, size_t addr)
         pic_init();
         idt_init();
 
+        printf("Loops per tick: %d\n", get_loops_per_tick());
+
 #ifdef CONFIG_DRV_KEYBOARD
         keyboard_init();
 #endif
