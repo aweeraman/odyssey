@@ -23,7 +23,7 @@ OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
 CFLAGS     += $(OPTS)
 
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
-              $(patsubst %.c, %.o, $(wildcard *.c)) font.o
+              $(patsubst %.c, %.o, $(wildcard *.c))
 BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/boot/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard x86/boot/*.c))
 MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
@@ -31,14 +31,14 @@ TEST       := $(patsubst %.c, %.o, $(wildcard test/*.c))
 X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/32/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard x86/32/*.c))
 CMD        := $(patsubst %.c, %.o, $(wildcard cmd/*.c))
-IO         := $(patsubst %.c, %.o, $(wildcard io/*.c))
+IO         := $(patsubst %.c, %.o, $(wildcard io/*.c)) font/font.o
 SYS        := $(patsubst %.c, %.o, $(wildcard sys/*.c))
 MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
 
 OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST) $(CMD) $(IO) $(SYS)
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
-OBJECTS    := $(filter-out test/test.o, $(OBJECTS))
+OBJECTS    := $(filter-out $(TEST), $(OBJECTS))
 endif
 
 ifneq (CONFIG_SERIAL,$(findstring CONFIG_SERIAL,$(OPTS)))
@@ -46,7 +46,7 @@ OBJECTS    := $(filter-out $(IO), $(OBJECTS))
 endif
 
 ifneq (CONFIG_FRAMEBUFFER_RGB,$(findstring CONFIG_FRAMEBUFFER_RGB,$(OPTS)))
-OBJECTS    := $(filter-out font.o, $(OBJECTS))
+OBJECTS    := $(filter-out font/font.o, $(OBJECTS))
 endif
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
@@ -59,8 +59,8 @@ ifeq (, $(shell which $(LD)))
 endif
 	$(LD) -o kernel $(OBJECTS) $(LDFLAGS)
 
-font.o:
-	$(OBJCOPY) -O elf32-i386 -B i386 -I binary unifont.sfn font.o
+font/font.o:
+	$(OBJCOPY) -O elf32-i386 -B i386 -I binary font/f.sfn font/font.o
 
 %.o: %.c
 ifeq (, $(shell which $(CC)))
