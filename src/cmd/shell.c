@@ -4,7 +4,7 @@
  */
 
 #include <cmd/shell.h>
-#include <keyboard.h>
+#include <io/keyboard.h>
 #include <lib/k.h>
 
 char line[MAX_READLINE_LENGTH];
