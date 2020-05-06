@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <timer.h>
+#include <sys/timer.h>
 #include <libk.h>
 #include <tty.h>
 

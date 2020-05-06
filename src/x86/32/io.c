@@ -4,7 +4,7 @@
  */
 
 #include <x86/io.h>
-#include <timer.h>
+#include <sys/timer.h>
 
 extern uint32_t ticks;
 

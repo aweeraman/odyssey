@@ -8,7 +8,7 @@
 #include <libk.h>
 #include <x86/32/pic.h>
 #include <keyboard.h>
-#include <timer.h>
+#include <sys/timer.h>
 
 /*
  * Progammable Interrupt Timer

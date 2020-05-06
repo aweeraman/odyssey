@@ -11,7 +11,7 @@
 #include <x86/32/pic.h>
 #include <x86/32/idt.h>
 #include <cmd/shell.h>
-#include <timer.h>
+#include <sys/timer.h>
 
 #ifdef CONFIG_TEST
 #include <test.h>
