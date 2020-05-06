@@ -6,7 +6,7 @@
 #include <kernel.h>
 #include <libk.h>
 #include <boot/boothdr.h>
-#include <memory.h>
+#include <mm/memory.h>
 #include <x86/32/gdt.h>
 #include <x86/32/pic.h>
 #include <x86/32/idt.h>

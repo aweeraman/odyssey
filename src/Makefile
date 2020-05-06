@@ -33,6 +33,7 @@ X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/32/*.$(ASM_EXT))) \
 CMD        := $(patsubst %.c, %.o, $(wildcard cmd/*.c))
 IO         := $(patsubst %.c, %.o, $(wildcard io/*.c))
 SYS        := $(patsubst %.c, %.o, $(wildcard sys/*.c))
+MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
 
 OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST) $(CMD) $(IO) $(SYS)
 

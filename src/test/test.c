@@ -5,7 +5,7 @@
 
 #include <test.h>
 #include <libk.h>
-#include <memory.h>
+#include <mm/memory.h>
 
 #if defined CONFIG_MM && CONFIG_MM == flat
 #include <mm/flatmm.h>
