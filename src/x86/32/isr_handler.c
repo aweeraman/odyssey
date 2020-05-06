@@ -4,9 +4,9 @@
  */
 
 #include <x86/32/isr.h>
-#include <io.h>
+#include <x86/io.h>
 #include <libk.h>
-#include <pic.h>
+#include <x86/32/pic.h>
 #include <keyboard.h>
 #include <timer.h>
 

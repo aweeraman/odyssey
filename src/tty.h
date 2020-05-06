@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include <serial.h>
-#include <io.h>
+#include <x86/io.h>
 #include <kernel.h>
 #include <boot/multiboot2.h>
 #include <libk.h>

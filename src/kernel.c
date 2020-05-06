@@ -8,7 +8,7 @@
 #include <boot/boothdr.h>
 #include <memory.h>
 #include <x86/32/gdt.h>
-#include <pic.h>
+#include <x86/32/pic.h>
 #include <x86/32/idt.h>
 #include <cmd/shell.h>
 #include <timer.h>

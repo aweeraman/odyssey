@@ -6,7 +6,7 @@
  */
 
 #include <keyboard.h>
-#include <io.h>
+#include <x86/io.h>
 #include <libk.h>
 #include <error.h>
 

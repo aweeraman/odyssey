@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <io.h>
+#include <x86/io.h>
 #include <timer.h>
 
 extern uint32_t ticks;
