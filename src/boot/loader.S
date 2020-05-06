@@ -4,7 +4,7 @@
  */
 
 #define ASM_FILE 1
-#include <multiboot2.h>
+#include <boot/multiboot2.h>
 
         .set STACK_SIZE,     CONFIG_STACK
         .set MB2_ARCH_FLAG,  0x0

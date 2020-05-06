@@ -12,7 +12,7 @@
 #include <serial.h>
 #include <io.h>
 #include <kernel.h>
-#include <multiboot2.h>
+#include <boot/multiboot2.h>
 #include <libk.h>
 
 #define CLR_BLACK         0

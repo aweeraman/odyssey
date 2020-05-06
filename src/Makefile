@@ -21,8 +21,11 @@ endif
 OPTS_LIST  := $(shell grep -v "^\#" ../config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
 CFLAGS     += $(OPTS)
+
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard *.c)) font.o
+BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard boot/*.$(ASM_EXT))) \
+              $(patsubst %.c, %.o, $(wildcard boot/*.c))
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS  := $(filter-out test.o, $(OBJECTS))
@@ -31,6 +34,9 @@ endif
 ifneq (CONFIG_FRAMEBUFFER_RGB,$(findstring CONFIG_FRAMEBUFFER_RGB,$(OPTS)))
 OBJECTS  := $(filter-out font.o, $(OBJECTS))
 endif
+
+OBJECTS  += $(BOOT)
+OBJDEPS  := $(patsubst %.o, %.d, $(OBJECTS))
 
 .PHONY: clean cov-configure tags
 
@@ -68,7 +74,7 @@ tags:
 	ctags -R .
 
 clean:
-	-rm -f $(OBJECTS) *.o *.d kernel
+	-rm -f $(OBJECTS) $(OBJDEPS) kernel
 
 cov-configure:
 ifeq (, $(shell which cov-configure))
