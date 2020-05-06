@@ -42,7 +42,7 @@ endif
 iso: all
 	mkdir -p iso/boot/grub/
 	cp config/grub.cfg iso/boot/grub/
-	cp src/kernel iso/boot/
+	cp src/minos iso/boot/
 	grub-mkrescue -o $(ISO) iso
 
 boot: iso $(CBROM)

@@ -11,7 +11,7 @@
 #include <stdarg.h>
 #include <io/serial.h>
 #include <x86/io.h>
-#include <kernel.h>
+#include <minos.h>
 #include <boot/multiboot2.h>
 #include <lib/k.h>
 

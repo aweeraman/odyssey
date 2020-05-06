@@ -31,7 +31,7 @@ TEST       := $(patsubst %.c, %.o, $(wildcard test/*.c))
 X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/32/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard x86/32/*.c))
 CMD        := $(patsubst %.c, %.o, $(wildcard cmd/*.c))
-IO         := $(patsubst %.c, %.o, $(wildcard io/*.c)) font/font.o
+IO         := $(patsubst %.c, %.o, $(wildcard io/*.c)) io/font.o
 SYS        := $(patsubst %.c, %.o, $(wildcard sys/*.c))
 MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
 LIB        := $(patsubst %.c, %.o, $(wildcard lib/*.c))
@@ -47,21 +47,21 @@ OBJECTS    := $(filter-out $(IO), $(OBJECTS))
 endif
 
 ifneq (CONFIG_FRAMEBUFFER_RGB,$(findstring CONFIG_FRAMEBUFFER_RGB,$(OPTS)))
-OBJECTS    := $(filter-out font/font.o, $(OBJECTS))
+OBJECTS    := $(filter-out io/font.o, $(OBJECTS))
 endif
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 .PHONY: clean cov-configure tags
 
-kernel: $(OBJECTS) tags
+minos: $(OBJECTS) tags
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
-	$(LD) -o kernel $(OBJECTS) $(LDFLAGS)
+	$(LD) -o minos $(OBJECTS) $(LDFLAGS)
 
-font/font.o:
-	$(OBJCOPY) -O elf32-i386 -B i386 -I binary font/f.sfn font/font.o
+io/font.o:
+	$(OBJCOPY) -O elf32-i386 -B i386 -I binary io/f.sfn io/font.o
 
 %.o: %.c
 ifeq (, $(shell which $(CC)))
@@ -88,7 +88,7 @@ tags:
 	ctags -R .
 
 clean:
-	-rm -f $(OBJECTS) $(OBJDEPS) kernel
+	-rm -f $(OBJECTS) $(OBJDEPS) minos
 
 distclean: clean
 	-rm -f tags

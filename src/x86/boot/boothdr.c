@@ -6,7 +6,7 @@
 #include <boot/boothdr.h>
 #include <mm/memory.h>
 #include <lib/k.h>
-#include <kernel.h>
+#include <minos.h>
 #include <io/tty.h>
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];
