@@ -7,7 +7,7 @@
 
 #include <keyboard.h>
 #include <x86/io.h>
-#include <libk.h>
+#include <lib/k.h>
 #include <error.h>
 
 static char    linebuf[MAX_READLINE_LENGTH];

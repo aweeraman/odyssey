@@ -7,7 +7,7 @@
 #define SHELL_H
 
 #include <kernel.h>
-#include <libk.h>
+#include <lib/k.h>
 
 void start_interactive_shell();
 

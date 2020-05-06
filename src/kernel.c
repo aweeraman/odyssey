@@ -4,7 +4,7 @@
  */
 
 #include <kernel.h>
-#include <libk.h>
+#include <lib/k.h>
 #include <boot/boothdr.h>
 #include <mm/memory.h>
 #include <x86/32/gdt.h>

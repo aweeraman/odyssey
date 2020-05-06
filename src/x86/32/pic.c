@@ -5,7 +5,7 @@
 
 #include <x86/32/pic.h>
 #include <x86/io.h>
-#include <libk.h>
+#include <lib/k.h>
 
 // IRQ greater than 7 EOI must be sent to both master and slave
 void pic_eoi(int irq)

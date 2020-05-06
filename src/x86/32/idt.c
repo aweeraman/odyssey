@@ -6,7 +6,7 @@
 #include <x86/32/idt.h>
 #include <x86/32/isr.h>
 #include <x86/32/pic.h>
-#include <libk.h>
+#include <lib/k.h>
 
 static idt_descriptor_t idt;
 static idt_entry_t idt_entries[256];

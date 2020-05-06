@@ -4,7 +4,7 @@
  */
 
 #include <mm/flatmm.h>
-#include <libk.h>
+#include <lib/k.h>
 
 static flat_mem_page_t *root_frame = (flat_mem_page_t *) MEM_START_ADDR;
 

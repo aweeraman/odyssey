@@ -5,7 +5,7 @@
 
 #include <boot/boothdr.h>
 #include <mm/memory.h>
-#include <libk.h>
+#include <lib/k.h>
 #include <kernel.h>
 #include <io/tty.h>
 

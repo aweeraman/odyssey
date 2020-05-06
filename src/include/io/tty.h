@@ -13,7 +13,7 @@
 #include <x86/io.h>
 #include <kernel.h>
 #include <boot/multiboot2.h>
-#include <libk.h>
+#include <lib/k.h>
 
 #define CLR_BLACK         0
 #define CLR_BLUE          1

@@ -5,6 +5,7 @@
 
 #include <io/tty.h>
 #include <sys/timer.h>
+#include <lib/k.h>
 
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR

@@ -4,7 +4,7 @@
  */
 
 #include <x86/32/gdt.h>
-#include <libk.h>
+#include <lib/k.h>
 
 gdt_descriptor_t gdt;
 gdt_entry_t      gdt_entries[GDT_ENTRIES];

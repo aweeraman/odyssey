@@ -34,8 +34,9 @@ CMD        := $(patsubst %.c, %.o, $(wildcard cmd/*.c))
 IO         := $(patsubst %.c, %.o, $(wildcard io/*.c)) font/font.o
 SYS        := $(patsubst %.c, %.o, $(wildcard sys/*.c))
 MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
+LIB        := $(patsubst %.c, %.o, $(wildcard lib/*.c))
 
-OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST) $(CMD) $(IO) $(SYS)
+OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST) $(CMD) $(IO) $(SYS) $(LIB)
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS    := $(filter-out $(TEST), $(OBJECTS))
@@ -88,6 +89,9 @@ tags:
 
 clean:
 	-rm -f $(OBJECTS) $(OBJDEPS) kernel
+
+distclean: clean
+	-rm -f tags
 
 cov-configure:
 ifeq (, $(shell which cov-configure))
