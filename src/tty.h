@@ -9,11 +9,11 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdarg.h>
-#include "serial.h"
-#include "io.h"
-#include "kernel.h"
-#include "multiboot2.h"
-#include "libk.h"
+#include <serial.h>
+#include <io.h>
+#include <kernel.h>
+#include <multiboot2.h>
+#include <libk.h>
 
 #define CLR_BLACK         0
 #define CLR_BLUE          1

@@ -5,8 +5,8 @@
 
 #ifdef CONFIG_SERIAL
 
-#include "serial.h"
-#include "io.h"
+#include <serial.h>
+#include <io.h>
 
 // Reference: https://wiki.osdev.org/Serial_Ports
 

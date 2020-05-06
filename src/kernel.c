@@ -3,26 +3,26 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "kernel.h"
-#include "libk.h"
-#include "boothdr.h"
-#include "memory.h"
-#include "gdt.h"
-#include "pic.h"
-#include "idt.h"
-#include "shell.h"
-#include "timer.h"
+#include <kernel.h>
+#include <libk.h>
+#include <boothdr.h>
+#include <memory.h>
+#include <gdt.h>
+#include <pic.h>
+#include <idt.h>
+#include <shell.h>
+#include <timer.h>
 
 #ifdef CONFIG_TEST
-#include "test.h"
+#include <test.h>
 #endif
 
 #if defined CONFIG_MM && CONFIG_MM == flat
-#include "flatmm.h"
+#include <flatmm.h>
 #endif
 
 #ifdef CONFIG_DRV_KEYBOARD
-#include "keyboard.h"
+#include <keyboard.h>
 #endif
 
 extern uintptr_t kernel_begin;

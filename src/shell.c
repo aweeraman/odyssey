@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "shell.h"
-#include "keyboard.h"
-#include "libk.h"
+#include <shell.h>
+#include <keyboard.h>
+#include <libk.h>
 
 char line[MAX_READLINE_LENGTH];
 

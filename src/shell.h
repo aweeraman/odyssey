@@ -6,8 +6,8 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include "kernel.h"
-#include "libk.h"
+#include <kernel.h>
+#include <libk.h>
 
 void start_interactive_shell();
 

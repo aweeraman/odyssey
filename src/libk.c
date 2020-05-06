@@ -6,7 +6,7 @@
  * Released under GPLv3. http://www.strudel.org.uk/itoa/
  */
 
-#include "libk.h"
+#include <libk.h>
 
 int putchar(int c)
 {

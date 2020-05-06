@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "isr.h"
-#include "io.h"
-#include "libk.h"
-#include "pic.h"
-#include "keyboard.h"
-#include "timer.h"
+#include <isr.h>
+#include <io.h>
+#include <libk.h>
+#include <pic.h>
+#include <keyboard.h>
+#include <timer.h>
 
 /*
  * Progammable Interrupt Timer

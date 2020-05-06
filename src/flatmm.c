@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "flatmm.h"
-#include "libk.h"
-#include "memory.h"
+#include <flatmm.h>
+#include <libk.h>
+#include <memory.h>
 
 static flat_mem_page_t *root_frame = (flat_mem_page_t *) MEM_START_ADDR;
 

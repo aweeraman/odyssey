@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "idt.h"
-#include "libk.h"
-#include "isr.h"
-#include "pic.h"
+#include <idt.h>
+#include <libk.h>
+#include <isr.h>
+#include <pic.h>
 
 static idt_descriptor_t idt;
 static idt_entry_t idt_entries[256];

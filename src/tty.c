@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "tty.h"
-#include "timer.h"
+#include <tty.h>
+#include <timer.h>
 
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
-#include "ssfn.h"
+#include <ssfn.h>
 
 #ifdef CONFIG_SERIAL
-#include "serial.h"
+#include <serial.h>
 #endif
 
 #ifdef CONFIG_FRAMEBUFFER_RGB

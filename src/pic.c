@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "pic.h"
-#include "io.h"
-#include "libk.h"
+#include <pic.h>
+#include <io.h>
+#include <libk.h>
 
 // IRQ greater than 7 EOI must be sent to both master and slave
 void pic_eoi(int irq)

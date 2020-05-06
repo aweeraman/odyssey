@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "test.h"
-#include "libk.h"
-#include "memory.h"
+#include <test.h>
+#include <libk.h>
+#include <memory.h>
 
 #if defined CONFIG_MM && CONFIG_MM == flat
-#include "flatmm.h"
+#include <flatmm.h>
 #endif
 
 static int tests_passed;

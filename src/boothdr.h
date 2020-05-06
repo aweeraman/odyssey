@@ -7,8 +7,8 @@
 #define BOOTHDR_H
 
 #include <stddef.h>
-#include "multiboot2.h"
-#include "tty.h"
+#include <multiboot2.h>
+#include <tty.h>
 
 #define BOOT_CMDLINE_MAX 100
 

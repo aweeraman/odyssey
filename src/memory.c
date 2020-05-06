@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "memory.h"
-#include "tty.h"
-#include "libk.h"
+#include <memory.h>
+#include <tty.h>
+#include <libk.h>
 
 static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
   "other",

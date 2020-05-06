@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include "gdt.h"
-#include "libk.h"
+#include <gdt.h>
+#include <libk.h>
 
 gdt_descriptor_t gdt;
 gdt_entry_t      gdt_entries[GDT_ENTRIES];

@@ -5,10 +5,10 @@
  * KBDUS scancode table, Copyright Brandon F. (friesenb@gmail.com)
  */
 
-#include "keyboard.h"
-#include "io.h"
-#include "libk.h"
-#include "error.h"
+#include <keyboard.h>
+#include <io.h>
+#include <libk.h>
+#include <error.h>
 
 static char    linebuf[MAX_READLINE_LENGTH];
 static int     line_counter = 0;
