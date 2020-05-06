@@ -5,7 +5,7 @@
 
 #include <sys/timer.h>
 #include <libk.h>
-#include <tty.h>
+#include <io/tty.h>
 
 uint32_t volatile ticks        = 0;
 static uint32_t loops_per_tick = 0;

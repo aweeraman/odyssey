@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <tty.h>
+#include <io/tty.h>
 #include <sys/timer.h>
 
 #define SSFN_NOIMPLEMENTATION

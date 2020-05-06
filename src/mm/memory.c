@@ -4,7 +4,7 @@
  */
 
 #include <mm/memory.h>
-#include <tty.h>
+#include <io/tty.h>
 #include <libk.h>
 
 static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {

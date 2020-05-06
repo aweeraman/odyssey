@@ -8,7 +8,7 @@
 
 #include <stddef.h>
 #include <boot/multiboot2.h>
-#include <tty.h>
+#include <io/tty.h>
 
 #define BOOT_CMDLINE_MAX 100
 
