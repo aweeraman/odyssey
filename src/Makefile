@@ -24,19 +24,22 @@ CFLAGS     += $(OPTS)
 
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard *.c)) font.o
-BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard boot/*.$(ASM_EXT))) \
-              $(patsubst %.c, %.o, $(wildcard boot/*.c))
+BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/boot/*.$(ASM_EXT))) \
+              $(patsubst %.c, %.o, $(wildcard x86/boot/*.c))
+MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
+TEST       := $(patsubst %.c, %.o, $(wildcard test/*.c))
+
+OBJECTS    += $(BOOT) $(MM) $(TEST)
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
-OBJECTS  := $(filter-out test.o, $(OBJECTS))
+OBJECTS    := $(filter-out test/test.o, $(OBJECTS))
 endif
 
 ifneq (CONFIG_FRAMEBUFFER_RGB,$(findstring CONFIG_FRAMEBUFFER_RGB,$(OPTS)))
-OBJECTS  := $(filter-out font.o, $(OBJECTS))
+OBJECTS    := $(filter-out font.o, $(OBJECTS))
 endif
 
-OBJECTS  += $(BOOT)
-OBJDEPS  := $(patsubst %.o, %.d, $(OBJECTS))
+OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 .PHONY: clean cov-configure tags
 

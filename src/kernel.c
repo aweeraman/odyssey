@@ -18,7 +18,7 @@
 #endif
 
 #if defined CONFIG_MM && CONFIG_MM == flat
-#include <flatmm.h>
+#include <mm/flatmm.h>
 #endif
 
 #ifdef CONFIG_DRV_KEYBOARD

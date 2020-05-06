@@ -8,7 +8,7 @@
 #include <memory.h>
 
 #if defined CONFIG_MM && CONFIG_MM == flat
-#include <flatmm.h>
+#include <mm/flatmm.h>
 #endif
 
 static int tests_passed;
