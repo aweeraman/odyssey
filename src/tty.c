@@ -11,7 +11,7 @@
 #include <ssfn.h>
 
 #ifdef CONFIG_SERIAL
-#include <serial.h>
+#include <io/serial.h>
 #endif
 
 #ifdef CONFIG_FRAMEBUFFER_RGB

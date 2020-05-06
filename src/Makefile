@@ -31,11 +31,16 @@ TEST       := $(patsubst %.c, %.o, $(wildcard test/*.c))
 X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/32/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard x86/32/*.c))
 CMD        := $(patsubst %.c, %.o, $(wildcard cmd/*.c))
+IO         := $(patsubst %.c, %.o, $(wildcard io/*.c))
 
-OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST) $(CMD)
+OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST) $(CMD) $(IO)
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS    := $(filter-out test/test.o, $(OBJECTS))
+endif
+
+ifneq (CONFIG_SERIAL,$(findstring CONFIG_SERIAL,$(OPTS)))
+OBJECTS    := $(filter-out $(IO), $(OBJECTS))
 endif
 
 ifneq (CONFIG_FRAMEBUFFER_RGB,$(findstring CONFIG_FRAMEBUFFER_RGB,$(OPTS)))

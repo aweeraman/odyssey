@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdarg.h>
-#include <serial.h>
+#include <io/serial.h>
 #include <x86/io.h>
 #include <kernel.h>
 #include <boot/multiboot2.h>
