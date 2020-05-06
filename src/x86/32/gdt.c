@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <gdt.h>
+#include <x86/32/gdt.h>
 #include <libk.h>
 
 gdt_descriptor_t gdt;
