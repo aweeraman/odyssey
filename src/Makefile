@@ -30,8 +30,9 @@ MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
 TEST       := $(patsubst %.c, %.o, $(wildcard test/*.c))
 X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/32/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard x86/32/*.c))
+CMD        := $(patsubst %.c, %.o, $(wildcard cmd/*.c))
 
-OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST)
+OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST) $(CMD)
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS    := $(filter-out test/test.o, $(OBJECTS))

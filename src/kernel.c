@@ -10,7 +10,7 @@
 #include <x86/32/gdt.h>
 #include <pic.h>
 #include <x86/32/idt.h>
-#include <shell.h>
+#include <cmd/shell.h>
 #include <timer.h>
 
 #ifdef CONFIG_TEST

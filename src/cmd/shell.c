@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <shell.h>
+#include <cmd/shell.h>
 #include <keyboard.h>
 #include <libk.h>
 
