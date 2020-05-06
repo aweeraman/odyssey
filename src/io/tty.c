@@ -7,15 +7,14 @@
 #include <sys/timer.h>
 #include <lib/k.h>
 
-#define SSFN_NOIMPLEMENTATION
-#define SSFN_CONSOLEBITMAP_TRUECOLOR
-#include <ssfn.h>
-
 #ifdef CONFIG_SERIAL
 #include <io/serial.h>
 #endif
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
+#define SSFN_NOIMPLEMENTATION
+#define SSFN_CONSOLEBITMAP_TRUECOLOR
+#include <io/ssfn.h>
 extern char _binary_font_f_sfn_start;
 #endif
 
