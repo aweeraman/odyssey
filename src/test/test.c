@@ -7,8 +7,8 @@
 #include <lib/k.h>
 #include <sys/memory.h>
 
-#if defined CONFIG_MM && CONFIG_MM == flat
-#include <sys/flatmm.h>
+#if defined CONFIG_MM && CONFIG_MM == ff
+#include <sys/ffmm.h>
 #endif
 
 static int tests_passed;
@@ -19,8 +19,8 @@ static void fail(const char *test, const char *str)
         printf("Test %s failed: %s\n", test, str);
 }
 
-#if defined CONFIG_MM && CONFIG_MM == flat
-static int flatmm_1()
+#if defined CONFIG_MM && CONFIG_MM == ff
+static int ff_mm_1()
 {
         int ret = 0;
         char* frame;
@@ -233,8 +233,8 @@ void run_tests()
         run(multiboot2_magic_1);
 #endif
 
-#if defined CONFIG_MM && CONFIG_MM == flat
-        run(flatmm_1);
+#if defined CONFIG_MM && CONFIG_MM == ff
+        run(ff_mm_1);
 #endif
 
         printf("Tests run, %d / %d passed\n", tests_passed, tests_passed+tests_failed);

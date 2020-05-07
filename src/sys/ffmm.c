@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <sys/flatmm.h>
+#include <sys/ffmm.h>
 #include <lib/k.h>
 
-static flat_mem_page_t *root_frame = (flat_mem_page_t *) MEM_START_ADDR;
+static ff_mem_page_t *root_frame = (ff_mem_page_t *) MEM_START_ADDR;
 
 void* get_free_frame(size_t size)
 {
@@ -32,8 +32,8 @@ void create_root_frame()
         memset(root_frame->frame, '\0', MEM_FRAME_SIZE);
 }
 
-void init_flatmm()
+void init_ff_mm()
 {
-        printf("Initializing flat memory manager at 0x%x\n", MEM_START_ADDR);
+        printf("Initializing FirstFit memory manager at 0x%x\n", MEM_START_ADDR);
         create_root_frame();
 }

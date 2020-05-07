@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#ifndef FLATMM_H
-#define FLATMM_H
+#ifndef FFMM_H
+#define FFMM_H
 
 #include <stdint.h>
 #include <stddef.h>
@@ -16,16 +16,16 @@
 #define FRAME_ROOT       1
 #define FRAME_AVAILABLE  2
 
-struct flat_mem_page {
+struct ff_mem_page {
         uint8_t flags;
         size_t  next;
         size_t  prev;
         uint8_t frame[MEM_FRAME_SIZE];
 };
 
-typedef struct flat_mem_page flat_mem_page_t;
+typedef struct ff_mem_page ff_mem_page_t;
 
-void  init_flatmm();
+void  init_ff_mm();
 void* get_free_frame(size_t size);
 
 #endif

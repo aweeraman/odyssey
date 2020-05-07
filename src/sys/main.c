@@ -17,8 +17,8 @@
 #include <test.h>
 #endif
 
-#if defined CONFIG_MM && CONFIG_MM == flat
-#include <sys/flatmm.h>
+#if defined CONFIG_MM && CONFIG_MM == ff
+#include <sys/ffmm.h>
 #endif
 
 #ifdef CONFIG_DRV_KEYBOARD
@@ -62,8 +62,8 @@ void kernel_main(size_t magic, size_t addr)
 
         read_multiboot_header_tags(magic, addr);
 
-#if defined CONFIG_MM && CONFIG_MM == flat
-        init_flatmm();
+#if defined CONFIG_MM && CONFIG_MM == ff
+        init_ff_mm();
 #endif
 
         printf("Loops per tick: %d\n", get_loops_per_tick());
