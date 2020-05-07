@@ -1,6 +1,6 @@
 *.o
 *.d
-kernel
+minos
 *.iso
 iso/
 notes/
