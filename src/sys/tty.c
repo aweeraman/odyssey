@@ -5,7 +5,7 @@
 
 #include <sys/tty.h>
 #include <sys/timer.h>
-#include <lib/k.h>
+#include <lib/termio.h>
 
 #ifdef CONFIG_SERIAL
 #include <sys/serial.h>

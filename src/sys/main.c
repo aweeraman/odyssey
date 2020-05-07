@@ -4,7 +4,7 @@
  */
 
 #include <minos.h>
-#include <lib/k.h>
+#include <lib/termio.h>
 #include <x86/boot/boothdr.h>
 #include <sys/memory.h>
 #include <x86/32/gdt.h>

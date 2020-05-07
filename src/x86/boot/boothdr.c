@@ -5,7 +5,9 @@
 
 #include <x86/boot/boothdr.h>
 #include <sys/memory.h>
-#include <lib/k.h>
+#include <lib/termio.h>
+#include <lib/string.h>
+#include <sys/panic.h>
 #include <minos.h>
 #include <sys/tty.h>
 

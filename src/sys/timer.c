@@ -4,7 +4,7 @@
  */
 
 #include <sys/timer.h>
-#include <lib/k.h>
+#include <lib/termio.h>
 #include <sys/tty.h>
 
 uint32_t volatile ticks        = 0;

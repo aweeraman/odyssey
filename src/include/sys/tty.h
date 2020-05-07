@@ -13,7 +13,7 @@
 #include <x86/io.h>
 #include <minos.h>
 #include <x86/boot/multiboot2.h>
-#include <lib/k.h>
+#include <lib/termio.h>
 
 #define CLR_BLACK         0
 #define CLR_BLUE          1

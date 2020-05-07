@@ -6,8 +6,10 @@
  */
 
 #include <sys/keyboard.h>
+#include <sys/tty.h>
 #include <x86/io.h>
-#include <lib/k.h>
+#include <lib/termio.h>
+#include <lib/string.h>
 #include <error.h>
 
 static char    linebuf[MAX_READLINE_LENGTH];

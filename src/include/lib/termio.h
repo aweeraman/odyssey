@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef TERMIO_H
+#define TERMIO_H
 
-#include <minos.h>
-#include <lib/termio.h>
-
-void start_interactive_shell();
+int    prints(char *str);
+int    putchar(int c);
+void   printf(const char *fmt, ...);
 
 #endif

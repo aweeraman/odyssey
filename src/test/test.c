@@ -4,7 +4,8 @@
  */
 
 #include <test.h>
-#include <lib/k.h>
+#include <lib/termio.h>
+#include <lib/string.h>
 #include <sys/memory.h>
 
 #if defined CONFIG_MM && CONFIG_MM == ff

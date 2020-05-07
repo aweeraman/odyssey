@@ -3,12 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef PANIC_H
+#define PANIC_H
 
-#include <minos.h>
-#include <lib/termio.h>
-
-void start_interactive_shell();
+void panic(char *str);
 
 #endif
