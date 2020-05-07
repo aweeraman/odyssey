@@ -12,7 +12,7 @@
 #include <sys/serial.h>
 #include <x86/io.h>
 #include <minos.h>
-#include <boot/multiboot2.h>
+#include <x86/boot/multiboot2.h>
 #include <lib/k.h>
 
 #define CLR_BLACK         0

@@ -5,8 +5,8 @@
 
 #include <minos.h>
 #include <lib/k.h>
-#include <boot/boothdr.h>
-#include <mm/memory.h>
+#include <x86/boot/boothdr.h>
+#include <sys/memory.h>
 #include <x86/32/gdt.h>
 #include <x86/32/pic.h>
 #include <x86/32/idt.h>
@@ -18,7 +18,7 @@
 #endif
 
 #if defined CONFIG_MM && CONFIG_MM == flat
-#include <mm/flatmm.h>
+#include <sys/flatmm.h>
 #endif
 
 #ifdef CONFIG_DRV_KEYBOARD

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <boot/boothdr.h>
-#include <mm/memory.h>
+#include <x86/boot/boothdr.h>
+#include <sys/memory.h>
 #include <lib/k.h>
 #include <minos.h>
 #include <sys/tty.h>

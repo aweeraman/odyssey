@@ -24,18 +24,16 @@ CFLAGS     += $(OPTS)
 
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard *.c))
-BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/boot/*.$(ASM_EXT))) \
-              $(patsubst %.c, %.o, $(wildcard x86/boot/*.c))
 X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/32/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o, $(wildcard x86/32/*.c))
-MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
-TEST       := $(patsubst %.c, %.o, $(wildcard test/*.c))
+BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/boot/*.$(ASM_EXT))) \
+              $(patsubst %.c, %.o, $(wildcard x86/boot/*.c))
 CMD        := $(patsubst %.c, %.o, $(wildcard cmd/*.c))
 SYS        := $(patsubst %.c, %.o, $(wildcard sys/*.c)) sys/font.o
-MM         := $(patsubst %.c, %.o, $(wildcard mm/*.c))
 LIB        := $(patsubst %.c, %.o, $(wildcard lib/*.c))
+TEST       := $(patsubst %.c, %.o, $(wildcard test/*.c))
 
-OBJECTS    += $(X86_32) $(BOOT) $(MM) $(TEST) $(CMD) $(SYS) $(LIB)
+OBJECTS    += $(X86_32) $(BOOT) $(TEST) $(CMD) $(SYS) $(LIB)
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS    := $(filter-out $(TEST), $(OBJECTS))

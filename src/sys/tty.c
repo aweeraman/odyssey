@@ -15,7 +15,12 @@
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
 #include <sys/ssfn.h>
+
 extern char _binary_sys_f_sfn_start;
+
+static size_t *fb = NULL;
+static size_t fb_height;
+static size_t fb_width;
 #endif
 
 static uint32_t counter = 0;
@@ -26,9 +31,6 @@ static size_t cols  = 0;
 static size_t cur_x = 0;
 static size_t cur_y = 0;
 
-static size_t *fb = NULL;
-static size_t fb_height;
-static size_t fb_width;
 struct multiboot_tag_framebuffer *framebuffer;
 
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
@@ -53,6 +55,7 @@ void disable_cursor()
 static void scroll()
 {
         if (FB_RGB) {
+#ifdef CONFIG_FRAMEBUFFER_RGB
                 for (size_t i = 0; i < fb_height-16; i++) {
                         for (size_t j = 0; j < fb_width; j++) {
                                 fb[(i*fb_width) + j] = fb[((i+16) * fb_width) + j];
@@ -63,6 +66,7 @@ static void scroll()
                                 fb[(i*fb_width) + j] = 0;
                         }
                 }
+#endif
         } else if (FB_EGA) {
                 for (size_t i = 0; i < (rows - 1); i++) {
                         for (size_t j = 0; j < cols; j++) {
@@ -86,6 +90,7 @@ void update_cursor(uint8_t x, uint8_t width, uint8_t y)
         counter++;
 
         if (FB_RGB) {
+#ifdef CONFIG_FRAMEBUFFER_RGB
                 ssfn_y  = x*16;
                 ssfn_x  = y*8;
                 if (counter % 2 == 0)
@@ -93,6 +98,7 @@ void update_cursor(uint8_t x, uint8_t width, uint8_t y)
                 else
                         ssfn_fg = RGB_BLACK;
                 ssfn_putc(UNICODE_CURSOR);
+#endif
         } else if (FB_EGA) {
                 outb(VGA_IDX_PORT, 0x0F);
                 outb(VGA_DATA_PORT, (uint8_t) (pos & 0xFF));
@@ -128,10 +134,12 @@ void printc(uint8_t ch)
         }
         if (ch == '\n' || ch == '\r') {
                 if (FB_RGB) {
+#ifdef CONFIG_FRAMEBUFFER_RGB
                         ssfn_y = cur_x*16;
                         ssfn_x = cur_y*8;
                         ssfn_fg = RGB_BLACK;
                         ssfn_putc(UNICODE_CURSOR);
+#endif
                 }
                 cur_x++;
                 cur_y = 0;
@@ -153,6 +161,7 @@ void printc(uint8_t ch)
                 return;
         }
         if (FB_RGB) {
+#ifdef CONFIG_FRAMEBUFFER_RGB
                 ssfn_y = cur_x*16;
                 ssfn_x = cur_y*8;
                 ssfn_fg = RGB_BLACK;
@@ -174,6 +183,7 @@ void printc(uint8_t ch)
                         cur_x = rows-1;
                         cur_y = 0;
                 }
+#endif
         } else if (FB_EGA) {
                 matrix[(cur_x*cols) + cur_y++] = (cell) {
                         .ch = ch,
@@ -190,14 +200,17 @@ void printc(uint8_t ch)
 #endif
 }
 
+#ifdef CONFIG_FRAMEBUFFER_RGB
 static void draw_pixel(int x, int y, int color)
 {
         fb[x * fb_width + y ] = color;
 }
+#endif
 
 void backspace()
 {
         if (FB_RGB) {
+#ifdef CONFIG_FRAMEBUFFER_RGB
                 if (cur_y > 0) {
                         cur_y--;
                         ssfn_y = cur_x*16;
@@ -206,6 +219,7 @@ void backspace()
                         ssfn_putc(UNICODE_CURSOR);
                 }
                 update_cursor(cur_x, cols, cur_y);
+#endif
         } else if (FB_EGA) {
                 if (cur_y > 0) {
                         cur_y--;
@@ -218,11 +232,13 @@ void backspace()
 void clear_screen(void)
 {
         if (FB_RGB) {
+#ifdef CONFIG_FRAMEBUFFER_RGB
                 for (size_t x = 0; x < fb_height; x++) {
                         for (size_t y = 0; y < fb_width; y++) {
                                 draw_pixel(x, y, 0x00000000);
                         }
                 }
+#endif
         } else if (FB_EGA) {
                 for (size_t i = 0; i < (rows * cols); i++) {
                         matrix[i].ch = 0;

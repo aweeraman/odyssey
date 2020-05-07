@@ -5,10 +5,10 @@
 
 #include <test.h>
 #include <lib/k.h>
-#include <mm/memory.h>
+#include <sys/memory.h>
 
 #if defined CONFIG_MM && CONFIG_MM == flat
-#include <mm/flatmm.h>
+#include <sys/flatmm.h>
 #endif
 
 static int tests_passed;
