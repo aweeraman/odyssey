@@ -5,7 +5,7 @@
  * KBDUS scancode table, Copyright Brandon F. (friesenb@gmail.com)
  */
 
-#include <io/keyboard.h>
+#include <sys/keyboard.h>
 #include <x86/io.h>
 #include <lib/k.h>
 #include <error.h>

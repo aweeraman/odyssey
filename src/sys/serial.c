@@ -5,7 +5,7 @@
 
 #ifdef CONFIG_SERIAL
 
-#include <io/serial.h>
+#include <sys/serial.h>
 #include <x86/io.h>
 
 // Reference: https://wiki.osdev.org/Serial_Ports

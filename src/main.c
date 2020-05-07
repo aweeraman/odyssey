@@ -22,7 +22,7 @@
 #endif
 
 #ifdef CONFIG_DRV_KEYBOARD
-#include <io/keyboard.h>
+#include <sys/keyboard.h>
 #endif
 
 extern uintptr_t kernel_begin;

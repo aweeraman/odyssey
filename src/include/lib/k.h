@@ -9,7 +9,7 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stddef.h>
-#include <io/tty.h>
+#include <sys/tty.h>
 
 void*  memcpy(void *dest, const void *src, size_t n);
 void*  memset(void *s, int c, size_t n);

@@ -7,7 +7,7 @@
 #include <x86/io.h>
 #include <lib/k.h>
 #include <x86/32/pic.h>
-#include <io/keyboard.h>
+#include <sys/keyboard.h>
 #include <sys/timer.h>
 
 /*

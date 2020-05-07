@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <io/tty.h>
+#include <sys/tty.h>
 #include <sys/timer.h>
 #include <lib/k.h>
 
 #ifdef CONFIG_SERIAL
-#include <io/serial.h>
+#include <sys/serial.h>
 #endif
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
-#include <io/ssfn.h>
-extern char _binary_io_f_sfn_start;
+#include <sys/ssfn.h>
+extern char _binary_sys_f_sfn_start;
 #endif
 
 static uint32_t counter = 0;
@@ -245,7 +245,7 @@ void init_console()
         clear_screen();
 
         //Setup scalable font library
-        ssfn_font = (ssfn_font_t *) &_binary_io_f_sfn_start;
+        ssfn_font = (ssfn_font_t *) &_binary_sys_f_sfn_start;
         ssfn_dst_ptr = (uint8_t *) (size_t) framebuffer->common.framebuffer_addr;
         ssfn_dst_pitch = framebuffer->common.framebuffer_pitch;
         ssfn_fg = 0xFFFFFFFF;
