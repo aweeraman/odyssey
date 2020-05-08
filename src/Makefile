@@ -52,11 +52,11 @@ OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 .PHONY: clean cov-configure tags
 
-minos: $(OBJECTS) tags
+odyssey: $(OBJECTS) tags
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
-	$(LD) -o minos $(OBJECTS) $(LDFLAGS)
+	$(LD) -o odyssey $(OBJECTS) $(LDFLAGS)
 
 sys/font.o:
 	$(OBJCOPY) -O elf32-i386 -B i386 -I binary sys/f.sfn sys/font.o
@@ -86,7 +86,7 @@ tags:
 	ctags -R .
 
 clean:
-	-rm -f $(OBJECTS) $(OBJDEPS) minos
+	-rm -f $(OBJECTS) $(OBJDEPS) odyssey
 
 distclean: clean
 	-rm -f tags

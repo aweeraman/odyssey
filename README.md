@@ -1,8 +1,8 @@
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/20852/badge.svg)](https://scan.coverity.com/projects/minos)
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/20852/badge.svg)](https://scan.coverity.com/projects/odyssey)
 
-# Minos - an experimental operating system for x86
+# Odyssey - an experimental operating system for x86
 
-![Minos running in Qemu](https://raw.githubusercontent.com/aweeraman/minos/master/minos.png "Minos running in Qemu")
+![Odyssey running in Qemu](https://raw.githubusercontent.com/aweeraman/odyssey/master/odyssey.png "Odyssey running in Qemu")
 
 # Current Development Status
 
@@ -31,18 +31,18 @@
 Clone repo and install build dependencies:
 
 ```
-$ git clone https://github.com/aweeraman/minos.git
+$ git clone https://github.com/aweeraman/odyssey.git
 $ sudo apt-get install git gcc g++ make m4 bison flex bzip2 xz-utils curl zlib1g-dev gnat python
 ```
 
 Build GCC cross compiler and openboot:
 
 ```
-$ cd minos
+$ cd odyssey
 $ make deps
 ```
 
-Install additional dependencies required for building and running minos
+Install additional dependencies required for building and running odyssey
 in qemu:
 
 ```
@@ -151,7 +151,7 @@ Breakpoint 1 at 0x1007c0: file kernel.c, line 26.
 
 # Attribution
 
-Minos makes use of following software:
+Odyssey makes use of following software:
 
 * [Coreboot](https://github.com/coreboot/coreboot) - GPL
 * [Scalable Screen Font](https://gitlab.com/bztsrc/scalable-font) - MIT License
@@ -165,4 +165,4 @@ for hobbyist operating systems development.
 
 # License
 
-Minos is distributed under the GPLv3 license.
+Odyssey is distributed under the GPLv3 license.

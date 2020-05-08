@@ -6,7 +6,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include <minos.h>
+#include <odyssey.h>
 #include <lib/termio.h>
 
 void start_interactive_shell();

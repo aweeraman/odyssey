@@ -8,7 +8,7 @@
 #include <lib/termio.h>
 #include <lib/string.h>
 #include <sys/panic.h>
-#include <minos.h>
+#include <odyssey.h>
 #include <sys/tty.h>
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];

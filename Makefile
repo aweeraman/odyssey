@@ -17,7 +17,7 @@ all:
 clean:
 	-$(MAKE) -C src clean
 	-rm -rf $(ISO) iso
-	-rm -f minos-coverity.tar.gz
+	-rm -f odyssey-coverity.tar.gz
 	-rm -rf cov-int
 
 coverity:
@@ -26,7 +26,7 @@ ifeq (, $(shell which cov-build))
 endif
 	$(MAKE) -C src cov-configure
 	cov-build --dir cov-int $(MAKE) all
-	tar zcvf minos-coverity.tar.gz cov-int
+	tar zcvf odyssey-coverity.tar.gz cov-int
 
 coverity-submit: clean coverity
 ifndef COVERITY_TOKEN
@@ -34,15 +34,15 @@ ifndef COVERITY_TOKEN
 endif
 	curl --form token=$(COVERITY_TOKEN) \
 	--form email=anuradha@weeraman.com \
-	--form file=@minos-coverity.tar.gz \
+	--form file=@odyssey-coverity.tar.gz \
 	--form version="$(VERSION)" \
 	--form description="An experimental x86 operating system" \
-	https://scan.coverity.com/builds?project=minos
+	https://scan.coverity.com/builds?project=odyssey
 
 iso: all
 	mkdir -p iso/boot/grub/
 	cp config/grub.cfg iso/boot/grub/
-	cp src/minos iso/boot/
+	cp src/odyssey iso/boot/
 	grub-mkrescue -o $(ISO) iso
 
 boot: iso $(CBROM)

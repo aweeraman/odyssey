@@ -1,6 +1,6 @@
 *.o
 *.d
-minos
+odyssey
 *.iso
 iso/
 notes/

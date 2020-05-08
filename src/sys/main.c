@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <minos.h>
+#include <odyssey.h>
 #include <lib/termio.h>
 #include <x86/boot/boothdr.h>
 #include <sys/memory.h>

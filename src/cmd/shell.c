@@ -22,7 +22,7 @@ static int cmd(const char *cmd, char *input)
 
 void start_interactive_shell()
 {
-        printf("\nMinos version %s\n", CONFIG_VERSION);
+        printf("\nOdyssey version %s\n", CONFIG_VERSION);
 
 #if CONFIG_KEYBOARD
         for (;;) {

@@ -11,7 +11,7 @@
 #include <stdarg.h>
 #include <sys/serial.h>
 #include <x86/io.h>
-#include <minos.h>
+#include <odyssey.h>
 #include <x86/boot/multiboot2.h>
 #include <lib/termio.h>
 
