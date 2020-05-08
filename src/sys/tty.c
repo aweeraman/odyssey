@@ -212,21 +212,31 @@ void backspace()
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 if (cur_y > 0) {
+                        ssfn_y = cur_x*16;
+                        ssfn_x = cur_y*8;
+                        ssfn_fg = RGB_BLACK;
+                        ssfn_putc(UNICODE_CURSOR);
+
                         cur_y--;
+
                         ssfn_y = cur_x*16;
                         ssfn_x = cur_y*8;
                         ssfn_fg = RGB_WHITE;
                         ssfn_putc(UNICODE_CURSOR);
                 }
-                update_cursor(cur_x, cols, cur_y);
 #endif
         } else if (FB_EGA) {
                 if (cur_y > 0) {
                         cur_y--;
-                        matrix[cur_x * cur_y].ch = 0;
-                        matrix[cur_x * cur_y].clr = 0;
+                        int pos = (cur_x * cols) + cur_y;
+                        matrix[pos].ch = 0;
+                        matrix[pos].clr = CLR_LIGHT_GREEN;
                 }
         }
+        update_cursor(cur_x, cols, cur_y);
+#ifdef CONFIG_SERIAL
+        write_serial('\b');
+#endif
 }
 
 void clear_screen(void)

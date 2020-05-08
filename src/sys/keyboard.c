@@ -79,10 +79,11 @@ void kbd_interrupt()
                                         linebuf[line_counter] = '\0';
                                         line_counter = 0;
                                         line_status  = READLINE_READY;
+                                        putchar(last_char);
                                 } else {
                                         linebuf[line_counter++] = last_char;
+                                        putchar(last_char);
                                 }
-                                putchar(last_char);
                         } else {
                                 putchar('\n');
                                 linebuf[line_counter] = '\0';
