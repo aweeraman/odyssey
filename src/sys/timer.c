@@ -12,6 +12,12 @@ static uint32_t loops_per_tick = 0;
 static int n_ticks_timer_idx   = 0;
 static n_ticks_timer_t n_ticks_timers[MAX_N_TICKS_TIMERS];
 
+void busy_wait(int ticks_to_wait)
+{
+        uint32_t end = ticks + ticks_to_wait;
+        while (ticks < end);
+}
+
 uint32_t get_loops_per_tick()
 {
         uint32_t loops = 0;

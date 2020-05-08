@@ -56,6 +56,8 @@ void kernel_main(size_t magic, size_t addr)
         pic_init();
         idt_init();
 
+        busy_wait(20);
+
 #ifdef CONFIG_DRV_KEYBOARD
         keyboard_init();
 #endif
