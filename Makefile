@@ -37,7 +37,7 @@ endif
 	--form file=@odyssey-coverity.tar.gz \
 	--form version="$(VERSION)" \
 	--form description="An experimental x86 operating system" \
-	https://scan.coverity.com/builds?project=odyssey
+	https://scan.coverity.com/builds?project=minos
 
 iso: all
 	mkdir -p iso/boot/grub/
