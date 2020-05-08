@@ -24,7 +24,7 @@ void start_interactive_shell()
 {
         printf("\nMinos version %s\n", CONFIG_VERSION);
 
-#if CONFIG_DRV_KEYBOARD
+#if CONFIG_KEYBOARD
         for (;;) {
                 printf("# ");
                 block_and_readline(line);

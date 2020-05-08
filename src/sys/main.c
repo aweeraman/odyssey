@@ -21,7 +21,7 @@
 #include <sys/ffmm.h>
 #endif
 
-#ifdef CONFIG_DRV_KEYBOARD
+#ifdef CONFIG_KEYBOARD
 #include <sys/keyboard.h>
 #endif
 
@@ -56,7 +56,7 @@ void kernel_main(size_t magic, size_t addr)
         pic_init();
         idt_init();
 
-#ifdef CONFIG_DRV_KEYBOARD
+#ifdef CONFIG_KEYBOARD
         keyboard_init();
 #endif
 

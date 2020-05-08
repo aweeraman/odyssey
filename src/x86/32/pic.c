@@ -32,7 +32,7 @@ void pic_init()
 
         // Unmask interrupts that are supported
         pic_mask(0, PIC_UNMASK);
-#if CONFIG_DRV_KEYBOARD
+#if CONFIG_KEYBOARD
         pic_mask(1, PIC_UNMASK);
 #endif
 }
