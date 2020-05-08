@@ -14,9 +14,8 @@
 - [X] Build-time customization of features
 - [X] Segmentation
 - [X] Interrupt handling
-- [X] PS/2 Keyboard
 - [X] Timers
-- [ ] USB Keyboard
+- [ ] PS/2 & USB keyboard support
 - [ ] Memory manager
 - [ ] Paging
 - [ ] User-mode
