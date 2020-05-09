@@ -159,8 +159,8 @@ Odyssey makes use of following software:
 
 # Reference
 
-* [OSDev Wiki](https://wiki.osdev.org/Main_Page) is an invaluable resource
-for hobbyist operating systems development.
+* [OSDev Wiki](https://wiki.osdev.org/Main_Page)
+* [/r/osdev](https://www.reddit.com/r/osdev)
 * [Intel® 64 and IA-32 Architectures Software Developer Manuals](https://software.intel.com/en-us/articles/intel-sdm)
 
 # License
