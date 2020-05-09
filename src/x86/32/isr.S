@@ -8,9 +8,9 @@
 .macro irq_handler num
         .global irq\num
 irq\num\() :
-        pusha
+        pushal
         call irq\num\()_handler
-        popa
+        popal
         iret
 .endm
 
