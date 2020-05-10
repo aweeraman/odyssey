@@ -1,4 +1,4 @@
-CONFIG := config/build.cfg
+CONFIG := config/build_i386.cfg
 include $(CONFIG)
 
 ifeq ($(DEBUG),yes)
