@@ -9,7 +9,7 @@ MAJOR_VERSION := $(shell grep CONFIG_VERSION_MAJOR config/kernel.cfg  | cut -d"=
 MINOR_VERSION := $(shell grep CONFIG_VERSION_MINOR config/kernel.cfg  | cut -d"=" -f2)
 VERSION       := "$(MAJOR_VERSION).$(MINOR_VERSION)"
 
-.PHONY: all clean iso boot boot-efi deps coverity coverity-submit
+.PHONY: all clean iso boot boot-coreboot boot-efi deps coverity coverity-submit
 
 all:
 	$(MAKE) -j $(NPROC) -C src
@@ -45,7 +45,10 @@ iso: all
 	cp src/odyssey iso/boot/
 	grub-mkrescue -o $(ISO) iso
 
-boot: iso $(CBROM)
+boot: iso
+	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
+
+boot-coreboot: iso $(CBROM)
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
 
 boot-efi: iso
@@ -54,8 +57,9 @@ boot-efi: iso
 
 deps:
 	mkdir -p deps
-	[ -e deps/coreboot/ ] || git clone https://github.com/coreboot/coreboot.git deps/coreboot
+	[ -e deps/coreboot/ ] || git clone --branch 4.11 https://www.github.com/coreboot/coreboot deps/coreboot
 	[ -e deps/scalable-font/ ] || git clone https://gitlab.com/bztsrc/scalable-font.git deps/scalable-font
 	cp config/coreboot.cfg deps/coreboot/.config
 	make -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
+	make -C deps/coreboot/ crossgcc-arm CPUS=$(NPROCS)
 	make -C deps/coreboot/ -j$(NPROCS)
