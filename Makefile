@@ -1,4 +1,10 @@
-CONFIG := config/build_i386.cfg
+ARCH := $(or $(ARCH),i386)
+ifeq ($(ARCH),i386)
+	CONFIG := config/build_i386.cfg
+endif
+ifeq ($(ARCH),arm)
+	CONFIG := config/build_arm.cfg
+endif
 include $(CONFIG)
 
 ifeq ($(DEBUG),yes)
@@ -12,7 +18,7 @@ VERSION       := "$(MAJOR_VERSION).$(MINOR_VERSION)"
 .PHONY: all clean iso boot boot-coreboot boot-efi deps coverity coverity-submit
 
 all:
-	$(MAKE) -j $(NPROC) -C src
+	$(MAKE) ARCH=$(ARCH) -j $(NPROC) -C src
 
 clean:
 	-$(MAKE) -C src clean
