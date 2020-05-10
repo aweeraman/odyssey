@@ -201,7 +201,7 @@ void printc(uint8_t ch)
 }
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
-static void draw_pixel(int x, int y, int color)
+void draw_pixel(int x, int y, int color)
 {
         fb[x * fb_width + y ] = color;
 }
