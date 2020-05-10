@@ -7,10 +7,32 @@
 #include <sys/keyboard.h>
 #include <lib/termio.h>
 #include <lib/string.h>
+#include <ppm/odyssey.h>
+#include <sys/tty.h>
 
 char line[MAX_READLINE_LENGTH];
 
-const char* commands = "Available commands: help, exit";
+const char* commands = "Available commands: clear, help, splash, exit";
+
+static void splash()
+{
+        clear_screen();
+#ifdef CONFIG_FRAMEBUFFER_RGB
+        for (int prows = 0; prows < PPM_ROWS; prows++) {
+                for (int pcols = 0; pcols < PPM_COLS; pcols += 3) {
+                        int pos = (prows * pcols) + pcols;
+                        char r = ppm_array[pos];
+                        char g = ppm_array[pos+1];
+                        char b = ppm_array[pos+2];
+                        int ri = (r << 16) & 0xff0000;
+                        int gi = (g << 8) & 0xff00;
+                        int bi = b & 0xff;
+                        uint32_t ci = 0x00000000 | ri | gi | bi;
+                        draw_pixel(prows, pcols, ci);
+                }
+        }
+#endif
+}
 
 static int cmd(const char *cmd, char *input)
 {
@@ -22,7 +44,7 @@ static int cmd(const char *cmd, char *input)
 
 void start_interactive_shell()
 {
-        printf("\nOdyssey version %s\n", CONFIG_VERSION);
+        printf("\nOdyssey v%s\n", CONFIG_VERSION);
 
 #if CONFIG_KEYBOARD
         for (;;) {
@@ -35,6 +57,10 @@ void start_interactive_shell()
                         printf ("%s\n", commands);
                 } else if (cmd("exit", line) == 0) {
                         break;
+                } else if (cmd("clear", line) == 0) {
+                        clear_screen();
+                } else if (cmd("splash", line) == 0) {
+                        splash();
                 } else {
                         printf ("Unknown command. %s\n", commands);
                 }

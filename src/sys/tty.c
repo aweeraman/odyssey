@@ -201,7 +201,7 @@ void printc(uint8_t ch)
 }
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
-void draw_pixel(int x, int y, int color)
+void draw_pixel(int x, int y, uint32_t color)
 {
         fb[x * fb_width + y ] = color;
 }
@@ -248,12 +248,16 @@ void clear_screen(void)
                                 draw_pixel(x, y, 0x00000000);
                         }
                 }
+                cur_x = 0;
+                cur_y = 0;
 #endif
         } else if (FB_EGA) {
                 for (size_t i = 0; i < (rows * cols); i++) {
                         matrix[i].ch = 0;
                         matrix[i].clr = 0;
                 }
+                cur_x = 0;
+                cur_y = 0;
         }
 }
 
