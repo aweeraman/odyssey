@@ -73,10 +73,16 @@ AS        := ../coreboot/util/crossgcc/xgcc/bin/nasm
 
 # Running in qemu
 
-To build and run in qemu with coreboot:
+To build and run in qemu:
 
 ```
-$ make boot
+$ make boot     # defaults to i386
+```
+
+or, to build the ARM version:
+
+```
+$ make ARCH=arm boot-arm
 ```
 
 To build and run in qemu with OVMS/EFI:
@@ -93,9 +99,6 @@ Currently available options are:
 ```
 CONFIG_VERSION_MAJOR=0
 CONFIG_VERSION_MINOR=1
-
-# Target x86 32-bit architecture
-CONFIG_ARCH_X86_32
 
 CONFIG_STACK=4096
 

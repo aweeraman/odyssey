@@ -230,7 +230,7 @@ void run_tests()
         run(memset_1);
         run(memcpy_1);
 
-#ifdef CONFIG_ARCH_X86_32
+#if defined ARCH && ARCH == i386
         run(multiboot2_magic_1);
 #endif
 

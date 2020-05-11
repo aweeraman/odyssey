@@ -9,6 +9,7 @@ endif
 
 OPTS_LIST  := $(shell grep -v "^\#" ../config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
+OPTS       += -DARCH=$(ARCH)
 CFLAGS     += $(OPTS)
 
 BOOT       := $(patsubst %.s, %.o,          $(wildcard arm/boot/*.s)) \
