@@ -26,7 +26,7 @@
 #define BAUD_57600  2
 #define BAUD_38400  3
 
-static uint16_t port = SERIAL_BASE(CONFIG_SERIAL);
+static uint16_t port = SERIAL_BASE(COM1);
 
 /*
  * Initialize the serial port writing kernel output at startup.
