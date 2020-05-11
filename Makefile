@@ -52,7 +52,12 @@ iso: all
 	grub-mkrescue -o $(ISO) iso
 
 boot: iso
+ifeq ($(ARCH),i386)
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
+endif
+ifeq ($(ARCH),arm)
+	$(QEMU) $(QEMU_ARGS) -kernel src/odyssey
+endif
 
 boot-coreboot: iso $(CBROM)
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
@@ -60,9 +65,6 @@ boot-coreboot: iso $(CBROM)
 boot-efi: iso
 	# Qemu hangs when specifying the memory argument
 	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
-
-boot-arm: all
-	$(QEMU) $(QEMU_ARGS) -kernel src/odyssey
 
 deps:
 	mkdir -p deps

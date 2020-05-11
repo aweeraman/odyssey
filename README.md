@@ -82,7 +82,7 @@ $ make boot     # defaults to i386
 or, to build the ARM version:
 
 ```
-$ make ARCH=arm boot-arm
+$ make ARCH=arm clean boot
 ```
 
 To build and run in qemu with OVMS/EFI:
