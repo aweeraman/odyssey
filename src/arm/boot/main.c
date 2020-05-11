@@ -9,4 +9,5 @@
  
 void kernel_main() {
     *(volatile uint32_t *)(UART0_BASE) = 'O';
+    *(volatile uint32_t *)(UART0_BASE) = 'd';
 }
