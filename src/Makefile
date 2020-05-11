@@ -2,5 +2,9 @@
 ARCH := $(or $(ARCH),i386)
 
 ifeq ($(ARCH),i386)
-	include arch_i386.mk
+	include x86/i386.mk
+endif
+
+ifeq ($(ARCH),arm)
+	include arm/arm.mk
 endif

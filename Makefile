@@ -61,6 +61,9 @@ boot-efi: iso
 	# Qemu hangs when specifying the memory argument
 	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
+boot-arm: all
+	$(QEMU) $(QEMU_ARGS) -kernel src/odyssey
+
 deps:
 	mkdir -p deps
 	[ -e deps/coreboot/ ] || git clone --branch 4.11 https://www.github.com/coreboot/coreboot deps/coreboot
