@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <sys/tty.h>
+#include <odyssey.h>
+#include <lib/termio.h>
 
-#define UART0_BASE 0x1c090000
- 
 void kernel_main() {
-        printc('O');
+        printf("\nOdyssey v%s\n", CONFIG_VERSION);
 }
