@@ -14,8 +14,9 @@ CFLAGS     += $(OPTS)
 
 BOOT       := $(patsubst %.s, %.o,          $(wildcard arm/boot/*.s)) \
               $(patsubst %.c, %.o,          $(wildcard arm/boot/*.c))
+DRV        := $(patsubst %.c, %.o,          $(wildcard arm/drv/*.c))
 
-OBJECTS    += $(BOOT)
+OBJECTS    += $(BOOT) $(DRV)
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
