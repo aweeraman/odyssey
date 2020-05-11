@@ -52,7 +52,7 @@ OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 .PHONY: clean cov-configure tags
 
-odyssey: $(OBJECTS) tags
+odyssey: $(OBJECTS)
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
@@ -82,19 +82,10 @@ else
 	$(AS) $(CFLAGS) -o $@ $<
 endif
 
-tags:
-	ctags -R .
-
 clean:
 	-rm -f $(OBJECTS) $(OBJDEPS) odyssey
 
 distclean: clean
 	-rm -f tags
-
-cov-configure:
-ifeq (, $(shell which cov-configure))
-	$(error cov-configure is not available in the PATH)
-endif
-	cov-configure -co $(CC) -- -ffreestanding
 
 -include $(OBJECTS:.o=.d)

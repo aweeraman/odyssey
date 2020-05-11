@@ -20,7 +20,7 @@ OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 .PHONY: clean distclean tags
 
-odyssey: $(OBJECTS) tags
+odyssey: $(OBJECTS)
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
