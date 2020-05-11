@@ -7,7 +7,6 @@
 #define TIMER_H
 
 #include <stdint.h>
-#include <error.h>
 
 #define MAX_N_TICKS_TIMERS 5
 

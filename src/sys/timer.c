@@ -6,6 +6,8 @@
 #include <sys/timer.h>
 #include <lib/termio.h>
 #include <sys/tty.h>
+#include <stddef.h>
+#include <error.h>
 
 uint32_t volatile ticks        = 0;
 static uint32_t loops_per_tick = 0;

@@ -13,6 +13,10 @@
 #include <cmd/shell.h>
 #include <sys/timer.h>
 
+#ifdef CONFIG_SERIAL
+#include <sys/serial.h>
+#endif
+
 #ifdef CONFIG_TEST
 #include <test.h>
 #endif
