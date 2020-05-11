@@ -11,8 +11,8 @@ OPTS_LIST  := $(shell grep -v "^\#" ../config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
 CFLAGS     += $(OPTS)
 
-BOOT       := $(patsubst %.s, %.o,          $(wildcard arm/*.s)) \
-              $(patsubst %.c, %.o,          $(wildcard arm/*.c))
+BOOT       := $(patsubst %.s, %.o,          $(wildcard arm/boot/*.s)) \
+              $(patsubst %.c, %.o,          $(wildcard arm/boot/*.c))
 
 OBJECTS    += $(BOOT)
 
