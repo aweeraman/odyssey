@@ -5,8 +5,13 @@
 
 #include <sys/tty.h>
 
-#define UART0_BASE 0x1c090000
- 
-void kernel_main() {
-        printc('O');
+#ifdef CONFIG_SERIAL
+#include <sys/serial.h>
+#endif
+
+void printc(uint8_t ch)
+{
+#ifdef CONFIG_SERIAL
+        write_serial(ch);
+#endif
 }
