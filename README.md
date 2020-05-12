@@ -154,9 +154,8 @@ Breakpoint 1 at 0x1007c0: file kernel.c, line 26.
 
 Odyssey makes use of following software:
 
-* [Coreboot](https://github.com/coreboot/coreboot) - GPL
-* [Scalable Screen Font](https://gitlab.com/bztsrc/scalable-font) - MIT License
-* [GNU unifont](http://unifoundry.com/unifont/index.html) - GPL
+* [Coreboot](https://github.com/coreboot/coreboot)
+* [Scalable Screen Font](https://gitlab.com/bztsrc/scalable-font)
 
 # Reference
 

@@ -68,8 +68,9 @@ boot-efi: iso
 
 deps:
 	mkdir -p deps
-	[ -e deps/coreboot/ ] || git clone --branch 4.11 https://www.github.com/coreboot/coreboot deps/coreboot
 	[ -e deps/scalable-font/ ] || git clone https://gitlab.com/bztsrc/scalable-font.git deps/scalable-font
+	[ -e deps/coreboot/ ] || git clone --branch 4.11 https://www.github.com/coreboot/coreboot deps/coreboot
+	cd deps/coreboot && git submodule update --init --checkout
 	cp config/coreboot.cfg deps/coreboot/.config
 	make -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
 	make -C deps/coreboot/ crossgcc-arm CPUS=$(NPROCS)
