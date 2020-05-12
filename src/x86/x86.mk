@@ -22,7 +22,7 @@ OPTS_LIST  := $(shell grep -v "^\#" ../config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
 ifeq ($(ARCH),x86)
 OPTS       += -DARCH_X86
-else ($(ARCH),arm)
+else ifeq ($(ARCH),arm)
 OPTS       += -DARCH_ARM
 endif
 CFLAGS     += $(OPTS)

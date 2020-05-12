@@ -51,7 +51,7 @@ void kernel_main(size_t magic, size_t addr)
         early_framebuffer_console_init(magic, addr);
 
 #ifdef CONFIG_SERIAL
-        printf("Initialized serial at %s\n", STRINGIFY(CONFIG_SERIAL));
+        printf("Initialized serial interface\n");
 #endif
 
         printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);

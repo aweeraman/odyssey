@@ -195,6 +195,7 @@ static int strncmp_1()
         return ret;
 }
 
+#ifdef ARCH_X86
 static int multiboot2_magic_1()
 {
         int ret = 0;
@@ -209,6 +210,7 @@ static int multiboot2_magic_1()
         }
         return ret;
 }
+#endif
 
 static void run(int (*test)())
 {
