@@ -56,12 +56,12 @@ ifeq ($(ARCH),i386)
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
 endif
 ifeq ($(ARCH),arm)
-	$(QEMU) $(QEMU_ARGS) -kernel src/odyssey
+	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel src/odyssey
 endif
 
 boot-uboot:
 ifeq ($(ARCH),arm)
-	$(QEMU) $(QEMU_ARGS) -kernel deps/u-boot/u-boot
+	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel deps/u-boot/u-boot
 endif
 
 boot-coreboot: iso $(CBROM)
