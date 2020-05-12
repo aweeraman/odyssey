@@ -10,6 +10,9 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define STRINGIFY2(str) #str
+#define STRINGIFY(str) STRINGIFY2(str)
+
 void*  memcpy(void *dest, const void *src, size_t n);
 void*  memset(void *s, int c, size_t n);
 char*  strncpy(char *dest, const char *src, size_t n);

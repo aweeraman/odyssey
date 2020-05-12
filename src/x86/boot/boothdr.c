@@ -4,11 +4,12 @@
  */
 
 #include <x86/boot/boothdr.h>
+#include <x86/boot/device.h>
+#include <x86/32/acpi.h>
 #include <sys/memory.h>
 #include <lib/termio.h>
 #include <lib/string.h>
 #include <sys/panic.h>
-#include <odyssey.h>
 #include <sys/tty.h>
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];

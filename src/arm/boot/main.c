@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <odyssey.h>
+#include <lib/string.h>
 #include <lib/termio.h>
 
 #ifdef CONFIG_TEST
@@ -11,7 +11,9 @@
 #endif
 
 void kernel_main() {
-        printf("\nOdyssey v%s\n", CONFIG_VERSION);
+        printf("\nOdyssey v%s\n",
+                        STRINGIFY(CONFIG_VERSION_MAJOR) "." \
+                        STRINGIFY(CONFIG_VERSION_MINOR));
 
 #ifdef CONFIG_TEST
         run_tests();

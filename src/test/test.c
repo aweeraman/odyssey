@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <odyssey.h>
 #include <test.h>
 #include <lib/termio.h>
 #include <lib/string.h>

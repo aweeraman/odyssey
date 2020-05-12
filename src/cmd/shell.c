@@ -44,7 +44,9 @@ static int cmd(const char *cmd, char *input)
 
 void start_interactive_shell()
 {
-        printf("\nOdyssey v%s\n", CONFIG_VERSION);
+        printf("\nOdyssey v%s\n",
+                        STRINGIFY(CONFIG_VERSION_MAJOR) "." \
+                        STRINGIFY(CONFIG_VERSION_MINOR));
 
 #ifdef CONFIG_KEYBOARD
         for (;;) {

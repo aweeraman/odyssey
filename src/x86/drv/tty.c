@@ -8,7 +8,6 @@
 #include <lib/termio.h>
 #include <x86/boot/multiboot2.h>
 #include <x86/io.h>
-#include <odyssey.h>
 #include <stddef.h>
 #include <stdarg.h>
 

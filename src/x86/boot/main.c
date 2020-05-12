@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <odyssey.h>
 #include <lib/termio.h>
 #include <x86/boot/boothdr.h>
+#include <x86/boot/device.h>
 #include <sys/memory.h>
 #include <x86/32/gdt.h>
 #include <x86/32/pic.h>
 #include <x86/32/idt.h>
+#include <x86/32/acpi.h>
 #include <cmd/shell.h>
 #include <sys/timer.h>
 
