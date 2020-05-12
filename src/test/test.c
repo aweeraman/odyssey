@@ -231,7 +231,7 @@ void run_tests()
         run(memset_1);
         run(memcpy_1);
 
-#if defined ARCH && ARCH == x86
+#if ARCH_X86
         run(multiboot2_magic_1);
 #endif
 

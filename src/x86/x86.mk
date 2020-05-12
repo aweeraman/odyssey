@@ -20,7 +20,11 @@ endif
 
 OPTS_LIST  := $(shell grep -v "^\#" ../config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
-OPTS       += -DARCH=$(ARCH)
+ifeq ($(ARCH),x86)
+OPTS       += -DARCH_X86
+else ($(ARCH),arm)
+OPTS       += -DARCH_ARM
+endif
 CFLAGS     += $(OPTS)
 
 OBJECTS    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard *.$(ASM_EXT))) \
