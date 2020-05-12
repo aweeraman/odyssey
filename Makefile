@@ -1,6 +1,6 @@
-ARCH := $(or $(ARCH),i386)
-ifeq ($(ARCH),i386)
-	CONFIG := config/build_i386.cfg
+ARCH := $(or $(ARCH),x86)
+ifeq ($(ARCH),x86)
+	CONFIG := config/build_x86.cfg
 endif
 ifeq ($(ARCH),arm)
 	CONFIG := config/build_arm.cfg
@@ -47,7 +47,7 @@ endif
 	https://scan.coverity.com/builds?project=minos
 
 img:
-	mkimage -A arm -T kernel -a 0x0080000000 -e 0x0080000000 -C none -d src/odyssey.bin odyssey.img
+	mkimage -A arm -O linux -T kernel -a 0x0080000000 -e 0x0080000000 -C none -d src/odyssey.bin odyssey.img
 	cat deps/u-boot/u-boot odyssey.img > flash.bin
 
 iso:
@@ -57,7 +57,7 @@ iso:
 	grub-mkrescue -o $(ISO) iso
 
 boot:
-ifeq ($(ARCH),i386)
+ifeq ($(ARCH),x86)
 	$(MAKE) all
 	$(MAKE) iso
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
@@ -65,7 +65,7 @@ endif
 ifeq ($(ARCH),arm)
 	$(MAKE) all
 	$(MAKE) img
-	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel flash.bin
+	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel src/odyssey
 endif
 
 boot-uboot:
@@ -74,12 +74,12 @@ ifeq ($(ARCH),arm)
 endif
 
 boot-coreboot: iso $(CBROM)
-ifeq ($(ARCH),i386)
+ifeq ($(ARCH),x86)
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
 endif
 
 boot-efi: iso
-ifeq ($(ARCH),i386)
+ifeq ($(ARCH),x86)
 	# Qemu hangs when specifying the memory argument
 	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 endif
@@ -92,7 +92,7 @@ deps:
 	[ -e deps/coreboot/ ] || git clone --branch 4.11 https://www.github.com/coreboot/coreboot deps/coreboot
 	cd deps/coreboot && git submodule update --init --checkout
 	cp config/coreboot.cfg deps/coreboot/.config
-	# i386 cross compiler
+	# x86 cross compiler
 	$(MAKE) -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
 	# ARM cross compiler
 	$(MAKE) -C deps/coreboot/ crossgcc-arm CPUS=$(NPROCS)

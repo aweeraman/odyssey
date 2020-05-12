@@ -15,9 +15,10 @@ CFLAGS     += $(OPTS)
 BOOT       := $(patsubst %.s, %.o,          $(wildcard arm/boot/*.s)) \
               $(patsubst %.c, %.o,          $(wildcard arm/boot/*.c))
 DRV        := $(patsubst %.c, %.o,          $(wildcard arm/drv/*.c))
+TEST       := $(patsubst %.c, %.o,          $(wildcard test/*.c))
 LIB        := $(patsubst %.c, %.o,          $(wildcard lib/*.c))
 
-OBJECTS    += $(BOOT) $(DRV) $(LIB)
+OBJECTS    += $(BOOT) $(DRV) $(TEST) $(LIB)
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 

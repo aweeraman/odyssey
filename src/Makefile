@@ -1,8 +1,8 @@
-# Default ARCH to i386
-ARCH := $(or $(ARCH),i386)
+# Default ARCH to x86
+ARCH := $(or $(ARCH),x86)
 
-ifeq ($(ARCH),i386)
-	include x86/i386.mk
+ifeq ($(ARCH),x86)
+	include x86/x86.mk
 endif
 
 ifeq ($(ARCH),arm)

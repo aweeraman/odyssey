@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+#include <odyssey.h>
 #include <test.h>
 #include <lib/termio.h>
 #include <lib/string.h>
@@ -230,7 +231,7 @@ void run_tests()
         run(memset_1);
         run(memcpy_1);
 
-#if defined ARCH && ARCH == i386
+#if defined ARCH && ARCH == x86
         run(multiboot2_magic_1);
 #endif
 

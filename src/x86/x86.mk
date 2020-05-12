@@ -1,4 +1,4 @@
-CONFIG := ../config/build_i386.cfg
+CONFIG := ../config/build_x86.cfg
 include $(CONFIG)
 
 ifneq (,$(findstring clang,$(CC)))

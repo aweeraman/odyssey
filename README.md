@@ -76,7 +76,7 @@ AS        := ../coreboot/util/crossgcc/xgcc/bin/nasm
 To build and run in qemu:
 
 ```
-$ make boot     # defaults to i386
+$ make boot     # defaults to x86
 ```
 
 or, to build the ARM version:
