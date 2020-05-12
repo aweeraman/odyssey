@@ -91,6 +91,34 @@ To build and run in qemu with OVMS/EFI:
 $ make boot-efi
 ```
 
+# Running in qemu on ARM/U-Boot
+
+Install a tftp-server to serve the OS image:
+
+```
+$ sudo apt-get install tftpd-hpa
+$ sudo systemctl start tftpd-hpa
+```
+
+Build the OS image and copy over to the tftp server location:
+
+```
+$ make ARCH=arm
+$ make ARCH=arm img
+$ sudo cp odyssey.img /srv/tftp
+$ make ARCH=arm boot-uboot
+```
+
+At the U-Boot prompt, enter the following:
+
+```
+setenv ipaddr 10.x.x.x
+setenv serverip 192.x.x.x
+tftp 80000000 odyssey.img
+iminfo 80000000
+bootm 80000000
+```
+
 # Configuration
 
 List capabilities to be included in the kernel in config/kernel.cfg.

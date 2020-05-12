@@ -25,7 +25,7 @@ clean:
 	-rm -rf $(ISO) iso
 	-rm -f odyssey-coverity.tar.gz
 	-rm -rf cov-int
-	-rm -f odyssey.img flash.bin
+	-rm -f odyssey.img
 
 coverity:
 ifeq (, $(shell which cov-build))
@@ -48,7 +48,6 @@ endif
 
 img:
 	mkimage -A arm -O linux -T kernel -a 0x0080000000 -e 0x0080000000 -C none -d src/odyssey.bin odyssey.img
-	cat deps/u-boot/u-boot odyssey.img > flash.bin
 
 iso:
 	mkdir -p iso/boot/grub/
