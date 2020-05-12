@@ -25,6 +25,7 @@ clean:
 	-rm -rf $(ISO) iso
 	-rm -f odyssey-coverity.tar.gz
 	-rm -rf cov-int
+	-rm -f odyssey.img flash.bin
 
 coverity:
 ifeq (, $(shell which cov-build))
@@ -45,18 +46,26 @@ endif
 	--form description="An experimental x86 operating system" \
 	https://scan.coverity.com/builds?project=minos
 
-iso: all
+img:
+	mkimage -A arm -T kernel -a 0x0080000000 -e 0x0080000000 -C none -d src/odyssey.bin odyssey.img
+	cat deps/u-boot/u-boot odyssey.img > flash.bin
+
+iso:
 	mkdir -p iso/boot/grub/
 	cp config/grub.cfg iso/boot/grub/
 	cp src/odyssey iso/boot/
 	grub-mkrescue -o $(ISO) iso
 
-boot: iso
+boot:
 ifeq ($(ARCH),i386)
+	$(MAKE) all
+	$(MAKE) iso
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
 endif
 ifeq ($(ARCH),arm)
-	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel src/odyssey
+	$(MAKE) all
+	$(MAKE) img
+	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel flash.bin
 endif
 
 boot-uboot:

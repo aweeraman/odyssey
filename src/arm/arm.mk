@@ -28,6 +28,7 @@ ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
 	$(LD) $(OBJECTS) -o odyssey $(LDFLAGS)
+	$(OBJCOPY) -O binary odyssey odyssey.bin
 
 %.o: %.c
 ifeq (, $(shell which $(CC)))
@@ -42,7 +43,7 @@ endif
 	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
-	-rm -f $(OBJECTS) $(OBJDEPS) odyssey odyssey.map
+	-rm -f $(OBJECTS) $(OBJDEPS) odyssey odyssey.map odyssey.bin
 
 distclean: clean
 	-rm -f tags
