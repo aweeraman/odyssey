@@ -9,11 +9,6 @@
 #include <stdint.h>
 
 #define MAX_READLINE_LENGTH 256
-#define READLINE_READY      0
-#define READLINE_BLOCKED    1
-
-#define KBD_DATA_PORT       0x60
-#define KBD_CMD_PORT        0x64
 
 void keyboard_init();
 void kbd_interrupt();
