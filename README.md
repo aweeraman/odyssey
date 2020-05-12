@@ -112,9 +112,8 @@ CONFIG_FRAMEBUFFER_WIDTH=1024
 CONFIG_FRAMEBUFFER_HEIGHT=768
 CONFIG_FRAMEBUFFER_BPP=32
 
-# Memory manager
-# options: ff=FirstFit
-CONFIG_MM=ff
+# FirstFit memory manager
+CONFIG_MM_FF
 
 # Run tests during boot
 CONFIG_TEST
