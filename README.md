@@ -163,6 +163,7 @@ Odyssey makes use of following software:
 * [/r/osdev](https://www.reddit.com/r/osdev)
 * [alt.os.development](https://groups.google.com/forum/#!forum/alt.os.development)
 * [Intel® 64 and IA-32 Architectures Software Developer Manuals](https://software.intel.com/en-us/articles/intel-sdm)
+* [CoreTile Express A-15 Technical Reference Manual](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.subset.boards.express/index.html)
 
 # License
 
