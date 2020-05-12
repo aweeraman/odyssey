@@ -46,7 +46,7 @@ void start_interactive_shell()
 {
         printf("\nOdyssey v%s\n", CONFIG_VERSION);
 
-#if CONFIG_KEYBOARD
+#ifdef CONFIG_KEYBOARD
         for (;;) {
                 printf("# ");
                 block_and_readline(line);

@@ -9,7 +9,7 @@
 #include <lib/string.h>
 #include <sys/memory.h>
 
-#if defined CONFIG_MM && CONFIG_MM == ff
+#ifdef CONFIG_MM_FF
 #include <sys/ffmm.h>
 #endif
 
@@ -21,7 +21,7 @@ static void fail(const char *test, const char *str)
         printf("Test %s failed: %s\n", test, str);
 }
 
-#if defined CONFIG_MM && CONFIG_MM == ff
+#ifdef CONFIG_MM_FF
 static int ff_mm_1()
 {
         int ret = 0;
@@ -231,11 +231,11 @@ void run_tests()
         run(memset_1);
         run(memcpy_1);
 
-#if ARCH_X86
+#ifdef ARCH_X86
         run(multiboot2_magic_1);
 #endif
 
-#if defined CONFIG_MM && CONFIG_MM == ff
+#ifdef CONFIG_MM_FF
         run(ff_mm_1);
 #endif
 

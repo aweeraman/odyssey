@@ -21,7 +21,7 @@
 #include <test.h>
 #endif
 
-#if defined CONFIG_MM && CONFIG_MM == ff
+#ifdef CONFIG_MM_FF
 #include <sys/ffmm.h>
 #endif
 
@@ -66,7 +66,7 @@ void kernel_main(size_t magic, size_t addr)
 
         read_multiboot_header_tags(magic, addr);
 
-#if defined CONFIG_MM && CONFIG_MM == ff
+#ifdef CONFIG_MM_FF
         init_ff_mm();
 #endif
 
@@ -76,7 +76,7 @@ void kernel_main(size_t magic, size_t addr)
         run_tests();
 #endif
 
-#if CONFIG_FRAMEBUFFER_RGB
+#ifdef CONFIG_FRAMEBUFFER_RGB
         register_n_ticks_timer(5, blink_cursor);
 #endif
 

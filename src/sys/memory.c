@@ -31,7 +31,7 @@ void peek(size_t addr, int count)
 {
         mem_ptr_t *p = (mem_ptr_t *) addr;
 
-#if ARCH_X86
+#ifdef ARCH_X86
         for (int i = 0; i < count; i++) {
                 printf("Peek addr=%x, %x%x%x%x %x%x%x%x %c%c %c%c\n", p,
                         p->nibble.n4, p->nibble.n3, p->nibble.n2, p->nibble.n1,

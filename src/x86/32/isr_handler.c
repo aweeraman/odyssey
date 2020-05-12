@@ -24,7 +24,7 @@ void irq0_handler()
  */
 void irq1_handler()
 {
-#if CONFIG_KEYBOARD
+#ifdef CONFIG_KEYBOARD
         kbd_interrupt();
 #endif
         pic_eoi(1);

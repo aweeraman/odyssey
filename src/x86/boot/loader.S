@@ -19,7 +19,7 @@ mb2_hdr:
         .long -(MULTIBOOT2_HEADER_MAGIC + MB2_ARCH_FLAG + (mb2_hdr_end - mb2_hdr))
         .align 8
 
-#if defined CONFIG_FRAMEBUFFER_RGB
+#ifdef CONFIG_FRAMEBUFFER_RGB
 framebuffer_tag_start:
         .short MULTIBOOT_HEADER_TAG_FRAMEBUFFER
         .short MULTIBOOT_HEADER_TAG_OPTIONAL
