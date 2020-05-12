@@ -59,19 +59,37 @@ ifeq ($(ARCH),arm)
 	$(QEMU) $(QEMU_ARGS) -kernel src/odyssey
 endif
 
+boot-uboot:
+ifeq ($(ARCH),arm)
+	$(QEMU) $(QEMU_ARGS) -kernel deps/u-boot/u-boot
+endif
+
 boot-coreboot: iso $(CBROM)
+ifeq ($(ARCH),i386)
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
+endif
 
 boot-efi: iso
+ifeq ($(ARCH),i386)
 	# Qemu hangs when specifying the memory argument
 	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
+endif
 
 deps:
 	mkdir -p deps
+	# Scalable fonts
 	[ -e deps/scalable-font/ ] || git clone https://gitlab.com/bztsrc/scalable-font.git deps/scalable-font
+	# Coreboot
 	[ -e deps/coreboot/ ] || git clone --branch 4.11 https://www.github.com/coreboot/coreboot deps/coreboot
 	cd deps/coreboot && git submodule update --init --checkout
 	cp config/coreboot.cfg deps/coreboot/.config
-	make -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
-	make -C deps/coreboot/ crossgcc-arm CPUS=$(NPROCS)
-	make -C deps/coreboot/ -j$(NPROCS)
+	# i386 cross compiler
+	$(MAKE) -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
+	# ARM cross compiler
+	$(MAKE) -C deps/coreboot/ crossgcc-arm CPUS=$(NPROCS)
+	# Coreboot ROM
+	$(MAKE) -C deps/coreboot/ -j$(NPROCS)
+	# u-boot
+	[ -e deps/u-boot/ ] || git clone --branch v2020.04 https://github.com/u-boot/u-boot.git deps/u-boot
+	$(MAKE) -C deps/u-boot vexpress_ca15_tc2_defconfig CROSS_COMPILE=$(PWD)/deps/coreboot/util/crossgcc/xgcc/bin/arm-eabi-
+	$(MAKE) -C deps/u-boot all CROSS_COMPILE=$(PWD)/deps/coreboot/util/crossgcc/xgcc/bin/arm-eabi-
