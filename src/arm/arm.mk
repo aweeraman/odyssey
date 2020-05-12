@@ -42,7 +42,7 @@ endif
 	$(AS) $(ASFLAGS) -o $@ $<
 
 clean:
-	-rm -f $(OBJECTS) $(OBJDEPS) odyssey
+	-rm -f $(OBJECTS) $(OBJDEPS) odyssey odyssey.map
 
 distclean: clean
 	-rm -f tags
