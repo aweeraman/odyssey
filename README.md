@@ -6,6 +6,7 @@
 
 # Current Development Status
 
+## Architecture: x86 (i386)
 - [X] Multiboot2
 - [X] EGA 80x25 console
 - [X] Scalable console fonts
@@ -15,6 +16,25 @@
 - [X] Segmentation
 - [X] Interrupt handling
 - [X] Timers
+- [ ] PS/2 & USB keyboard support
+- [ ] Memory manager
+- [ ] Paging
+- [ ] User-mode
+- [ ] System calls
+- [ ] File system
+- [ ] Multitasking
+- [ ] Process scheduler
+- [ ] Standard C-library
+- [ ] Shell and basic UNIX commands
+
+## Architecture: ARM (armv7-a)
+- [ ] EGA 80x25 console
+- [X] Serial output
+- [ ] RGB framebuffer
+- [X] Build-time customization of features
+- [ ] Segmentation
+- [ ] Interrupt handling
+- [ ] Timers
 - [ ] PS/2 & USB keyboard support
 - [ ] Memory manager
 - [ ] Paging
@@ -46,7 +66,7 @@ Install additional dependencies required for building and running odyssey
 in qemu:
 
 ```
-$ sudo apt-get install grub-common mtools qemu-system-gui qemu-system-x86 ovmf exuberant-ctags u-boot-tools
+$ sudo apt-get install grub-common mtools qemu-system-gui qemu-system-x86 qemu-system-arm ovmf exuberant-ctags u-boot-tools
 ```
 
 Optionally, if you wish to use clang, you can install it and configure
@@ -167,13 +187,13 @@ Run 'make boot' and in a different shell start gdb and set a breakpoint to
 step through the code:
 
 ```
-$ gdb src/kernel
-Reading symbols from src/kernel...
+$ gdb src/odyssey
+Reading symbols from src/odyssey...
 (gdb) target remote :1234
 Remote debugging using :1234
 0x0000fff0 in ?? ()
 (gdb) break kernel_main
-Breakpoint 1 at 0x1007c0: file kernel.c, line 26.
+Breakpoint 1 at 0x1007c0: file main.c, line 26.
 (gdb) c
 ```
 
@@ -186,6 +206,7 @@ Odyssey makes use of following free and open source software:
 * [NASM](https://www.nasm.us/)
 * [GNU Make](https://www.gnu.org/software/make/)
 * [QEMU](https://www.qemu.org/)
+* [GNU GRUB](https://www.gnu.org/software/grub/)
 * [Coreboot](https://github.com/coreboot/coreboot)
 * [U-Boot](https://github.com/u-boot/u-boot)
 * [OVMF](https://github.com/tianocore/tianocore.github.io/wiki/OVMF)
