@@ -177,12 +177,24 @@ Breakpoint 1 at 0x1007c0: file kernel.c, line 26.
 (gdb) c
 ```
 
-# Attribution
+# Use of Free and Open Source Software
 
-Odyssey makes use of following software:
+Odyssey makes use of following free and open source software:
 
+* [GCC](https://gcc.gnu.org/)
+* [Clang](https://clang.llvm.org/)
+* [NASM](https://www.nasm.us/)
+* [GNU Make](https://www.gnu.org/software/make/)
+* [QEMU](https://www.qemu.org/)
 * [Coreboot](https://github.com/coreboot/coreboot)
+* [U-Boot](https://github.com/u-boot/u-boot)
+* [OVMF](https://github.com/tianocore/tianocore.github.io/wiki/OVMF)
 * [Scalable Screen Font](https://gitlab.com/bztsrc/scalable-font)
+* [CTAGS](http://ctags.sourceforge.net/)
+
+# License
+
+Odyssey is distributed under the GPLv3 license.
 
 # Reference
 
@@ -192,6 +204,3 @@ Odyssey makes use of following software:
 * [Intel® 64 and IA-32 Architectures Software Developer Manuals](https://software.intel.com/en-us/articles/intel-sdm)
 * [CoreTile Express A-15 Technical Reference Manual](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.subset.boards.express/index.html)
 
-# License
-
-Odyssey is distributed under the GPLv3 license.
