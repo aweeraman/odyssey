@@ -1,87 +1,48 @@
-ARCH := $(or $(ARCH),x86)
-ifeq ($(ARCH),x86)
-	CONFIG := config/build_x86.cfg
-endif
-ifeq ($(ARCH),arm)
-	CONFIG := config/build_arm.cfg
-endif
-include $(CONFIG)
+ARCH   := $(or $(ARCH),x86)
+include config/build_$(ARCH).cfg
 
 ifeq ($(DEBUG),yes)
 	QEMU_ARGS += -s -S
 endif
 
-MAJOR_VERSION := $(shell grep CONFIG_VERSION_MAJOR config/kernel.cfg  | cut -d"=" -f2)
-MINOR_VERSION := $(shell grep CONFIG_VERSION_MINOR config/kernel.cfg  | cut -d"=" -f2)
-VERSION       := "$(MAJOR_VERSION).$(MINOR_VERSION)"
-
-.PHONY: all clean iso boot boot-coreboot boot-efi deps coverity coverity-submit
+.PHONY: all distclean image iso boot boot-uboot boot-coreboot boot-efi deps coverity coverity-submit
 
 all:
 	$(MAKE) ARCH=$(ARCH) -j $(NPROC) -C src
 
-clean:
-	-$(MAKE) -C src clean
-	-rm -rf $(ISO) iso
-	-rm -f odyssey-coverity.tar.gz
-	-rm -rf cov-int
-	-rm -f odyssey.img
+distclean:
+	-$(MAKE) ARCH=arm -C src clean
+	-$(MAKE) ARCH=x86 -C src clean
+	-rm -rf $(ISO) iso odyssey.img
+	-rm -rf odyssey-coverity.tar.gz cov-int
 
-coverity:
-ifeq (, $(shell which cov-build))
-	$(error cov-build is not available in the PATH)
-endif
-	$(MAKE) -C src cov-configure
-	cov-build --dir cov-int $(MAKE) all
-	tar zcvf odyssey-coverity.tar.gz cov-int
-
-coverity-submit: clean coverity
-ifndef COVERITY_TOKEN
-	$(error COVERITY_TOKEN is not set)
-endif
-	curl --form token=$(COVERITY_TOKEN) \
-	--form email=anuradha@weeraman.com \
-	--form file=@odyssey-coverity.tar.gz \
-	--form version="$(VERSION)" \
-	--form description="An experimental x86 operating system" \
-	https://scan.coverity.com/builds?project=minos
-
-img:
+image: distclean all
 	mkimage -A arm -O linux -T kernel -a 0x0080000000 -e 0x0080000000 -C none -d src/odyssey.bin odyssey.img
 
-iso:
+iso: distclean all
 	mkdir -p iso/boot/grub/
 	cp config/grub.cfg iso/boot/grub/
 	cp src/odyssey iso/boot/
 	grub-mkrescue -o $(ISO) iso
 
 boot:
-ifeq ($(ARCH),x86)
-	$(MAKE) all
-	$(MAKE) iso
+ifeq ($(ARCH),arm)
+	$(MAKE) ARCH=arm image
+	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel src/odyssey
+else ifeq ($(ARCH),x86)
+	$(MAKE) ARCH=x86 iso
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
 endif
-ifeq ($(ARCH),arm)
-	$(MAKE) all
-	$(MAKE) img
-	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel src/odyssey
-endif
 
-boot-uboot:
-ifeq ($(ARCH),arm)
+boot-uboot: image
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel deps/u-boot/u-boot
-endif
 
 boot-coreboot: iso $(CBROM)
-ifeq ($(ARCH),x86)
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -bios $(CBROM) -cdrom $(ISO)
-endif
 
 boot-efi: iso
-ifeq ($(ARCH),x86)
 	# Qemu hangs when specifying the memory argument
 	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
-endif
 
 deps:
 	mkdir -p deps
@@ -101,3 +62,22 @@ deps:
 	[ -e deps/u-boot/ ] || git clone --branch v2020.04 https://github.com/u-boot/u-boot.git deps/u-boot
 	$(MAKE) -C deps/u-boot vexpress_ca15_tc2_defconfig CROSS_COMPILE=$(PWD)/deps/coreboot/util/crossgcc/xgcc/bin/arm-eabi-
 	$(MAKE) -C deps/u-boot all CROSS_COMPILE=$(PWD)/deps/coreboot/util/crossgcc/xgcc/bin/arm-eabi-
+
+coverity:
+ifeq (, $(shell which cov-build))
+	$(error cov-build is not available in the PATH)
+endif
+	$(MAKE) -C src cov-configure
+	cov-build --dir cov-int $(MAKE) all
+	tar zcvf odyssey-coverity.tar.gz cov-int
+
+coverity-submit: clean coverity
+ifndef COVERITY_TOKEN
+	$(error COVERITY_TOKEN is not set)
+endif
+	curl --form token=$(COVERITY_TOKEN) \
+	--form email=anuradha@weeraman.com \
+	--form file=@odyssey-coverity.tar.gz \
+	--form version="$(VERSION)" \
+	--form description="An experimental x86 operating system" \
+	https://scan.coverity.com/builds?project=minos
