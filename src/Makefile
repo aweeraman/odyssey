@@ -1,13 +1,6 @@
 # Default ARCH to x86
 ARCH := $(or $(ARCH),x86)
-
-ifeq ($(ARCH),x86)
-	include x86/x86.mk
-endif
-
-ifeq ($(ARCH),arm)
-	include arm/arm.mk
-endif
+include $(ARCH)/$(ARCH).mk
 
 .PHONY: cov-configure tags
 
