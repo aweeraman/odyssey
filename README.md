@@ -55,7 +55,7 @@ $ git clone https://github.com/aweeraman/odyssey.git
 $ sudo apt-get install git gcc g++ make m4 bison flex bzip2 xz-utils curl zlib1g-dev gnat python
 ```
 
-Build GCC cross compiler and openboot:
+Build GCC cross compilers for i386, armv7-a and boot loaders:
 
 ```
 $ cd odyssey
@@ -96,13 +96,19 @@ AS        := ../coreboot/util/crossgcc/xgcc/bin/nasm
 To build and run in qemu:
 
 ```
-$ make boot     # defaults to x86
+$ make boot
 ```
 
 or, to build the ARM version:
 
 ```
-$ make ARCH=arm clean boot
+$ make ARCH=arm boot
+```
+
+To build and run in qemu with Coreboot:
+
+```
+$ make boot-coreboot
 ```
 
 To build and run in qemu with OVMS/EFI:
