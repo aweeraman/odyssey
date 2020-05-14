@@ -4,13 +4,12 @@
  */
 
 #include <cmd/shell.h>
-#include <sys/keyboard.h>
 #include <lib/termio.h>
 #include <lib/string.h>
 #include <ppm/odyssey.h>
 #include <sys/tty.h>
 
-char line[MAX_READLINE_LENGTH];
+char line[MAX_CMD_LENGTH];
 
 const char* commands = "Available commands: clear, help, splash, exit";
 
@@ -36,7 +35,7 @@ static void splash()
 
 static int cmd(const char *cmd, char *input)
 {
-        if (strncmp (cmd, input, MAX_READLINE_LENGTH) == 0)
+        if (strncmp (cmd, input, MAX_CMD_LENGTH) == 0)
                 return 0;
 
         return 1;
@@ -51,7 +50,7 @@ void start_interactive_shell()
 #ifdef CONFIG_KEYBOARD
         for (;;) {
                 printf("# ");
-                block_and_readline(line);
+                getstr(line, MAX_CMD_LENGTH);
 
                 if  (cmd("", line) == 0) {
                         // do nothing

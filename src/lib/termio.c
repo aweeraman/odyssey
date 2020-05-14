@@ -6,11 +6,44 @@
 #include <lib/termio.h>
 #include <lib/string.h>
 #include <sys/tty.h>
+#include <sys/keyboard.h>
 
 int putchar(int c)
 {
         printc(c);
         return c;
+}
+
+int getchar()
+{
+        return block_and_read_char();
+}
+
+char *getstr(char *line, int max_length)
+{
+        char ch;
+        int line_counter = 0;
+
+        while((ch = getchar()) != '\n') {
+                if (line_counter < max_length-1) {
+                        if (ch == '\b') {
+                                line[line_counter--] = '\0';
+                                backspace();
+                        } else {
+                                line[line_counter++] = ch;
+                                putchar(ch);
+                        }
+                } else {
+                        putchar('\n');
+                        line[line_counter] = '\0';
+                        line_counter = 0;
+                }
+        }
+        line[line_counter] = '\0';
+        line_counter = 0;
+        putchar(ch);
+
+        return line;
 }
 
 /*

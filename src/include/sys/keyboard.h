@@ -12,6 +12,6 @@
 
 void keyboard_init();
 void kbd_interrupt();
-uint8_t block_and_readline(char *line);
+uint8_t block_and_read_char();
 
 #endif

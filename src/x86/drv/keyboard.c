@@ -18,9 +18,9 @@
 #define READLINE_READY      0
 #define READLINE_BLOCKED    1
 
-static char    linebuf[MAX_READLINE_LENGTH];
-static int     line_counter = 0;
 static uint8_t line_status  = READLINE_READY;
+static char    linebuf[MAX_READLINE_LENGTH];
+static int     pos = 0;
 
 /* KBDUS means US Keyboard Layout. This is a scancode table
 *  used to layout a standard US keyboard. I have left some
@@ -77,40 +77,24 @@ void kbd_interrupt()
         if (!(scancode & 0x80)) {
                 char last_char = kbdus[scancode];
                 if (line_status == READLINE_BLOCKED) {
-                        if (line_counter < MAX_READLINE_LENGTH-1) {
-                                if (last_char == '\b') {
-                                        linebuf[line_counter--] = '\0';
-                                        backspace();
-                                } else if (last_char == '\n') {
-                                        linebuf[line_counter] = '\0';
-                                        line_counter = 0;
-                                        line_status  = READLINE_READY;
-                                        putchar(last_char);
-                                } else {
-                                        linebuf[line_counter++] = last_char;
-                                        putchar(last_char);
-                                }
-                        } else {
-                                putchar('\n');
-                                linebuf[line_counter] = '\0';
-                                line_counter = 0;
-                                line_status  = READLINE_READY;
+                        if (pos < MAX_READLINE_LENGTH-1) {
+                                linebuf[pos++] = last_char;
                         }
+                        line_status  = READLINE_READY;
                 }
         }
 }
 
-uint8_t block_and_readline(char *line)
+uint8_t block_and_read_char()
 {
-        if (line_status == READLINE_BLOCKED)
-                return EINUSE;
-
         line_status = READLINE_BLOCKED;
         while (line_status == READLINE_BLOCKED)
                 asm("hlt");
 
-        strncpy(line, linebuf, MAX_READLINE_LENGTH);
-        return strnlen(line, MAX_READLINE_LENGTH);
+        if (pos > 0)
+                return linebuf[--pos];
+
+        return 0;
 }
 
 void keyboard_init()

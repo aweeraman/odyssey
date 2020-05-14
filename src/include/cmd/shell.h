@@ -8,6 +8,8 @@
 
 #include <lib/termio.h>
 
+#define MAX_CMD_LENGTH 256
+
 void start_interactive_shell();
 
 #endif

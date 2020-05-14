@@ -6,8 +6,10 @@
 #ifndef TERMIO_H
 #define TERMIO_H
 
-int    prints(char *str);
-int    putchar(int c);
-void   printf(const char *fmt, ...);
+int   prints(char *str);
+int   putchar(int c);
+int   getchar(void);
+char *getstr(char *buf, int size);
+void  printf(const char *fmt, ...);
 
 #endif
