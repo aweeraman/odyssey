@@ -90,6 +90,7 @@ endif
 
 clean:
 	-rm -f $(OBJECTS) $(OBJDEPS) odyssey
+	-find . -name "*.o.d" -exec rm {} \;
 
 distclean: clean
 	-rm -f tags

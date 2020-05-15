@@ -49,6 +49,7 @@ endif
 
 clean:
 	-rm -f $(OBJECTS) $(OBJDEPS) odyssey odyssey.map odyssey.bin
+	-find . -name "*.o.d" -exec rm {} \;
 
 distclean: clean
 	-rm -f tags
