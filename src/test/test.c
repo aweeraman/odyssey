@@ -5,7 +5,6 @@
 
 #include <test.h>
 #include <lib/termio.h>
-#include <sys/memory.h>
 
 static int tests_passed;
 static int tests_failed;
@@ -14,19 +13,6 @@ void fail(const char *test, const int line, char *msg)
 {
         printf("Test %s failed: line %d, %s\n", test, line, msg);
 }
-
-#ifdef ARCH_X86
-static int multiboot2_magic_1()
-{
-        int ret = 0;
-        mem_ptr_t *p = (mem_ptr_t *) 0x100000;
-
-        ASSERT(p->word.w1 != 0x50d6, "peek at mem location 0x100000 is not 50d6");
-        ASSERT(p->word.w2 != 0xe852, "peek at mem location 0x100002 is not e852");
-
-        return ret;
-}
-#endif
 
 static void run(int (*test)())
 {
@@ -50,7 +36,7 @@ void run_tests()
         TEST(memcpy_1);
 
 #ifdef ARCH_X86
-        run(multiboot2_magic_1);
+        TEST(multiboot2_magic_1);
 #endif
 
 #if ARCH_X86 && CONFIG_MM_FF
