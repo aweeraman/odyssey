@@ -6,6 +6,10 @@
 #ifndef TEST_H
 #define TEST_H
 
+#define TEST(test) \
+        extern int test(); \
+        run(test)
+
 #define ASSERT(expr, msg) \
         if (expr) { \
                 fail(__FUNCTION__, __LINE__, msg); \
