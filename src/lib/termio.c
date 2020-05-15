@@ -14,6 +14,7 @@ int putchar(int c)
         return c;
 }
 
+#if ARCH_X86
 int getchar()
 {
         return block_and_read_char();
@@ -45,6 +46,7 @@ char *getstr(char *line, int max_length)
 
         return line;
 }
+#endif
 
 /*
  * Like puts, without a newline at the end
