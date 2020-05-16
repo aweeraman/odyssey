@@ -8,12 +8,7 @@ ifeq ($(DEBUG),yes)
 endif
 
 OPTS_LIST  := $(shell grep -v "^\#" ../config/kernel.cfg)
-OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt))
-ifeq ($(ARCH),x86)
-OPTS       += -DARCH_X86
-else ifeq ($(ARCH),arm)
-OPTS       += -DARCH_ARM
-endif
+OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt)) -DARCH_ARM
 CFLAGS     += $(OPTS)
 
 BOOT       := $(patsubst %.s, %.o,          $(wildcard arm/boot/*.s)) \
@@ -26,7 +21,7 @@ OBJECTS    += $(BOOT) $(DRV) $(TEST) $(LIB)
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
-.PHONY: clean distclean tags
+.PHONY: clean distclean
 
 odyssey: $(OBJECTS)
 ifeq (, $(shell which $(LD)))
