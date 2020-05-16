@@ -53,6 +53,9 @@ _start:
         # Multiboot2 magic value
         pushl %eax
 
+        # Disable interrupts
+        cli
+
         # Jump to function in kernel.c
         call kernel_main
 
