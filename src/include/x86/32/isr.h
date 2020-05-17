@@ -6,22 +6,41 @@
 #ifndef ISR_H
 #define ISR_H
 
-extern void irq0();
-extern void irq1();
-extern void irq2();
-extern void irq3();
-extern void irq4();
-extern void irq5();
-extern void irq6();
-extern void irq7();
-extern void irq8();
-extern void irq9();
-extern void irq10();
-extern void irq11();
-extern void irq12();
-extern void irq13();
-extern void irq14();
-extern void irq15();
+#include <stdint.h>
+
+extern int irq0();
+extern int irq1();
+extern int irq2();
+extern int irq3();
+extern int irq4();
+extern int irq5();
+extern int irq6();
+extern int irq7();
+extern int irq8();
+extern int irq9();
+extern int irq10();
+extern int irq11();
+extern int irq12();
+extern int irq13();
+extern int irq14();
+extern int irq15();
+
+uint32_t irq0_address;
+uint32_t irq1_address;
+uint32_t irq2_address;
+uint32_t irq3_address;
+uint32_t irq4_address;
+uint32_t irq5_address;
+uint32_t irq6_address;
+uint32_t irq7_address;
+uint32_t irq8_address;
+uint32_t irq9_address;
+uint32_t irq10_address;
+uint32_t irq11_address;
+uint32_t irq12_address;
+uint32_t irq13_address;
+uint32_t irq14_address;
+uint32_t irq15_address;
 
 void irq0_handler();
 void irq1_handler();

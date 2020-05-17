@@ -23,22 +23,40 @@ static void idt_entry(int idx, uint32_t offset)
 void idt_init()
 {
         printf("Initializing interrupt vector table\n");
-        idt_entry(32, (uint32_t) irq0);
-        idt_entry(33, (uint32_t) irq1);
-        idt_entry(34, (uint32_t) irq2);
-        idt_entry(35, (uint32_t) irq3);
-        idt_entry(36, (uint32_t) irq4);
-        idt_entry(37, (uint32_t) irq5);
-        idt_entry(38, (uint32_t) irq6);
-        idt_entry(39, (uint32_t) irq7);
-        idt_entry(40, (uint32_t) irq8);
-        idt_entry(41, (uint32_t) irq9);
-        idt_entry(42, (uint32_t) irq10);
-        idt_entry(43, (uint32_t) irq11);
-        idt_entry(44, (uint32_t) irq12);
-        idt_entry(45, (uint32_t) irq13);
-        idt_entry(46, (uint32_t) irq14);
-        idt_entry(47, (uint32_t) irq15);
+
+        irq0_address  = (uint32_t) irq0;
+        irq1_address  = (uint32_t) irq1;
+        irq2_address  = (uint32_t) irq2;
+        irq3_address  = (uint32_t) irq3;
+        irq4_address  = (uint32_t) irq4;
+        irq5_address  = (uint32_t) irq5;
+        irq6_address  = (uint32_t) irq6;
+        irq7_address  = (uint32_t) irq7;
+        irq8_address  = (uint32_t) irq8;
+        irq9_address  = (uint32_t) irq9;
+        irq10_address = (uint32_t) irq10;
+        irq11_address = (uint32_t) irq11;
+        irq12_address = (uint32_t) irq12;
+        irq13_address = (uint32_t) irq13;
+        irq14_address = (uint32_t) irq14;
+        irq15_address = (uint32_t) irq15;
+
+        idt_entry(32, irq0_address);
+        idt_entry(33, irq1_address);
+        idt_entry(34, irq2_address);
+        idt_entry(35, irq3_address);
+        idt_entry(36, irq4_address);
+        idt_entry(37, irq5_address);
+        idt_entry(38, irq6_address);
+        idt_entry(39, irq7_address);
+        idt_entry(40, irq8_address);
+        idt_entry(41, irq9_address);
+        idt_entry(42, irq10_address);
+        idt_entry(43, irq11_address);
+        idt_entry(44, irq12_address);
+        idt_entry(45, irq13_address);
+        idt_entry(46, irq14_address);
+        idt_entry(47, irq15_address);
 
         uint32_t addr = (uint32_t) idt_entries;
         idt.size = (sizeof (idt_entries) - 1);
