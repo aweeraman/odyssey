@@ -11,9 +11,44 @@
 #include <sys/timer.h>
 #include <sys/panic.h>
 
+char *exception_types[32] = {
+        "Divide-by-zero",
+        "Debug",
+        "Non-maskable interrupt",
+        "Breakpoint",
+        "Overflow",
+        "Bound range exceeded",
+        "Invalid opcode",
+        "Device not available",
+        "Double fault",
+        "Coprocessor segment overrun",
+        "Invalid TSS",
+        "Segment not present",
+        "Stack-segment fault",
+        "General protection fault",
+        "Page fault",
+        "Reserved",
+        "x87 floating-point exception",
+        "Alignment check",
+        "Machine check",
+        "SIMD floating-point exception",
+        "Virtualization exception",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Reserved",
+        "Security exception",
+        "Reserved",
+};
+
 void exception_handler(int ex)
 {
-        printf("Caught exception %d\n", ex);
+        printf("Caught exception %d (%s)\n", ex, exception_types[ex]);
         panic("Exception");
 }
 

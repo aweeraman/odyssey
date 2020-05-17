@@ -11,7 +11,7 @@
 
 char line[MAX_CMD_LENGTH];
 
-const char* commands = "Available commands: clear, help, splash, exit";
+const char* commands = "Available commands: help, clear, splash, exception, exit";
 
 static void splash()
 {
@@ -62,6 +62,8 @@ void start_interactive_shell()
                         clear_screen();
                 } else if (cmd("splash", line) == 0) {
                         splash();
+                } else if (cmd("exception", line) == 0) {
+                        printf("%d", 1/0);
                 } else {
                         printf ("Unknown command. %s\n", commands);
                 }
