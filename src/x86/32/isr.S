@@ -14,7 +14,7 @@ irq\num\() :
         iret
 .endm
 
-.macro exception_handler num
+.macro generic_exception_handler num
         .global exception\num
 exception\num\() :
         pushal
@@ -32,38 +32,38 @@ load_idt:
         sti
         ret
 
-exception_handler 0
-exception_handler 1
-exception_handler 2
-exception_handler 3
-exception_handler 4
-exception_handler 5
-exception_handler 6
-exception_handler 7
-exception_handler 8
-exception_handler 9
-exception_handler 10
-exception_handler 11
-exception_handler 12
-exception_handler 13
-exception_handler 14
-exception_handler 15
-exception_handler 16
-exception_handler 17
-exception_handler 18
-exception_handler 19
-exception_handler 20
-exception_handler 21
-exception_handler 22
-exception_handler 23
-exception_handler 24
-exception_handler 25
-exception_handler 26
-exception_handler 27
-exception_handler 28
-exception_handler 29
-exception_handler 30
-exception_handler 31
+generic_exception_handler 0
+generic_exception_handler 1
+generic_exception_handler 2
+generic_exception_handler 3
+generic_exception_handler 4
+generic_exception_handler 5
+generic_exception_handler 6
+generic_exception_handler 7
+generic_exception_handler 8
+generic_exception_handler 9
+generic_exception_handler 10
+generic_exception_handler 11
+generic_exception_handler 12
+generic_exception_handler 13
+generic_exception_handler 14
+generic_exception_handler 15
+generic_exception_handler 16
+generic_exception_handler 17
+generic_exception_handler 18
+generic_exception_handler 19
+generic_exception_handler 20
+generic_exception_handler 21
+generic_exception_handler 22
+generic_exception_handler 23
+generic_exception_handler 24
+generic_exception_handler 25
+generic_exception_handler 26
+generic_exception_handler 27
+generic_exception_handler 28
+generic_exception_handler 29
+generic_exception_handler 30
+generic_exception_handler 31
 
 irq_handler 0
 irq_handler 1
