@@ -71,7 +71,7 @@ endif
 	cov-build --dir cov-int $(MAKE) all
 	tar zcvf odyssey-coverity.tar.gz cov-int
 
-coverity-submit: clean coverity
+coverity-submit: distclean coverity
 ifndef COVERITY_TOKEN
 	$(error COVERITY_TOKEN is not set)
 endif
