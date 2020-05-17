@@ -29,8 +29,11 @@ void pic_init()
         outb(PIC_SLAVE_DATA,  0x01);
         outb(PIC_MASTER_DATA,  0x0);
         outb(PIC_SLAVE_DATA,   0x0);
+}
 
-        // Unmask interrupts that are supported
+void pic_unmask_interrupts()
+{
+        printf("Unmasking interrupts\n");
         pic_mask(0, PIC_UNMASK);
 #ifdef CONFIG_KEYBOARD
         pic_mask(1, PIC_UNMASK);

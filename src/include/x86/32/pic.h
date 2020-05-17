@@ -18,6 +18,7 @@
 
 void pic_init();
 void pic_eoi(int irq);
+void pic_unmask_interrupts();
 void pic_mask(int irq, short mask);
 
 #endif

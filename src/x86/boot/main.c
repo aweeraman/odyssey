@@ -60,6 +60,7 @@ void kernel_main(size_t magic, size_t addr)
         gdt_init();
         pic_init();
         idt_init();
+        pic_unmask_interrupts();
 
 #ifdef CONFIG_KEYBOARD
         keyboard_init();
