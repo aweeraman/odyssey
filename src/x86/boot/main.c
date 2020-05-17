@@ -81,5 +81,7 @@ void kernel_main(size_t magic, size_t addr)
         register_n_ticks_timer(5, blink_cursor);
 #endif
 
+        printf("Division by zero %d\n", 1/0);
+
         start_interactive_shell();
 }

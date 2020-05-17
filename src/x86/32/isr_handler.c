@@ -9,6 +9,13 @@
 #include <x86/32/pic.h>
 #include <sys/keyboard.h>
 #include <sys/timer.h>
+#include <sys/panic.h>
+
+void exception_handler(int ex)
+{
+        printf("Caught exception %d\n", ex);
+        panic("Exception");
+}
 
 /*
  * Progammable Interrupt Timer

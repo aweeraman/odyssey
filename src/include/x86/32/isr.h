@@ -25,23 +25,6 @@ extern int irq13();
 extern int irq14();
 extern int irq15();
 
-uint32_t irq0_address;
-uint32_t irq1_address;
-uint32_t irq2_address;
-uint32_t irq3_address;
-uint32_t irq4_address;
-uint32_t irq5_address;
-uint32_t irq6_address;
-uint32_t irq7_address;
-uint32_t irq8_address;
-uint32_t irq9_address;
-uint32_t irq10_address;
-uint32_t irq11_address;
-uint32_t irq12_address;
-uint32_t irq13_address;
-uint32_t irq14_address;
-uint32_t irq15_address;
-
 void irq0_handler();
 void irq1_handler();
 void irq2_handler();
@@ -58,5 +41,40 @@ void irq12_handler();
 void irq13_handler();
 void irq14_handler();
 void irq15_handler();
+
+extern int exception0();
+extern int exception1();
+extern int exception2();
+extern int exception3();
+extern int exception4();
+extern int exception5();
+extern int exception6();
+extern int exception7();
+extern int exception8();
+extern int exception9();
+extern int exception10();
+extern int exception11();
+extern int exception12();
+extern int exception13();
+extern int exception14();
+extern int exception15();
+extern int exception16();
+extern int exception17();
+extern int exception18();
+extern int exception19();
+extern int exception20();
+extern int exception21();
+extern int exception22();
+extern int exception23();
+extern int exception24();
+extern int exception25();
+extern int exception26();
+extern int exception27();
+extern int exception28();
+extern int exception29();
+extern int exception30();
+extern int exception31();
+
+void exception_handler();
 
 #endif

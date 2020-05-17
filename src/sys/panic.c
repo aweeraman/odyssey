@@ -8,6 +8,6 @@
 
 void panic(char *str)
 {
-        printf("kernel panic: %s\n", str);
+        printf("PANIC: %s\n", str);
         while(1) {}
 }
