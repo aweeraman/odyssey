@@ -56,6 +56,14 @@ _start:
         # Disable interrupts
         cli
 
+        # Setup the GDT
+        call gdt_init
+
+        # Enter protected mode
+        mov %cr0, %eax
+        or $1, %eax
+        mov %eax, %cr0
+
         # Jump to function in kernel.c
         call kernel_main
 

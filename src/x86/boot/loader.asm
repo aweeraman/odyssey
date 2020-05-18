@@ -5,6 +5,7 @@
 global _start
 
 extern kernel_main
+extern gdt_init
 extern printf
 
 MB2_MAGIC                equ 0xe85250d6
@@ -57,6 +58,14 @@ _start:
         ; Disable interrupts
         cli
 
+        ; Setup the GDT
+        call gdt_init
+
+        ; Enter protected mode
+        mov eax, cr0
+        or eax, 1
+        mov cr0, eax
+
         ; Jump to function in kernel.c
         call kernel_main
 
@@ -65,7 +74,9 @@ _start:
         call printf
 
         cli
+_idle:
         hlt
+        jmp _idle
 
 message db "System shutdown.", 10, 0
 

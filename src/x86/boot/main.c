@@ -59,7 +59,6 @@ void kernel_main(size_t magic, size_t addr)
 
         printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
 
-        gdt_init();
         pic_init();
         idt_init();
         pic_unmask_interrupts();
