@@ -8,6 +8,7 @@
 
 ## Architecture: x86 (i386)
 - [X] Multiboot2
+- [X] Protected mode
 - [X] EGA 80x25 console
 - [X] Scalable console fonts
 - [X] Serial output
@@ -16,7 +17,7 @@
 - [X] Segmentation
 - [X] Interrupt handling
 - [X] Timers
-- [ ] PS/2 & USB keyboard support
+- [X] PS/2 keyboard support
 - [ ] Memory manager
 - [ ] Paging
 - [ ] User-mode
@@ -35,7 +36,7 @@
 - [ ] Segmentation
 - [ ] Interrupt handling
 - [ ] Timers
-- [ ] PS/2 & USB keyboard support
+- [ ] PS/2 keyboard support
 - [ ] Memory manager
 - [ ] Paging
 - [ ] User-mode
