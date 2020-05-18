@@ -59,6 +59,12 @@ _start:
         # Setup the GDT
         call gdt_init
 
+        # Initialize the PIC
+        call pic_init
+
+        # Setup the IDT
+        call idt_init
+
         # Enter protected mode
         mov %cr0, %eax
         or $1, %eax

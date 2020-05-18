@@ -6,6 +6,8 @@ global _start
 
 extern kernel_main
 extern gdt_init
+extern pic_init
+extern idt_init
 extern printf
 
 MB2_MAGIC                equ 0xe85250d6
@@ -60,6 +62,12 @@ _start:
 
         ; Setup the GDT
         call gdt_init
+
+        ; Initialize the PIC
+        call pic_init
+
+        ; Setup the IDT
+        call idt_init
 
         ; Enter protected mode
         mov eax, cr0
