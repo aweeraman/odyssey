@@ -51,6 +51,8 @@ void kernel_main(size_t magic, size_t addr)
 
         early_framebuffer_console_init(magic, addr);
 
+        read_multiboot_header_tags(magic, addr);
+
 #ifdef CONFIG_SERIAL
         printf("Initialized serial interface\n");
 #endif
@@ -65,8 +67,6 @@ void kernel_main(size_t magic, size_t addr)
 #ifdef CONFIG_KEYBOARD
         keyboard_init();
 #endif
-
-        read_multiboot_header_tags(magic, addr);
 
 #ifdef CONFIG_MM_FF
         init_ff_mm();

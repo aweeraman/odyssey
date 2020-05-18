@@ -28,8 +28,7 @@ void early_framebuffer_console_init(size_t magic, size_t addr)
 
         // Check if bootloader complies with multiboot2
         if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
-                panic("Please use a bootloader that supports the Multiboot2 "
-                                "specification.");
+                panic("Please use a bootloader that supports Multiboot2.");
         }
 
         for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
@@ -63,12 +62,6 @@ void read_multiboot_header_tags(size_t magic, size_t addr)
         struct multiboot_tag *tag;
         struct multiboot_tag_basic_meminfo *meminfo;
         struct multiboot_tag_bootdev *bootdev_tag;
-
-        // Check if bootloader complies with multiboot2
-        if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
-                panic("Please use a bootloader that supports the Multiboot2"
-                                "specification.");
-        }
 
         printf("Multiboot information structure: start=0x%x %uB\n",
                         addr, *(size_t *) addr);
