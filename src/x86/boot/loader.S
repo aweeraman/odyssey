@@ -78,8 +78,8 @@ _start:
         call printf
 
         cli
-1:      hlt
-        jmp 1b
+halt:   hlt
+        jmp halt
 
 shutdown_msg:
         .asciz  "System shutdown.\n"
