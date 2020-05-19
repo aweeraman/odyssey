@@ -20,7 +20,7 @@ void busy_wait(int ticks_to_wait)
         uint32_t end   = ticks + ticks_to_wait;
 
         if (end < start) {
-                while (ticks > start && ticks <= UINT32_MAX);
+                while (ticks > start);
         }
 
         while (ticks < end);
