@@ -4,7 +4,7 @@
  */
 
 #include <sys/timer.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <sys/tty.h>
 #include <stddef.h>
 #include <error.h>

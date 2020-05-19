@@ -4,7 +4,7 @@
  */
 
 #include <lib/string.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 
 #ifdef CONFIG_TEST
 #include <test.h>

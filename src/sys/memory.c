@@ -5,7 +5,7 @@
 
 #include <sys/memory.h>
 #include <sys/tty.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <sys/panic.h>
 
 static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {

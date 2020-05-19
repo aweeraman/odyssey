@@ -8,7 +8,7 @@
 #include <sys/keyboard.h>
 #include <sys/tty.h>
 #include <x86/io.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <lib/string.h>
 #include <error.h>
 

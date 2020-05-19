@@ -5,7 +5,7 @@
 
 #include <sys/tty.h>
 #include <sys/timer.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <x86/boot/multiboot2.h>
 #include <x86/io.h>
 #include <stddef.h>

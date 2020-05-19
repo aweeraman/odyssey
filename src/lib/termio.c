@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <lib/string.h>
 #include <sys/tty.h>
 #include <sys/keyboard.h>

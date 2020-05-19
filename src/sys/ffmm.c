@@ -4,7 +4,7 @@
  */
 
 #include <sys/ffmm.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <lib/string.h>
 
 static ff_mem_page_t *root_frame = (ff_mem_page_t *) MEM_START_ADDR;

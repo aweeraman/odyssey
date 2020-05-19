@@ -4,7 +4,7 @@
  */
 
 #include <sys/panic.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 
 void panic(char *str)
 {

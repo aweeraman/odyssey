@@ -7,7 +7,7 @@
 #include <x86/boot/device.h>
 #include <x86/32/acpi.h>
 #include <sys/memory.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <lib/string.h>
 #include <sys/panic.h>
 #include <sys/tty.h>

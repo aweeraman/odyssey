@@ -4,7 +4,7 @@
  */
 
 #include <cmd/shell.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <lib/string.h>
 #include <ppm/odyssey.h>
 #include <sys/tty.h>

@@ -6,7 +6,7 @@
 #include <x86/32/idt.h>
 #include <x86/32/isr.h>
 #include <x86/32/pic.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 
 static idt_descriptor_t idt;
 static idt_entry_t idt_entries[256];

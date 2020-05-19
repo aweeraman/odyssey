@@ -5,7 +5,7 @@
 
 #include <x86/32/isr.h>
 #include <x86/io.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 #include <x86/32/pic.h>
 #include <sys/keyboard.h>
 #include <sys/timer.h>

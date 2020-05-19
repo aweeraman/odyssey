@@ -6,7 +6,7 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#include <lib/termio.h>
+#include <lib/stdio.h>
 
 #define MAX_CMD_LENGTH 256
 

@@ -4,7 +4,7 @@
  */
 
 #include <test.h>
-#include <lib/termio.h>
+#include <lib/stdio.h>
 
 static int tests_passed;
 static int tests_failed;
