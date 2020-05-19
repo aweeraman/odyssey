@@ -321,7 +321,7 @@ void init_console()
         ssfn_x = 0;
         ssfn_y = 0;
 
-        printf("Initialized RGB framebuffer at 0x%x\n",
+        printk("Initialized RGB framebuffer at 0x%x\n",
                         framebuffer->common.framebuffer_addr);
 #endif
         } else if (FB_EGA) {
@@ -331,10 +331,10 @@ void init_console()
                 clear_screen();
                 enable_cursor(1, 15);
 
-                printf("Initialized EGA framebuffer at 0x%x\n",
+                printk("Initialized EGA framebuffer at 0x%x\n",
                                 framebuffer->common.framebuffer_addr);
         } else {
-                printf("Framebuffer type %d not supported\n",
+                printk("Framebuffer type %d not supported\n",
                                 framebuffer->common.framebuffer_type);
         }
 }

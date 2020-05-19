@@ -21,13 +21,13 @@ static void gdt_entry(int entry, int32_t base, int32_t limit,
         gdt_entries[entry].flags    = flags & 0xF;
         gdt_entries[entry].base_hi  = (base >> 24)  & 0xFF;
 
-        printf("  %d: base=%x limit=%x access=%b flags=%b\n",
+        printk("  %d: base=%x limit=%x access=%b flags=%b\n",
                entry,base, limit, access, flags);
 }
 
 void gdt_init()
 {
-        printf("GDT [%d]\n", GDT_ENTRIES);
+        printk("GDT [%d]\n", GDT_ENTRIES);
 
         gdt_entry(0, 0, 0, 0, 0);
         gdt_entry(1, 0, 0xFFFFFFFF, 0x9A, 0xC); /* kernel code segment */

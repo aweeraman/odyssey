@@ -43,19 +43,19 @@ static int cmd(const char *cmd, char *input)
 
 void start_interactive_shell()
 {
-        printf("\nOdyssey v%s\n",
+        printk("\nOdyssey v%s\n",
                         STRINGIFY(CONFIG_VERSION_MAJOR) "." \
                         STRINGIFY(CONFIG_VERSION_MINOR));
 
 #ifdef CONFIG_KEYBOARD
         for (;;) {
-                printf("# ");
+                printk("# ");
                 getstr(line, MAX_CMD_LENGTH);
 
                 if  (cmd("", line) == 0) {
                         // do nothing
                 } else if (cmd("help", line) == 0) {
-                        printf ("%s\n", commands);
+                        printk ("%s\n", commands);
                 } else if (cmd("exit", line) == 0) {
                         break;
                 } else if (cmd("clear", line) == 0) {
@@ -63,13 +63,13 @@ void start_interactive_shell()
                 } else if (cmd("splash", line) == 0) {
                         splash();
                 } else if (cmd("exception", line) == 0) {
-                        printf("%d", 1/0);
+                        printk("%d", 1/0);
                 } else {
-                        printf ("Unknown command. %s\n", commands);
+                        printk ("Unknown command. %s\n", commands);
                 }
         }
 #else
-        printf("Enable keyboard driver for interactive shell\n");
+        printk("Enable keyboard driver for interactive shell\n");
         for (;;) {
                 asm("hlt");
         }

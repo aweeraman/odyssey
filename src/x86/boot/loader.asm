@@ -9,7 +9,7 @@ extern early_framebuffer_console_init;
 extern gdt_init
 extern pic_init
 extern idt_init
-extern printf
+extern printk
 
 MB2_MAGIC                equ 0xe85250d6
 MB2_ARCH_FLAG            equ 0x0
@@ -83,7 +83,7 @@ _start:
 
         ; returning from the kernel
         push message
-        call printf
+        call printk
 
         cli
 _idle:

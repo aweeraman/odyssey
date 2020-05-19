@@ -33,7 +33,7 @@ void peek(size_t addr, int count)
 
 #ifdef ARCH_X86
         for (int i = 0; i < count; i++) {
-                printf("Peek addr=%x, %x%x%x%x %x%x%x%x %c%c %c%c\n", p,
+                printk("Peek addr=%x, %x%x%x%x %x%x%x%x %c%c %c%c\n", p,
                         p->nibble.n4, p->nibble.n3, p->nibble.n2, p->nibble.n1,
                         p->nibble.n8, p->nibble.n7, p->nibble.n6, p->nibble.n5,
                         PRINTABLE_CHAR(p->byte.b2), PRINTABLE_CHAR(p->byte.b1),
@@ -56,10 +56,10 @@ static char *mem_reg_lookup(int type)
 
 void print_mem_regions()
 {
-        printf("Memory map\n");
+        printk("Memory map\n");
         for (int idx = 0; idx <= num_regions; idx++) {
                 memory_region_t mem_reg = get_mem_region(idx);
-                printf("  %d: 0x%x - 0x%x %d (%s)\n",
+                printk("  %d: 0x%x - 0x%x %d (%s)\n",
                         idx,
                         mem_reg.start,
                         mem_reg.end,

@@ -18,7 +18,7 @@ void pic_eoi(int irq)
 
 void pic_init()
 {
-        printf("Initializing PIC\n");
+        printk("Initializing PIC\n");
 	outb(PIC_MASTER,      0x11);
         outb(PIC_SLAVE,       0x11);
         outb(PIC_MASTER_DATA, 0x20);
@@ -33,7 +33,7 @@ void pic_init()
 
 void pic_unmask_interrupts()
 {
-        printf("Unmasking interrupts\n");
+        printk("Unmasking interrupts\n");
         pic_mask(0, PIC_UNMASK);
 #ifdef CONFIG_KEYBOARD
         pic_mask(1, PIC_UNMASK);

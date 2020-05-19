@@ -78,7 +78,7 @@ _start:
 
         # returning from the kernel
         pushl $shutdown_msg
-        call printf
+        call printk
 
         cli
 halt:   hlt

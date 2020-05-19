@@ -112,11 +112,11 @@ void keyboard_init()
         io_wait();
         int self_test = inb(KBD_DATA_PORT);
         if (self_test & 0x55)
-                printf("Initialized PS/2 keyboard\n");
+                printk("Initialized PS/2 keyboard\n");
         else if (self_test & 0xfc)
-                printf("Error initializing PS/2 keyboard\n");
+                printk("Error initializing PS/2 keyboard\n");
         else
-                printf("Error initializing PS/2 keyboard: %x\n", self_test);
+                printk("Error initializing PS/2 keyboard: %x\n", self_test);
 
         // Enable first PS/2 port
         outb(KBD_CMD_PORT, 0xae);

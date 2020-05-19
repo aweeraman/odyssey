@@ -22,7 +22,7 @@ static void idt_entry(int idx, uint32_t offset)
 
 void idt_init()
 {
-        printf("Initializing interrupt vector table\n");
+        printk("Initializing interrupt vector table\n");
 
         idt_entry(0,  (uint32_t) exception0);
         idt_entry(1,  (uint32_t) exception1);

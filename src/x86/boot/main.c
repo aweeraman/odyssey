@@ -52,10 +52,10 @@ void kernel_main()
         read_multiboot_header_tags();
 
 #ifdef CONFIG_SERIAL
-        printf("Initialized serial interface\n");
+        printk("Initialized serial interface\n");
 #endif
 
-        printf("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
+        printk("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
 
         pic_unmask_interrupts();
 
@@ -67,7 +67,7 @@ void kernel_main()
         init_ff_mm();
 #endif
 
-        printf("Loops per tick: %d\n", get_loops_per_tick());
+        printk("Loops per tick: %d\n", get_loops_per_tick());
 
 #ifdef CONFIG_TEST
         run_tests();

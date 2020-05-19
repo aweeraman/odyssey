@@ -10,6 +10,6 @@ int   prints(char *str);
 int   putchar(int c);
 int   getchar(void);
 char *getstr(char *buf, int size);
-void  printf(const char *fmt, ...);
+void  printk(const char *fmt, ...);
 
 #endif

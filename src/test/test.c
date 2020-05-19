@@ -11,7 +11,7 @@ static int tests_failed;
 
 void fail(const char *test, const int line, char *msg)
 {
-        printf("Test %s failed: line %d, %s\n", test, line, msg);
+        printk("Test %s failed: line %d, %s\n", test, line, msg);
 }
 
 static void run(int (*test)())
@@ -43,5 +43,5 @@ void run_tests()
         TEST(ff_mm_1);
 #endif
 
-        printf("Tests run, %d / %d passed\n", tests_passed, tests_passed+tests_failed);
+        printk("Tests run, %d / %d passed\n", tests_passed, tests_passed+tests_failed);
 }

@@ -45,7 +45,7 @@ void early_framebuffer_console_init(size_t magic, size_t structure_addr)
 
                 init_console();
 
-                printf("Video addr=0x%X pitch=%d width=%d height=%d bpp=%d type=%d\n",
+                printk("Video addr=0x%X pitch=%d width=%d height=%d bpp=%d type=%d\n",
                   framebuffer->common.framebuffer_addr,
                   framebuffer->common.framebuffer_pitch,
                   framebuffer->common.framebuffer_width,
@@ -67,7 +67,7 @@ void read_multiboot_header_tags()
         struct multiboot_tag_basic_meminfo *meminfo;
         struct multiboot_tag_bootdev *bootdev_tag;
 
-        printf("Multiboot information structure: start=0x%x %uB\n",
+        printk("Multiboot information structure: start=0x%x %uB\n",
                         addr, *(size_t *) addr);
 
         for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
@@ -78,7 +78,7 @@ void read_multiboot_header_tags()
                 switch (tag->type) {
 
                         case MULTIBOOT_TAG_TYPE_CMDLINE:
-                        printf("Command line: %s\n",
+                        printk("Command line: %s\n",
                                 ((struct multiboot_tag_string *) tag)->string);
                         break;
 
@@ -86,17 +86,17 @@ void read_multiboot_header_tags()
                         strncpy(boot_cmdline,
                                 ((struct multiboot_tag_string *) tag)->string,
                                 BOOT_CMDLINE_MAX-1);
-                        printf("Boot loader: %s\n", boot_cmdline);
+                        printk("Boot loader: %s\n", boot_cmdline);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_MODULE:
-                        printf("Module: size 0x%x\n", tag->size);
+                        printk("Module: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
                         meminfo = (struct multiboot_tag_basic_meminfo *) tag;
                         set_basic_meminfo(meminfo->mem_lower, meminfo->mem_upper);
-                        printf("Basic memory info: lower=%dkB upper=%dkB\n",
+                        printk("Basic memory info: lower=%dkB upper=%dkB\n",
                                         meminfo->mem_lower,
                                         meminfo->mem_upper);
                         break;
@@ -107,7 +107,7 @@ void read_multiboot_header_tags()
                         boot_dev->partition = bootdev_tag->slice;
                         boot_dev->sub_partition = bootdev_tag->part;
 
-                        printf("Boot device: dev=0x%x slice=0x%x part=0x%x\n",
+                        printk("Boot device: dev=0x%x slice=0x%x part=0x%x\n",
                             boot_dev->biosdev,
                             boot_dev->partition,
                             boot_dev->sub_partition);
@@ -132,30 +132,30 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_VBE:
-                        printf("VBE: size 0x%x\n", tag->size);
+                        printk("VBE: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
-                        printf("ELF sections: size 0x%x\n", tag->size);
+                        printk("ELF sections: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_APM:
-                        printf("APM: size 0x%x\n", tag->size);
+                        printk("APM: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI32:
-                        printf("EFI 32-bit system table pointer: size 0x%x\n", tag->size);
+                        printk("EFI 32-bit system table pointer: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI64:
-                        printf("EFI 64-bit system table pointer: size 0x%x\n", tag->size);
+                        printk("EFI 64-bit system table pointer: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_SMBIOS:
-                        printf("SMBIOS: size 0x%x\n", tag->size);
+                        printk("SMBIOS: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ACPI_OLD:
@@ -164,7 +164,7 @@ void read_multiboot_header_tags()
 
                         acpi_v2->oem_id[5] = '\0';
 
-                        printf("ACPI v1 RSDP: rev=%d rsdt_addr=0x%x oem=%s\n",
+                        printk("ACPI v1 RSDP: rev=%d rsdt_addr=0x%x oem=%s\n",
                             acpi_v1->revision,
                             acpi_v1->rsdt_addr,
                             acpi_v1->oem_id);
@@ -177,7 +177,7 @@ void read_multiboot_header_tags()
 
                         acpi_v2->oem_id[5] = '\0';
 
-                        printf("ACPI v2 RSDP: rev=%d rsdt_addr=0x%x xsdt_addr=0x%X oem=%s\n",
+                        printk("ACPI v2 RSDP: rev=%d rsdt_addr=0x%x xsdt_addr=0x%X oem=%s\n",
                             acpi_v2->revision,
                             acpi_v2->rsdt_addr,
                             acpi_v2->xsdt_addr,
@@ -185,27 +185,27 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_NETWORK:
-                        printf("Network: size 0x%x\n", tag->size);
+                        printk("Network: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI_MMAP:
-                        printf("EFI memory map: size 0x%x\n", tag->size);
+                        printk("EFI memory map: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI_BS:
-                        printf("EFI boot services not terminated: size 0x%x\n", tag->size);
+                        printk("EFI boot services not terminated: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI32_IH:
-                        printf("EFI 32-bit image handle pointer: size 0x%x\n", tag->size);
+                        printk("EFI 32-bit image handle pointer: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI64_IH:
-                        printf("EFI 64-bit image handle pointer: size 0x%x\n", tag->size);
+                        printk("EFI 64-bit image handle pointer: size 0x%x\n", tag->size);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
-                        printf("Image load base address: 0x%x\n",
+                        printk("Image load base address: 0x%x\n",
                                 ((struct multiboot_tag_load_base_addr *) tag)->load_base_addr);
                         break;
                 }

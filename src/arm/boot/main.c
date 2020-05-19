@@ -11,7 +11,7 @@
 #endif
 
 void kernel_main() {
-        printf("\nOdyssey v%s\n",
+        printk("\nOdyssey v%s\n",
                         STRINGIFY(CONFIG_VERSION_MAJOR) "." \
                         STRINGIFY(CONFIG_VERSION_MINOR));
 

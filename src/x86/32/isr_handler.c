@@ -49,7 +49,7 @@ char *exception_types[32] = {
 void exception_handler(int ex)
 {
         if (ex < 32) {
-                printf("Caught exception %d (%s)\n", ex, exception_types[ex]);
+                printk("Caught exception %d (%s)\n", ex, exception_types[ex]);
                 panic("Exception");
         }
 }

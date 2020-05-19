@@ -35,6 +35,6 @@ void create_root_frame()
 
 void init_ff_mm()
 {
-        printf("Initializing FirstFit memory manager at 0x%x\n", MEM_START_ADDR);
+        printk("Initializing FirstFit memory manager at 0x%x\n", MEM_START_ADDR);
         create_root_frame();
 }

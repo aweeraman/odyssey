@@ -60,7 +60,7 @@ int prints(char *str)
         return i;
 }
 
-void printf(const char *fmt, ...)
+void printk(const char *fmt, ...)
 {
         int           i;
         uint32_t      ul;
