@@ -53,6 +53,9 @@ _start:
         # Multiboot2 magic value
         pushl %eax
 
+        # Initialize the console
+        call early_framebuffer_console_init;
+
         # Disable interrupts
         cli
 

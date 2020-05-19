@@ -42,16 +42,14 @@ struct acpi_descriptor_v2 *acpi_v2;
 /*
  * The entry point into the kernel
  */
-void kernel_main(size_t magic, size_t addr)
+void kernel_main()
 {
 
 #ifdef CONFIG_SERIAL
         init_serial();
 #endif
 
-        early_framebuffer_console_init(magic, addr);
-
-        read_multiboot_header_tags(addr);
+        read_multiboot_header_tags();
 
 #ifdef CONFIG_SERIAL
         printf("Initialized serial interface\n");

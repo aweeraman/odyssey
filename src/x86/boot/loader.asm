@@ -5,6 +5,7 @@
 global _start
 
 extern kernel_main
+extern early_framebuffer_console_init;
 extern gdt_init
 extern pic_init
 extern idt_init
@@ -56,6 +57,9 @@ _start:
 
         ; Multiboot2 magic value
         push eax
+
+        ; Initialize the console
+        call early_framebuffer_console_init;
 
         ; Disable interrupts
         cli

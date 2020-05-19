@@ -19,10 +19,12 @@ extern struct acpi_descriptor_v2        *acpi_v2;
 extern struct boot_device               *boot_dev;
 extern struct multiboot_tag_framebuffer *framebuffer;
 
+static size_t addr;
+
 /*
  * Extract video/framebuffer details first to initialize console for output
  */
-void early_framebuffer_console_init(size_t magic, size_t addr)
+void early_framebuffer_console_init(size_t magic, size_t structure_addr)
 {
         struct multiboot_tag *tag;
 
@@ -30,6 +32,8 @@ void early_framebuffer_console_init(size_t magic, size_t addr)
         if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
                 panic("Please use a bootloader that supports Multiboot2.");
         }
+
+        addr = structure_addr;
 
         for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
                         tag->type != MULTIBOOT_TAG_TYPE_END;
@@ -55,7 +59,7 @@ void early_framebuffer_console_init(size_t magic, size_t addr)
 /*
  * Extract multiboot provided information
  */
-void read_multiboot_header_tags(size_t addr)
+void read_multiboot_header_tags()
 {
         int counter;
         multiboot_memory_map_t *mmap;
