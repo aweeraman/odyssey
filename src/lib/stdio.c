@@ -22,7 +22,7 @@ int getchar()
 
 char *getstr(char *line, int max_length)
 {
-        char ch;
+        uint8_t ch;
         int line_counter = 0;
 
         while((ch = getchar()) != '\n') {

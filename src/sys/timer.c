@@ -16,10 +16,11 @@ static n_ticks_timer_t n_ticks_timers[MAX_N_TICKS_TIMERS];
 
 void busy_wait(int ticks_to_wait)
 {
-        uint32_t end = ticks + ticks_to_wait;
+        uint32_t start = ticks;
+        uint32_t end   = ticks + ticks_to_wait;
 
-        if (end < ticks) {
-                while (ticks <= UINT32_MAX);
+        if (end < start) {
+                while (ticks > start && ticks <= UINT32_MAX);
         }
 
         while (ticks < end);
