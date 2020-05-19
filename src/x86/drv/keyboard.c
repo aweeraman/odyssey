@@ -107,10 +107,6 @@ void keyboard_init()
         outb(KBD_CMD_PORT, 0xa7);
         io_wait();
 
-        // Flush keyboard buffer
-        while (inb(KBD_CMD_PORT) & 1)
-                inb(KBD_DATA_PORT);
-
         // Test PS/2 controller
         outb(KBD_CMD_PORT, 0xaa);
         io_wait();
