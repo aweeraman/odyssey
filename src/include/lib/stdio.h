@@ -6,10 +6,10 @@
 #ifndef TERMIO_H
 #define TERMIO_H
 
-int   prints(char *str);
-int   putchar(int c);
-int   getchar(void);
+int prints(char *str);
+int putchar(unsigned int c);
+unsigned int getchar(void);
 char *getstr(char *buf, int size);
-void  printk(const char *fmt, ...);
+void printk(const char *fmt, ...);
 
 #endif

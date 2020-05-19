@@ -8,14 +8,14 @@
 #include <sys/tty.h>
 #include <sys/keyboard.h>
 
-int putchar(int c)
+int putchar(unsigned int c)
 {
         printc(c);
         return c;
 }
 
 #if ARCH_X86
-int getchar()
+unsigned int getchar()
 {
         return block_and_read_char();
 }
