@@ -19,6 +19,9 @@ static ff_mm_superblock_t *superblock;
 
 ff_mm_stats_t get_ff_mm_stats(ff_mm_superblock_t *sb, ff_mm_stats_t *stats)
 {
+        if (sb == NULL)
+                sb = superblock;
+
         stats->bytes_used  = 0;
         stats->total_bytes = 0;
 
@@ -38,6 +41,9 @@ ff_mm_stats_t get_ff_mm_stats(ff_mm_superblock_t *sb, ff_mm_stats_t *stats)
 
 void free_frame(ff_mm_superblock_t *sb, uint32_t *addr)
 {
+        if (sb == NULL)
+                sb = superblock;
+
         do {
                 for (uint32_t i = 0; i < sb->block_count; i++) {
                         if (sb->blocks[i].addr == (uint32_t) addr) {
@@ -53,6 +59,9 @@ void free_frame(ff_mm_superblock_t *sb, uint32_t *addr)
 void* get_available_frame(ff_mm_superblock_t *sb, size_t size)
 {
         void* ptr = NULL;
+
+        if (sb == NULL)
+                sb = superblock;
 
         do {
                 for (uint32_t i = 0; i < sb->block_count; i++) {
@@ -110,6 +119,9 @@ void print_superblocks(ff_mm_superblock_t *sb)
 {
         int count = 0;
 
+        if (sb == NULL)
+                sb = superblock;
+
         do {
                 printk("  %d: start: 0x%x, blocks: %d, block_size: %dB\n",
                                 count++,
@@ -136,5 +148,5 @@ void init_ff_mm()
         create_superblock((uint32_t) superblock, 0x90400000, 0x90480000);
         create_superblock((uint32_t) superblock, 0x90500000, 0x90580000);
 #endif
-        print_superblocks(superblock);
+        print_superblocks(NULL);
 }
