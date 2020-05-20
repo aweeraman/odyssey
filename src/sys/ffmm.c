@@ -84,7 +84,7 @@ ff_mm_superblock_t *create_superblock(uint32_t root_block,
         return sb;
 }
 
-static void print_superblocks(ff_mm_superblock_t *sb)
+void print_superblocks(ff_mm_superblock_t *sb)
 {
         int count = 0;
 

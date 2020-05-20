@@ -34,5 +34,6 @@ void  free_frame(ff_mm_superblock_t *sb, uint32_t *addr);
 ff_mm_superblock_t *create_superblock(uint32_t root_block,
                                       uint32_t start_addr,
                                       uint32_t end_addr);
+void print_superblocks(ff_mm_superblock_t *sb);
 
 #endif
