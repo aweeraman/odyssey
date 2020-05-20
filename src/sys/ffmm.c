@@ -17,12 +17,32 @@
 
 static ff_mm_superblock_t *superblock;
 
+ff_mm_stats_t get_ff_mm_stats(ff_mm_superblock_t *sb, ff_mm_stats_t *stats)
+{
+        stats->bytes_used  = 0;
+        stats->total_bytes = 0;
+
+        do {
+                for (uint32_t i = 0; i < sb->block_count; i++) {
+                        if (sb->blocks[i].flags == FRAME_INUSE) {
+                                stats->bytes_used += sb->blocks[i].bytes_used;
+                        }
+                        stats->total_bytes += FRAME_BLOCK_SIZE;
+                }
+
+                sb = sb->next_super_block;
+        } while (sb != NULL);
+
+        return (ff_mm_stats_t) (*stats);
+}
+
 void free_frame(ff_mm_superblock_t *sb, uint32_t *addr)
 {
         do {
                 for (uint32_t i = 0; i < sb->block_count; i++) {
                         if (sb->blocks[i].addr == (uint32_t) addr) {
                                 sb->blocks[i].flags = FRAME_AVAILABLE;
+                                sb->blocks[i].bytes_used = 0;
                         }
                 }
 
@@ -39,6 +59,7 @@ void* get_available_frame(ff_mm_superblock_t *sb, size_t size)
                         if (sb->blocks[i].flags == FRAME_AVAILABLE &&
                                         size < FRAME_BLOCK_SIZE) {
                                 sb->blocks[i].flags = FRAME_INUSE;
+                                sb->blocks[i].bytes_used = size;
                                 return (void *) sb->blocks[i].addr;
                         }
                 }
@@ -79,6 +100,7 @@ ff_mm_superblock_t *create_superblock(uint32_t root_block,
 
         for (uint32_t i = 0; i < sb->block_count; i++) {
                 sb->blocks[i].addr = ((uint32_t) sb->start_addr) + (FRAME_BLOCK_SIZE * i);
+                sb->blocks[i].bytes_used = 0;
         }
 
         return sb;

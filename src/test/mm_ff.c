@@ -106,4 +106,27 @@ int ff_mm_2()
         return ret;
 }
 
+int ff_mm_3()
+{
+        ff_mm_stats_t stats;
+        int ret = 0;
+
+        ff_mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
+                                                           MEM_START_ADDR1,
+                                                           MEM_END_ADDR1);
+        create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+
+        uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr1 == NULL, "couldn't get an available frame 1");
+
+        uint32_t *addr2 = (uint32_t *) get_available_frame(superblock, 150);
+        ASSERT(addr2 == NULL, "couldn't get an available frame 2");
+
+        stats = get_ff_mm_stats(superblock, &stats);
+        ASSERT(stats.bytes_used != 250, "incorrect bytes_used");
+        ASSERT(stats.total_bytes != 4096, "incorrect total_bytes");
+
+        return ret;
+}
+
 #endif
