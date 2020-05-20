@@ -9,21 +9,27 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#define MEM_START_ADDR 0x300000 // initialize mm at the 3MB mark
-#define MEM_FRAME_SIZE 5        // size of each frame of memory
-#define MEM_END_ADDR   0x300100
+#define FF_MAGIC          0x3e30
+#define FRAME_UNALLOCATED 1
+#define FRAME_AVAILABLE   2
+#define FRAME_INUSE       4
+#define FRAME_BLOCK_COUNT 1024
+#define FRAME_BLOCK_SIZE  512
 
-#define FRAME_ROOT       1
-#define FRAME_AVAILABLE  2
-
-struct ff_mem_page {
-        uint8_t flags;
-        size_t  next;
-        size_t  prev;
-        uint8_t frame[MEM_FRAME_SIZE];
+struct ff_mm_frame {
+        uint16_t flags;
+        uint16_t addr;
 };
 
-typedef struct ff_mem_page ff_mem_page_t;
+struct ff_mm_superblock {
+        uint32_t magic;
+        uint32_t start_addr;
+        struct ff_mm_superblock *next_super_block;
+        uint32_t block_count;
+        struct ff_mm_frame blocks[FRAME_BLOCK_COUNT];
+} __attribute__((packed));
+
+typedef struct ff_mm_superblock ff_mm_superblock_t;
 
 void  init_ff_mm();
 void* get_free_frame(size_t size);
