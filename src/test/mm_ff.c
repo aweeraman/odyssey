@@ -75,7 +75,33 @@ int ff_mm_2()
                                                            MEM_START_ADDR1,
                                                            MEM_END_ADDR1);
         create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
-        print_superblocks(superblock);
+
+        uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr1 == NULL, "couldn't get an available frame 1");
+
+        uint32_t *addr2 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr2 == NULL, "couldn't get an available frame 2");
+
+        uint32_t *addr3 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr3 == NULL, "couldn't get an available frame 3");
+
+        uint32_t *addr4 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr4 == NULL, "couldn't get an available frame 4");
+
+        uint32_t *addr5 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr5 == NULL, "couldn't get an available frame 5");
+
+        uint32_t *addr6 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr6 == NULL, "couldn't get an available frame 6");
+
+        uint32_t *addr7 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr7 == NULL, "couldn't get an available frame 7");
+
+        uint32_t *addr8 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr8 == NULL, "couldn't get an available frame 8");
+
+        uint32_t *addr9 = (uint32_t *) get_available_frame(superblock, 100);
+        ASSERT(addr9 != NULL, "returned frame 9 even though out of memory");
 
         return ret;
 }

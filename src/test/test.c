@@ -41,6 +41,7 @@ void run_tests()
 
 #if CONFIG_MM_FF
         TEST(ff_mm_1);
+        TEST(ff_mm_2);
 #endif
 
         printk("Tests run, %d / %d passed\n", tests_passed, tests_passed+tests_failed);
