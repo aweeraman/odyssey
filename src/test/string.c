@@ -17,15 +17,15 @@ int memcpy_1()
         void *p;
 
         p = memcpy(str1, str2, 4);
-        ASSERT(strnlen(str1, 5) != 3, "string length doesn't match, expected 3");
-        ASSERT(p != str1, "invalid pointer returned");
+        FAIL_IF(strnlen(str1, 5) != 3, "string length doesn't match, expected 3");
+        FAIL_IF(p != str1, "invalid pointer returned");
 
         memcpy(str1, str3, 5);
-        ASSERT(!(str1[0] == '1' && str1[1] == '2' && str1[2] == '3' &&
+        FAIL_IF(!(str1[0] == '1' && str1[1] == '2' && str1[2] == '3' &&
                  str1[3] == '4' && str1[4] == '5'), "string is not identical");
 
         memcpy(str5, str4, 5);
-        ASSERT(!(str5[0] == '1' && str5[1] == '2' && str5[2] == '\0' &&
+        FAIL_IF(!(str5[0] == '1' && str5[1] == '2' && str5[2] == '\0' &&
                  str5[3] == '3' && str5[4] == '4'),
                  "string is not identical, interleaving null");
 
@@ -39,9 +39,9 @@ int memset_1()
         void *p;
 
         p = memset(str, 'a', sizeof(str));
-        ASSERT(!(str[0] == 'a' && str[1] == 'a' && str[2] == 'a'),
+        FAIL_IF(!(str[0] == 'a' && str[1] == 'a' && str[2] == 'a'),
                         "all elements are not updated correctly");
-        ASSERT(p != str, "invalid pointer returned");
+        FAIL_IF(p != str, "invalid pointer returned");
 
         return ret;
 }
@@ -53,9 +53,9 @@ int strnlen_1()
         char *str2 = "12345";
         char *str3 = "123456";
 
-        ASSERT(strnlen(str1, 5) != 3, "string length doesn't match, expected 3");
-        ASSERT(strnlen(str2, 5) != 5, "string length doesn't match, expected 5");
-        ASSERT(strnlen(str3, 5) != 5, "string length doesn't match, expected 5, not 6");
+        FAIL_IF(strnlen(str1, 5) != 3, "string length doesn't match, expected 3");
+        FAIL_IF(strnlen(str2, 5) != 5, "string length doesn't match, expected 5");
+        FAIL_IF(strnlen(str3, 5) != 5, "string length doesn't match, expected 5, not 6");
 
         return ret;
 }
@@ -71,19 +71,19 @@ int strncpy_1()
         void *p;
 
         p = strncpy(str1, str2, 5);
-        ASSERT(strnlen(str1, 5) != 3, "string length doesn't match, expected 3");
-        ASSERT(p != str1, "invalid pointer returned");
+        FAIL_IF(strnlen(str1, 5) != 3, "string length doesn't match, expected 3");
+        FAIL_IF(p != str1, "invalid pointer returned");
 
         strncpy(str1, str2, 5);
-        ASSERT(!(str1[0] == '1' && str1[1] == '2' &&
+        FAIL_IF(!(str1[0] == '1' && str1[1] == '2' &&
                  str1[2] == '3' && str1[3] == '\0'), "string is not identical/null terminated");
 
         strncpy(str1, str3, 5);
-        ASSERT(!(str1[0] == '1' && str1[1] == '2' && str1[2] == '3' &&
+        FAIL_IF(!(str1[0] == '1' && str1[1] == '2' && str1[2] == '3' &&
                  str1[3] == '4' && str1[4] == '5'), "string is not identical");
 
         strncpy(str5, str4, 5);
-        ASSERT(!(str5[0] == '1' && str5[1] == '2' && str5[2] == '\0' &&
+        FAIL_IF(!(str5[0] == '1' && str5[1] == '2' && str5[2] == '\0' &&
                  str5[3] == '\0' && str5[4] == '\0'), "copy doesn't honor null");
 
         return ret;
@@ -98,10 +98,10 @@ int strncmp_1()
         char *str4 = "123456";
         char *str5 = "123457";
 
-        ASSERT(strncmp(str1, str2, 5) != 0, "strings are not identical");
-        ASSERT(strncmp(str1, str3, 5) >= 0, "str1 should be lesser");
-        ASSERT(strncmp(str3, str1, 5) <= 0, "str3 should be greater");
-        ASSERT(strncmp(str4, str5, 5) != 0, "out of bounds strings are not identical");
+        FAIL_IF(strncmp(str1, str2, 5) != 0, "strings are not identical");
+        FAIL_IF(strncmp(str1, str3, 5) >= 0, "str1 should be lesser");
+        FAIL_IF(strncmp(str3, str1, 5) <= 0, "str3 should be greater");
+        FAIL_IF(strncmp(str4, str5, 5) != 0, "out of bounds strings are not identical");
 
         return ret;
 }
