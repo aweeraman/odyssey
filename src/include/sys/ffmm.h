@@ -29,7 +29,10 @@ struct ff_mm_superblock {
 typedef struct ff_mm_superblock ff_mm_superblock_t;
 
 void  init_ff_mm();
-void* get_available_frame(size_t size);
-void  free_frame(uint32_t *addr);
+void* get_available_frame(ff_mm_superblock_t *sb, size_t size);
+void  free_frame(ff_mm_superblock_t *sb, uint32_t *addr);
+ff_mm_superblock_t *create_superblock(uint32_t root_block,
+                                      uint32_t start_addr,
+                                      uint32_t end_addr);
 
 #endif
