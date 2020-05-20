@@ -39,7 +39,7 @@ void run_tests()
         TEST(multiboot2_magic_1);
 #endif
 
-#if ARCH_X86 && CONFIG_MM_FF
+#if CONFIG_MM_FF
         TEST(ff_mm_1);
 #endif
 

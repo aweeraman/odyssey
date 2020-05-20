@@ -16,8 +16,9 @@ BOOT       := $(patsubst %.s, %.o,          $(wildcard arm/boot/*.s)) \
 DRV        := $(patsubst %.c, %.o,          $(wildcard arm/drv/*.c))
 TEST       := $(patsubst %.c, %.o,          $(wildcard test/*.c))
 LIB        := $(patsubst %.c, %.o,          $(wildcard lib/*.c))
+MM         := sys/ffmm.o
 
-OBJECTS    += $(BOOT) $(DRV) $(TEST) $(LIB)
+OBJECTS    += $(BOOT) $(DRV) $(TEST) $(LIB) $(MM)
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 

@@ -3,11 +3,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#if ARCH_X86 && CONFIG_MM_FF
+#if CONFIG_MM_FF
 
 #include <test.h>
 #include <sys/ffmm.h>
 #include <lib/string.h>
+#include <lib/stdio.h>
 
 int ff_mm_1()
 {

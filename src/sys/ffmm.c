@@ -7,8 +7,13 @@
 #include <lib/stdio.h>
 #include <lib/string.h>
 
-#define MEM_START_ADDR 0x300000 // initialize mm at the 3MB mark
+#ifdef ARCH_X86
+#define MEM_START_ADDR 0x300000
 #define MEM_END_ADDR   0x380000
+#elif ARCH_ARM
+#define MEM_START_ADDR 0x90300000
+#define MEM_END_ADDR   0x90380000
+#endif
 
 static ff_mm_superblock_t *superblock;
 
@@ -50,7 +55,7 @@ void* get_available_frame(size_t size)
         return ptr;
 }
 
-static void create_superblock(uint32_t root_block, uint32_t start_addr, uint32_t end_addr)
+void create_superblock(uint32_t root_block, uint32_t start_addr, uint32_t end_addr)
 {
         uint32_t available_memory;
         uint32_t blocks;
@@ -63,20 +68,19 @@ static void create_superblock(uint32_t root_block, uint32_t start_addr, uint32_t
                 superblock = sb;
         } else {
                 while (sb->next_super_block != NULL)
-                        sb = sb->next_super_block;
+                       sb = sb->next_super_block;
 
                 sb->next_super_block = (ff_mm_superblock_t *) (uint32_t) start_addr;
-                sb = (ff_mm_superblock_t *) sb->next_super_block;
+                sb = sb->next_super_block;
         }
 
-        sb->magic            = FF_MAGIC;
         sb->start_addr       = start_addr + sizeof(ff_mm_superblock_t) + 1;
         sb->next_super_block = NULL;
 
         available_memory = end_addr - start_addr;
-        blocks = available_memory / FRAME_BLOCK_SIZE;
+        blocks = (uint32_t) available_memory / FRAME_BLOCK_SIZE;
 
-        sb->block_count      = blocks;
+        sb->block_count = blocks;
 
         for (uint32_t i = 0; i < sb->block_count; i++) {
                 sb->blocks[i].addr = ((uint32_t) sb->start_addr) + (FRAME_BLOCK_SIZE * i);
@@ -104,8 +108,14 @@ static void print_superblocks(uint32_t root_block)
 void init_ff_mm()
 {
         printk("Initializing FirstFit memory manager at 0x%x\n", MEM_START_ADDR);
+#ifdef ARCH_X86
         create_superblock(MEM_START_ADDR, MEM_START_ADDR, MEM_END_ADDR);
         create_superblock(MEM_START_ADDR, 0x400000, 0x480000);
         create_superblock(MEM_START_ADDR, 0x500000, 0x580000);
+#elif ARCH_ARM
+        create_superblock(MEM_START_ADDR, MEM_START_ADDR, MEM_END_ADDR);
+        create_superblock(MEM_START_ADDR, 0x90400000, 0x90480000);
+        create_superblock(MEM_START_ADDR, 0x90500000, 0x90580000);
+#endif
         print_superblocks(MEM_START_ADDR);
 }
