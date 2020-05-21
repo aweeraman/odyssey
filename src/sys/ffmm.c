@@ -142,14 +142,10 @@ void init_mm()
         superblock = create_superblock(MEM_START_ADDR,
                                        MEM_START_ADDR,
                                        MEM_END_ADDR);
-        create_superblock((uint32_t) superblock, 0x400000, 0x480000);
-        create_superblock((uint32_t) superblock, 0x500000, 0x580000);
 #elif ARCH_ARM
         superblock = create_superblock(MEM_START_ADDR,
                                        MEM_START_ADDR,
                                        MEM_END_ADDR);
-        create_superblock((uint32_t) superblock, 0x90400000, 0x90480000);
-        create_superblock((uint32_t) superblock, 0x90500000, 0x90580000);
 #endif
         print_superblocks(NULL);
 }
