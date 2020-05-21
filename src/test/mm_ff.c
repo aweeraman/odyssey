@@ -161,4 +161,25 @@ int ff_mm_4()
         return ret;
 }
 
+int ff_mm_5()
+{
+        int ret = 0;
+        mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
+                                                           MEM_START_ADDR1,
+                                                           MEM_END_ADDR1);
+        create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+
+        char *addr1 = (char *) kalloc(superblock, sizeof(uint32_t), 100);
+        FAIL_IF(addr1[0] != '\0', "kalloc didn't zero the memory");
+
+        strncpy(addr1, "123", 5);
+        FAIL_IF(strncmp(addr1, "123", 5) != 0, "string didn't get set correctly");
+
+        kfree(superblock, addr1);
+
+        FAIL_IF(addr1[0] != '\0', "kfree didn't zero the memory");
+
+        return ret;
+}
+
 #endif

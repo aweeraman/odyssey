@@ -20,9 +20,9 @@ struct mm_stats {
 };
 
 struct mm_frame {
-        uint8_t  flags;
-        uint32_t addr;
-        uint32_t bytes_used;
+        uint8_t   flags;
+        uint32_t *addr;
+        uint32_t  bytes_used;
 }__attribute__((packed));
 
 struct mm_superblock {
