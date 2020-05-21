@@ -9,6 +9,7 @@
 #include <sys/ffmm.h>
 #include <lib/string.h>
 #include <lib/stdio.h>
+#include <lib/mm.h>
 
 #ifdef ARCH_X86
 #define MEM_START_ADDR1 0x700000
@@ -124,6 +125,37 @@ int ff_mm_3()
 
         stats = get_mm_stats(superblock, &stats);
         FAIL_IF(stats.bytes_used != 250, "incorrect bytes_used");
+        FAIL_IF(stats.total_bytes != 4096, "incorrect total_bytes");
+
+        return ret;
+}
+
+int ff_mm_4()
+{
+        mm_stats_t stats;
+        int ret = 0;
+        mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
+                                                           MEM_START_ADDR1,
+                                                           MEM_END_ADDR1);
+        create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+
+        uint32_t *addr1 = (uint32_t *) kalloc(superblock, sizeof(uint32_t), 100);
+        FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
+
+        uint32_t *addr2 = (uint32_t *) kalloc(superblock, sizeof(uint32_t), 100);
+        FAIL_IF(addr2 == NULL, "couldn't get an available frame 2");
+
+        stats = get_mm_stats(superblock, &stats);
+        FAIL_IF(stats.bytes_used != 800, "incorrect bytes_used 1");
+
+        kfree(superblock, addr1);
+
+        uint32_t *addr3 = (uint32_t *) kalloc(superblock, sizeof(uint32_t), 50);
+        FAIL_IF(addr3 == NULL, "couldn't get an available frame 3");
+        FAIL_IF(addr3 != addr1, "addr2 should equal addr1");
+
+        stats = get_mm_stats(superblock, &stats);
+        FAIL_IF(stats.bytes_used != 600, "incorrect bytes_used 2");
         FAIL_IF(stats.total_bytes != 4096, "incorrect total_bytes");
 
         return ret;

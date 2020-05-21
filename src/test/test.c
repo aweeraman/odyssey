@@ -43,6 +43,7 @@ void run_tests()
         TEST(ff_mm_1);
         TEST(ff_mm_2);
         TEST(ff_mm_3);
+        TEST(ff_mm_4);
 #endif
 
         printk("Tests run, %d / %d passed\n", tests_passed, tests_passed+tests_failed);
