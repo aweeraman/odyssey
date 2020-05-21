@@ -14,7 +14,7 @@
 #define FRAME_BLOCK_COUNT 1024
 #define FRAME_BLOCK_SIZE  512
 
-struct ff_mm_stats {
+struct mm_stats {
         uint32_t bytes_used;
         uint32_t total_bytes;
 };
@@ -33,7 +33,7 @@ struct ff_mm_superblock {
 }__attribute__((packed));
 
 typedef struct ff_mm_superblock ff_mm_superblock_t;
-typedef struct ff_mm_stats ff_mm_stats_t;
+typedef struct mm_stats mm_stats_t;
 
 void  init_ff_mm();
 void* get_available_frame(ff_mm_superblock_t *sb, size_t size);
@@ -42,6 +42,6 @@ ff_mm_superblock_t *create_superblock(uint32_t root_block,
                                       uint32_t start_addr,
                                       uint32_t end_addr);
 void print_superblocks(ff_mm_superblock_t *sb);
-ff_mm_stats_t get_ff_mm_stats(ff_mm_superblock_t *sb, ff_mm_stats_t *stats);
+mm_stats_t get_mm_stats(ff_mm_superblock_t *sb, mm_stats_t *stats);
 
 #endif

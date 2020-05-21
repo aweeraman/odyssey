@@ -17,7 +17,7 @@
 
 static ff_mm_superblock_t *superblock;
 
-ff_mm_stats_t get_ff_mm_stats(ff_mm_superblock_t *sb, ff_mm_stats_t *stats)
+mm_stats_t get_mm_stats(ff_mm_superblock_t *sb, mm_stats_t *stats)
 {
         if (sb == NULL)
                 sb = superblock;
@@ -36,7 +36,7 @@ ff_mm_stats_t get_ff_mm_stats(ff_mm_superblock_t *sb, ff_mm_stats_t *stats)
                 sb = sb->next_super_block;
         } while (sb != NULL);
 
-        return (ff_mm_stats_t) (*stats);
+        return (mm_stats_t) (*stats);
 }
 
 void free_frame(ff_mm_superblock_t *sb, uint32_t *addr)

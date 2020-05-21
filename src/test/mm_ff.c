@@ -108,7 +108,7 @@ int ff_mm_2()
 
 int ff_mm_3()
 {
-        ff_mm_stats_t stats;
+        mm_stats_t stats;
         int ret = 0;
 
         ff_mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
@@ -122,7 +122,7 @@ int ff_mm_3()
         uint32_t *addr2 = (uint32_t *) get_available_frame(superblock, 150);
         FAIL_IF(addr2 == NULL, "couldn't get an available frame 2");
 
-        stats = get_ff_mm_stats(superblock, &stats);
+        stats = get_mm_stats(superblock, &stats);
         FAIL_IF(stats.bytes_used != 250, "incorrect bytes_used");
         FAIL_IF(stats.total_bytes != 4096, "incorrect total_bytes");
 
