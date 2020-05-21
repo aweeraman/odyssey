@@ -14,10 +14,10 @@
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];
 
-extern struct acpi_descriptor_v1        *acpi_v1;
-extern struct acpi_descriptor_v2        *acpi_v2;
-extern struct boot_device               *boot_dev;
-extern struct multiboot_tag_framebuffer *framebuffer;
+struct acpi_descriptor_v1        *acpi_v1;
+struct acpi_descriptor_v2        *acpi_v2;
+struct boot_device               *boot_dev;
+struct multiboot_tag_framebuffer *framebuffer;
 
 static size_t addr;
 
