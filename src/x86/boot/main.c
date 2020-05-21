@@ -63,9 +63,7 @@ void kernel_main()
         keyboard_init();
 #endif
 
-#ifdef CONFIG_MM_FF
-        init_ff_mm();
-#endif
+        init_mm();
 
         printk("Loops per tick: %d\n", get_loops_per_tick());
 

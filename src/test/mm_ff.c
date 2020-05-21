@@ -26,7 +26,7 @@ int ff_mm_1()
 {
         int ret = 0;
 
-        ff_mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
+        mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
                                                            MEM_START_ADDR1,
                                                            MEM_END_ADDR1);
 
@@ -71,7 +71,7 @@ int ff_mm_2()
 {
         int ret = 0;
 
-        ff_mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
+        mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
                                                            MEM_START_ADDR1,
                                                            MEM_END_ADDR1);
         create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
@@ -111,7 +111,7 @@ int ff_mm_3()
         mm_stats_t stats;
         int ret = 0;
 
-        ff_mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
+        mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
                                                            MEM_START_ADDR1,
                                                            MEM_END_ADDR1);
         create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);

@@ -15,9 +15,7 @@ void kernel_main() {
                         STRINGIFY(CONFIG_VERSION_MAJOR) "." \
                         STRINGIFY(CONFIG_VERSION_MINOR));
 
-#ifdef CONFIG_MM_FF
-        init_ff_mm();
-#endif
+        init_mm();
 
 #ifdef CONFIG_TEST
         run_tests();

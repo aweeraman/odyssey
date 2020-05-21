@@ -15,9 +15,9 @@
 #define MEM_END_ADDR   0x90380000
 #endif
 
-static ff_mm_superblock_t *superblock;
+static mm_superblock_t *superblock;
 
-mm_stats_t get_mm_stats(ff_mm_superblock_t *sb, mm_stats_t *stats)
+mm_stats_t get_mm_stats(mm_superblock_t *sb, mm_stats_t *stats)
 {
         if (sb == NULL)
                 sb = superblock;
@@ -39,7 +39,7 @@ mm_stats_t get_mm_stats(ff_mm_superblock_t *sb, mm_stats_t *stats)
         return (mm_stats_t) (*stats);
 }
 
-void free_frame(ff_mm_superblock_t *sb, uint32_t *addr)
+void free_frame(mm_superblock_t *sb, uint32_t *addr)
 {
         if (sb == NULL)
                 sb = superblock;
@@ -56,7 +56,7 @@ void free_frame(ff_mm_superblock_t *sb, uint32_t *addr)
         } while (sb != NULL);
 }
 
-void* get_available_frame(ff_mm_superblock_t *sb, size_t size)
+void* get_available_frame(mm_superblock_t *sb, size_t size)
 {
         void* ptr = NULL;
 
@@ -79,27 +79,27 @@ void* get_available_frame(ff_mm_superblock_t *sb, size_t size)
         return ptr;
 }
 
-ff_mm_superblock_t *create_superblock(uint32_t root_block,
+mm_superblock_t *create_superblock(uint32_t root_block,
                                       uint32_t start_addr,
                                       uint32_t end_addr)
 {
         uint32_t available_memory;
         uint32_t blocks;
-        ff_mm_superblock_t *sb;
+        mm_superblock_t *sb;
 
-        sb = (ff_mm_superblock_t *) (uint32_t) root_block;
+        sb = (mm_superblock_t *) (uint32_t) root_block;
 
         if (root_block == start_addr) {
-                memset(sb, '\0', sizeof(ff_mm_superblock_t));
+                memset(sb, '\0', sizeof(mm_superblock_t));
         } else {
                 while (sb->next_super_block != NULL)
                        sb = sb->next_super_block;
 
-                sb->next_super_block = (ff_mm_superblock_t *) (uint32_t) start_addr;
+                sb->next_super_block = (mm_superblock_t *) (uint32_t) start_addr;
                 sb = sb->next_super_block;
         }
 
-        sb->start_addr       = start_addr + sizeof(ff_mm_superblock_t) + 1;
+        sb->start_addr       = start_addr + sizeof(mm_superblock_t) + 1;
         sb->next_super_block = NULL;
 
         available_memory = end_addr - start_addr;
@@ -115,7 +115,7 @@ ff_mm_superblock_t *create_superblock(uint32_t root_block,
         return sb;
 }
 
-void print_superblocks(ff_mm_superblock_t *sb)
+void print_superblocks(mm_superblock_t *sb)
 {
         int count = 0;
 
@@ -132,7 +132,7 @@ void print_superblocks(ff_mm_superblock_t *sb)
         } while (sb != NULL);
 }
 
-void init_ff_mm()
+void init_mm()
 {
         printk("Initializing FirstFit memory manager at 0x%x\n", MEM_START_ADDR);
 #ifdef ARCH_X86
