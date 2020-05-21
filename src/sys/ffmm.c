@@ -99,6 +99,7 @@ mm_superblock_t *create_superblock(uint32_t root_block,
 
                 sb->next_super_block = (mm_superblock_t *) (uint32_t) start_addr;
                 sb = sb->next_super_block;
+                memset(sb, '\0', sizeof(mm_superblock_t));
         }
 
         sb->start_addr       = start_addr + sizeof(mm_superblock_t) + 1;
