@@ -6,6 +6,10 @@
 #include <lib/string.h>
 #include <lib/stdio.h>
 
+#ifdef CONFIG_MM_FF
+#include <sys/ffmm.h>
+#endif
+
 #ifdef CONFIG_TEST
 #include <test.h>
 #endif
