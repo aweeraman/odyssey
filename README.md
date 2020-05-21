@@ -18,7 +18,7 @@
 - [X] Interrupt handling
 - [X] Timers
 - [X] PS/2 keyboard support
-- [ ] Memory manager
+- [X] Memory manager
 - [ ] Paging
 - [ ] User-mode
 - [ ] System calls
@@ -37,7 +37,7 @@
 - [ ] Interrupt handling
 - [ ] Timers
 - [ ] PS/2 keyboard support
-- [ ] Memory manager
+- [X] Memory manager
 - [ ] Paging
 - [ ] User-mode
 - [ ] System calls
