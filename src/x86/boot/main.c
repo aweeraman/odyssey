@@ -49,6 +49,8 @@ void kernel_main()
         init_serial();
 #endif
 
+        init_mm();
+
         read_multiboot_header_tags();
 
 #ifdef CONFIG_SERIAL
@@ -62,8 +64,6 @@ void kernel_main()
 #ifdef CONFIG_KEYBOARD
         keyboard_init();
 #endif
-
-        init_mm();
 
         printk("Loops per tick: %d\n", get_loops_per_tick());
 
