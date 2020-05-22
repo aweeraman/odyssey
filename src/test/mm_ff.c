@@ -28,8 +28,8 @@ int ff_mm_1()
         int ret = 0;
 
         mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
-                                                           MEM_START_ADDR1,
-                                                           MEM_END_ADDR1);
+                                                        MEM_START_ADDR1,
+                                                        MEM_END_ADDR1);
 
         uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
         FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
@@ -41,9 +41,6 @@ int ff_mm_1()
 
         uint32_t *addr3 = (uint32_t *) get_available_frame(superblock, 100);
         FAIL_IF(addr3 != addr2, "same frame was not returned after freeing");
-
-        uint32_t *addr4 = (uint32_t *) get_available_frame(superblock, FRAME_BLOCK_SIZE+1);
-        FAIL_IF(addr4 != NULL, "returned frame for request larger than FRAME_BLOCK_SIZE");
 
         uint32_t *addr5 = (uint32_t *) get_available_frame(superblock, 100);
         FAIL_IF(addr5 == NULL, "couldn't get an available frame 3");

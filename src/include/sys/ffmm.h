@@ -9,8 +9,10 @@
 #include <stdint.h>
 #include <stddef.h>
 
-#define FRAME_AVAILABLE   0
-#define FRAME_INUSE       1
+#define FRAME_AVAILABLE   1
+#define FRAME_INUSE       2
+#define FRAME_MULTI_START 4
+#define FRAME_MULTI       8
 #define FRAME_BLOCK_COUNT 1024
 #define FRAME_BLOCK_SIZE  512
 
