@@ -136,15 +136,17 @@ void* get_available_frame(mm_superblock_t *sb, size_t size)
                                 size_remaining = size;
                                 for (int i = start_block; i < contiguous_blocks; i++) {
                                         if (sb->blocks[i].flags == FRAME_AVAILABLE) {
+
                                                 if (i == start_block)
                                                         sb->blocks[i].flags = FRAME_MULTI_START;
                                                 else
                                                         sb->blocks[i].flags = FRAME_MULTI;
-                                                if (size_remaining > FRAME_BLOCK_SIZE) {
+
+                                                if (size_remaining > FRAME_BLOCK_SIZE)
                                                         sb->blocks[i].bytes_used = FRAME_BLOCK_SIZE;
-                                                } else {
+                                                else
                                                         sb->blocks[i].bytes_used = size_remaining;
-                                                }
+                                                
                                                 size_remaining -= FRAME_BLOCK_SIZE;
                                                 memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
                                         }
