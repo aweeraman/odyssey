@@ -129,8 +129,8 @@ int ff_mm_3()
 
 int ff_mm_4()
 {
-        mm_stats_t stats;
         int ret = 0;
+        mm_stats_t stats;
         mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
                                                            MEM_START_ADDR1,
                                                            MEM_END_ADDR1);
@@ -175,6 +175,54 @@ int ff_mm_5()
         kfree(superblock, addr1);
 
         FAIL_IF(addr1[0] != '\0', "kfree didn't zero the memory");
+
+        return ret;
+}
+
+int ff_mm_6()
+{
+        int ret = 0;
+        mm_stats_t stats;
+
+        mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
+                                                        MEM_START_ADDR1,
+                                                        MEM_END_ADDR1);
+
+        char *addr1 = (char *) kalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
+        FAIL_IF(addr1 == NULL, "couldn't allocation block FRAME_BLOCK_SIZE*2");
+
+        kfree(superblock, addr1);
+
+        char *addr2 = (char *) kalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
+        FAIL_IF(addr1 != addr2, "should return the same block after freeing");
+
+        stats = get_mm_stats(superblock, &stats);
+        FAIL_IF(stats.bytes_used != (FRAME_BLOCK_SIZE*2), "incorrect bytes_used");
+        FAIL_IF(stats.total_bytes != 2048, "incorrect total_bytes");
+
+        return ret;
+}
+
+int ff_mm_7()
+{
+        int ret = 0;
+
+        mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
+                                                        MEM_START_ADDR1,
+                                                        MEM_END_ADDR1);
+        create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+
+        char *addr1 = (char *) kalloc(superblock, sizeof(char), 2048);
+        FAIL_IF(addr1 == NULL, "couldn't allocate maximum available in segment 1");
+
+        kfree(superblock, addr1);
+
+        char *addr2 = (char *) kalloc(superblock, sizeof(char), 2048);
+        FAIL_IF(addr2 == NULL, "couldn't allocate maximum available in segment 2");
+        FAIL_IF(addr2 != addr1, "should return the same frame as addr1");
+
+        char *addr3 = (char *) kalloc(superblock, sizeof(char), 2048+1);
+        FAIL_IF(addr3 != NULL, "should have run out of memory");
 
         return ret;
 }

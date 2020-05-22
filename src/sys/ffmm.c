@@ -27,7 +27,9 @@ mm_stats_t get_mm_stats(mm_superblock_t *sb, mm_stats_t *stats)
 
         do {
                 for (uint32_t i = 0; i < sb->block_count; i++) {
-                        if (sb->blocks[i].flags == FRAME_INUSE) {
+                        if (sb->blocks[i].flags == FRAME_INUSE ||
+                            sb->blocks[i].flags == FRAME_MULTI_START ||
+                            sb->blocks[i].flags == FRAME_MULTI) {
                                 stats->bytes_used += sb->blocks[i].bytes_used;
                         }
                         stats->total_bytes += FRAME_BLOCK_SIZE;
@@ -51,25 +53,26 @@ void free_frame(mm_superblock_t *sb, uint32_t *addr)
                             (sb->blocks[i].flags == FRAME_MULTI_START)) {
 
                                 multi_start = 1;
-                                sb->blocks[i].flags = FRAME_AVAILABLE;
+                                sb->blocks[i].flags      = FRAME_AVAILABLE;
                                 sb->blocks[i].bytes_used = 0;
                                 memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
 
                         } else if ((uint32_t) sb->blocks[i].addr == (uint32_t) addr &&
                                   (sb->blocks[i].flags == FRAME_INUSE)) {
 
-                                sb->blocks[i].flags = FRAME_AVAILABLE;
+                                sb->blocks[i].flags      = FRAME_AVAILABLE;
                                 sb->blocks[i].bytes_used = 0;
                                 memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
 
                         } else if (multi_start == 1 && (sb->blocks[i].flags == FRAME_MULTI)) {
 
-                                sb->blocks[i].flags = FRAME_AVAILABLE;
+                                sb->blocks[i].flags      = FRAME_AVAILABLE;
                                 sb->blocks[i].bytes_used = 0;
                                 memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
 
                         } else if (multi_start == 1 &&
-                                  ((sb->blocks[i].flags == FRAME_MULTI_START) || (sb->blocks[i].flags == FRAME_INUSE))) {
+                                  ((sb->blocks[i].flags == FRAME_MULTI_START)
+                                    || (sb->blocks[i].flags == FRAME_INUSE))) {
                                 multi_start = 0;
                         }
                 }
@@ -89,7 +92,7 @@ void* get_available_frame(mm_superblock_t *sb, size_t size)
                 if (size < FRAME_BLOCK_SIZE) {
                         for (uint32_t i = 0; i < sb->block_count; i++) {
                                 if (sb->blocks[i].flags == FRAME_AVAILABLE) {
-                                        sb->blocks[i].flags = FRAME_INUSE;
+                                        sb->blocks[i].flags      = FRAME_INUSE;
                                         sb->blocks[i].bytes_used = size;
                                         memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
                                         return (void *) sb->blocks[i].addr;
@@ -104,15 +107,17 @@ void* get_available_frame(mm_superblock_t *sb, size_t size)
                         for (uint32_t i = 0; i < sb->block_count; i++) {
                                 if (sb->blocks[i].flags == FRAME_AVAILABLE) {
                                         if (start_block == -1) {
-                                                start_block = i;
-                                                last_block  = i;
+                                                start_block     = i;
+                                                size_remaining -= FRAME_BLOCK_SIZE;
+                                                last_block      = i;
                                                 contiguous_blocks++;
                                         } else {
                                                 if (last_block == (int) (i - 1)) {
                                                         size_remaining -= FRAME_BLOCK_SIZE;
+                                                        last_block      = i;
                                                         contiguous_blocks++;
 
-                                                        if (size_remaining < 0)
+                                                        if (size_remaining <= 0)
                                                                 break;
                                                 } else {
                                                         start_block       = -1;
@@ -124,6 +129,9 @@ void* get_available_frame(mm_superblock_t *sb, size_t size)
                                 }
                         }
 
+                        if (size_remaining > 0)
+                                return NULL;
+
                         if (start_block != -1) {
                                 size_remaining = size;
                                 for (int i = start_block; i < contiguous_blocks; i++) {
@@ -132,15 +140,15 @@ void* get_available_frame(mm_superblock_t *sb, size_t size)
                                                         sb->blocks[i].flags = FRAME_MULTI_START;
                                                 else
                                                         sb->blocks[i].flags = FRAME_MULTI;
-                                                size_remaining -= FRAME_BLOCK_SIZE;
-                                                if (size_remaining > FRAME_BLOCK_SIZE)
+                                                if (size_remaining > FRAME_BLOCK_SIZE) {
                                                         sb->blocks[i].bytes_used = FRAME_BLOCK_SIZE;
-                                                else
-                                                        sb->blocks[i].bytes_used = (size_remaining * (-1));
+                                                } else {
+                                                        sb->blocks[i].bytes_used = size_remaining;
+                                                }
+                                                size_remaining -= FRAME_BLOCK_SIZE;
                                                 memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
                                         }
                                 }
-                                printk("Found %d contiguous blocks at %d\n", contiguous_blocks, start_block);
                                 return (void *) sb->blocks[start_block].addr;
                         }
                 }
