@@ -2,7 +2,7 @@
 
 # Odyssey - an experimental operating system for x86 and ARM
 
-![Odyssey running in Qemu](https://raw.githubusercontent.com/aweeraman/odyssey/master/odyssey.png "Odyssey running in Qemu")
+![Odyssey running in Qemu](https://raw.githubusercontent.com/aweeraman/odyssey/master/docs/img/odyssey.png "Odyssey running in Qemu")
 
 # Current Development Status
 
