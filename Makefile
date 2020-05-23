@@ -17,7 +17,7 @@ distclean:
 	-rm -rf odyssey-coverity.tar.gz cov-int
 
 image: distclean all
-	mkimage -A arm -O linux -T kernel -a 0x0080200000 -e 0x0080200000 -C none -d src/odyssey.bin odyssey.img
+	mkimage -A arm -O linux -T kernel -a 0x0082000000 -e 0x0082000000 -C none -d src/odyssey.bin odyssey.img
 
 iso: distclean all
 	mkdir -p iso/boot/grub/
