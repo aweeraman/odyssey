@@ -231,4 +231,4 @@ Odyssey is distributed under the GPLv3 license.
 * [alt.os.development](https://groups.google.com/forum/#!forum/alt.os.development)
 * [Intel® 64 and IA-32 Architectures Software Developer Manuals](https://software.intel.com/en-us/articles/intel-sdm)
 * [CoreTile Express A-15 Technical Reference Manual](http://infocenter.arm.com/help/index.jsp?topic=/com.arm.doc.subset.boards.express/index.html)
-
+* [TI AM3358 TRM](https://www.ti.com/product/AM3358)
