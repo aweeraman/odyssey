@@ -123,7 +123,7 @@ $ make boot-efi
 Install a tftp-server to serve the OS image:
 
 ```
-$ sudo apt-get install tftpd-hpa
+$ sudo apt-get install tftpd-hpa lrzsz
 $ sudo systemctl start tftpd-hpa
 ```
 
@@ -202,6 +202,20 @@ Remote debugging using :1234
 (gdb) break kernel_main
 Breakpoint 1 at 0x1007c0: file main.c, line 26.
 (gdb) c
+```
+
+# Testing
+
+On BeagleBone black, use loady at the U-Boot prompt to load the image over serial/ymodem:
+
+```
+$ make ARCH=arm
+$ screen /dev/ttyUSB0 115200
+[power-on the board]
+[press space to interrupt auto-boot]
+=> loady
+<CTRL-a>:exec !! sx --ymodem odyssey.img
+=> go 0x82000000
 ```
 
 # Use of Free and Open Source Software
