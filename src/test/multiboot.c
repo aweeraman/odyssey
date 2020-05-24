@@ -7,6 +7,7 @@
 
 #include <test.h>
 #include <mm/region.h>
+#include <lib/mm.h>
 
 int multiboot2_magic_1()
 {

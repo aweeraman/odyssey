@@ -27,22 +27,6 @@ void set_basic_meminfo(size_t lower, size_t upper)
         mem_info.upper = upper;
 }
 
-void peek(size_t addr, int count)
-{
-        mem_ptr_t *p = (mem_ptr_t *) addr;
-
-#ifdef ARCH_X86
-        for (int i = 0; i < count; i++) {
-                printk("Peek addr=%x, %x%x%x%x %x%x%x%x %c%c %c%c\n", p,
-                        p->nibble.n4, p->nibble.n3, p->nibble.n2, p->nibble.n1,
-                        p->nibble.n8, p->nibble.n7, p->nibble.n6, p->nibble.n5,
-                        PRINTABLE_CHAR(p->byte.b2), PRINTABLE_CHAR(p->byte.b1),
-                        PRINTABLE_CHAR(p->byte.b4), PRINTABLE_CHAR(p->byte.b3));
-                p += 1;
-        }
-#endif
-}
-
 /*
  * Extract the type of memory region
  */
