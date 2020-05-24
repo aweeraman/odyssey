@@ -220,14 +220,8 @@ void print_superblocks(mm_superblock_t *sb)
 void init_mm()
 {
         printk("Initializing FirstFit memory manager at 0x%x\n", MEM_START_ADDR);
-#ifdef ARCH_X86
         superblock = create_superblock(MEM_START_ADDR,
                                        MEM_START_ADDR,
                                        MEM_END_ADDR);
-#elif ARCH_ARM
-        superblock = create_superblock(MEM_START_ADDR,
-                                       MEM_START_ADDR,
-                                       MEM_END_ADDR);
-#endif
         print_superblocks(NULL);
 }
