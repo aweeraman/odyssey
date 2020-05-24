@@ -7,7 +7,7 @@
 #include <lib/stdio.h>
 
 #ifdef CONFIG_MM_FF
-#include <sys/ffmm.h>
+#include <mm/ff.h>
 #endif
 
 #ifdef CONFIG_TEST

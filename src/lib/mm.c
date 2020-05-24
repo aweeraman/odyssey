@@ -7,7 +7,7 @@
 #include <lib/stdio.h>
 
 #ifdef CONFIG_MM_FF
-#include <sys/ffmm.h>
+#include <mm/ff.h>
 #endif
 
 void *kalloc(mm_superblock_t *sb, size_t memb, size_t count)

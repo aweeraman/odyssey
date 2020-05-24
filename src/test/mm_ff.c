@@ -6,7 +6,7 @@
 #if CONFIG_MM_FF
 
 #include <test.h>
-#include <sys/ffmm.h>
+#include <mm/ff.h>
 #include <lib/string.h>
 #include <lib/stdio.h>
 #include <lib/mm.h>

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <sys/ffmm.h>
+#include <mm/ff.h>
 #include <lib/stdio.h>
 #include <lib/string.h>
 

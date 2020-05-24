@@ -7,7 +7,7 @@
 #define MM_h
 
 #include <stddef.h>
-#include <sys/ffmm.h>
+#include <mm/ff.h>
 
 void *kalloc(mm_superblock_t *sb, size_t memb, size_t count);
 void  kfree(mm_superblock_t *sb, void *ptr);
