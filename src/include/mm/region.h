@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#ifndef MEMORY_H
-#define MEMORY_H
+#ifndef REGION_H
+#define REGION_H
 
 #include <stdint.h>
 #include <stddef.h>

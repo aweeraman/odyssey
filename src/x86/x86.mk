@@ -33,9 +33,10 @@ BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard x86/boot/*.$(ASM_EXT))) \
 CMD        := $(patsubst %.c, %.o,          $(wildcard cmd/*.c))
 LIB        := $(patsubst %.c, %.o,          $(wildcard lib/*.c))
 TEST       := $(patsubst %.c, %.o,          $(wildcard test/*.c))
+MM         := $(patsubst %.c, %.o,          $(wildcard mm/*.c))
 FONT       := sys/font.o
 
-OBJECTS    += $(BOOT) $(X86_32) $(DRV) $(TEST) $(CMD) $(SYS) $(LIB) $(FONT)
+OBJECTS    += $(BOOT) $(X86_32) $(DRV) $(MM) $(TEST) $(CMD) $(SYS) $(LIB) $(FONT)
 
 ifneq (CONFIG_TEST,$(findstring CONFIG_TEST,$(OPTS)))
 OBJECTS    := $(filter-out $(TEST), $(OBJECTS))

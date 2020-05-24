@@ -6,7 +6,7 @@
 #ifdef ARCH_X86
 
 #include <test.h>
-#include <sys/memory.h>
+#include <mm/region.h>
 
 int multiboot2_magic_1()
 {

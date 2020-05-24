@@ -6,7 +6,7 @@
 #include <lib/stdio.h>
 #include <x86/boot/boothdr.h>
 #include <x86/boot/device.h>
-#include <sys/memory.h>
+#include <mm/region.h>
 #include <x86/32/gdt.h>
 #include <x86/32/pic.h>
 #include <x86/32/idt.h>
