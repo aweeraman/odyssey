@@ -13,6 +13,7 @@
 #include <x86/32/acpi.h>
 #include <cmd/shell.h>
 #include <sys/timer.h>
+#include <x86/32/paging.h>
 
 #ifdef CONFIG_SERIAL
 #include <sys/serial.h>
@@ -52,6 +53,8 @@ void kernel_main()
 #endif
 
         printk("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
+
+        init_pde();
 
         pic_unmask_interrupts();
 
