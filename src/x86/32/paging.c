@@ -11,13 +11,16 @@
 #define PAGE_DIR_ENTRIES   1024
 #define PAGE_TABLE_ENTRIES 1024
 
+extern void init_page_directory(uint32_t *addr);
+extern void enable_paging();
+
 page_dir_entry_t   page_dir[PAGE_DIR_ENTRIES] \
                    __attribute__((aligned(PAGE_ALIGNMENT)));
 
 page_table_entry_t root_page_table[PAGE_TABLE_ENTRIES] \
                    __attribute__((aligned(PAGE_ALIGNMENT)));
 
-void init_pde()
+void init_paging()
 {
         printk("Initializing paging\n");
 
@@ -26,8 +29,8 @@ void init_pde()
 
         /* Mapping first 4MB of memory */
         for (int i = 0; i < PAGE_TABLE_ENTRIES; i++) {
-                page_dir[i].present          = 1;
-                page_dir[i].rw               = 1;
+                root_page_table[i].present   = 1;
+                root_page_table[i].rw        = 1;
                 root_page_table[i].page_addr = i * 0x1000;
         }
 
@@ -39,4 +42,7 @@ void init_pde()
         /* Set the mapping for the first page table entry */
         page_dir[0].page_table_addr = (uint32_t) root_page_table;
         page_dir[0].present         = 1;
+
+        init_page_directory((uint32_t *) &page_dir);
+        //enable_paging();
 }

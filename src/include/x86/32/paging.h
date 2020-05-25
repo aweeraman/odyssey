@@ -35,6 +35,6 @@ typedef struct page_table_entry {
         uint32_t page_addr       : 20; /* physical address of 4KB page */
 }__attribute__((packed)) page_table_entry_t;
 
-void init_pde();
+void init_paging();
 
 #endif
