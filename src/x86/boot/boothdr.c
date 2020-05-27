@@ -103,6 +103,10 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_BOOTDEV:
+                        boot_dev = kalloc(NULL, sizeof(struct multiboot_tag_bootdev), 1);
+                        if (boot_dev == NULL)
+                                panic("OOM while allocating bootdev");
+
                         bootdev_tag = (struct multiboot_tag_bootdev *) tag;
                         boot_dev->biosdev = bootdev_tag->biosdev;
                         boot_dev->partition = bootdev_tag->slice;
