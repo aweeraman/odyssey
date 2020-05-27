@@ -11,6 +11,7 @@
 #include <lib/string.h>
 #include <sys/panic.h>
 #include <sys/tty.h>
+#include <lib/mm.h>
 
 static char boot_cmdline[BOOT_CMDLINE_MAX];
 
@@ -159,10 +160,12 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ACPI_OLD:
-                        acpi_v1 = (struct acpi_descriptor_v1 *)
-                                        ((struct multiboot_tag_old_acpi *) tag)->rsdp;
-
-                        acpi_v2->oem_id[5] = '\0';
+                        acpi_v1 = kalloc(NULL, sizeof(struct acpi_descriptor_v1), 1);
+                        if (acpi_v1 == NULL)
+                                panic("OOM while allocating acpi_v1");
+                        memcpy(acpi_v1, ((struct multiboot_tag_old_acpi *) tag)->rsdp,
+                                        sizeof(struct acpi_descriptor_v1));
+                        acpi_v1->oem_id[5] = '\0';
 
                         printk("ACPI v1 RSDP: rev=%d rsdt_addr=0x%x oem=%s\n",
                             acpi_v1->revision,
