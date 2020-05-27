@@ -175,9 +175,11 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ACPI_NEW:
-                        acpi_v2 = (struct acpi_descriptor_v2 *)
-                                        ((struct multiboot_tag_new_acpi *) tag)->rsdp;
-
+                        acpi_v2 = kalloc(NULL, sizeof(struct acpi_descriptor_v2), 1);
+                        if (acpi_v2 == NULL)
+                                panic("OOM while allocating acpi_v2");
+                        memcpy(acpi_v2, ((struct multiboot_tag_new_acpi *) tag)->rsdp,
+                                        sizeof(struct acpi_descriptor_v2));
                         acpi_v2->oem_id[5] = '\0';
 
                         printk("ACPI v2 RSDP: rev=%d rsdt_addr=0x%x xsdt_addr=0x%X oem=%s\n",
@@ -185,6 +187,7 @@ void read_multiboot_header_tags()
                             acpi_v2->rsdt_addr,
                             acpi_v2->xsdt_addr,
                             acpi_v2->oem_id);
+
                         break;
 
                         case MULTIBOOT_TAG_TYPE_NETWORK:
