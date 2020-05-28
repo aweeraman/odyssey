@@ -41,6 +41,13 @@ mm_stats_t get_mm_stats(mm_superblock_t *sb, mm_stats_t *stats)
         return (mm_stats_t) (*stats);
 }
 
+static void mark_available(struct mm_frame *frame)
+{
+        frame->flags      = FRAME_AVAILABLE;
+        frame->bytes_used = 0;
+        memset(frame->addr, '\0', FRAME_BLOCK_SIZE);
+}
+
 void free_frame(mm_superblock_t *sb, uint32_t *addr)
 {
         if (sb == NULL)
@@ -49,30 +56,25 @@ void free_frame(mm_superblock_t *sb, uint32_t *addr)
         do {
                 int multi_start = 0;
                 for (uint32_t i = 0; i < sb->block_count; i++) {
-                        if ((uint32_t) sb->blocks[i].addr == (uint32_t) addr &&
-                            (sb->blocks[i].flags == FRAME_MULTI_START)) {
+                        uint32_t frame_addr = (uint32_t) sb->blocks[i].addr;
+                        int flags = sb->blocks[i].flags;
+
+                        if (frame_addr == (uint32_t) addr && flags == FRAME_MULTI_START) {
 
                                 multi_start = 1;
-                                sb->blocks[i].flags      = FRAME_AVAILABLE;
-                                sb->blocks[i].bytes_used = 0;
-                                memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
+                                mark_available(&sb->blocks[i]);
 
-                        } else if ((uint32_t) sb->blocks[i].addr == (uint32_t) addr &&
-                                  (sb->blocks[i].flags == FRAME_INUSE)) {
+                        } else if (frame_addr == (uint32_t) addr && flags == FRAME_INUSE) {
 
-                                sb->blocks[i].flags      = FRAME_AVAILABLE;
-                                sb->blocks[i].bytes_used = 0;
-                                memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
+                                mark_available(&sb->blocks[i]);
 
-                        } else if (multi_start == 1 && (sb->blocks[i].flags == FRAME_MULTI)) {
+                        } else if (multi_start == 1 && flags == FRAME_MULTI) {
 
-                                sb->blocks[i].flags      = FRAME_AVAILABLE;
-                                sb->blocks[i].bytes_used = 0;
-                                memset(sb->blocks[i].addr, '\0', FRAME_BLOCK_SIZE);
+                                mark_available(&sb->blocks[i]);
 
                         } else if (multi_start == 1 &&
-                                  ((sb->blocks[i].flags == FRAME_MULTI_START)
-                                    || (sb->blocks[i].flags == FRAME_INUSE))) {
+                                  (flags == FRAME_MULTI_START || flags == FRAME_INUSE)) {
+
                                 multi_start = 0;
                         }
                 }
