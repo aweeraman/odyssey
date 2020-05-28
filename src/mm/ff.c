@@ -60,21 +60,16 @@ void free_frame(mm_superblock_t *sb, uint32_t *addr)
                         int flags = sb->blocks[i].flags;
 
                         if (frame_addr == (uint32_t) addr && flags == FRAME_MULTI_START) {
-
                                 multi_start = 1;
                                 mark_available(&sb->blocks[i]);
-
                         } else if (frame_addr == (uint32_t) addr && flags == FRAME_INUSE) {
-
                                 mark_available(&sb->blocks[i]);
-
                         } else if (multi_start == 1 && flags == FRAME_MULTI) {
-
                                 mark_available(&sb->blocks[i]);
-
                         } else if (multi_start == 1 &&
-                                  (flags == FRAME_MULTI_START || flags == FRAME_INUSE)) {
-
+                                  (flags == FRAME_MULTI_START
+                                   || flags == FRAME_INUSE
+                                   || flags == FRAME_AVAILABLE)) {
                                 multi_start = 0;
                         }
                 }
