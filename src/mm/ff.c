@@ -190,8 +190,7 @@ mm_superblock_t *create_superblock(uint32_t root_block,
         for (uint32_t i = 0; i < sb->block_count; i++) {
                 sb->blocks[i].addr = (uint32_t *) ((uint32_t) sb->start_addr)
                                                   + (FRAME_BLOCK_SIZE * i);
-                sb->blocks[i].bytes_used = 0;
-                sb->blocks[i].flags = FRAME_AVAILABLE;
+                mark_available(&sb->blocks[i]);
         }
 
         return sb;
