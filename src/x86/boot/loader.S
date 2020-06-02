@@ -56,6 +56,23 @@ _start:
         # Initialize the console
         call early_framebuffer_console_init;
 
+        # Check for the availability of the cpuid instruction
+        pushl $cpuid_msg
+        call printk
+        pushf
+        pushf
+        xorl $0x00200000, (%esp)
+        popf
+        pushf
+        popl %eax
+        xorl %eax, (%esp)
+        popf
+        andl $0x00200000, %eax
+        cmp $0, %eax
+        je nocpuid
+        call cpuid
+
+nocpuid:
         # Disable interrupts
         cli
 
@@ -86,6 +103,8 @@ halt:   hlt
 
 shutdown_msg:
         .asciz  "System shutdown.\n"
+cpuid_msg:
+        .asciz  "Checking for cpuid instruction\n"
 
         .section .bss
         .align 16

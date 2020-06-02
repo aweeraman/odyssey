@@ -21,5 +21,7 @@ uint32_t *cpuid()
                         :"=r" (cpuid_str[2]));
         cpuid_str[3] = '\0';
 
+        printk("Detected processor %s\n", cpuid_str);
+
         return cpuid_str;
 }

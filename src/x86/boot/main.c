@@ -40,7 +40,6 @@ extern uintptr_t kernel_end;
  */
 void kernel_main()
 {
-        printk("Detected processor %s\n", cpuid());
 
 #ifdef CONFIG_SERIAL
         init_serial();
