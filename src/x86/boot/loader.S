@@ -63,7 +63,7 @@ _start:
         popf
         pushf
         popl %eax
-        xorl %eax, (%esp)
+        xorl (%esp), %eax
         popf
         andl $0x00200000, %eax
         cmp $0, %eax
