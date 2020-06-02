@@ -1,6 +1,11 @@
-.text
-.globl init_page_directory
-.globl enable_paging
+/**
+ * SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+        .text
+        .global init_page_directory
+        .global enable_paging
 
 enable_paging:
         pushl %ebp
