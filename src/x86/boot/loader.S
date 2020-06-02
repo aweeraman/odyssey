@@ -57,8 +57,6 @@ _start:
         call early_framebuffer_console_init;
 
         # Check for the availability of the cpuid instruction
-        pushl $cpuid_msg
-        call printk
         pushf
         pushf
         xorl $0x00200000, (%esp)
@@ -103,8 +101,6 @@ halt:   hlt
 
 shutdown_msg:
         .asciz  "System shutdown.\n"
-cpuid_msg:
-        .asciz  "Checking for cpuid instruction\n"
 
         .section .bss
         .align 16
