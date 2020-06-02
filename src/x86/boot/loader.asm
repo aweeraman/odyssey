@@ -9,6 +9,7 @@ extern gdt_init
 extern pic_init
 extern idt_init
 extern printk
+extern cpuid
 
 MB2_MAGIC                equ 0xe85250d6
 MB2_ARCH_FLAG            equ 0x0
@@ -60,6 +61,21 @@ _start:
         ; Initialize the console
         call early_framebuffer_console_init;
 
+        ; Check for the availability of the cpuid instruction
+        pushfd
+        pushfd
+        xor dword [esp], 0x00200000
+        popfd
+        pushfd
+        pop eax
+        xor eax, [esp]
+        popfd
+        and eax, 0x00200000
+        cmp eax, 0
+        je _nocpuid
+        call cpuid
+
+_nocpuid:
         ; Disable interrupts
         cli
 
