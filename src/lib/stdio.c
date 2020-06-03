@@ -33,8 +33,10 @@ char *getstr(char *line, int max_length)
         while(ch != '\n' && ch != '\r') {
                 if (line_counter < max_length-1) {
                         if (ch == '\b') {
-                                line[line_counter--] = '\0';
-                                backspace();
+                                if (line_counter > 0) {
+                                        line[line_counter--] = '\0';
+                                        backspace();
+                                }
                         } else {
                                 line[line_counter++] = ch;
                                 putchar(ch);

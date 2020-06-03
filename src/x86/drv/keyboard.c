@@ -18,9 +18,8 @@
 #define READLINE_READY      0
 #define READLINE_BLOCKED    1
 
-static uint8_t line_status  = READLINE_READY;
-static char    linebuf[MAX_READLINE_LENGTH];
-static int     pos = 0;
+static uint8_t  line_status  = READLINE_READY;
+static unsigned last_char;
 
 /* KBDUS means US Keyboard Layout. This is a scancode table
 *  used to layout a standard US keyboard. I have left some
@@ -75,13 +74,9 @@ void kbd_interrupt()
 
         scancode = inb(KBD_DATA_PORT);
         if (!(scancode & 0x80)) {
-                char last_char = kbdus[scancode];
-                if (line_status == READLINE_BLOCKED) {
-                        if (pos < MAX_READLINE_LENGTH-1) {
-                                linebuf[pos++] = last_char;
-                        }
+                last_char = kbdus[scancode];
+                if (line_status == READLINE_BLOCKED)
                         line_status  = READLINE_READY;
-                }
         }
 }
 
@@ -91,10 +86,7 @@ uint8_t block_and_read_char()
         while (line_status == READLINE_BLOCKED)
                 asm("hlt");
 
-        if (pos > 0)
-                return linebuf[--pos];
-
-        return 0;
+        return last_char;
 }
 
 void keyboard_init()
