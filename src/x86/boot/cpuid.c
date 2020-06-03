@@ -8,11 +8,14 @@
 #include <lib/stdio.h>
 
 static uint32_t cpuid_str[4];
+static uint32_t highest_functionality;
 
 uint32_t *cpuid()
 {
         asm("mov $0x0, %eax");
         asm("cpuid");
+        asm("mov %%eax, %0"
+                        :"=r" (highest_functionality));
         asm("mov %%ebx, %0"
                         :"=r" (cpuid_str[0]));
         asm("mov %%edx, %0"
@@ -21,7 +24,7 @@ uint32_t *cpuid()
                         :"=r" (cpuid_str[2]));
         cpuid_str[3] = '\0';
 
-        printk("Detected processor %s\n", cpuid_str);
+        printk("Processor vendor ID is %s, highest function 0x%x\n", cpuid_str, highest_functionality);
 
         return cpuid_str;
 }
