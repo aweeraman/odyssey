@@ -7,6 +7,7 @@
 #include <lib/string.h>
 #include <sys/tty.h>
 #include <sys/keyboard.h>
+#include <sys/serial.h>
 
 int putchar(unsigned int c)
 {
@@ -17,6 +18,9 @@ int putchar(unsigned int c)
 #if ARCH_X86
 unsigned int getchar()
 {
+#if (! defined CONFIG_KEYBOARD) && (defined CONFIG_SERIAL)
+        return read_serial();
+#endif
         return block_and_read_char();
 }
 
@@ -25,7 +29,8 @@ char *getstr(char *line, int max_length)
         uint8_t ch;
         int line_counter = 0;
 
-        while((ch = getchar()) != '\n') {
+        ch = getchar();
+        while(ch != '\n' && ch != '\r') {
                 if (line_counter < max_length-1) {
                         if (ch == '\b') {
                                 line[line_counter--] = '\0';
@@ -39,6 +44,7 @@ char *getstr(char *line, int max_length)
                         line[line_counter] = '\0';
                         line_counter = 0;
                 }
+                ch = getchar();
         }
         line[line_counter] = '\0';
         line_counter = 0;

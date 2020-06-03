@@ -47,7 +47,7 @@ void start_interactive_shell()
                         STRINGIFY(CONFIG_VERSION_MAJOR) "." \
                         STRINGIFY(CONFIG_VERSION_MINOR));
 
-#ifdef CONFIG_KEYBOARD
+#if CONFIG_KEYBOARD || CONFIG_SERIAL
         for (;;) {
                 printk("# ");
                 getstr(line, MAX_CMD_LENGTH);
