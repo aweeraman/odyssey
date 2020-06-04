@@ -9,14 +9,14 @@
 #include <sys/keyboard.h>
 #include <sys/serial.h>
 
-int putchar(unsigned int c)
+uint8_t putchar(uint8_t c)
 {
         printc(c);
         return c;
 }
 
 #if ARCH_X86
-unsigned int getchar()
+uint8_t getchar()
 {
 #if (! defined CONFIG_KEYBOARD) && (defined CONFIG_SERIAL)
         return read_serial();
