@@ -63,7 +63,7 @@ int serial_received()
 /*
  * Reads one character from the serial input buffer
  */
-char read_serial()
+unsigned char read_serial()
 {
         while (serial_received() == 0);
 
@@ -81,7 +81,7 @@ int is_transmit_empty()
 /*
  * Write one character to the serial port
  */
-void write_serial(char a)
+void write_serial(unsigned char a)
 {
         while (is_transmit_empty() == 0);
 
