@@ -8,6 +8,7 @@
 #include <lib/string.h>
 #include <ppm/odyssey.h>
 #include <sys/tty.h>
+#include <x86/io.h>
 
 static char line[MAX_CMD_LENGTH];
 
@@ -27,7 +28,15 @@ int cmd_clear()
 
 int cmd_exit()
 {
-        // TODO ACPI shutdown
+        // TODO Use ACPI for shutdown on real hardware
+
+        // in QEMU
+        outw(0x604, 0x2000);
+
+        // in Virtualbox
+        outw(0x4004, 0x3400);
+
+        // Won't get here, hopefully
         return 0;
 }
 
