@@ -25,6 +25,9 @@ static size_t fb_height;
 static size_t fb_width;
 #endif
 
+#define VGA_IDX_PORT  0x3D4
+#define VGA_DATA_PORT (VGA_IDX_PORT+1)
+
 #define CLR_BLACK         0
 #define CLR_BLUE          1
 #define CLR_GREEN         2
