@@ -119,6 +119,7 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_MMAP:
+                        init_mem_regions(tag->size / sizeof(multiboot_memory_map_t));
                         for (mmap = ((struct multiboot_tag_mmap *) tag)->entries;
                              (multiboot_uint8_t *) mmap < (multiboot_uint8_t *) tag + tag->size;
                              mmap = (multiboot_memory_map_t *) ((unsigned long) mmap +

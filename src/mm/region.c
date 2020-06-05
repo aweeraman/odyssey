@@ -7,6 +7,7 @@
 #include <sys/tty.h>
 #include <lib/stdio.h>
 #include <sys/panic.h>
+#include <lib/mm.h>
 
 static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
   "other",
@@ -18,8 +19,15 @@ static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
 };
 
 static basic_meminfo_t mem_info;
-static memory_region_t mem_regions[MAX_REGIONS];
+static memory_region_t *mem_regions;
 static int num_regions = 0;
+static int max_regions = 0;
+
+void init_mem_regions(size_t count)
+{
+        mem_regions = kalloc(NULL, sizeof(memory_region_t), count);
+        max_regions = count;
+}
 
 void set_basic_meminfo(size_t lower, size_t upper)
 {
@@ -54,9 +62,8 @@ void print_mem_regions()
 
 void add_mem_region(size_t start, size_t len, size_t type)
 {
-        // TODO: deprecate this with dynamic memory allocation
-        if (num_regions >= MAX_REGIONS)
-                panic("exceeded maximum number of memory regions");
+        if (num_regions >= max_regions)
+                panic("Exceeded maximum number of memory regions");
 
         mem_regions[num_regions].start = start;
         mem_regions[num_regions].end   = start+len-1;
