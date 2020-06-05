@@ -41,8 +41,8 @@ static char *mem_reg_lookup(int type)
 void print_mem_regions()
 {
         printk("Memory map\n");
-        for (int idx = 0; idx <= num_regions; idx++) {
-                memory_region_t mem_reg = get_mem_region(idx);
+        for (int idx = 0; idx < num_regions; idx++) {
+                memory_region_t mem_reg = mem_regions[idx];
                 printk("  %d: 0x%x - 0x%x %d (%s)\n",
                         idx,
                         mem_reg.start,
@@ -52,24 +52,16 @@ void print_mem_regions()
         }
 }
 
-void set_num_mem_regions(int num)
-{
-        num_regions = num;
-}
-
-void add_mem_region(int idx, size_t start, size_t len, size_t type)
+void add_mem_region(size_t start, size_t len, size_t type)
 {
         // TODO: deprecate this with dynamic memory allocation
-        if (idx >= MAX_REGIONS)
+        if (num_regions >= MAX_REGIONS)
                 panic("exceeded maximum number of memory regions");
 
-        mem_regions[idx].start = start;
-        mem_regions[idx].end   = start+len-1;
-        mem_regions[idx].len   = len-1;
-        mem_regions[idx].type  = type;
-}
+        mem_regions[num_regions].start = start;
+        mem_regions[num_regions].end   = start+len-1;
+        mem_regions[num_regions].len   = len-1;
+        mem_regions[num_regions].type  = type;
 
-memory_region_t get_mem_region(int idx)
-{
-        return mem_regions[idx];
+        num_regions++;
 }

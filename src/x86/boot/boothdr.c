@@ -62,7 +62,6 @@ void early_framebuffer_console_init(size_t magic, size_t structure_addr)
  */
 void read_multiboot_header_tags()
 {
-        int counter;
         multiboot_memory_map_t *mmap;
         struct multiboot_tag *tag;
         struct multiboot_tag_basic_meminfo *meminfo;
@@ -120,18 +119,13 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_MMAP:
-                        for (counter = 0, mmap = ((struct multiboot_tag_mmap *) tag)->entries;
+                        for (mmap = ((struct multiboot_tag_mmap *) tag)->entries;
                              (multiboot_uint8_t *) mmap < (multiboot_uint8_t *) tag + tag->size;
-                             counter++, mmap = (multiboot_memory_map_t *)
-                                   ((unsigned long) mmap +
+                             mmap = (multiboot_memory_map_t *) ((unsigned long) mmap +
                                     ((struct multiboot_tag_mmap *) tag)->entry_size)) {
-
-                                add_mem_region(counter,
-                                               (size_t) mmap->addr,
-                                               (size_t) mmap->len,
-                                               (size_t) mmap->type);
-
-                                set_num_mem_regions(counter);
+                                        add_mem_region((size_t) mmap->addr,
+                                                       (size_t) mmap->len,
+                                                       (size_t) mmap->type);
                         }
                         print_mem_regions();
                         break;

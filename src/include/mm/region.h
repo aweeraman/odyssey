@@ -26,9 +26,7 @@ typedef struct memory_region_struct {
 } memory_region_t;
 
 void set_basic_meminfo(size_t lower, size_t upper);
-void add_mem_region(int idx, size_t start, size_t len, size_t type);
-memory_region_t get_mem_region(int idx);
-void set_num_mem_regions(int num);
+void add_mem_region(size_t start, size_t len, size_t type);
 void print_mem_regions();
 
 #endif
