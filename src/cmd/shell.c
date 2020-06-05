@@ -9,11 +9,38 @@
 #include <ppm/odyssey.h>
 #include <sys/tty.h>
 
-char line[MAX_CMD_LENGTH];
+static char line[MAX_CMD_LENGTH];
 
-const char* commands = "Available commands: help, clear, splash, exception, exit";
+static const cmd_t valid_cmds[] = {
+        { .cmd="clear",     .func=cmd_clear },
+        { .cmd="splash",    .func=cmd_splash },
+        { .cmd="exit",      .func=cmd_exit },
+        { .cmd="exception", .func=cmd_trigger_exception },
+        { .cmd="help",      .func=cmd_help },
+};
 
-static void splash()
+int cmd_clear()
+{
+        clear_screen();
+        return 0;
+}
+
+int cmd_exit()
+{
+        // TODO ACPI shutdown
+        return 0;
+}
+
+int cmd_trigger_exception()
+{
+        // Trigger a division by zero
+        printk("%d", 1/0);
+
+        // Won't get here
+        return 0;
+}
+
+int cmd_splash()
 {
         clear_screen();
 #ifdef CONFIG_FRAMEBUFFER_RGB
@@ -31,13 +58,29 @@ static void splash()
                 }
         }
 #endif
+        return 0;
 }
 
-static int cmd(const char *cmd, char *input)
+int cmd_help()
 {
-        if (strncmp (cmd, input, MAX_CMD_LENGTH) == 0)
-                return 0;
+        printk("Available commands:\n");
+        for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(cmd_t)); i++) {
+                printk("  %s\n", valid_cmds[i].cmd);
+        }
+        return 0;
+}
 
+static int run(const char *cmdline)
+{
+        for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(cmd_t)); i++) {
+                if (strncmp(valid_cmds[i].cmd, line, MAX_CMD_LENGTH) == 0) {
+                        return (*valid_cmds[i].func)();
+                } else if (strncmp("", line, MAX_CMD_LENGTH) == 0) {
+                        return 0;
+                }
+        }
+
+        printk ("Unknown command: %s\n", cmdline);
         return 1;
 }
 
@@ -48,30 +91,18 @@ void start_interactive_shell()
                         STRINGIFY(CONFIG_VERSION_MINOR));
 
 #if CONFIG_KEYBOARD || CONFIG_SERIAL
-        for (;;) {
+        while(1) {
                 printk("# ");
                 getstr(line, MAX_CMD_LENGTH);
-
-                if  (cmd("", line) == 0) {
-                        // do nothing
-                } else if (cmd("help", line) == 0) {
-                        printk ("%s\n", commands);
-                } else if (cmd("exit", line) == 0) {
-                        break;
-                } else if (cmd("clear", line) == 0) {
-                        clear_screen();
-                } else if (cmd("splash", line) == 0) {
-                        splash();
-                } else if (cmd("exception", line) == 0) {
-                        printk("%d", 1/0);
-                } else {
-                        printk ("Unknown command. %s\n", commands);
-                }
+                run(line);
         }
 #else
         printk("Enable keyboard driver for interactive shell\n");
-        for (;;) {
+
+        while(1) {
+#if ARCH_X86
                 asm("hlt");
+#endif
         }
 #endif
 }
