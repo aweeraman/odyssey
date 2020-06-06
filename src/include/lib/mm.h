@@ -4,7 +4,7 @@
  */
 
 #ifndef MM_H
-#define MM_h
+#define MM_H
 
 #include <stddef.h>
 #include <mm/ff.h>
