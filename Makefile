@@ -23,6 +23,8 @@ iso: distclean all
 	mkdir -p iso/boot/grub/
 	cp config/grub.cfg iso/boot/grub/
 	cp src/odyssey iso/boot/
+	mkdir -p iso/modules
+	cp src/modules/looper.bin iso/modules/
 	grub-mkrescue -o $(ISO) iso
 
 boot:

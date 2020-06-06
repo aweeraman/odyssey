@@ -67,6 +67,7 @@ void read_multiboot_header_tags()
         struct multiboot_tag *tag;
         struct multiboot_tag_basic_meminfo *meminfo;
         struct multiboot_tag_bootdev *bootdev_tag;
+        struct multiboot_tag_module *boot_module;
 
         printk("Multiboot information structure: start=0x%x %uB\n",
                         addr, *(size_t *) addr);
@@ -91,7 +92,11 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_MODULE:
-                        // Boot modules
+                        boot_module = (struct multiboot_tag_module *) tag;
+                        printk("Boot module \"%s\" loaded from 0x%x to 0x%x\n",
+                                        boot_module->cmdline,
+                                        boot_module->mod_start,
+                                        boot_module->mod_end);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
