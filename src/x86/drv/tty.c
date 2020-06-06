@@ -48,10 +48,8 @@
 
 #define UNICODE_CURSOR    0x2588
 
-#define FB_RGB (framebuffer.type \
-		== MULTIBOOT_FRAMEBUFFER_TYPE_RGB)
-#define FB_EGA (framebuffer.type \
-		== MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT)
+#define IS_RGB (framebuffer.type == MULTIBOOT_FRAMEBUFFER_TYPE_RGB)
+#define IS_EGA (framebuffer.type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT)
 
 typedef struct {
         uint8_t ch;
@@ -72,7 +70,7 @@ static framebuffer_t framebuffer;
 
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 {
-        if (FB_EGA) {
+        if (IS_EGA) {
                 outb(VGA_IDX_PORT, 0x0A);
                 outb(VGA_DATA_PORT, (inb(VGA_DATA_PORT) & 0xC0) | cursor_start);
 
@@ -83,7 +81,7 @@ void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 
 void disable_cursor()
 {
-        if (FB_EGA) {
+        if (IS_EGA) {
                 outb(VGA_IDX_PORT, 0x0A);
                 outb(VGA_DATA_PORT, 0x20);
         }
@@ -91,7 +89,7 @@ void disable_cursor()
 
 static void scroll()
 {
-        if (FB_RGB) {
+        if (IS_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 for (size_t i = 0; i < framebuffer.height-16; i++) {
                         for (size_t j = 0; j < framebuffer.width; j++) {
@@ -105,7 +103,7 @@ static void scroll()
                         }
                 }
 #endif
-        } else if (FB_EGA) {
+        } else if (IS_EGA) {
                 for (size_t i = 0; i < (rows - 1); i++) {
                         for (size_t j = 0; j < cols; j++) {
                                 matrix[(i*cols) + j].ch    = matrix[(i+1)*cols + j].ch;
@@ -127,7 +125,7 @@ void update_cursor(uint8_t x, uint8_t width, uint8_t y)
         uint16_t pos = (x * width) + y;
         counter++;
 
-        if (FB_RGB) {
+        if (IS_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 ssfn_y  = x * FONT_HEIGHT;
                 ssfn_x  = y * FONT_WIDTH;
@@ -137,7 +135,7 @@ void update_cursor(uint8_t x, uint8_t width, uint8_t y)
                         ssfn_fg = RGB_BG;
                 ssfn_putc(UNICODE_CURSOR);
 #endif
-        } else if (FB_EGA) {
+        } else if (IS_EGA) {
                 outb(VGA_IDX_PORT, 0x0F);
                 outb(VGA_DATA_PORT, (uint8_t) (pos & 0xFF));
                 outb(VGA_IDX_PORT, 0x0E);
@@ -149,7 +147,7 @@ uint16_t get_cursor_position(void)
 {
         uint16_t pos = 0;
 
-        if (FB_EGA) {
+        if (IS_EGA) {
                 outb(VGA_IDX_PORT, 0x0F);
                 pos |= inb(VGA_DATA_PORT);
                 outb(VGA_IDX_PORT, 0x0E);
@@ -171,7 +169,7 @@ void printc(uint8_t ch)
                 cur_y = 0;
         }
         if (ch == '\n' || ch == '\r') {
-                if (FB_RGB) {
+                if (IS_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                         ssfn_y = cur_x * FONT_HEIGHT;
                         ssfn_x = cur_y * FONT_WIDTH;
@@ -189,7 +187,7 @@ void printc(uint8_t ch)
                 write_serial('\r');
                 write_serial('\n');
 #endif
-                if (FB_EGA) {
+                if (IS_EGA) {
                         matrix[(cur_x*cols) + cur_y] = (cell) {
                                 .ch = 0,
                                 .clr = CLR_FG
@@ -198,7 +196,7 @@ void printc(uint8_t ch)
                 }
                 return;
         }
-        if (FB_RGB) {
+        if (IS_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 ssfn_y = cur_x * FONT_HEIGHT;
                 ssfn_x = cur_y * FONT_WIDTH;
@@ -222,7 +220,7 @@ void printc(uint8_t ch)
                         cur_y = 0;
                 }
 #endif
-        } else if (FB_EGA) {
+        } else if (IS_EGA) {
                 matrix[(cur_x*cols) + cur_y++] = (cell) {
                         .ch = ch,
                         .clr = CLR_FG
@@ -247,7 +245,7 @@ void draw_pixel(int x, int y, uint32_t color)
 
 void backspace()
 {
-        if (FB_RGB) {
+        if (IS_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 if (cur_y > 0) {
                         ssfn_y = cur_x * FONT_HEIGHT;
@@ -263,7 +261,7 @@ void backspace()
                         ssfn_putc(UNICODE_CURSOR);
                 }
 #endif
-        } else if (FB_EGA) {
+        } else if (IS_EGA) {
                 if (cur_y > 0) {
                         cur_y--;
                         int pos = (cur_x * cols) + cur_y;
@@ -279,7 +277,7 @@ void backspace()
 
 void clear_screen(void)
 {
-        if (FB_RGB) {
+        if (IS_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 for (size_t x = 0; x < framebuffer.height; x++) {
                         for (size_t y = 0; y < framebuffer.width; y++) {
@@ -289,7 +287,7 @@ void clear_screen(void)
                 cur_x = 0;
                 cur_y = 0;
 #endif
-        } else if (FB_EGA) {
+        } else if (IS_EGA) {
                 for (size_t i = 0; i < (rows * cols); i++) {
                         matrix[i].ch = 0;
                         matrix[i].clr = CLR_FG;
@@ -304,7 +302,7 @@ void init_console(framebuffer_t fb_init)
 
         framebuffer = fb_init;
 
-        if (FB_RGB) {
+        if (IS_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 rows = framebuffer.height / 16;
                 cols = framebuffer.width  / 8;
@@ -326,7 +324,7 @@ void init_console(framebuffer_t fb_init)
                         framebuffer.addr, framebuffer.pitch, framebuffer.width,
                         framebuffer.height, framebuffer.bpp, framebuffer.type);
 #endif
-        } else if (FB_EGA) {
+        } else if (IS_EGA) {
                 matrix = (cell *) (size_t) framebuffer.addr;
                 rows = framebuffer.height;
                 cols = framebuffer.width;
