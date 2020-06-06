@@ -41,6 +41,7 @@
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
 
+#define CLR_FG            ((CLR_BLUE << 4) | (CLR_LIGHT_GREY & 0x0f))
 #define RGB_BG            0x000a3b7a
 #define RGB_FG            0x00dceafc
 
@@ -109,7 +110,7 @@ static void scroll()
                                 matrix[(i*cols) + j].ch    = matrix[(i+1)*cols + j].ch;
                                 matrix[(i*cols) + j].clr   = matrix[(i+1)*cols + j].clr;
                                 matrix[(i+1)*cols + j].ch  = 0;
-                                matrix[(i+1)*cols + j].clr = 0;
+                                matrix[(i+1)*cols + j].clr = CLR_FG;
                         }
                 }
         }
@@ -190,7 +191,7 @@ void printc(uint8_t ch)
                 if (FB_EGA) {
                         matrix[(cur_x*cols) + cur_y] = (cell) {
                                 .ch = 0,
-                                .clr = CLR_LIGHT_GREEN
+                                .clr = CLR_FG
                         };
                         update_cursor(cur_x, cols, cur_y);
                 }
@@ -223,11 +224,11 @@ void printc(uint8_t ch)
         } else if (FB_EGA) {
                 matrix[(cur_x*cols) + cur_y++] = (cell) {
                         .ch = ch,
-                        .clr = CLR_LIGHT_GREEN
+                        .clr = CLR_FG
                 };
                 matrix[(cur_x*cols) + cur_y] = (cell) {
                         .ch = 0,
-                        .clr = CLR_LIGHT_GREEN
+                        .clr = CLR_FG
                 };
         }
         update_cursor(cur_x, cols, cur_y);
@@ -266,7 +267,7 @@ void backspace()
                         cur_y--;
                         int pos = (cur_x * cols) + cur_y;
                         matrix[pos].ch = 0;
-                        matrix[pos].clr = CLR_LIGHT_GREEN;
+                        matrix[pos].clr = CLR_FG;
                 }
         }
         update_cursor(cur_x, cols, cur_y);
@@ -290,7 +291,7 @@ void clear_screen(void)
         } else if (FB_EGA) {
                 for (size_t i = 0; i < (rows * cols); i++) {
                         matrix[i].ch = 0;
-                        matrix[i].clr = 0;
+                        matrix[i].clr = CLR_FG;
                 }
                 cur_x = 0;
                 cur_y = 0;
