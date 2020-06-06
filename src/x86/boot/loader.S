@@ -28,7 +28,7 @@ framebuffer_tag_start:
         .long CONFIG_FRAMEBUFFER_HEIGHT
         .long CONFIG_FRAMEBUFFER_BPP
 framebuffer_tag_end:
-  .align 8
+        .align 8
 #endif
 
 tag_end:
