@@ -91,7 +91,7 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_MODULE:
-                        printk("Module: size 0x%x\n", tag->size);
+                        // Boot modules
                         break;
 
                         case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
@@ -133,7 +133,7 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_VBE:
-                        printk("VBE: size 0x%x\n", tag->size);
+                        // VBE
                         break;
 
                         case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
@@ -141,23 +141,23 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
-                        printk("ELF sections: size 0x%x\n", tag->size);
+                        // ELF sections
                         break;
 
                         case MULTIBOOT_TAG_TYPE_APM:
-                        printk("APM: size 0x%x\n", tag->size);
+                        // APM
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI32:
-                        printk("EFI 32-bit system table pointer: size 0x%x\n", tag->size);
+                        // EFI 32-bit system table pointer
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI64:
-                        printk("EFI 64-bit system table pointer: size 0x%x\n", tag->size);
+                        // EFI 64-bit system table pointer
                         break;
 
                         case MULTIBOOT_TAG_TYPE_SMBIOS:
-                        printk("SMBIOS: size 0x%x\n", tag->size);
+                        // SMBIOS
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ACPI_OLD:
@@ -192,23 +192,23 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_NETWORK:
-                        printk("Network: size 0x%x\n", tag->size);
+                        // Network
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI_MMAP:
-                        printk("EFI memory map: size 0x%x\n", tag->size);
+                        // EFI memory map
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI_BS:
-                        printk("EFI boot services not terminated: size 0x%x\n", tag->size);
+                        // EFI boot services not terminated
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI32_IH:
-                        printk("EFI 32-bit image handle pointer: size 0x%x\n", tag->size);
+                        // EFI 32-bit image handle pointer
                         break;
 
                         case MULTIBOOT_TAG_TYPE_EFI64_IH:
-                        printk("EFI 64-bit image handle pointer: size 0x%x\n", tag->size);
+                        // EFI 64-bit image handle pointer
                         break;
 
                         case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
