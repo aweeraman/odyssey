@@ -179,7 +179,7 @@ mm_superblock_t *create_superblock(uint32_t root_block,
                 memset(sb, '\0', sizeof(mm_superblock_t));
         }
 
-        sb->start_addr       = start_addr + sizeof(mm_superblock_t) + 1;
+        sb->start_addr = (start_addr + sizeof(mm_superblock_t) + 1 + 7) & ~7;
         sb->next_super_block = NULL;
 
         available_memory = end_addr - start_addr;
