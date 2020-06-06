@@ -171,16 +171,14 @@ static void write_character(uint8_t c)
                 ssfn_x = cur_y * FONT_WIDTH;
                 ssfn_fg = RGB_FG;
                 ssfn_putc(c);
-
-                cur_y++;
         }
 #else
         if (IS_EGA) {
-                matrix[(cur_x*cols) + cur_y++] = (cell) {
+                matrix[(cur_x*cols) + cur_y] = (cell) {
                         .ch = c,
                         .clr = CLR_FG
                 };
-                matrix[(cur_x*cols) + cur_y] = (cell) {
+                matrix[(cur_x*cols) + cur_y+1] = (cell) {
                         .ch = 0,
                         .clr = CLR_FG
                 };
@@ -193,55 +191,67 @@ static void write_character(uint8_t c)
 #endif
 }
 
+static void write_newline()
+{
+#ifdef CONFIG_FRAMEBUFFER_RGB
+        if (IS_RGB) {
+                ssfn_y = cur_x * FONT_HEIGHT;
+                ssfn_x = cur_y * FONT_WIDTH;
+                ssfn_fg = RGB_BG;
+                ssfn_putc(UNICODE_CURSOR);
+        }
+#else
+        if (IS_EGA) {
+                matrix[(cur_x*cols) + cur_y] = (cell) {
+                        .ch = 0,
+                        .clr = CLR_FG
+                };
+                update_cursor(cur_x, cols, cur_y);
+        }
+#endif
+
+#ifdef CONFIG_SERIAL
+        write_serial('\r');
+        write_serial('\n');
+#endif
+
+}
+
 void printc(uint8_t ch)
 {
         if (cur_y >= cols) {
                 cur_x++;
                 cur_y = 0;
         }
+
         if (cur_x >= rows) {
                 scroll();
-                cur_x = rows-1;
+                cur_x = rows - 1;
                 cur_y = 0;
         }
+
         if (ch == '\n' || ch == '\r') {
-                if (IS_RGB) {
-#ifdef CONFIG_FRAMEBUFFER_RGB
-                        ssfn_y = cur_x * FONT_HEIGHT;
-                        ssfn_x = cur_y * FONT_WIDTH;
-                        ssfn_fg = RGB_BG;
-                        ssfn_putc(UNICODE_CURSOR);
-#endif
-                }
+                write_newline();
                 cur_x++;
                 cur_y = 0;
                 if (cur_x >= rows) {
                         scroll();
-                        cur_x = rows-1;
-                }
-#ifdef CONFIG_SERIAL
-                write_serial('\r');
-                write_serial('\n');
-#endif
-                if (IS_EGA) {
-                        matrix[(cur_x*cols) + cur_y] = (cell) {
-                                .ch = 0,
-                                .clr = CLR_FG
-                        };
-                        update_cursor(cur_x, cols, cur_y);
+                        cur_x = rows - 1;
                 }
                 return;
         }
 
         write_character(ch);
+        cur_y++;
 
         if (cur_y >= cols) {
                 cur_x++;
                 cur_y = 0;
         }
+
         if (cur_x >= rows) {
                 scroll();
-                cur_x = rows-1;
+                cur_x = rows - 1;
                 cur_y = 0;
         }
 }
