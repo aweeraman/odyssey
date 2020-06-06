@@ -234,28 +234,24 @@ static void write_backspace()
 {
 #ifdef CONFIG_FRAMEBUFFER_RGB
         if (IS_RGB) {
-                if (cur_y > 0) {
-                        ssfn_y = cur_x * FONT_HEIGHT;
-                        ssfn_x = cur_y * FONT_WIDTH;
-                        ssfn_fg = RGB_BG;
-                        ssfn_putc(UNICODE_CURSOR);
+                ssfn_y = cur_x * FONT_HEIGHT;
+                ssfn_x = cur_y * FONT_WIDTH;
+                ssfn_fg = RGB_BG;
+                ssfn_putc(UNICODE_CURSOR);
 
-                        cur_y--;
+                cur_y--;
 
-                        ssfn_y = cur_x * FONT_HEIGHT;
-                        ssfn_x = cur_y * FONT_WIDTH;
-                        ssfn_fg = RGB_FG;
-                        ssfn_putc(UNICODE_CURSOR);
-                }
+                ssfn_y = cur_x * FONT_HEIGHT;
+                ssfn_x = cur_y * FONT_WIDTH;
+                ssfn_fg = RGB_FG;
+                ssfn_putc(UNICODE_CURSOR);
         }
 #else
         if (IS_EGA) {
-                if (cur_y > 0) {
-                        cur_y--;
-                        int pos = (cur_x * cols) + cur_y;
-                        matrix[pos].ch = 0;
-                        matrix[pos].clr = CLR_FG;
-                }
+                cur_y--;
+                int pos = (cur_x * cols) + cur_y;
+                matrix[pos].ch = 0;
+                matrix[pos].clr = CLR_FG;
         }
         update_cursor(cur_x, cur_y);
 #endif
@@ -279,8 +275,10 @@ void printc(uint8_t ch)
         }
 
         if (ch == '\b') {
-                write_backspace();
-                return;
+                if (cur_y > 0) {
+                        write_backspace();
+                        return;
+                }
         }
 
         if (ch == '\n' || ch == '\r') {
