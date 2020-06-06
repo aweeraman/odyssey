@@ -9,7 +9,6 @@
 #include <x86/boot/multiboot2.h>
 #include <x86/io.h>
 #include <stddef.h>
-#include <stdarg.h>
 
 #ifdef CONFIG_SERIAL
 #include <sys/serial.h>
@@ -19,6 +18,8 @@
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
 #include <sys/ssfn.h>
+#define FONT_HEIGHT 16
+#define FONT_WIDTH  8
 #endif
 
 #define VGA_IDX_PORT  0x3D4
@@ -128,8 +129,8 @@ void update_cursor(uint8_t x, uint8_t width, uint8_t y)
 
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-                ssfn_y  = x*16;
-                ssfn_x  = y*8;
+                ssfn_y  = x * FONT_HEIGHT;
+                ssfn_x  = y * FONT_WIDTH;
                 if (counter % 2 == 0)
                         ssfn_fg = RGB_FG;
                 else
@@ -172,8 +173,8 @@ void printc(uint8_t ch)
         if (ch == '\n' || ch == '\r') {
                 if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-                        ssfn_y = cur_x*16;
-                        ssfn_x = cur_y*8;
+                        ssfn_y = cur_x * FONT_HEIGHT;
+                        ssfn_x = cur_y * FONT_WIDTH;
                         ssfn_fg = RGB_BG;
                         ssfn_putc(UNICODE_CURSOR);
 #endif
@@ -199,13 +200,13 @@ void printc(uint8_t ch)
         }
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-                ssfn_y = cur_x*16;
-                ssfn_x = cur_y*8;
+                ssfn_y = cur_x * FONT_HEIGHT;
+                ssfn_x = cur_y * FONT_WIDTH;
                 ssfn_fg = RGB_BG;
                 ssfn_putc(UNICODE_CURSOR);
 
-                ssfn_y = cur_x*16;
-                ssfn_x = cur_y*8;
+                ssfn_y = cur_x * FONT_HEIGHT;
+                ssfn_x = cur_y * FONT_WIDTH;
                 ssfn_fg = RGB_FG;
                 ssfn_putc(ch);
 
@@ -249,15 +250,15 @@ void backspace()
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 if (cur_y > 0) {
-                        ssfn_y = cur_x*16;
-                        ssfn_x = cur_y*8;
+                        ssfn_y = cur_x * FONT_HEIGHT;
+                        ssfn_x = cur_y * FONT_WIDTH;
                         ssfn_fg = RGB_BG;
                         ssfn_putc(UNICODE_CURSOR);
 
                         cur_y--;
 
-                        ssfn_y = cur_x*16;
-                        ssfn_x = cur_y*8;
+                        ssfn_y = cur_x * FONT_HEIGHT;
+                        ssfn_x = cur_y * FONT_WIDTH;
                         ssfn_fg = RGB_FG;
                         ssfn_putc(UNICODE_CURSOR);
                 }
