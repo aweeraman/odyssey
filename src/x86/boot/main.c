@@ -70,7 +70,7 @@ void kernel_main()
 #endif
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
-        register_n_ticks_timer(5, blink_cursor);
+        register_n_ticks_timer(5, update_cursor);
 #endif
 
         start_interactive_shell();

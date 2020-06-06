@@ -140,19 +140,14 @@ static void scroll()
 #endif
 }
 
-void blink_cursor()
-{
-        update_cursor(cur_x, cur_y);
-}
-
-void update_cursor(uint8_t x, uint8_t y)
+void update_cursor()
 {
         counter++;
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
         if (IS_RGB) {
-                ssfn_y  = x * FONT_HEIGHT;
-                ssfn_x  = y * FONT_WIDTH;
+                ssfn_y  = cur_x * FONT_HEIGHT;
+                ssfn_x  = cur_y * FONT_WIDTH;
                 if (counter % 2 == 0)
                         ssfn_fg = RGB_FG;
                 else
@@ -160,7 +155,7 @@ void update_cursor(uint8_t x, uint8_t y)
                 ssfn_putc(UNICODE_CURSOR);
         }
 #else
-        uint16_t pos = (x * cols) + y;
+        uint16_t pos = (cur_x * cols) + cur_y;
         if (IS_EGA) {
                 outb(VGA_IDX_PORT, 0x0F);
                 outb(VGA_DATA_PORT, (uint8_t) (pos & 0xFF));
@@ -195,7 +190,6 @@ static void write_character(uint8_t c)
                         .ch = 0,
                         .clr = CLR_FG
                 };
-                update_cursor(cur_x, cur_y+1);
         }
 #endif
 
@@ -219,7 +213,6 @@ static void write_newline()
                         .ch = 0,
                         .clr = CLR_FG
                 };
-                update_cursor(cur_x, cur_y);
         }
 #endif
 
@@ -253,7 +246,6 @@ static void write_backspace()
                 matrix[pos].ch = 0;
                 matrix[pos].clr = CLR_FG;
         }
-        update_cursor(cur_x, cur_y);
 #endif
 
 #ifdef CONFIG_SERIAL
@@ -277,6 +269,7 @@ void printc(uint8_t ch)
         if (ch == '\b') {
                 if (cur_y > 0) {
                         write_backspace();
+                        update_cursor();
                         return;
                 }
         }
@@ -305,6 +298,8 @@ void printc(uint8_t ch)
                 cur_x = rows - 1;
                 cur_y = 0;
         }
+
+        update_cursor();
 }
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
