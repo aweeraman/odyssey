@@ -19,9 +19,6 @@
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
 #include <sys/ssfn.h>
-
-static size_t fb_height;
-static size_t fb_width;
 #endif
 
 #define VGA_IDX_PORT  0x3D4
@@ -66,7 +63,7 @@ extern char _binary_sys_f_sfn_start;
 
 static uint32_t counter = 0;
 
-static cell *matrix = NULL;
+static cell  *matrix = NULL;
 static size_t rows  = 0;
 static size_t cols  = 0;
 static size_t cur_x = 0;
@@ -97,15 +94,15 @@ static void scroll()
 {
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-                for (size_t i = 0; i < fb_height-16; i++) {
-                        for (size_t j = 0; j < fb_width; j++) {
-                                framebuffer.addr[(i*fb_width) + j] =
-                                        framebuffer.addr[((i+16) * fb_width) + j];
+                for (size_t i = 0; i < framebuffer.height-16; i++) {
+                        for (size_t j = 0; j < framebuffer.width; j++) {
+                                framebuffer.addr[(i*framebuffer.width) + j] =
+                                        framebuffer.addr[((i+16) * framebuffer.width) + j];
                         }
                 }
-                for (size_t i = fb_height-16; i < fb_height; i++) {
-                        for (size_t j = 0; j < fb_width; j++) {
-                                framebuffer.addr[(i*fb_width) + j] = 0;
+                for (size_t i = framebuffer.height-16; i < framebuffer.height; i++) {
+                        for (size_t j = 0; j < framebuffer.width; j++) {
+                                framebuffer.addr[(i*framebuffer.width) + j] = 0;
                         }
                 }
 #endif
@@ -245,7 +242,7 @@ void printc(uint8_t ch)
 #ifdef CONFIG_FRAMEBUFFER_RGB
 void draw_pixel(int x, int y, uint32_t color)
 {
-        framebuffer.addr[x * fb_width + y] = color;
+        framebuffer.addr[x * framebuffer.width + y] = color;
 }
 #endif
 
@@ -285,8 +282,8 @@ void clear_screen(void)
 {
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-                for (size_t x = 0; x < fb_height; x++) {
-                        for (size_t y = 0; y < fb_width; y++) {
+                for (size_t x = 0; x < framebuffer.height; x++) {
+                        for (size_t y = 0; y < framebuffer.width; y++) {
                                 draw_pixel(x, y, 0x00000000);
                         }
                 }
@@ -310,10 +307,8 @@ void init_console(framebuffer_t fb_init)
 
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-                fb_height = framebuffer.height;
-                fb_width  = framebuffer.width;
-                rows = fb_height / 16;
-                cols = fb_width  / 8;
+                rows = framebuffer.height / 16;
+                cols = framebuffer.width  / 8;
 
                 clear_screen();
 
