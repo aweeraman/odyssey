@@ -52,9 +52,9 @@ static size_t fb_width;
 
 #define UNICODE_CURSOR    0x2588
 
-#define FB_RGB (framebuffer.common.framebuffer_type \
+#define FB_RGB (framebuffer.type \
 		== MULTIBOOT_FRAMEBUFFER_TYPE_RGB)
-#define FB_EGA (framebuffer.common.framebuffer_type \
+#define FB_EGA (framebuffer.type \
 		== MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT)
 
 typedef struct {
@@ -73,7 +73,7 @@ static size_t cols  = 0;
 static size_t cur_x = 0;
 static size_t cur_y = 0;
 
-static struct multiboot_tag_framebuffer framebuffer;
+static framebuffer_t framebuffer;
 
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 {
@@ -303,27 +303,17 @@ void clear_screen(void)
         }
 }
 
-void init_console(unsigned char type,
-                  unsigned char bpp,
-                  unsigned long long addr,
-                  unsigned int width,
-                  unsigned int height,
-                  unsigned int pitch)
+void init_console(framebuffer_t fb_init)
 {
 
-        framebuffer.common.framebuffer_type   = type;
-        framebuffer.common.framebuffer_bpp    = bpp;
-        framebuffer.common.framebuffer_addr   = addr;
-        framebuffer.common.framebuffer_width  = width;
-        framebuffer.common.framebuffer_height = height;
-        framebuffer.common.framebuffer_pitch  = pitch;
+        framebuffer = fb_init;
 
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-                fb = (size_t *) (size_t) framebuffer.common.framebuffer_addr;
+                fb = (size_t *) (size_t) framebuffer.addr;
 
-                fb_height = framebuffer.common.framebuffer_height;
-                fb_width  = framebuffer.common.framebuffer_width;
+                fb_height = framebuffer.height;
+                fb_width  = framebuffer.width;
                 rows = fb_height / 16;
                 cols = fb_width  / 8;
 
@@ -331,36 +321,29 @@ void init_console(unsigned char type,
 
                 //Setup scalable font library
                 ssfn_font = (ssfn_font_t *) &_binary_sys_f_sfn_start;
-                ssfn_dst_ptr = (uint8_t *) (size_t) framebuffer.common.framebuffer_addr;
-                ssfn_dst_pitch = framebuffer.common.framebuffer_pitch;
+                ssfn_dst_ptr = (uint8_t *) (size_t) framebuffer.addr;
+                ssfn_dst_pitch = framebuffer.pitch;
                 ssfn_fg = 0xFFFFFFFF;
                 ssfn_x = 0;
                 ssfn_y = 0;
 
                 printk("Initialized RGB framebuffer at 0x%x\n",
-                        framebuffer.common.framebuffer_addr);
+                        framebuffer.addr);
 
                 printk("Video addr=0x%X pitch=%d width=%d height=%d bpp=%d type=%d\n",
-                        framebuffer.common.framebuffer_addr,
-                        framebuffer.common.framebuffer_pitch,
-                        framebuffer.common.framebuffer_width,
-                        framebuffer.common.framebuffer_height,
-                        framebuffer.common.framebuffer_bpp,
-                        framebuffer.common.framebuffer_type);
+                        framebuffer.addr, framebuffer.pitch, framebuffer.width,
+                        framebuffer.height, framebuffer.bpp, framebuffer.type);
 #endif
         } else if (FB_EGA) {
-                matrix = (cell *) (size_t) framebuffer.common.framebuffer_addr;
-                rows = framebuffer.common.framebuffer_height;
-                cols = framebuffer.common.framebuffer_width;
+                matrix = (cell *) (size_t) framebuffer.addr;
+                rows = framebuffer.height;
+                cols = framebuffer.width;
                 clear_screen();
                 enable_cursor(1, 15);
 
                 printk("Initialized EGA framebuffer at 0x%X width=%d height=%d\n",
-                        framebuffer.common.framebuffer_addr,
-                        framebuffer.common.framebuffer_width,
-                        framebuffer.common.framebuffer_height);
+                        framebuffer.addr, framebuffer.width, framebuffer.height);
         } else {
-                printk("Framebuffer type %d not supported\n",
-                        framebuffer.common.framebuffer_type);
+                printk("Framebuffer type %d not supported\n", framebuffer.type);
         }
 }

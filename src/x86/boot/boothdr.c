@@ -27,7 +27,7 @@ static size_t addr;
 void early_framebuffer_console_init(size_t magic, size_t structure_addr)
 {
         struct multiboot_tag *tag;
-        struct multiboot_tag_framebuffer *framebuffer;
+        struct multiboot_tag_framebuffer *fb;
 
         // Check if bootloader complies with multiboot2
         if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
@@ -42,16 +42,20 @@ void early_framebuffer_console_init(size_t magic, size_t structure_addr)
                    ((tag->size + 7) & ~7))) {
 
                 if (tag->type == MULTIBOOT_TAG_TYPE_FRAMEBUFFER) {
-                        framebuffer = (struct multiboot_tag_framebuffer *) tag;
+                        fb = (struct multiboot_tag_framebuffer *) tag;
 
-                        init_console(framebuffer->common.framebuffer_type,
-                                     framebuffer->common.framebuffer_bpp,
-                                     framebuffer->common.framebuffer_addr,
-                                     framebuffer->common.framebuffer_width,
-                                     framebuffer->common.framebuffer_height,
-                                     framebuffer->common.framebuffer_pitch);
-                        }
+                        framebuffer_t framebuffer = {
+                                .type   = fb->common.framebuffer_type,
+                                .bpp    = fb->common.framebuffer_bpp,
+                                .addr   = fb->common.framebuffer_addr,
+                                .width  = fb->common.framebuffer_width,
+                                .height = fb->common.framebuffer_height,
+                                .pitch  = fb->common.framebuffer_pitch,
+                        };
+
+                        init_console(framebuffer);
                 }
+        }
 }
 
 /*
