@@ -72,9 +72,9 @@ void read_multiboot_header_tags()
                         addr, *(size_t *) addr);
 
         for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
-                        tag->type != MULTIBOOT_TAG_TYPE_END;
-                        tag = (struct multiboot_tag *) ((multiboot_uint8_t *)
-                                tag + ((tag->size + 7) & ~7))) {
+             tag->type != MULTIBOOT_TAG_TYPE_END;
+             tag = (struct multiboot_tag *) ((multiboot_uint8_t *)
+                   tag + ((tag->size + 7) & ~7))) {
 
                 switch (tag->type) {
 
