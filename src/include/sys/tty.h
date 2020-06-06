@@ -8,8 +8,17 @@
 
 #include <stdint.h>
 
-void init_console(unsigned char type, unsigned char bpp, unsigned long long addr,
-                  unsigned int width, unsigned int height, unsigned int pitch);
+typedef struct fb_info {
+        uint8_t  type;
+        uint8_t  bpp;
+        uint64_t addr;
+        uint32_t width;
+        uint32_t height;
+        uint32_t pitch;
+
+} framebuffer_t;
+
+void     init_console(framebuffer_t framebuffer);
 void     enable_cursor(uint8_t cursor_start, uint8_t cursor_end);
 void     disable_cursor();
 void     blink_cursor();
