@@ -35,7 +35,7 @@ char *getstr(char *line, int max_length)
                         if (ch == '\b') {
                                 if (line_counter > 0) {
                                         line[line_counter--] = '\0';
-                                        backspace();
+                                        putchar(ch);
                                 }
                         } else {
                                 line[line_counter++] = ch;

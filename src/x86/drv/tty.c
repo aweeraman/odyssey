@@ -182,7 +182,7 @@ static void write_character(uint8_t c)
                         .ch = 0,
                         .clr = CLR_FG
                 };
-                update_cursor(cur_x, cols, cur_y);
+                update_cursor(cur_x, cols, cur_y+1);
         }
 #endif
 
@@ -228,6 +228,11 @@ void printc(uint8_t ch)
                 scroll();
                 cur_x = rows - 1;
                 cur_y = 0;
+        }
+
+        if (ch == '\b') {
+                backspace();
+                return;
         }
 
         if (ch == '\n' || ch == '\r') {
