@@ -20,7 +20,6 @@
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
 #include <sys/ssfn.h>
 
-static size_t *fb = NULL;
 static size_t fb_height;
 static size_t fb_width;
 #endif
@@ -100,12 +99,13 @@ static void scroll()
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 for (size_t i = 0; i < fb_height-16; i++) {
                         for (size_t j = 0; j < fb_width; j++) {
-                                fb[(i*fb_width) + j] = fb[((i+16) * fb_width) + j];
+                                framebuffer.addr[(i*fb_width) + j] =
+                                        framebuffer.addr[((i+16) * fb_width) + j];
                         }
                 }
                 for (size_t i = fb_height-16; i < fb_height; i++) {
                         for (size_t j = 0; j < fb_width; j++) {
-                                fb[(i*fb_width) + j] = 0;
+                                framebuffer.addr[(i*fb_width) + j] = 0;
                         }
                 }
 #endif
@@ -245,7 +245,7 @@ void printc(uint8_t ch)
 #ifdef CONFIG_FRAMEBUFFER_RGB
 void draw_pixel(int x, int y, uint32_t color)
 {
-        fb[x * fb_width + y] = color;
+        framebuffer.addr[x * fb_width + y] = color;
 }
 #endif
 
@@ -310,8 +310,6 @@ void init_console(framebuffer_t fb_init)
 
         if (FB_RGB) {
 #ifdef CONFIG_FRAMEBUFFER_RGB
-                fb = (size_t *) (size_t) framebuffer.addr;
-
                 fb_height = framebuffer.height;
                 fb_width  = framebuffer.width;
                 rows = fb_height / 16;

@@ -9,12 +9,12 @@
 #include <stdint.h>
 
 typedef struct fb_info {
-        uint8_t  type;
-        uint8_t  bpp;
-        uint64_t addr;
-        uint32_t width;
-        uint32_t height;
-        uint32_t pitch;
+        uint8_t   type;
+        uint8_t   bpp;
+        uint32_t *addr; /* 64-bit field in the specification */
+        uint32_t  width;
+        uint32_t  height;
+        uint32_t  pitch;
 
 } framebuffer_t;
 
