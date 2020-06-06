@@ -41,10 +41,8 @@
 #define CLR_LIGHT_BROWN   14
 #define CLR_WHITE         15
 
-#define RGB_BLACK         0
-#define RGB_WHITE         0xffffffff
-#define RGB_CYAN          0x0000ffff
-#define RGB_FG            RGB_CYAN
+#define RGB_BG            0x000a3b7a
+#define RGB_FG            0x00dceafc
 
 #define UNICODE_CURSOR    0x2588
 
@@ -57,7 +55,6 @@ typedef struct {
         uint8_t ch;
         uint8_t clr;
 } __attribute__((packed)) cell;
-
 
 extern char _binary_sys_f_sfn_start;
 
@@ -102,7 +99,7 @@ static void scroll()
                 }
                 for (size_t i = framebuffer.height-16; i < framebuffer.height; i++) {
                         for (size_t j = 0; j < framebuffer.width; j++) {
-                                framebuffer.addr[(i*framebuffer.width) + j] = 0;
+                                draw_pixel(i, j, RGB_BG);
                         }
                 }
 #endif
@@ -135,7 +132,7 @@ void update_cursor(uint8_t x, uint8_t width, uint8_t y)
                 if (counter % 2 == 0)
                         ssfn_fg = RGB_FG;
                 else
-                        ssfn_fg = RGB_BLACK;
+                        ssfn_fg = RGB_BG;
                 ssfn_putc(UNICODE_CURSOR);
 #endif
         } else if (FB_EGA) {
@@ -176,7 +173,7 @@ void printc(uint8_t ch)
 #ifdef CONFIG_FRAMEBUFFER_RGB
                         ssfn_y = cur_x*16;
                         ssfn_x = cur_y*8;
-                        ssfn_fg = RGB_BLACK;
+                        ssfn_fg = RGB_BG;
                         ssfn_putc(UNICODE_CURSOR);
 #endif
                 }
@@ -203,7 +200,7 @@ void printc(uint8_t ch)
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 ssfn_y = cur_x*16;
                 ssfn_x = cur_y*8;
-                ssfn_fg = RGB_BLACK;
+                ssfn_fg = RGB_BG;
                 ssfn_putc(UNICODE_CURSOR);
 
                 ssfn_y = cur_x*16;
@@ -253,14 +250,14 @@ void backspace()
                 if (cur_y > 0) {
                         ssfn_y = cur_x*16;
                         ssfn_x = cur_y*8;
-                        ssfn_fg = RGB_BLACK;
+                        ssfn_fg = RGB_BG;
                         ssfn_putc(UNICODE_CURSOR);
 
                         cur_y--;
 
                         ssfn_y = cur_x*16;
                         ssfn_x = cur_y*8;
-                        ssfn_fg = RGB_WHITE;
+                        ssfn_fg = RGB_FG;
                         ssfn_putc(UNICODE_CURSOR);
                 }
 #endif
@@ -284,7 +281,7 @@ void clear_screen(void)
 #ifdef CONFIG_FRAMEBUFFER_RGB
                 for (size_t x = 0; x < framebuffer.height; x++) {
                         for (size_t y = 0; y < framebuffer.width; y++) {
-                                draw_pixel(x, y, 0x00000000);
+                                draw_pixel(x, y, RGB_BG);
                         }
                 }
                 cur_x = 0;
