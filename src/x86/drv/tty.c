@@ -157,6 +157,42 @@ uint16_t get_cursor_position(void)
         return pos;
 }
 
+static void write_character(uint8_t c)
+{
+
+#ifdef CONFIG_FRAMEBUFFER_RGB
+        if (IS_RGB) {
+                ssfn_y = cur_x * FONT_HEIGHT;
+                ssfn_x = cur_y * FONT_WIDTH;
+                ssfn_fg = RGB_BG;
+                ssfn_putc(UNICODE_CURSOR);
+
+                ssfn_y = cur_x * FONT_HEIGHT;
+                ssfn_x = cur_y * FONT_WIDTH;
+                ssfn_fg = RGB_FG;
+                ssfn_putc(c);
+
+                cur_y++;
+        }
+#else
+        if (IS_EGA) {
+                matrix[(cur_x*cols) + cur_y++] = (cell) {
+                        .ch = c,
+                        .clr = CLR_FG
+                };
+                matrix[(cur_x*cols) + cur_y] = (cell) {
+                        .ch = 0,
+                        .clr = CLR_FG
+                };
+                update_cursor(cur_x, cols, cur_y);
+        }
+#endif
+
+#ifdef CONFIG_SERIAL
+        write_serial(c);
+#endif
+}
+
 void printc(uint8_t ch)
 {
         if (cur_y >= cols) {
@@ -196,44 +232,18 @@ void printc(uint8_t ch)
                 }
                 return;
         }
-        if (IS_RGB) {
-#ifdef CONFIG_FRAMEBUFFER_RGB
-                ssfn_y = cur_x * FONT_HEIGHT;
-                ssfn_x = cur_y * FONT_WIDTH;
-                ssfn_fg = RGB_BG;
-                ssfn_putc(UNICODE_CURSOR);
 
-                ssfn_y = cur_x * FONT_HEIGHT;
-                ssfn_x = cur_y * FONT_WIDTH;
-                ssfn_fg = RGB_FG;
-                ssfn_putc(ch);
+        write_character(ch);
 
-                cur_y++;
-
-                if (cur_y >= cols) {
-                        cur_x++;
-                        cur_y = 0;
-                }
-                if (cur_x >= rows) {
-                        scroll();
-                        cur_x = rows-1;
-                        cur_y = 0;
-                }
-#endif
-        } else if (IS_EGA) {
-                matrix[(cur_x*cols) + cur_y++] = (cell) {
-                        .ch = ch,
-                        .clr = CLR_FG
-                };
-                matrix[(cur_x*cols) + cur_y] = (cell) {
-                        .ch = 0,
-                        .clr = CLR_FG
-                };
+        if (cur_y >= cols) {
+                cur_x++;
+                cur_y = 0;
         }
-        update_cursor(cur_x, cols, cur_y);
-#ifdef CONFIG_SERIAL
-        write_serial(ch);
-#endif
+        if (cur_x >= rows) {
+                scroll();
+                cur_x = rows-1;
+                cur_y = 0;
+        }
 }
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
