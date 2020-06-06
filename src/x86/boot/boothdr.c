@@ -18,7 +18,6 @@ static char boot_cmdline[BOOT_CMDLINE_MAX];
 struct acpi_descriptor_v1        *acpi_v1;
 struct acpi_descriptor_v2        *acpi_v2;
 struct boot_device               *boot_dev;
-struct multiboot_tag_framebuffer *framebuffer;
 
 static size_t addr;
 
@@ -28,6 +27,7 @@ static size_t addr;
 void early_framebuffer_console_init(size_t magic, size_t structure_addr)
 {
         struct multiboot_tag *tag;
+        struct multiboot_tag_framebuffer *framebuffer;
 
         // Check if bootloader complies with multiboot2
         if (magic != MULTIBOOT2_BOOTLOADER_MAGIC) {
@@ -37,24 +37,21 @@ void early_framebuffer_console_init(size_t magic, size_t structure_addr)
         addr = structure_addr;
 
         for (tag = (struct multiboot_tag *) ((size_t) (addr + 8));
-                        tag->type != MULTIBOOT_TAG_TYPE_END;
-                        tag = (struct multiboot_tag *) ((multiboot_uint8_t *) tag +
-                                      ((tag->size + 7) & ~7))) {
+             tag->type != MULTIBOOT_TAG_TYPE_END;
+             tag = (struct multiboot_tag *) ((multiboot_uint8_t *) tag +
+                   ((tag->size + 7) & ~7))) {
 
-        if (tag->type == MULTIBOOT_TAG_TYPE_FRAMEBUFFER) {
-                framebuffer = (struct multiboot_tag_framebuffer *) tag;
+                if (tag->type == MULTIBOOT_TAG_TYPE_FRAMEBUFFER) {
+                        framebuffer = (struct multiboot_tag_framebuffer *) tag;
 
-                init_console();
-
-                printk("Video addr=0x%X pitch=%d width=%d height=%d bpp=%d type=%d\n",
-                  framebuffer->common.framebuffer_addr,
-                  framebuffer->common.framebuffer_pitch,
-                  framebuffer->common.framebuffer_width,
-                  framebuffer->common.framebuffer_height,
-                  framebuffer->common.framebuffer_bpp,
-                  framebuffer->common.framebuffer_type);
+                        init_console(framebuffer->common.framebuffer_type,
+                                     framebuffer->common.framebuffer_bpp,
+                                     framebuffer->common.framebuffer_addr,
+                                     framebuffer->common.framebuffer_width,
+                                     framebuffer->common.framebuffer_height,
+                                     framebuffer->common.framebuffer_pitch);
+                        }
                 }
-        }
 }
 
 /*
@@ -136,6 +133,7 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
+                        // Already taken care of during early console initialization
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:

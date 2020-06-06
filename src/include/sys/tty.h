@@ -8,7 +8,8 @@
 
 #include <stdint.h>
 
-void     init_console();
+void init_console(unsigned char type, unsigned char bpp, unsigned long long addr,
+                  unsigned int width, unsigned int height, unsigned int pitch);
 void     enable_cursor(uint8_t cursor_start, uint8_t cursor_end);
 void     disable_cursor();
 void     blink_cursor();
