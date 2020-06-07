@@ -15,7 +15,7 @@ void *kalloc(mm_superblock_t *sb, size_t memb, size_t count)
         return get_available_frame(sb, memb * count);
 }
 
-void kfree(mm_superblock_t *sb, void *ptr)
+void kzfree(mm_superblock_t *sb, void *ptr)
 {
         free_frame(sb, ptr);
 }

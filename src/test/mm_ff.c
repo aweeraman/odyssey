@@ -145,7 +145,7 @@ int ff_mm_4()
         stats = get_mm_stats(superblock, &stats);
         FAIL_IF(stats.bytes_used != 800, "incorrect bytes_used 1");
 
-        kfree(superblock, addr1);
+        kzfree(superblock, addr1);
 
         uint32_t *addr3 = (uint32_t *) kalloc(superblock, sizeof(uint32_t), 50);
         FAIL_IF(addr3 == NULL, "couldn't get an available frame 3");
@@ -172,9 +172,9 @@ int ff_mm_5()
         strncpy(addr1, "123", 5);
         FAIL_IF(strncmp(addr1, "123", 5) != 0, "string didn't get set correctly");
 
-        kfree(superblock, addr1);
+        kzfree(superblock, addr1);
 
-        FAIL_IF(addr1[0] != '\0', "kfree didn't zero the memory");
+        FAIL_IF(addr1[0] != '\0', "kzfree didn't zero the memory");
 
         return ret;
 }
@@ -191,7 +191,7 @@ int ff_mm_6()
         char *addr1 = (char *) kalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
         FAIL_IF(addr1 == NULL, "couldn't allocation block FRAME_BLOCK_SIZE*2");
 
-        kfree(superblock, addr1);
+        kzfree(superblock, addr1);
 
         char *addr2 = (char *) kalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
         FAIL_IF(addr1 != addr2, "should return the same block after freeing");
@@ -215,7 +215,7 @@ int ff_mm_7()
         char *addr1 = (char *) kalloc(superblock, sizeof(char), 2048);
         FAIL_IF(addr1 == NULL, "couldn't allocate maximum available in segment 1");
 
-        kfree(superblock, addr1);
+        kzfree(superblock, addr1);
 
         char *addr2 = (char *) kalloc(superblock, sizeof(char), 2048);
         FAIL_IF(addr2 == NULL, "couldn't allocate maximum available in segment 2");

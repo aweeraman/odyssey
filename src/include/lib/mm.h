@@ -36,7 +36,7 @@ union mem_ptr {
 typedef union mem_ptr mem_ptr_t;
 
 void *kalloc(mm_superblock_t *sb, size_t memb, size_t count);
-void  kfree(mm_superblock_t *sb, void *ptr);
+void  kzfree(mm_superblock_t *sb, void *ptr);
 void  peek(size_t addr, int count);
 
 #endif
