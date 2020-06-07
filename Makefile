@@ -24,7 +24,7 @@ iso: distclean all
 	cp config/grub.cfg iso/boot/grub/
 	cp src/odyssey iso/boot/
 	mkdir -p iso/modules
-	cp src/modules/looper.bin iso/modules/
+	cp src/modules/canary.bin iso/modules/
 	grub-mkrescue -o $(ISO) iso
 
 boot:

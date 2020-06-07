@@ -37,6 +37,7 @@ void run_tests()
 
 #ifdef ARCH_X86
         TEST(multiboot2_magic_1);
+        TEST(canary_1);
 #endif
 
 #if CONFIG_MM_FF

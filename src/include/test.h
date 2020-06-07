@@ -16,6 +16,12 @@
                 ret = 1; \
         } \
 
+#define FAIL_AND_EXIT_IF(expr, msg) \
+        if (expr) { \
+                fail(__FUNCTION__, __LINE__, msg); \
+                return 1; \
+        } \
+
 void run_tests();
 void fail(const char *test, const int line, char *msg);
 

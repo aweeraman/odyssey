@@ -20,7 +20,7 @@ static const cmd_t valid_cmds[] = {
         { .cmd="exception", .func=cmd_trigger_exception },
         { .cmd="help",      .func=cmd_help },
         { .cmd="modules",   .func=cmd_modules },
-        { .cmd="looper",    .func=cmd_looper },
+        { .cmd="canary",    .func=cmd_canary },
 };
 
 int cmd_modules()
@@ -29,14 +29,17 @@ int cmd_modules()
         return 0;
 }
 
-int cmd_looper()
+int cmd_canary()
 {
-        module_t looper = (module_t) get_module_by_idx(0);
-        if (looper == 0) {
+        uint32_t i = 0;
+        module_t canary = (module_t) get_module_by_idx(0);
+        if (canary == 0) {
                 printk("Module not found!\n");
                 return 1;
         }
-        looper();
+        canary();
+        asm("\t movl %%eax, %0" : "=r"(i));
+        printk("Canary said 0x%x\n", i);
         return 0;
 }
 

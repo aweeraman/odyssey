@@ -6,5 +6,4 @@
         .global _start
 _start:
         mov $0x0DEE5EEE, %eax
-halt:   hlt
-        jmp halt
+        ret

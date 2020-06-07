@@ -15,10 +15,8 @@ typedef struct cmd {
         int (*func)();
 } cmd_t;
 
-typedef void (*module_t)(void);
-
 int  cmd_modules();
-int  cmd_looper();
+int  cmd_canary();
 int  cmd_clear();
 int  cmd_splash();
 int  cmd_exit();

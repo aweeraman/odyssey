@@ -62,7 +62,7 @@ endif
 	$(LD) -o odyssey $(OBJECTS) $(LDFLAGS)
 
 modules: $(MODULES)
-	$(OBJCOPY) -O binary modules/looper.o modules/looper.bin
+	$(OBJCOPY) -O binary modules/canary.o modules/canary.bin
 
 sys/font.o:
 	$(OBJCOPY) -O elf32-i386 -B i386 -I binary sys/f.sfn sys/font.o
