@@ -15,9 +15,9 @@ typedef struct n_ticks_timer {
         void (*callback)();
 } n_ticks_timer_t;
 
-void     tick();
-uint32_t get_loops_per_tick();
-int      register_n_ticks_timer(int n_ticks, void (*timer_callback)());
-void     busy_wait(int ticks_to_wait);
+void     tick                   ();
+uint32_t get_loops_per_tick     ();
+int      register_n_ticks_timer (int n_ticks, void (*timer_callback)());
+void     busy_wait              (int ticks_to_wait);
 
 #endif

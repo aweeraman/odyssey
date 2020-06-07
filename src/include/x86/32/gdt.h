@@ -29,7 +29,7 @@ struct gdt_entry {
 
 typedef struct gdt_entry gdt_entry_t;
 
-void gdt_init();
+void        gdt_init();
 extern void load_gdt();
 
 #endif

@@ -26,7 +26,7 @@ struct idt_entry {
 
 typedef struct idt_entry idt_entry_t;
 
-void idt_init();
+void        idt_init();
 extern void load_idt();
 
 #endif

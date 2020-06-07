@@ -37,13 +37,13 @@ struct mm_superblock {
 typedef struct mm_superblock mm_superblock_t;
 typedef struct mm_stats mm_stats_t;
 
-void  init_mm();
-void* get_available_frame(mm_superblock_t *sb, size_t size);
-void  free_frame(mm_superblock_t *sb, uint32_t *addr);
-void  print_superblocks(mm_superblock_t *sb);
-mm_stats_t       get_mm_stats(mm_superblock_t *sb, mm_stats_t *stats);
-mm_superblock_t *create_superblock(uint32_t root_block,
-                                      uint32_t start_addr,
-                                      uint32_t end_addr);
+void             init_mm                ();
+void            *get_available_frame    (mm_superblock_t *sb, size_t size);
+void             free_frame             (mm_superblock_t *sb, uint32_t *addr);
+void             print_superblocks      (mm_superblock_t *sb);
+mm_stats_t       get_mm_stats           (mm_superblock_t *sb, mm_stats_t *stats);
+mm_superblock_t *create_superblock      (uint32_t root_block,
+                                         uint32_t start_addr,
+                                         uint32_t end_addr);
 
 #endif

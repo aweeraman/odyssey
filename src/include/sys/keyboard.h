@@ -10,8 +10,8 @@
 
 #define MAX_READLINE_LENGTH 256
 
-void keyboard_init();
-void kbd_interrupt();
-uint8_t block_and_read_char();
+void    keyboard_init           ();
+void    kbd_interrupt           ();
+uint8_t block_and_read_char     ();
 
 #endif

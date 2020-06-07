@@ -22,7 +22,7 @@
                 return 1; \
         } \
 
-void run_tests();
-void fail(const char *test, const int line, char *msg);
+void run_tests  ();
+void fail       (const char *test, const int line, char *msg);
 
 #endif
