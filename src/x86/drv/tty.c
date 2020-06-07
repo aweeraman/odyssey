@@ -353,7 +353,7 @@ void init_console(framebuffer_t fb_init)
                 printk("Initialized RGB framebuffer at 0x%x\n",
                         framebuffer.addr);
 
-                printk("Video addr=0x%X pitch=%d width=%d height=%d bpp=%d type=%d\n",
+                printk("Video addr=0x%x pitch=%d width=%d height=%d bpp=%d type=%d\n",
                         framebuffer.addr, framebuffer.pitch, framebuffer.width,
                         framebuffer.height, framebuffer.bpp, framebuffer.type);
         }
@@ -365,7 +365,7 @@ void init_console(framebuffer_t fb_init)
                 clear_screen();
                 enable_cursor(1, 15);
 
-                printk("Initialized EGA framebuffer at 0x%X width=%d height=%d\n",
+                printk("Initialized EGA framebuffer at 0x%x width=%d height=%d\n",
                         framebuffer.addr, framebuffer.width, framebuffer.height);
         } else {
                 printk("Framebuffer type %d not supported\n", framebuffer.type);
