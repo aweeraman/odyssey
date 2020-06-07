@@ -5,6 +5,7 @@
 
 #include <x86/boot/boothdr.h>
 #include <x86/boot/device.h>
+#include <x86/boot/modules.h>
 #include <x86/32/acpi.h>
 #include <mm/region.h>
 #include <lib/stdio.h>
@@ -92,10 +93,9 @@ void read_multiboot_header_tags()
 
                         case MULTIBOOT_TAG_TYPE_MODULE:
                         boot_module = (struct multiboot_tag_module *) tag;
-                        printk("Boot module \"%s\" loaded from 0x%x to 0x%x\n",
-                                        boot_module->cmdline,
-                                        boot_module->mod_start,
-                                        boot_module->mod_end);
+                        add_boot_module(boot_module->mod_start,
+                                        boot_module->mod_end,
+                                        boot_module->cmdline);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
@@ -221,4 +221,6 @@ void read_multiboot_header_tags()
                         break;
                 }
         }
+
+        print_boot_modules();
 }
