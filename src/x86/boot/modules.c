@@ -35,3 +35,11 @@ void print_boot_modules()
         }
 
 }
+
+uint32_t get_module_by_idx(int idx)
+{
+        if (idx < module_idx)
+                return boot_modules[idx].start;
+
+        return 0;
+}

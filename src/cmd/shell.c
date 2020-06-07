@@ -9,6 +9,7 @@
 #include <ppm/odyssey.h>
 #include <sys/tty.h>
 #include <x86/io.h>
+#include <x86/boot/modules.h>
 
 static char line[MAX_CMD_LENGTH];
 
@@ -18,7 +19,26 @@ static const cmd_t valid_cmds[] = {
         { .cmd="exit",      .func=cmd_exit },
         { .cmd="exception", .func=cmd_trigger_exception },
         { .cmd="help",      .func=cmd_help },
+        { .cmd="modules",   .func=cmd_modules },
+        { .cmd="looper",    .func=cmd_looper },
 };
+
+int cmd_modules()
+{
+        print_boot_modules();
+        return 0;
+}
+
+int cmd_looper()
+{
+        module_t looper = (module_t) get_module_by_idx(0);
+        if (looper == 0) {
+                printk("Module not found!\n");
+                return 1;
+        }
+        looper();
+        return 0;
+}
 
 int cmd_clear()
 {

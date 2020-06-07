@@ -19,5 +19,6 @@ typedef struct boot_module {
 
 void add_boot_module(uint32_t start, uint32_t end, char *name);
 void print_boot_modules();
+uint32_t get_module_by_idx(int idx);
 
 #endif
