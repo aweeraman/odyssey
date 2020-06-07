@@ -80,15 +80,14 @@ void read_multiboot_header_tags()
                 switch (tag->type) {
 
                         case MULTIBOOT_TAG_TYPE_CMDLINE:
-                        printk("Command line: %s\n",
-                                ((struct multiboot_tag_string *) tag)->string);
-                        break;
-
-                        case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
                         strncpy(boot_cmdline,
                                 ((struct multiboot_tag_string *) tag)->string,
                                 BOOT_CMDLINE_MAX-1);
-                        printk("Boot loader: %s\n", boot_cmdline);
+                        printk("Boot arguments are \"%s\"\n", boot_cmdline);
+                        break;
+
+                        case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
+                        printk("Boot loader is %s\n", ((struct multiboot_tag_string *) tag)->string);
                         break;
 
                         case MULTIBOOT_TAG_TYPE_MODULE:
