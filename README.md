@@ -19,6 +19,7 @@
 - [X] Timers
 - [X] PS/2 keyboard support
 - [X] Memory manager
+- [X] GRUB boot modules
 - [ ] Paging
 - [ ] User-mode
 - [ ] System calls
