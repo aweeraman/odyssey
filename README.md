@@ -175,6 +175,54 @@ CONFIG_MM_FF
 CONFIG_TEST
 ```
 
+# Running on hardware
+
+## Intel
+
+Odyssey has been tested on a Minnowboard Turbot B, a quad-core Atom-based
+x86 single board computer.
+
+![Minnowboard Turbot B](https://raw.githubusercontent.com/aweeraman/odyssey/master/docs/img/minnowboard_turbot_b.jpg
+"Minnowboard Turbot B")
+
+To configure GRUB, set a custom boot configuration such as follows:
+
+```
+menuentry "odyssey" {
+        set root='hd0,gpt2'
+        multiboot2 /home/anuradha/odyssey/src/odyssey
+        module2 /home/anuradha/odyssey/src/modules/canary.bin canary
+}
+```
+
+At the time of writing, only PS/2 keyboards are supported, and
+since the Minnowboard doesn't support PS/2, disable "CONFIG_KEYBOARD"
+when building odyssey on the Minnowboard and [use the USB to serial interface for
+input](https://weeraman.com/connecting-to-the-minnowboard-using-a-console-cable-182d56e1479e)
+via a second host.
+
+## ARM
+
+ARM support is also being tested on the BeagleBone Black Rev C single
+board computer, though at the time of writing it is somewhat lagging
+behind the Intel counterpart.
+
+![BeagleBone Black Rev C](https://raw.githubusercontent.com/aweeraman/odyssey/master/docs/img/beagleboard_black_rev_c.jpg
+"BeagleBone Black Rev C")
+
+On BeagleBone black, use loady at the U-Boot prompt to load the image
+over serial/ymodem via a secondary host using a USB to Serial FTDI cable:
+
+```
+$ make ARCH=arm
+$ screen /dev/ttyUSB0 115200
+[power-on the board]
+[press space to interrupt auto-boot]
+=> loady
+<CTRL-a>:exec !! sx --ymodem odyssey.img
+=> go 0x82000000
+```
+
 # Debugging
 
 ~/.gdbinit:
@@ -203,20 +251,6 @@ Remote debugging using :1234
 (gdb) break kernel_main
 Breakpoint 1 at 0x1007c0: file main.c, line 26.
 (gdb) c
-```
-
-# Testing
-
-On BeagleBone black, use loady at the U-Boot prompt to load the image over serial/ymodem:
-
-```
-$ make ARCH=arm
-$ screen /dev/ttyUSB0 115200
-[power-on the board]
-[press space to interrupt auto-boot]
-=> loady
-<CTRL-a>:exec !! sx --ymodem odyssey.img
-=> go 0x82000000
 ```
 
 # Use of Free and Open Source Software
