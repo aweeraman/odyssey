@@ -35,7 +35,7 @@ union mem_ptr {
 } __attribute__((packed));
 typedef union mem_ptr mem_ptr_t;
 
-void *kalloc(mm_superblock_t *sb, size_t memb, size_t count);
+void *kzalloc(mm_superblock_t *sb, size_t memb, size_t count);
 void  kzfree(mm_superblock_t *sb, void *ptr);
 void  peek(size_t addr, int count);
 

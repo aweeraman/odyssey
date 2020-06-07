@@ -25,7 +25,7 @@ static int max_regions = 0;
 
 void init_mem_regions(size_t count)
 {
-        mem_regions = kalloc(NULL, sizeof(memory_region_t), count);
+        mem_regions = kzalloc(NULL, sizeof(memory_region_t), count);
         max_regions = count;
 }
 

@@ -136,10 +136,10 @@ int ff_mm_4()
                                                            MEM_END_ADDR1);
         create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
 
-        uint32_t *addr1 = (uint32_t *) kalloc(superblock, sizeof(uint32_t), 100);
+        uint32_t *addr1 = (uint32_t *) kzalloc(superblock, sizeof(uint32_t), 100);
         FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
 
-        uint32_t *addr2 = (uint32_t *) kalloc(superblock, sizeof(uint32_t), 100);
+        uint32_t *addr2 = (uint32_t *) kzalloc(superblock, sizeof(uint32_t), 100);
         FAIL_IF(addr2 == NULL, "couldn't get an available frame 2");
 
         stats = get_mm_stats(superblock, &stats);
@@ -147,7 +147,7 @@ int ff_mm_4()
 
         kzfree(superblock, addr1);
 
-        uint32_t *addr3 = (uint32_t *) kalloc(superblock, sizeof(uint32_t), 50);
+        uint32_t *addr3 = (uint32_t *) kzalloc(superblock, sizeof(uint32_t), 50);
         FAIL_IF(addr3 == NULL, "couldn't get an available frame 3");
         FAIL_IF(addr3 != addr1, "addr2 should equal addr1");
 
@@ -166,8 +166,8 @@ int ff_mm_5()
                                                            MEM_END_ADDR1);
         create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
 
-        char *addr1 = (char *) kalloc(superblock, sizeof(uint32_t), 100);
-        FAIL_IF(addr1[0] != '\0', "kalloc didn't zero the memory");
+        char *addr1 = (char *) kzalloc(superblock, sizeof(uint32_t), 100);
+        FAIL_IF(addr1[0] != '\0', "kzalloc didn't zero the memory");
 
         strncpy(addr1, "123", 5);
         FAIL_IF(strncmp(addr1, "123", 5) != 0, "string didn't get set correctly");
@@ -188,12 +188,12 @@ int ff_mm_6()
                                                         MEM_START_ADDR1,
                                                         MEM_END_ADDR1);
 
-        char *addr1 = (char *) kalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
+        char *addr1 = (char *) kzalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
         FAIL_IF(addr1 == NULL, "couldn't allocation block FRAME_BLOCK_SIZE*2");
 
         kzfree(superblock, addr1);
 
-        char *addr2 = (char *) kalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
+        char *addr2 = (char *) kzalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
         FAIL_IF(addr1 != addr2, "should return the same block after freeing");
 
         stats = get_mm_stats(superblock, &stats);
@@ -212,16 +212,16 @@ int ff_mm_7()
                                                         MEM_END_ADDR1);
         create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
 
-        char *addr1 = (char *) kalloc(superblock, sizeof(char), 2048);
+        char *addr1 = (char *) kzalloc(superblock, sizeof(char), 2048);
         FAIL_IF(addr1 == NULL, "couldn't allocate maximum available in segment 1");
 
         kzfree(superblock, addr1);
 
-        char *addr2 = (char *) kalloc(superblock, sizeof(char), 2048);
+        char *addr2 = (char *) kzalloc(superblock, sizeof(char), 2048);
         FAIL_IF(addr2 == NULL, "couldn't allocate maximum available in segment 2");
         FAIL_IF(addr2 != addr1, "should return the same frame as addr1");
 
-        char *addr3 = (char *) kalloc(superblock, sizeof(char), 2048+1);
+        char *addr3 = (char *) kzalloc(superblock, sizeof(char), 2048+1);
         FAIL_IF(addr3 != NULL, "should have run out of memory");
 
         return ret;

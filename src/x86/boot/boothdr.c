@@ -107,7 +107,7 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_BOOTDEV:
-                        boot_dev = kalloc(NULL, sizeof(struct multiboot_tag_bootdev), 1);
+                        boot_dev = kzalloc(NULL, sizeof(struct multiboot_tag_bootdev), 1);
                         if (boot_dev == NULL)
                                 panic("OOM while allocating bootdev");
 
@@ -165,7 +165,7 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ACPI_OLD:
-                        acpi_v1 = kalloc(NULL, sizeof(struct acpi_descriptor_v1), 1);
+                        acpi_v1 = kzalloc(NULL, sizeof(struct acpi_descriptor_v1), 1);
                         if (acpi_v1 == NULL)
                                 panic("OOM while allocating acpi_v1");
                         memcpy(acpi_v1, ((struct multiboot_tag_old_acpi *) tag)->rsdp,
@@ -180,7 +180,7 @@ void read_multiboot_header_tags()
                         break;
 
                         case MULTIBOOT_TAG_TYPE_ACPI_NEW:
-                        acpi_v2 = kalloc(NULL, sizeof(struct acpi_descriptor_v2), 1);
+                        acpi_v2 = kzalloc(NULL, sizeof(struct acpi_descriptor_v2), 1);
                         if (acpi_v2 == NULL)
                                 panic("OOM while allocating acpi_v2");
                         memcpy(acpi_v2, ((struct multiboot_tag_new_acpi *) tag)->rsdp,

@@ -10,7 +10,7 @@
 #include <mm/ff.h>
 #endif
 
-void *kalloc(mm_superblock_t *sb, size_t memb, size_t count)
+void *kzalloc(mm_superblock_t *sb, size_t memb, size_t count)
 {
         return get_available_frame(sb, memb * count);
 }
