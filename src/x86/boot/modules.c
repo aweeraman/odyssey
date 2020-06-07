@@ -18,7 +18,7 @@ void add_boot_module(uint32_t start, uint32_t end, char *name)
 
         boot_modules[module_idx].start = start;
         boot_modules[module_idx].end   = end;
-        strncpy(boot_modules[module_idx].name, name, MODULE_NAME_MAX_LEN);
+        strncpy(boot_modules[module_idx].name, name, MODULE_NAME_MAX_LEN-1);
 
         module_idx++;
 }
