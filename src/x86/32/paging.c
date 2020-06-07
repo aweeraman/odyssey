@@ -43,6 +43,6 @@ void init_paging()
         page_dir[0].page_table_addr = (uint32_t) root_page_table;
         page_dir[0].present         = 1;
 
-        init_page_directory((uint32_t *) &page_dir);
+        //init_page_directory((uint32_t *) &page_dir);
         //enable_paging();
 }
