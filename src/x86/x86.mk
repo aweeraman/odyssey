@@ -34,7 +34,6 @@ CMD        := $(patsubst %.c, %.o,          $(wildcard cmd/*.c))
 LIB        := $(patsubst %.c, %.o,          $(wildcard lib/*.c))
 TEST       := $(patsubst %.c, %.o,          $(wildcard test/*.c))
 MM         := $(patsubst %.c, %.o,          $(wildcard mm/*.c))
-MODULES    := $(patsubst %.$(ASM_EXT), %.o, $(wildcard modules/*.$(ASM_EXT)))
 FONT       := sys/font.o
 
 OBJECTS    += $(BOOT) $(X86_32) $(DRV) $(MM) $(TEST) $(CMD) $(SYS) $(LIB) $(FONT)
@@ -61,8 +60,13 @@ ifeq (, $(shell which $(LD)))
 endif
 	$(LD) -o odyssey $(OBJECTS) $(LDFLAGS)
 
-modules: $(MODULES)
+modules:
+ifneq (,$(findstring nasm,$(AS)))
+	$(AS) $(ASFLAGS_MOD) -o modules/canary.bin modules/canary.asm
+else
+	$(AS) $(CFLAGS) -o modules/canary.o modules/canary.S
 	$(OBJCOPY) -O binary modules/canary.o modules/canary.bin
+endif
 
 sys/font.o:
 	$(OBJCOPY) -O elf32-i386 -B i386 -I binary sys/f.sfn sys/font.o
