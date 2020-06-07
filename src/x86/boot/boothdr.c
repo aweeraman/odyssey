@@ -80,25 +80,25 @@ void read_multiboot_header_tags()
 
                 switch (tag->type) {
 
-                        case MULTIBOOT_TAG_TYPE_CMDLINE:
+                case MULTIBOOT_TAG_TYPE_CMDLINE:
                         strncpy(boot_cmdline,
                                 ((struct multiboot_tag_string *) tag)->string,
                                 BOOT_CMDLINE_MAX-1);
                         printk("Boot arguments are \"%s\"\n", boot_cmdline);
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
+                case MULTIBOOT_TAG_TYPE_BOOT_LOADER_NAME:
                         printk("Boot loader is %s\n", ((struct multiboot_tag_string *) tag)->string);
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_MODULE:
+                case MULTIBOOT_TAG_TYPE_MODULE:
                         boot_module = (struct multiboot_tag_module *) tag;
                         add_boot_module(boot_module->mod_start,
                                         boot_module->mod_end,
                                         boot_module->cmdline);
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
+                case MULTIBOOT_TAG_TYPE_BASIC_MEMINFO:
                         meminfo = (struct multiboot_tag_basic_meminfo *) tag;
                         set_basic_meminfo(meminfo->mem_lower, meminfo->mem_upper);
                         printk("Basic memory info: lower=%dkB upper=%dkB\n",
@@ -106,7 +106,7 @@ void read_multiboot_header_tags()
                                         meminfo->mem_upper);
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_BOOTDEV:
+                case MULTIBOOT_TAG_TYPE_BOOTDEV:
                         boot_dev = kzalloc(NULL, sizeof(struct multiboot_tag_bootdev), 1);
                         if (boot_dev == NULL)
                                 panic("OOM while allocating bootdev");
@@ -123,7 +123,7 @@ void read_multiboot_header_tags()
 
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_MMAP:
+                case MULTIBOOT_TAG_TYPE_MMAP:
                         init_mem_regions(tag->size / sizeof(multiboot_memory_map_t));
                         for (mmap = ((struct multiboot_tag_mmap *) tag)->entries;
                              (multiboot_uint8_t *) mmap < (multiboot_uint8_t *) tag + tag->size;
@@ -136,35 +136,35 @@ void read_multiboot_header_tags()
                         print_mem_regions();
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_VBE:
+                case MULTIBOOT_TAG_TYPE_VBE:
                         // VBE
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
+                case MULTIBOOT_TAG_TYPE_FRAMEBUFFER:
                         // Already taken care of during early console initialization
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
+                case MULTIBOOT_TAG_TYPE_ELF_SECTIONS:
                         // ELF sections
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_APM:
+                case MULTIBOOT_TAG_TYPE_APM:
                         // APM
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_EFI32:
+                case MULTIBOOT_TAG_TYPE_EFI32:
                         // EFI 32-bit system table pointer
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_EFI64:
+                case MULTIBOOT_TAG_TYPE_EFI64:
                         // EFI 64-bit system table pointer
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_SMBIOS:
+                case MULTIBOOT_TAG_TYPE_SMBIOS:
                         // SMBIOS
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_ACPI_OLD:
+                case MULTIBOOT_TAG_TYPE_ACPI_OLD:
                         acpi_v1 = kzalloc(NULL, sizeof(struct acpi_descriptor_v1), 1);
                         if (acpi_v1 == NULL)
                                 panic("OOM while allocating acpi_v1");
@@ -179,7 +179,7 @@ void read_multiboot_header_tags()
 
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_ACPI_NEW:
+                case MULTIBOOT_TAG_TYPE_ACPI_NEW:
                         acpi_v2 = kzalloc(NULL, sizeof(struct acpi_descriptor_v2), 1);
                         if (acpi_v2 == NULL)
                                 panic("OOM while allocating acpi_v2");
@@ -195,27 +195,27 @@ void read_multiboot_header_tags()
 
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_NETWORK:
+                case MULTIBOOT_TAG_TYPE_NETWORK:
                         // Network
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_EFI_MMAP:
+                case MULTIBOOT_TAG_TYPE_EFI_MMAP:
                         // EFI memory map
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_EFI_BS:
+                case MULTIBOOT_TAG_TYPE_EFI_BS:
                         // EFI boot services not terminated
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_EFI32_IH:
+                case MULTIBOOT_TAG_TYPE_EFI32_IH:
                         // EFI 32-bit image handle pointer
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_EFI64_IH:
+                case MULTIBOOT_TAG_TYPE_EFI64_IH:
                         // EFI 64-bit image handle pointer
                         break;
 
-                        case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
+                case MULTIBOOT_TAG_TYPE_LOAD_BASE_ADDR:
                         printk("Image load base address: 0x%x\n",
                                 ((struct multiboot_tag_load_base_addr *) tag)->load_base_addr);
                         break;

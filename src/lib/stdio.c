@@ -70,45 +70,47 @@ int prints(char *str)
 
 void printk(const char *fmt, ...)
 {
-        int           i;
-        uint32_t      ul;
-        uint64_t      ull;
-        char          *str;
-        char          print_buf[128];
-        const char    *p;
+        int         i;
+        uint32_t    ul;
+        uint64_t    ull;
+        char       *str;
+        char        print_buf[128];
+        const char *p;
 
         va_list arg;
         va_start(arg, fmt);
 
         for(p = fmt; *p != '\0'; p++) {
+
                 if(*p != '%') {
                         putchar(*p);
                         continue;
                 }
 
                 switch(*++p) {
-                        case 'c':
+
+                case 'c':
                         i = va_arg(arg, int);
                         putchar(i);
                         break;
 
-                        case 's':
+                case 's':
                         str = va_arg(arg, char*);
                         prints(str);
                         break;
 
-                        case 'b':
+                case 'b':
                         ul = va_arg(arg, uint32_t);
                         prints(itoa((uint32_t) ul, print_buf, 2));
                         break;
 
-                        case 'o':
+                case 'o':
                         ul = va_arg(arg, uint32_t);
                         prints(itoa((uint32_t) ul, print_buf, 8));
                         break;
 
-                        case 'i':
-                        case 'd':
+                case 'i':
+                case 'd':
                         i = va_arg(arg, int);
                         if (i < 0) {
                                 i *= -1;
@@ -117,22 +119,22 @@ void printk(const char *fmt, ...)
                         prints(itoa((int) i, print_buf, 10));
                         break;
 
-                        case 'u':
+                case 'u':
                         ul = va_arg(arg, uint32_t);
                         prints(itoa((uint32_t) ul, print_buf, 10));
                         break;
 
-                        case 'x':
+                case 'x':
                         ul = va_arg(arg, uint32_t);
                         prints(itoa((uint32_t) ul, print_buf, 16));
                         break;
 
-                        case 'X':
+                case 'X':
                         ull = va_arg(arg, uint64_t);
                         prints(itoa((uint64_t) ull, print_buf, 16));
                         break;
 
-                        case '%':
+                case '%':
                         prints("%");
                         break;
                 }
