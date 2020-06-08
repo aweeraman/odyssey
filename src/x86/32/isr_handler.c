@@ -48,8 +48,16 @@ char *exception_types[32] = {
 
 void exception_handler(int ex)
 {
+        uint32_t i;
+
         if (ex < 32) {
                 printk("Caught exception %d (%s)\n", ex, exception_types[ex]);
+
+                if (ex == 14) {
+                        asm volatile("mov %%cr2, %0" : "=r" (i));
+                        printk("Page fault on address 0x%x\n", i);
+                }
+
                 panic("Exception");
         }
 }
