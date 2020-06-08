@@ -42,8 +42,8 @@ void init_paging()
                 page_dir.directory[page_table_idx].user      = 0;
         }
 
-        peek(&page_dir.directory, 1);
-        peek(&page_dir.tables[0x234], 1);
+        //peek(&page_dir.directory, 1);
+        //peek(&page_dir.tables[0x234], 1);
 
         //init_page_directory((uint32_t *) page_dir.directory);
         //enable_paging();
