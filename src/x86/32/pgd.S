@@ -11,7 +11,7 @@ enable_paging:
         pushl %ebp
         movl  %esp, %ebp
         movl  %cr0, %eax
-        or    $0x80000000, %eax
+        orl   $0x80000000, %eax
         movl  %eax, %cr0
         movl  %ebp, %esp
         popl  %ebp
