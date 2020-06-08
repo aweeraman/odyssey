@@ -88,6 +88,9 @@ nocpuid:
         or $1, %eax
         mov %eax, %cr0
 
+        # Initialize paging
+        call init_paging
+
         # Jump to function in kernel.c
         call kernel_main
 

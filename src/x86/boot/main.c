@@ -55,8 +55,6 @@ void kernel_main()
 
         printk("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
 
-        init_paging();
-
         pic_unmask_interrupts();
 
 #ifdef CONFIG_KEYBOARD
