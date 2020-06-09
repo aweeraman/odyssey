@@ -17,7 +17,7 @@ void init_paging()
 {
         uint32_t current_phys_addr = 0x0;
         uint32_t start_phys_addr   = 0x0;
-        uint32_t end_phys_addr     = 0x400000;
+        uint32_t end_phys_addr     = 0x450000;
 
         printk("Initializing paging\n");
         printk("  Page directory at 0x%x\n", &page_dir);
