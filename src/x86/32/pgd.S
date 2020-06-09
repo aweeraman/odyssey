@@ -4,7 +4,7 @@
  */
 
         .text
-        .global init_page_directory
+        .global switch_page_directory
         .global enable_paging
 
 enable_paging:
@@ -17,7 +17,7 @@ enable_paging:
         popl  %ebp
         ret
 
-init_page_directory:
+switch_page_directory:
         pushl %ebp
         movl  %esp, %ebp
         movl  8(%esp), %eax

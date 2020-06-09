@@ -13,16 +13,11 @@
 
 static page_dir_entry_t kernel_page_dir __attribute__((aligned(PAGE_ALIGNMENT)));
 
-void init_paging()
+static void map_memory()
 {
         uint32_t current_phys_addr = 0x0;
         uint32_t start_phys_addr   = 0x0;
         uint32_t end_phys_addr     = 0x450000;
-
-        printk("Initializing paging\n");
-        printk("  Page directory at 0x%x\n", &kernel_page_dir);
-
-        memset(&kernel_page_dir, 0, sizeof(page_dir_entry_t));
 
         while (current_phys_addr < end_phys_addr) {
                 uint32_t page_table_idx = current_phys_addr >> 22;
@@ -44,7 +39,14 @@ void init_paging()
 
         peek(&kernel_page_dir.directory, 1);
         peek(&kernel_page_dir.tables[0x234], 1);
+}
 
-        init_page_directory((uint32_t *) kernel_page_dir.directory);
+void init_paging()
+{
+        printk("Initializing paging\n");
+        printk("  Page directory at 0x%x\n", &kernel_page_dir);
+        memset(&kernel_page_dir, 0, sizeof(page_dir_entry_t));
+        map_memory();
+        switch_page_directory((uint32_t *) kernel_page_dir.directory);
         enable_paging();
 }
