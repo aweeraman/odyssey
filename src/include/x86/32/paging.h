@@ -23,9 +23,10 @@ typedef struct page_dir_entry {
         page_entry_t directory[1024];
 }__attribute__((packed)) page_dir_entry_t;
 
-void init_paging           ();
-void enable_paging         ();
-void switch_page_directory (uint32_t *addr);
-void map_physical_memory   (page_dir_entry_t *dir, uint32_t phys_start, uint32_t phys_end);
+void     init_paging           ();
+void     enable_paging         ();
+void     switch_page_directory (uint32_t *addr);
+void     map_physical_memory   (page_dir_entry_t *dir, uint32_t phys_start, uint32_t phys_end);
+uint32_t get_virtual_addr      (page_dir_entry_t *dir, uint32_t phys_addr);
 
 #endif
