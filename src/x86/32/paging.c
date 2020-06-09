@@ -34,6 +34,10 @@ uint32_t get_virtual_addr(page_dir_entry_t *dir, uint32_t phys_addr)
         uint32_t page_idx = (phys_addr >> 12) & 0x3ff;
         uint32_t virtual_addr = dir->tables[page_idx].addr << 12;
         virtual_addr |= (phys_addr & 0xfff);
+
+        printk("Physical addr=%x, table=%x, page=%x, idx=%x, virtual addr=%x\n",
+               phys_addr, table_idx, page_idx, (phys_addr & 0xfff), virtual_addr);
+
         return virtual_addr;
 }
 
@@ -60,8 +64,8 @@ void init_paging()
 
         map_physical_memory(&kernel_pg_dir, 0x0, 0x410000);
 
-        //map_physical_memory(&kernel_pg_dir, 0xfc000000, 0xfe000000);
-        //printk("DEBUG %x\n", get_virtual_addr(&kernel_pg_dir, 0xfd000000));
+        //map_physical_memory(&kernel_pg_dir, 0xfc000000, 0xff000000);
+        //get_virtual_addr(&kernel_pg_dir, 0xfd000000);
 
         switch_page_directory((uint32_t *) kernel_pg_dir.directory);
 
