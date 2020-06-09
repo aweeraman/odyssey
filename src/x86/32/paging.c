@@ -17,7 +17,7 @@ static void map_page(page_dir_entry_t *dir, uint32_t table, uint32_t page,
                      uint32_t phys_addr, char present, char rw, char user)
 {
 
-        dir->tables[page].addr      = phys_addr >> 12;
+        dir->tables[page].addr      = phys_addr / 0x1000;
         dir->tables[page].present   = present;
         dir->tables[page].rw        = rw;
         dir->tables[page].user      = user;
