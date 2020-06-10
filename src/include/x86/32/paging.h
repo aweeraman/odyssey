@@ -38,7 +38,11 @@ typedef struct identity_map_entry {
 void     init_paging           ();
 void     enable_paging         ();
 void     switch_page_directory (uint32_t *addr);
-void     map_physical_memory   (page_dir_entry_t *dir,
+void     identity_map_page     (page_dir_entry_t *dir,
+                                uint32_t table, uint32_t page,
+                                uint32_t phys_addr, char present,
+                                char rw, char user);
+void     identity_map_region   (page_dir_entry_t *dir,
                                 uint32_t phys_start,
                                 uint32_t phys_end);
 uint32_t get_virtual_addr      (page_dir_entry_t *dir, uint32_t phys_addr);
