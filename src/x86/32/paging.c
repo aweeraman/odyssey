@@ -20,13 +20,16 @@ static page_dir_entry_t     kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)
 static identity_map_entry_t identity_maps[MAX_IDENTITY_MAPS];
 static int current_id_map_entry = 0;
 
-void add_identity_map_region(uint32_t start, uint32_t end, char *desc)
+void add_identity_map_region(uint32_t start, uint32_t end, char *desc,
+                             char rw, char user)
 {
         if (current_id_map_entry < MAX_IDENTITY_MAPS) {
                 identity_maps[current_id_map_entry].start_addr = start;
-                identity_maps[current_id_map_entry].end_addr = end;
+                identity_maps[current_id_map_entry].end_addr   = end;
                 strncpy(identity_maps[current_id_map_entry].description,
                         desc, MAX_IDENTITY_MAP_DESCRIPTION_LEN-1);
+                identity_maps[current_id_map_entry].rw         = rw;
+                identity_maps[current_id_map_entry].user       = user;
                 current_id_map_entry++;
         } else {
                 printk("WARNING: max identity maps reached!\n");
@@ -47,7 +50,6 @@ uint32_t get_virtual_addr(page_dir_entry_t *dir, uint32_t phys_addr)
 void identity_map_page(page_dir_entry_t *dir, uint32_t table, uint32_t page,
                        uint32_t phys_addr, char present, char rw, char user)
 {
-
         dir->tables[table][page].addr      = phys_addr / 0x1000;
         dir->tables[table][page].present   = present;
         dir->tables[table][page].rw        = rw;
@@ -64,15 +66,17 @@ void identity_map_region(page_dir_entry_t *dir, identity_map_entry_t map[])
 {
         for (int i = 0; i < current_id_map_entry; i++) {
                 uint32_t phys_cur = map[i].start_addr;
-                printk("  Identity mapping %s [0x%x - 0x%x]\n",
+                printk("  Identity mapping %s [0x%x - 0x%x] [%c]\n",
                                 map[i].description, map[i].start_addr,
-                                map[i].end_addr);
+                                map[i].end_addr,
+                                map[i].user == PAGE_USER ? 'U': 'K');
 
                 while (phys_cur < map[i].end_addr) {
                         uint32_t table_idx = phys_cur >> 22;
                         uint32_t page_idx  = (phys_cur >> 12) & 0x3ff;
 
-                        identity_map_page(dir, table_idx, page_idx, phys_cur, 1, 1, 0);
+                        identity_map_page(dir, table_idx, page_idx, phys_cur, 1,
+                                          map[i].rw, map[i].user);
 
                         phys_cur += 0x1000;
                 }
@@ -85,7 +89,7 @@ void init_paging()
         memset(&kernel_pg_dir, 0, sizeof(page_dir_entry_t));
 
         // Identity map the kernel address space
-        add_identity_map_region(kernel_start_addr, kernel_end_addr, "kernel");
+        add_identity_map_region(kernel_start_addr, kernel_end_addr, "kernel", 1, 0);
 
         // Identity map the kernel allocator storage
         identity_map_kernel_heap();

@@ -14,6 +14,11 @@
 #define MAX_IDENTITY_MAPS                10
 #define MAX_IDENTITY_MAP_DESCRIPTION_LEN 50
 
+#define PAGE_USER   1
+#define PAGE_KERNEL 0
+#define PAGE_RW     1
+#define PAGE_RO     0
+
 typedef struct page_entry {
         uint32_t present         : 1;  /* must be 1 to map to a page */
         uint32_t rw              : 1;  /* if 0, writes not allowed */
@@ -33,6 +38,8 @@ typedef struct identity_map_entry {
         uint32_t start_addr;
         uint32_t end_addr;
         char     description[MAX_IDENTITY_MAP_DESCRIPTION_LEN];
+        char     rw;
+        char     user;
 } identity_map_entry_t;
 
 void     init_paging             ();
@@ -45,6 +52,7 @@ void     identity_map_page       (page_dir_entry_t *dir,
 void     identity_map_region     (page_dir_entry_t *dir,
                                   identity_map_entry_t map[]);
 uint32_t get_virtual_addr        (page_dir_entry_t *dir, uint32_t phys_addr);
-void     add_identity_map_region (uint32_t start, uint32_t end, char *desc);
+void     add_identity_map_region (uint32_t start, uint32_t end, char *desc,
+                                  char rw, char user);
 
 #endif

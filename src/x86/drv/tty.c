@@ -82,7 +82,7 @@ void identity_map_framebuffer()
         uint32_t start = (uint32_t) framebuffer.addr;
         uint32_t size  = framebuffer.width * framebuffer.height * framebuffer.bpp;
         uint32_t end   = start + size;
-        add_identity_map_region(start, end, "framebuffer");
+        add_identity_map_region(start, end, "framebuffer", PAGE_RW, PAGE_KERNEL);
 }
 #endif
 

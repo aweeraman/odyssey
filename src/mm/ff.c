@@ -24,7 +24,8 @@ static mm_superblock_t *superblock;
 #if ARCH_X86
 void identity_map_kernel_heap()
 {
-        add_identity_map_region(MEM_START_ADDR, MEM_END_ADDR, "kernel heap");
+        add_identity_map_region(MEM_START_ADDR, MEM_END_ADDR,
+                                "kernel heap", PAGE_RW, PAGE_KERNEL);
 }
 #endif
 

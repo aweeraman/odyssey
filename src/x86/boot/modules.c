@@ -17,7 +17,8 @@ void identity_map_modules()
         for (int i = 0; i < module_idx; i++) {
                 add_identity_map_region(boot_modules[i].start,
                                         boot_modules[i].end,
-                                        boot_modules[i].name);
+                                        boot_modules[i].name,
+                                        PAGE_RW, PAGE_USER);
         }
 }
 
