@@ -8,6 +8,7 @@
 #include <lib/stdio.h>
 #include <x86/boot/modules.h>
 #include <mm/ff.h>
+#include <sys/tty.h>
 
 extern uint32_t kernel_begin;
 extern uint32_t kernel_end;
@@ -89,8 +90,8 @@ void init_paging()
         // Identity map the kernel allocator storage
         identity_map_kernel_heap();
 
-        // Identity map RGB framebuffer, good enough for 1024x768x32
-        add_identity_map_region(0xfd000000, 0xfd310000, "framebuffer");
+        // Identity map RGB framebuffer
+        identity_map_framebuffer();
 
         // Identity map GRUB boot modules
         identity_map_modules();

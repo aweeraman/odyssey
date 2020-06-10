@@ -9,6 +9,7 @@
 #include <x86/boot/multiboot2.h>
 #include <x86/io.h>
 #include <stddef.h>
+#include <x86/32/paging.h>
 
 #ifdef CONFIG_SERIAL
 #include <sys/serial.h>
@@ -74,6 +75,16 @@ static size_t cur_x = 0;
 static size_t cur_y = 0;
 
 static framebuffer_t framebuffer;
+
+#if ARCH_X86
+void identity_map_framebuffer()
+{
+        uint32_t start = (uint32_t) framebuffer.addr;
+        uint32_t size  = framebuffer.width * framebuffer.height * framebuffer.bpp;
+        uint32_t end   = start + size;
+        add_identity_map_region(start, end, "framebuffer");
+}
+#endif
 
 #if ! defined(CONFIG_FRAMEBUFFER_RGB)
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)

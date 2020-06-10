@@ -18,13 +18,14 @@ typedef struct fb_info {
 
 } framebuffer_t;
 
-void     init_console           (framebuffer_t framebuffer);
-void     enable_cursor          (uint8_t cursor_start, uint8_t cursor_end);
-void     disable_cursor         ();
-void     update_cursor          ();
-uint16_t get_cursor_position    (void);
-void     printc                 (uint8_t ch);
-void     draw_pixel             (int x, int y, uint32_t color);
-void     clear_screen           (void);
+void     init_console             (framebuffer_t framebuffer);
+void     enable_cursor            (uint8_t cursor_start, uint8_t cursor_end);
+void     disable_cursor           ();
+void     update_cursor            ();
+uint16_t get_cursor_position      (void);
+void     printc                   (uint8_t ch);
+void     draw_pixel               (int x, int y, uint32_t color);
+void     clear_screen             (void);
+void     identity_map_framebuffer ();
 
 #endif
