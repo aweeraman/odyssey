@@ -7,11 +7,8 @@
 #include <lib/string.h>
 #include <lib/stdio.h>
 
-#define PAGE_ALIGNMENT     4096
-#define PAGE_DIR_ENTRIES   1024
-#define PAGE_TABLE_ENTRIES 1024
-
-static page_dir_entry_t kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)));
+static page_dir_entry_t     kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)));
+static identity_map_entry_t identity_maps[MAX_IDENTITY_MAPS];
 
 static void map_page(page_dir_entry_t *dir, uint32_t table, uint32_t page,
                      uint32_t phys_addr, char present, char rw, char user)

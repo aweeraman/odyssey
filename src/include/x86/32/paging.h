@@ -8,6 +8,12 @@
 
 #include <stdint.h>
 
+#define PAGE_ALIGNMENT               4096
+#define PAGE_DIR_ENTRIES             1024
+#define PAGE_TABLE_ENTRIES           1024
+#define MAX_IDENTITY_MAPS            10
+#define MAX_IDENTITY_MAP_DESCRIPTION 50
+
 typedef struct page_entry {
         uint32_t present         : 1;  /* must be 1 to map to a page */
         uint32_t rw              : 1;  /* if 0, writes not allowed */
@@ -19,14 +25,22 @@ typedef struct page_entry {
 }__attribute__((packed)) page_entry_t;
 
 typedef struct page_dir_entry {
-        page_entry_t tables[1024][1024]; /* TODO dynamically allocate these tables */
-        page_entry_t directory[1024];
+        page_entry_t tables[PAGE_DIR_ENTRIES][PAGE_TABLE_ENTRIES];
+        page_entry_t directory[PAGE_DIR_ENTRIES];
 }__attribute__((packed)) page_dir_entry_t;
+
+typedef struct identity_map_entry {
+        uint32_t start_addr;
+        uint32_t end_addr;
+        char     description[MAX_IDENTITY_MAP_DESCRIPTION];
+} identity_map_entry_t;
 
 void     init_paging           ();
 void     enable_paging         ();
 void     switch_page_directory (uint32_t *addr);
-void     map_physical_memory   (page_dir_entry_t *dir, uint32_t phys_start, uint32_t phys_end);
+void     map_physical_memory   (page_dir_entry_t *dir,
+                                uint32_t phys_start,
+                                uint32_t phys_end);
 uint32_t get_virtual_addr      (page_dir_entry_t *dir, uint32_t phys_addr);
 
 #endif
