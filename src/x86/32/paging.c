@@ -68,8 +68,8 @@ void init_paging()
         // need to reduce the memory footprint
         map_physical_memory(&kernel_pg_dir, 0x0       , 0x1500000);
 
-        // Identity map RGB framebuffer
-        map_physical_memory(&kernel_pg_dir, 0xfc000000, 0xff000000);
+        // Identity map RGB framebuffer, good enough for 1024x768x32
+        map_physical_memory(&kernel_pg_dir, 0xfd000000, 0xfd300000);
 
         switch_page_directory((uint32_t *) kernel_pg_dir.directory);
 
