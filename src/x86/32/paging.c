@@ -6,6 +6,14 @@
 #include <x86/32/paging.h>
 #include <lib/string.h>
 #include <lib/stdio.h>
+#include <x86/boot/modules.h>
+#include <mm/ff.h>
+
+extern uint32_t kernel_begin;
+extern uint32_t kernel_end;
+
+static uint32_t kernel_start_addr = (uint32_t) &kernel_begin;
+static uint32_t kernel_end_addr   = (uint32_t) &kernel_end;
 
 static page_dir_entry_t     kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)));
 static identity_map_entry_t identity_maps[MAX_IDENTITY_MAPS];
@@ -74,7 +82,21 @@ void init_paging()
 {
         printk("Initializing paging: kernel page directory at 0x%x\n", &kernel_pg_dir);
         memset(&kernel_pg_dir, 0, sizeof(page_dir_entry_t));
+
+        // Identity map the kernel address space
+        add_identity_map_region(kernel_start_addr, kernel_end_addr, "kernel");
+
+        // Identity map the kernel allocator storage
+        identity_map_kernel_heap();
+
+        // Identity map RGB framebuffer, good enough for 1024x768x32
+        add_identity_map_region(0xfd000000, 0xfd310000, "framebuffer");
+
+        // Identity map GRUB boot modules
+        identity_map_modules();
+
         identity_map_region(&kernel_pg_dir, identity_maps);
+
         switch_page_directory((uint32_t *) kernel_pg_dir.directory);
         enable_paging();
 }
