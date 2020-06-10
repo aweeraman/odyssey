@@ -8,11 +8,11 @@
 
 #include <stdint.h>
 
-#define PAGE_ALIGNMENT               4096
-#define PAGE_DIR_ENTRIES             1024
-#define PAGE_TABLE_ENTRIES           1024
-#define MAX_IDENTITY_MAPS            10
-#define MAX_IDENTITY_MAP_DESCRIPTION 50
+#define PAGE_ALIGNMENT                   4096
+#define PAGE_DIR_ENTRIES                 1024
+#define PAGE_TABLE_ENTRIES               1024
+#define MAX_IDENTITY_MAPS                10
+#define MAX_IDENTITY_MAP_DESCRIPTION_LEN 50
 
 typedef struct page_entry {
         uint32_t present         : 1;  /* must be 1 to map to a page */
@@ -32,19 +32,19 @@ typedef struct page_dir_entry {
 typedef struct identity_map_entry {
         uint32_t start_addr;
         uint32_t end_addr;
-        char     description[MAX_IDENTITY_MAP_DESCRIPTION];
+        char     description[MAX_IDENTITY_MAP_DESCRIPTION_LEN];
 } identity_map_entry_t;
 
-void     init_paging           ();
-void     enable_paging         ();
-void     switch_page_directory (uint32_t *addr);
-void     identity_map_page     (page_dir_entry_t *dir,
-                                uint32_t table, uint32_t page,
-                                uint32_t phys_addr, char present,
-                                char rw, char user);
-void     identity_map_region   (page_dir_entry_t *dir,
-                                uint32_t phys_start,
-                                uint32_t phys_end);
-uint32_t get_virtual_addr      (page_dir_entry_t *dir, uint32_t phys_addr);
+void     init_paging             ();
+void     enable_paging           ();
+void     switch_page_directory   (uint32_t *addr);
+void     identity_map_page       (page_dir_entry_t *dir,
+                                  uint32_t table, uint32_t page,
+                                  uint32_t phys_addr, char present,
+                                  char rw, char user);
+void     identity_map_region     (page_dir_entry_t *dir,
+                                  identity_map_entry_t map[]);
+uint32_t get_virtual_addr        (page_dir_entry_t *dir, uint32_t phys_addr);
+void     add_identity_map_region (uint32_t start, uint32_t end, char *desc);
 
 #endif

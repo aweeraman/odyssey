@@ -9,6 +9,20 @@
 
 static page_dir_entry_t     kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)));
 static identity_map_entry_t identity_maps[MAX_IDENTITY_MAPS];
+static int current_id_map_entry = 0;
+
+void add_identity_map_region(uint32_t start, uint32_t end, char *desc)
+{
+        if (current_id_map_entry < MAX_IDENTITY_MAPS) {
+                identity_maps[current_id_map_entry].start_addr = start;
+                identity_maps[current_id_map_entry].end_addr = end;
+                strncpy(identity_maps[current_id_map_entry].description,
+                        desc, MAX_IDENTITY_MAP_DESCRIPTION_LEN);
+                current_id_map_entry++;
+        } else {
+                printk("WARNING: max identity maps reached!\n");
+        }
+}
 
 uint32_t get_virtual_addr(page_dir_entry_t *dir, uint32_t phys_addr)
 {
@@ -37,18 +51,22 @@ void identity_map_page(page_dir_entry_t *dir, uint32_t table, uint32_t page,
         dir->directory[table].user      = user;
 }
 
-void identity_map_region(page_dir_entry_t *dir, uint32_t phys_start, uint32_t phys_end)
+void identity_map_region(page_dir_entry_t *dir, identity_map_entry_t map[])
 {
-        uint32_t phys_cur = phys_start;
+        for (int i = 0; i < current_id_map_entry; i++) {
+                uint32_t phys_cur = map[i].start_addr;
+                printk("  Identity mapping 0x%x - 0x%x [%s]\n",
+                                map[i].start_addr, map[i].end_addr,
+                                map[i].description);
 
-        printk("  Identity mapping 0x%x - 0x%x\n", phys_start, phys_end);
-        while (phys_cur < phys_end) {
-                uint32_t table_idx = phys_cur >> 22;
-                uint32_t page_idx = (phys_cur >> 12) & 0x3ff;
+                while (phys_cur < map[i].end_addr) {
+                        uint32_t table_idx = phys_cur >> 22;
+                        uint32_t page_idx  = (phys_cur >> 12) & 0x3ff;
 
-                identity_map_page(dir, table_idx, page_idx, phys_cur, 1, 1, 0);
+                        identity_map_page(dir, table_idx, page_idx, phys_cur, 1, 1, 0);
 
-                phys_cur += 0x1000;
+                        phys_cur += 0x1000;
+                }
         }
 }
 
@@ -61,10 +79,12 @@ void init_paging()
         // Identity map the kernel. Right now the page tables are statically
         // allocated, optimize this with dynamically allocating them based on
         // need to reduce the memory footprint
-        identity_map_region(&kernel_pg_dir, 0x0       , 0x1000000);
+        add_identity_map_region(0x0, 0x1000000, "Kernel");
 
         // Identity map RGB framebuffer, good enough for 1024x768x32
-        identity_map_region(&kernel_pg_dir, 0xfd000000, 0xfd300000);
+        add_identity_map_region(0xfd000000, 0xfd300000, "Framebuffer");
+
+        identity_map_region(&kernel_pg_dir, identity_maps);
 
         switch_page_directory((uint32_t *) kernel_pg_dir.directory);
 
