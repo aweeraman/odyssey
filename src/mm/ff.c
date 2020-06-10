@@ -8,11 +8,11 @@
 #include <lib/string.h>
 
 #ifdef ARCH_X86
-#define MEM_START_ADDR 0x1000000
-#define MEM_END_ADDR   0x1080000
+#define MEM_START_ADDR 0x700000
+#define MEM_END_ADDR   0x800000
 #elif ARCH_ARM
 #define MEM_START_ADDR 0x90300000
-#define MEM_END_ADDR   0x90380000
+#define MEM_END_ADDR   0x90400000
 #endif
 
 static mm_superblock_t *superblock;
