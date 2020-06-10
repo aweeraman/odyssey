@@ -8,8 +8,8 @@
 #include <lib/string.h>
 
 #ifdef ARCH_X86
-#define MEM_START_ADDR 0x200000
-#define MEM_END_ADDR   0x280000
+#define MEM_START_ADDR 0x1000000
+#define MEM_END_ADDR   0x1080000
 #elif ARCH_ARM
 #define MEM_START_ADDR 0x90300000
 #define MEM_END_ADDR   0x90380000

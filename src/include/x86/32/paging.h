@@ -19,7 +19,7 @@ typedef struct page_entry {
 }__attribute__((packed)) page_entry_t;
 
 typedef struct page_dir_entry {
-        page_entry_t tables[1024];
+        page_entry_t tables[1024][1024]; /* TODO dynamically allocate these tables */
         page_entry_t directory[1024];
 }__attribute__((packed)) page_dir_entry_t;
 
