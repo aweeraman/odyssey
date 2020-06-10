@@ -26,7 +26,7 @@ void add_identity_map_region(uint32_t start, uint32_t end, char *desc)
                 identity_maps[current_id_map_entry].start_addr = start;
                 identity_maps[current_id_map_entry].end_addr = end;
                 strncpy(identity_maps[current_id_map_entry].description,
-                        desc, MAX_IDENTITY_MAP_DESCRIPTION_LEN);
+                        desc, MAX_IDENTITY_MAP_DESCRIPTION_LEN-1);
                 current_id_map_entry++;
         } else {
                 printk("WARNING: max identity maps reached!\n");
