@@ -66,7 +66,7 @@ void init_paging()
         // Identity map the kernel. Right now the page tables are statically
         // allocated, optimize this with dynamically allocating them based on
         // need to reduce the memory footprint
-        map_physical_memory(&kernel_pg_dir, 0x0       , 0x1500000);
+        map_physical_memory(&kernel_pg_dir, 0x0       , 0x1000000);
 
         // Identity map RGB framebuffer, good enough for 1024x768x32
         map_physical_memory(&kernel_pg_dir, 0xfd000000, 0xfd300000);
