@@ -7,6 +7,10 @@
 #include <lib/stdio.h>
 #include <lib/string.h>
 
+#if ARCH_X86
+#include <x86/32/paging.h>
+#endif
+
 #ifdef ARCH_X86
 #define MEM_START_ADDR 0x700000
 #define MEM_END_ADDR   0x800000
@@ -16,6 +20,13 @@
 #endif
 
 static mm_superblock_t *superblock;
+
+#if ARCH_X86
+void identity_map_kernel_heap()
+{
+        add_identity_map_region(MEM_START_ADDR, MEM_END_ADDR, "kernel heap");
+}
+#endif
 
 mm_stats_t get_mm_stats(mm_superblock_t *sb, mm_stats_t *stats)
 {

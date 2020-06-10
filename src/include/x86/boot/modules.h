@@ -22,5 +22,6 @@ typedef void (*module_t)(void);
 void     add_boot_module        (uint32_t start, uint32_t end, char *name);
 uint32_t get_module_by_idx      (int idx);
 void     print_boot_modules     ();
+void     identity_map_modules   ();
 
 #endif

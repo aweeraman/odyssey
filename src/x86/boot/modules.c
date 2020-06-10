@@ -7,9 +7,19 @@
 #include <lib/string.h>
 #include <lib/stdio.h>
 #include <sys/panic.h>
+#include <x86/32/paging.h>
 
 static int module_idx = 0;
 static boot_module_t boot_modules[MAX_BOOT_MODULES];
+
+void identity_map_modules()
+{
+        for (int i = 0; i < module_idx; i++) {
+                add_identity_map_region(boot_modules[i].start,
+                                        boot_modules[i].end,
+                                        boot_modules[i].name);
+        }
+}
 
 void add_boot_module(uint32_t start, uint32_t end, char *name)
 {

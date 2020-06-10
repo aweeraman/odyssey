@@ -55,9 +55,9 @@ void identity_map_region(page_dir_entry_t *dir, identity_map_entry_t map[])
 {
         for (int i = 0; i < current_id_map_entry; i++) {
                 uint32_t phys_cur = map[i].start_addr;
-                printk("  Identity mapping 0x%x - 0x%x [%s]\n",
-                                map[i].start_addr, map[i].end_addr,
-                                map[i].description);
+                printk("  Identity mapping %s [0x%x - 0x%x]\n",
+                                map[i].description, map[i].start_addr,
+                                map[i].end_addr);
 
                 while (phys_cur < map[i].end_addr) {
                         uint32_t table_idx = phys_cur >> 22;
@@ -73,20 +73,8 @@ void identity_map_region(page_dir_entry_t *dir, identity_map_entry_t map[])
 void init_paging()
 {
         printk("Initializing paging: kernel page directory at 0x%x\n", &kernel_pg_dir);
-
         memset(&kernel_pg_dir, 0, sizeof(page_dir_entry_t));
-
-        // Identity map the kernel. Right now the page tables are statically
-        // allocated, optimize this with dynamically allocating them based on
-        // need to reduce the memory footprint
-        add_identity_map_region(0x0, 0x1000000, "Kernel");
-
-        // Identity map RGB framebuffer, good enough for 1024x768x32
-        add_identity_map_region(0xfd000000, 0xfd300000, "Framebuffer");
-
         identity_map_region(&kernel_pg_dir, identity_maps);
-
         switch_page_directory((uint32_t *) kernel_pg_dir.directory);
-
         enable_paging();
 }

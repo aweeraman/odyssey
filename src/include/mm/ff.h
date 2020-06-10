@@ -45,5 +45,6 @@ mm_stats_t       get_mm_stats           (mm_superblock_t *sb, mm_stats_t *stats)
 mm_superblock_t *create_superblock      (uint32_t root_block,
                                          uint32_t start_addr,
                                          uint32_t end_addr);
+void             identity_map_kernel_heap();
 
 #endif

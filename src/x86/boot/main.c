@@ -15,6 +15,7 @@
 #include <sys/timer.h>
 #include <x86/32/paging.h>
 #include <x86/boot/cpuid.h>
+#include <x86/boot/modules.h>
 
 #ifdef CONFIG_SERIAL
 #include <sys/serial.h>
@@ -32,8 +33,8 @@
 #include <sys/keyboard.h>
 #endif
 
-extern uintptr_t kernel_begin;
-extern uintptr_t kernel_end;
+extern uint32_t kernel_begin;
+extern uint32_t kernel_end;
 
 /*
  * The entry point into the kernel
@@ -54,6 +55,20 @@ void kernel_main()
 #endif
 
         printk("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
+
+        // Identity map the kernel address space
+        add_identity_map_region(&kernel_begin, &kernel_end, "kernel");
+
+        // Identity map RGB framebuffer, good enough for 1024x768x32
+        add_identity_map_region(0xfd000000, 0xfd310000, "framebuffer");
+
+        // Identity map GRUB boot modules
+        identity_map_modules();
+
+        // Identity map the kernel allocator storage
+        identity_map_kernel_heap();
+
+        init_paging();
 
         pic_unmask_interrupts();
 
