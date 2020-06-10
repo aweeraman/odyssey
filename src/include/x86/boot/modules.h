@@ -10,6 +10,7 @@
 
 #define MAX_BOOT_MODULES    10
 #define MODULE_NAME_MAX_LEN 128
+#define CANARY_MAGIC_STRING 0x0dee5eee
 
 typedef struct boot_module {
         uint32_t start;

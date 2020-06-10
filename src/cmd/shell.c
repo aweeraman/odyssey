@@ -32,14 +32,22 @@ int cmd_modules()
 int cmd_canary()
 {
         uint32_t i = 0;
+
         module_t canary = (module_t) get_module_by_idx(0);
+
         if (canary == 0) {
                 printk("Module not found!\n");
                 return 1;
         }
+
         canary();
         asm("\t movl %%eax, %0" : "=r"(i));
-        printk("Canary said 0x%x\n", i);
+
+        if (i == CANARY_MAGIC_STRING)
+                printk("The canary is alive.\n");
+        else
+                printk("The canary is dead.\n");
+
         return 0;
 }
 

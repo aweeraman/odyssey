@@ -18,7 +18,7 @@ int canary_1()
 
         canary();
         asm("\t movl %%eax, %0" : "=r"(tweet));
-        FAIL_IF(tweet != 0xdee5eee, "Canary didn't say the magic word");
+        FAIL_IF(tweet != CANARY_MAGIC_STRING, "Canary didn't say the magic word");
 
         return ret;
 }
