@@ -10,6 +10,7 @@ extern pic_init
 extern idt_init
 extern printk
 extern cpuid
+extern init_paging
 
 MB2_MAGIC                equ 0xe85250d6
 MB2_ARCH_FLAG            equ 0x0
@@ -92,6 +93,9 @@ _nocpuid:
         mov eax, cr0
         or eax, 1
         mov cr0, eax
+
+        ; Initialize paging
+        call init_paging
 
         ; Jump to function in kernel.c
         call kernel_main
