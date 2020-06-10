@@ -20,7 +20,7 @@
 - [X] PS/2 keyboard support
 - [X] Memory manager
 - [X] GRUB boot modules
-- [ ] Paging
+- [X] Paging
 - [ ] User-mode
 - [ ] System calls
 - [ ] File system
