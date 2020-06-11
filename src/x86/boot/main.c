@@ -42,36 +42,36 @@ void kernel_main()
 {
 
 #ifdef CONFIG_SERIAL
-        init_serial();
+	init_serial();
 #endif
 
-        init_mm();
+	init_mm();
 
-        read_multiboot_header_tags();
+	read_multiboot_header_tags();
 
 #ifdef CONFIG_SERIAL
-        printk("Initialized serial interface\n");
+	printk("Initialized serial interface\n");
 #endif
 
-        printk("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
+	printk("Kernel loaded at 0x%x - 0x%x %dB\n", &kernel_begin, &kernel_end, &kernel_end - &kernel_begin);
 
-        init_paging();
+	init_paging();
 
-        pic_unmask_interrupts();
+	pic_unmask_interrupts();
 
 #ifdef CONFIG_KEYBOARD
-        keyboard_init();
+	keyboard_init();
 #endif
 
-        printk("Loops per tick: %d\n", get_loops_per_tick());
+	printk("Loops per tick: %d\n", get_loops_per_tick());
 
 #ifdef CONFIG_TEST
-        run_tests();
+	run_tests();
 #endif
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
-        register_n_ticks_timer(5, update_cursor);
+	register_n_ticks_timer(5, update_cursor);
 #endif
 
-        start_interactive_shell();
+	start_interactive_shell();
 }

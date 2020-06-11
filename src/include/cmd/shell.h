@@ -11,17 +11,17 @@
 #define MAX_CMD_LENGTH 256
 
 typedef struct cmd {
-        const char *cmd;
-        int (*func)();
+	const char *cmd;
+	int (*func)();
 } cmd_t;
 
-int  cmd_modules                ();
-int  cmd_canary                 ();
-int  cmd_clear                  ();
-int  cmd_splash                 ();
-int  cmd_exit                   ();
-int  cmd_trigger_exception      ();
-int  cmd_help                   ();
-void start_interactive_shell    ();
+int cmd_modules();
+int cmd_canary();
+int cmd_clear();
+int cmd_splash();
+int cmd_exit();
+int cmd_trigger_exception();
+int cmd_help();
+void start_interactive_shell();
 
 #endif

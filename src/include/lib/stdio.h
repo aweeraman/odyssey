@@ -8,10 +8,10 @@
 
 #include <stdint.h>
 
-int     prints  (char *str);
-uint8_t putchar (uint8_t c);
-uint8_t getchar (void);
-char   *getstr  (char *buf, int size);
-void    printk  (const char *fmt, ...);
+int prints(char *str);
+uint8_t putchar(uint8_t c);
+uint8_t getchar(void);
+char *getstr(char *buf, int size);
+void printk(const char *fmt, ...);
 
 #endif

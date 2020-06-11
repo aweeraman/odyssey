@@ -15,13 +15,13 @@
 #endif
 
 void kernel_main() {
-        printk("\nOdyssey v%s\n",
-                        STRINGIFY(CONFIG_VERSION_MAJOR) "." \
-                        STRINGIFY(CONFIG_VERSION_MINOR));
+	printk("\nOdyssey v%s\n",
+			STRINGIFY(CONFIG_VERSION_MAJOR) "." \
+			STRINGIFY(CONFIG_VERSION_MINOR));
 
-        init_mm();
+	init_mm();
 
 #ifdef CONFIG_TEST
-        run_tests();
+	run_tests();
 #endif
 }

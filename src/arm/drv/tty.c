@@ -12,6 +12,6 @@
 void printc(uint8_t ch)
 {
 #ifdef CONFIG_SERIAL
-        write_serial(ch);
+	write_serial(ch);
 #endif
 }

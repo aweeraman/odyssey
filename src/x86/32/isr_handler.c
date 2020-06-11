@@ -12,54 +12,54 @@
 #include <sys/panic.h>
 
 char *exception_types[32] = {
-        "Divide-by-zero",
-        "Debug",
-        "Non-maskable interrupt",
-        "Breakpoint",
-        "Overflow",
-        "Bound range exceeded",
-        "Invalid opcode",
-        "Device not available",
-        "Double fault",
-        "Coprocessor segment overrun",
-        "Invalid TSS",
-        "Segment not present",
-        "Stack-segment fault",
-        "General protection fault",
-        "Page fault",
-        "Reserved",
-        "x87 floating-point exception",
-        "Alignment check",
-        "Machine check",
-        "SIMD floating-point exception",
-        "Virtualization exception",
-        "Reserved",
-        "Reserved",
-        "Reserved",
-        "Reserved",
-        "Reserved",
-        "Reserved",
-        "Reserved",
-        "Reserved",
-        "Reserved",
-        "Security exception",
-        "Reserved",
+	"Divide-by-zero",
+	"Debug",
+	"Non-maskable interrupt",
+	"Breakpoint",
+	"Overflow",
+	"Bound range exceeded",
+	"Invalid opcode",
+	"Device not available",
+	"Double fault",
+	"Coprocessor segment overrun",
+	"Invalid TSS",
+	"Segment not present",
+	"Stack-segment fault",
+	"General protection fault",
+	"Page fault",
+	"Reserved",
+	"x87 floating-point exception",
+	"Alignment check",
+	"Machine check",
+	"SIMD floating-point exception",
+	"Virtualization exception",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Reserved",
+	"Security exception",
+	"Reserved",
 };
 
 void exception_handler(int ex)
 {
-        uint32_t i;
+	uint32_t i;
 
-        if (ex < 32) {
-                printk("Caught exception %d (%s)\n", ex, exception_types[ex]);
+	if (ex < 32) {
+		printk("Caught exception %d (%s)\n", ex, exception_types[ex]);
 
-                if (ex == 14) {
-                        asm volatile("mov %%cr2, %0" : "=r" (i));
-                        printk("Page fault on address 0x%x\n", i);
-                }
+		if (ex == 14) {
+			asm volatile("mov %%cr2, %0" : "=r" (i));
+			printk("Page fault on address 0x%x\n", i);
+		}
 
-                panic("Exception");
-        }
+		panic("Exception");
+	}
 }
 
 /*
@@ -67,8 +67,8 @@ void exception_handler(int ex)
  */
 void irq0_handler()
 {
-        tick();
-        pic_eoi(0);
+	tick();
+	pic_eoi(0);
 }
 
 /*
@@ -77,9 +77,9 @@ void irq0_handler()
 void irq1_handler()
 {
 #ifdef CONFIG_KEYBOARD
-        kbd_interrupt();
+	kbd_interrupt();
 #endif
-        pic_eoi(1);
+	pic_eoi(1);
 }
 
 /*
@@ -87,7 +87,7 @@ void irq1_handler()
  */
 void irq2_handler()
 {
-        pic_eoi(2);
+	pic_eoi(2);
 }
 
 /*
@@ -95,7 +95,7 @@ void irq2_handler()
  */
 void irq3_handler()
 {
-        pic_eoi(3);
+	pic_eoi(3);
 }
 
 /*
@@ -103,7 +103,7 @@ void irq3_handler()
  */
 void irq4_handler()
 {
-        pic_eoi(4);
+	pic_eoi(4);
 }
 
 /*
@@ -111,7 +111,7 @@ void irq4_handler()
  */
 void irq5_handler()
 {
-        pic_eoi(5);
+	pic_eoi(5);
 }
 
 /*
@@ -119,7 +119,7 @@ void irq5_handler()
  */
 void irq6_handler()
 {
-        pic_eoi(6);
+	pic_eoi(6);
 }
 
 /*
@@ -127,7 +127,7 @@ void irq6_handler()
  */
 void irq7_handler()
 {
-        pic_eoi(7);
+	pic_eoi(7);
 }
 
 /*
@@ -135,7 +135,7 @@ void irq7_handler()
  */
 void irq8_handler()
 {
-        pic_eoi(8);
+	pic_eoi(8);
 }
 
 /*
@@ -143,7 +143,7 @@ void irq8_handler()
  */
 void irq9_handler()
 {
-        pic_eoi(9);
+	pic_eoi(9);
 }
 
 /*
@@ -151,7 +151,7 @@ void irq9_handler()
  */
 void irq10_handler()
 {
-        pic_eoi(10);
+	pic_eoi(10);
 }
 
 /*
@@ -159,7 +159,7 @@ void irq10_handler()
  */
 void irq11_handler()
 {
-        pic_eoi(11);
+	pic_eoi(11);
 }
 
 /*
@@ -167,7 +167,7 @@ void irq11_handler()
  */
 void irq12_handler()
 {
-        pic_eoi(12);
+	pic_eoi(12);
 }
 
 /*
@@ -175,7 +175,7 @@ void irq12_handler()
  */
 void irq13_handler()
 {
-        pic_eoi(13);
+	pic_eoi(13);
 }
 
 /*
@@ -183,7 +183,7 @@ void irq13_handler()
  */
 void irq14_handler()
 {
-        pic_eoi(14);
+	pic_eoi(14);
 }
 
 /*
@@ -191,5 +191,5 @@ void irq14_handler()
  */
 void irq15_handler()
 {
-        pic_eoi(15);
+	pic_eoi(15);
 }

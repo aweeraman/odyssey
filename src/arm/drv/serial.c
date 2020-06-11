@@ -12,7 +12,7 @@
 
 void write_serial(unsigned char a)
 {
-        *(volatile uint32_t *)(UART0_BASE) = (uint32_t) a;
+	*(volatile uint32_t *)(UART0_BASE) = (uint32_t) a;
 }
 
 #endif
