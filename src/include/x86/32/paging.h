@@ -54,5 +54,6 @@ void     identity_map_region     (page_dir_entry_t *dir,
 uint32_t get_virtual_addr        (page_dir_entry_t *dir, uint32_t phys_addr);
 void     add_identity_map_region (uint32_t start, uint32_t end, char *desc,
                                   char rw, char user);
+void     flush_page              (uint32_t addr);
 
 #endif
