@@ -14,8 +14,8 @@ static idt_entry_t idt_entries[256];
 static void idt_entry(int idx, uint32_t offset)
 {
 	idt_entries[idx].offset_lo = offset & 0xffff;
-	idt_entries[idx].selector = 0x08;
-	idt_entries[idx].zero = 0;
+	idt_entries[idx].selector  = 0x08;
+	idt_entries[idx].zero      = 0;
 	idt_entries[idx].type_attr = 0x8e;
 	idt_entries[idx].offset_hi = (offset & 0xffff0000) >> 16;
 }
@@ -75,7 +75,7 @@ void idt_init()
 	idt_entry(47, (uint32_t) irq15);
 
 	uint32_t addr = (uint32_t) idt_entries;
-	idt.size = (sizeof (idt_entries) - 1);
+	idt.size      = (sizeof (idt_entries) - 1);
 	idt.offset_lo = (uint32_t) addr & 0xffff;
 	idt.offset_hi = addr >> 16;
 

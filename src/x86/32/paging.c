@@ -16,7 +16,7 @@ extern uint32_t kernel_end;
 static uint32_t kernel_start_addr = (uint32_t) &kernel_begin;
 static uint32_t kernel_end_addr   = (uint32_t) &kernel_end;
 
-static page_dir_entry_t     kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)));
+static page_dir_entry_t kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)));
 static identity_map_entry_t identity_maps[MAX_IDENTITY_MAPS];
 static int current_id_map_entry = 0;
 
@@ -52,7 +52,7 @@ void identity_map_page(page_dir_entry_t *dir, uint32_t table, uint32_t page,
 {
 	dir->tables[table][page].addr      = phys_addr / 0x1000;
 	dir->tables[table][page].present   = present;
-	dir->tables[table][page].rw	= rw;
+	dir->tables[table][page].rw        = rw;
 	dir->tables[table][page].user      = user;
 
 	uint32_t tbl_address = (uint32_t) &dir->tables[table][0];
@@ -100,7 +100,7 @@ static void validate_identity_map_regions(page_dir_entry_t *dir,
 		}
 	}
 }
-#endif
+#endif /* CONFIG_TEST */
 
 void flush_page(uint32_t addr)
 {

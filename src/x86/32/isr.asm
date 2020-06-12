@@ -11,7 +11,7 @@ irq%1:
         call irq%1_handler
         popa
         iret
-%endmacro
+%endmacro ; irq_handler
 
 %macro generic_exception_handler 1
 global exception%1
@@ -24,7 +24,7 @@ exception%1:
         add esp, 8
         sti
         iret
-%endmacro
+%endmacro ; generic_exception_handler
 
 load_idt:
         mov edx, [esp + 4]

@@ -5,7 +5,8 @@ ifeq ($(DEBUG),yes)
 	QEMU_ARGS += -s -S
 endif
 
-.PHONY: all distclean image iso boot boot-uboot boot-coreboot boot-efi deps coverity coverity-submit
+.PHONY: all distclean image iso boot boot-uboot boot-coreboot \
+	boot-efi deps coverity coverity-submit
 
 all:
 	$(MAKE) ARCH=$(ARCH) -j $(NPROC) -C src
@@ -17,7 +18,8 @@ distclean:
 	-rm -rf odyssey-coverity.tar.gz cov-int
 
 image: distclean all
-	mkimage -A arm -O linux -T kernel -a 0x0082000000 -e 0x0082000000 -C none -d src/odyssey.bin odyssey.img
+	mkimage -A arm -O linux -T kernel -a 0x0082000000 -e 0x0082000000 \
+		-C none -d src/odyssey.bin odyssey.img
 
 iso: distclean all
 	mkdir -p iso/boot/grub/

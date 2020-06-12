@@ -84,13 +84,13 @@ ifneq (,$(findstring nasm,$(AS)))
 	$(error $(AS) not found)
   endif
 	$(AS) $(ASFLAGS) $(OPTS) -o $@ $<
-else
+else # GNU as
 %.o: %.S
   ifeq (, $(shell which $(AS)))
 	$(error $(AS) not found)
   endif
 	$(AS) $(CFLAGS) -o $@ $<
-endif
+endif # !nasm
 
 clean:
 	-rm -f $(OBJECTS) $(OBJDEPS) $(MODULES) odyssey

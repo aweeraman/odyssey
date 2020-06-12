@@ -12,7 +12,7 @@ irq\num\() :
         call irq\num\()_handler
         popal
         iret
-.endm
+.endm /* irq_handler */
 
 .macro generic_exception_handler num
         .global exception\num
@@ -24,7 +24,7 @@ exception\num\() :
         addl $8, %esp
         sti
         iret
-.endm
+.endm /* generic_exception_handler */
 
 load_idt:
         movl 4(%esp), %edx

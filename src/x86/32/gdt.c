@@ -7,12 +7,11 @@
 #include <lib/stdio.h>
 
 gdt_descriptor_t gdt;
-gdt_entry_t      gdt_entries[GDT_ENTRIES];
+gdt_entry_t gdt_entries[GDT_ENTRIES];
 
 static void gdt_entry(int entry, int32_t base, int32_t limit,
-	       uint8_t access, uint8_t flags)
+	              uint8_t access, uint8_t flags)
 {
-
 	gdt_entries[entry].limit_lo = limit & 0xFFFF;
 	gdt_entries[entry].base_lo  = base  & 0xFFFF;
 	gdt_entries[entry].base_mid = (base >> 16)  & 0xFF;
