@@ -52,7 +52,7 @@ endif
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
-.PHONY: clean distclean modules
+.PHONY: modules
 
 odyssey: $(OBJECTS) modules
 ifeq (, $(shell which $(LD)))
@@ -91,13 +91,5 @@ else # GNU as
   endif
 	$(AS) $(CFLAGS) -o $@ $<
 endif # !nasm
-
-clean:
-	-rm -f $(OBJECTS) $(OBJDEPS) $(MODULES) odyssey
-	-find . -name "*.d" -exec rm {} \;
-	-find . -name "*.bin" -exec rm {} \;
-
-distclean: clean
-	-rm -f tags
 
 -include $(OBJECTS:.o=.d)

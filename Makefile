@@ -5,23 +5,22 @@ ifeq ($(DEBUG),yes)
 	QEMU_ARGS += -s -S
 endif
 
-.PHONY: all distclean image iso boot boot-uboot boot-coreboot \
+.PHONY: all clean image iso boot boot-uboot boot-coreboot \
 	boot-efi deps coverity coverity-submit
 
 all:
 	$(MAKE) ARCH=$(ARCH) -j $(NPROC) -C src
 
-distclean:
-	-$(MAKE) ARCH=arm -C src clean
-	-$(MAKE) ARCH=x86 -C src clean
+clean:
+	-$(MAKE) -C src clean
 	-rm -rf $(ISO) iso odyssey.img
 	-rm -rf odyssey-coverity.tar.gz cov-int
 
-image: distclean all
+image: clean all
 	mkimage -A arm -O linux -T kernel -a 0x0082000000 -e 0x0082000000 \
 		-C none -d src/odyssey.bin odyssey.img
 
-iso: distclean all
+iso: clean all
 	mkdir -p iso/boot/grub/
 	cp config/grub.cfg iso/boot/grub/
 	cp src/odyssey iso/boot/
@@ -75,7 +74,7 @@ endif
 	cov-build --dir cov-int $(MAKE) all
 	tar zcvf odyssey-coverity.tar.gz cov-int
 
-coverity-submit: distclean coverity
+coverity-submit: clean coverity
 ifndef COVERITY_TOKEN
 	$(error COVERITY_TOKEN is not set)
 endif

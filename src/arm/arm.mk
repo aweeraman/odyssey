@@ -23,8 +23,6 @@ OBJECTS    += $(BOOT) $(DRV) $(TEST) $(LIB) $(MM) $(SYS)
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
-.PHONY: clean distclean
-
 odyssey: $(OBJECTS)
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
@@ -43,12 +41,5 @@ ifeq (, $(shell which $(AS)))
 	$(error $(AS) not found)
 endif
 	$(AS) $(ASFLAGS) -o $@ $<
-
-clean:
-	-rm -f $(OBJECTS) $(OBJDEPS) odyssey odyssey.map odyssey.bin
-	-find . -name "*.o.d" -exec rm {} \;
-
-distclean: clean
-	-rm -f tags
 
 -include $(OBJECTS:.o=.d)
