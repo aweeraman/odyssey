@@ -9,6 +9,7 @@
 void panic(char *str)
 {
 	printk("PANIC: %s\r\n", str);
+
 	while(1) {
 #if ARCH_X86
 		asm("hlt");

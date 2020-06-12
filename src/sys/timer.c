@@ -19,9 +19,8 @@ void busy_wait(int ticks_to_wait)
 	uint32_t start = ticks;
 	uint32_t end   = ticks + ticks_to_wait;
 
-	if (end < start) {
+	if (end < start)
 		while (ticks > start);
-	}
 
 	while (ticks < end);
 }

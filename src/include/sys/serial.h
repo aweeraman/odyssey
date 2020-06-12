@@ -14,6 +14,6 @@ unsigned char read_serial();
 int is_transmit_empty();
 void write_serial(unsigned char a);
 
-#endif
+#endif /* SERIAL_H */
 
-#endif
+#endif /* CONFIG_SERIAL */

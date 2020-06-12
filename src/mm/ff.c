@@ -27,7 +27,7 @@ void identity_map_kernel_heap()
 	add_identity_map_region(MEM_START_ADDR, MEM_END_ADDR,
 				"kernel heap", PAGE_RW, PAGE_KERNEL);
 }
-#endif
+#endif /* ARCH_X86 */
 
 mm_stats_t get_mm_stats(mm_superblock_t *sb, mm_stats_t *stats)
 {
@@ -90,9 +90,9 @@ void free_frame(mm_superblock_t *sb, uint32_t *addr)
 	} while (sb != NULL);
 }
 
-void* get_available_frame(mm_superblock_t *sb, size_t size)
+void *get_available_frame(mm_superblock_t *sb, size_t size)
 {
-	void* ptr = NULL;
+	void *ptr = NULL;
 
 	if (sb == NULL)
 		sb = superblock;
@@ -109,7 +109,7 @@ void* get_available_frame(mm_superblock_t *sb, size_t size)
 			}
 		} else {
 			int start_block       = -1;
-			int last_block	= -1;
+			int last_block	      = -1;
 			int contiguous_blocks = 0;
 			int size_remaining    = size;
 
@@ -130,7 +130,7 @@ void* get_available_frame(mm_superblock_t *sb, size_t size)
 								break;
 						} else {
 							start_block       = -1;
-							last_block	= -1;
+							last_block        = -1;
 							contiguous_blocks = 0;
 							size_remaining    = size;
 						}

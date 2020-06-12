@@ -10,12 +10,12 @@
 #include <lib/mm.h>
 
 static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
-  "other",
-  "available",
-  "reserved",
-  "acpi",
-  "acpi nvs",
-  "bad"
+	"other",
+	"available",
+	"reserved",
+	"acpi",
+	"acpi nvs",
+	"bad"
 };
 
 static basic_meminfo_t mem_info;
@@ -35,9 +35,6 @@ void set_basic_meminfo(size_t lower, size_t upper)
 	mem_info.upper = upper;
 }
 
-/*
- * Extract the type of memory region
- */
 static char *mem_reg_lookup(int type)
 {
 	if (type >= MAX_REGION_TYPES)

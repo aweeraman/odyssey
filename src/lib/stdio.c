@@ -54,7 +54,7 @@ char *getstr(char *line, int max_length)
 
 	return line;
 }
-#endif
+#endif /* ARCH_X86 */
 
 /*
  * Like puts, without a newline at the end
