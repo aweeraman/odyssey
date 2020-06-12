@@ -31,7 +31,7 @@ extern char _binary_sys_f_sfn_start;
 
 #define UNICODE_CURSOR    0x2588
 
-#else
+#else /* EGA */
 
 #define VGA_IDX_PORT  0x3D4
 #define VGA_DATA_PORT (VGA_IDX_PORT+1)
@@ -62,7 +62,7 @@ typedef struct {
 
 static cell  *matrix = NULL;
 
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 
 #define IS_RGB (framebuffer.type == MULTIBOOT_FRAMEBUFFER_TYPE_RGB)
 #define IS_EGA (framebuffer.type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT)
@@ -84,7 +84,7 @@ void identity_map_framebuffer()
 	uint32_t end   = start + size;
 	add_identity_map_region(start, end, "framebuffer", PAGE_RW, PAGE_KERNEL);
 }
-#endif
+#endif /* ARCH_X86 */
 
 #if ! defined(CONFIG_FRAMEBUFFER_RGB)
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
@@ -119,7 +119,7 @@ uint16_t get_cursor_position(void)
 
 	return pos;
 }
-#endif
+#endif /* ! CONFIG_FRAMEBUFFER_RGB */
 
 static void scroll()
 {
@@ -137,7 +137,7 @@ static void scroll()
 			}
 		}
 	}
-#else
+#else /* EGA */
 	if (IS_EGA) {
 		for (size_t i = 0; i < (rows - 1); i++) {
 			for (size_t j = 0; j < cols; j++) {
@@ -148,7 +148,7 @@ static void scroll()
 			}
 		}
 	}
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 }
 
 void update_cursor()
@@ -165,7 +165,7 @@ void update_cursor()
 			ssfn_fg = RGB_BG;
 		ssfn_putc(UNICODE_CURSOR);
 	}
-#else
+#else /* EGA */
 	uint16_t pos = (cur_x * cols) + cur_y;
 	if (IS_EGA) {
 		outb(VGA_IDX_PORT, 0x0F);
@@ -173,7 +173,7 @@ void update_cursor()
 		outb(VGA_IDX_PORT, 0x0E);
 		outb(VGA_DATA_PORT, (uint8_t) ((pos >> 8) & 0xFF));
 	}
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 }
 
 static void write_character(uint8_t c)
@@ -191,7 +191,7 @@ static void write_character(uint8_t c)
 		ssfn_fg = RGB_FG;
 		ssfn_putc(c);
 	}
-#else
+#else /* EGA */
 	if (IS_EGA) {
 		matrix[(cur_x*cols) + cur_y] = (cell) {
 			.ch = c,
@@ -202,7 +202,7 @@ static void write_character(uint8_t c)
 			.clr = CLR_FG
 		};
 	}
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 
 #ifdef CONFIG_SERIAL
 	write_serial(c);
@@ -218,14 +218,14 @@ static void write_newline()
 		ssfn_fg = RGB_BG;
 		ssfn_putc(UNICODE_CURSOR);
 	}
-#else
+#else /* EGA */
 	if (IS_EGA) {
 		matrix[(cur_x*cols) + cur_y] = (cell) {
 			.ch = 0,
 			.clr = CLR_FG
 		};
 	}
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 
 #ifdef CONFIG_SERIAL
 	write_serial('\r');
@@ -250,14 +250,14 @@ static void write_backspace()
 		ssfn_fg = RGB_FG;
 		ssfn_putc(UNICODE_CURSOR);
 	}
-#else
+#else /* EGA */
 	if (IS_EGA) {
 		cur_y--;
 		int pos = (cur_x * cols) + cur_y;
 		matrix[pos].ch = 0;
 		matrix[pos].clr = CLR_FG;
 	}
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 
 #ifdef CONFIG_SERIAL
 	write_serial('\b');
@@ -330,14 +330,14 @@ void clear_screen(void)
 			}
 		}
 	}
-#else
+#else /* EGA */
 	if (IS_EGA) {
 		for (size_t i = 0; i < (rows * cols); i++) {
 			matrix[i].ch = 0;
 			matrix[i].clr = CLR_FG;
 		}
 	}
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 	cur_x = 0;
 	cur_y = 0;
 }
@@ -368,7 +368,7 @@ void init_console(framebuffer_t fb_init)
 			framebuffer.addr, framebuffer.pitch, framebuffer.width,
 			framebuffer.height, framebuffer.bpp, framebuffer.type);
 	}
-#else
+#else /* EGA */
 	if (IS_EGA) {
 		matrix = (cell *) (size_t) framebuffer.addr;
 		rows = framebuffer.height;
@@ -381,5 +381,5 @@ void init_console(framebuffer_t fb_init)
 	} else {
 		printk("Framebuffer type %d not supported\n", framebuffer.type);
 	}
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 }

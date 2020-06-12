@@ -13,7 +13,7 @@
 #include <error.h>
 
 #define KBD_DATA_PORT       0x60
-#define KBD_CMD_PORT	0x64
+#define KBD_CMD_PORT        0x64
 
 #define READLINE_READY      0
 #define READLINE_BLOCKED    1
@@ -30,16 +30,16 @@ static unsigned last_char;
 *  */
 unsigned const char kbdus[128] =
 {
-    0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
-  '9', '0', '-', '=', '\b',	/* Backspace */
-  '\t',			/* Tab */
-  'q', 'w', 'e', 'r',	/* 19 */
+    0,  27, '1', '2', '3', '4', '5', '6', '7', '8', /* 9 */
+  '9', '0', '-', '=', '\b', /* Backspace */
+  '\t',	/* Tab */
+  'q', 'w', 'e', 'r', /* 19 */
   't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n',	/* Enter key */
-    0,			/* 29   - Control */
-  'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',	/* 39 */
- '\'', '`',   0,		/* Left shift */
- '\\', 'z', 'x', 'c', 'v', 'b', 'n',			/* 49 */
-  'm', ',', '.', '/',   0,				/* Right shift */
+    0, /* 29   - Control */
+  'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', /* 39 */
+ '\'', '`',   0, /* Left shift */
+ '\\', 'z', 'x', 'c', 'v', 'b', 'n', /* 49 */
+  'm', ',', '.', '/',   0, /* Right shift */
   '*',
     0,	/* Alt */
   ' ',	/* Space bar */
