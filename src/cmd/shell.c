@@ -97,7 +97,7 @@ int cmd_splash()
 			draw_pixel(prows, pcols, ci);
 		}
 	}
-#endif
+#endif /* CONFIG_FRAMEBUFFER_RGB */
 	return 0;
 }
 
@@ -113,11 +113,10 @@ int cmd_help()
 static int run(const char *cmdline)
 {
 	for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(cmd_t)); i++) {
-		if (strncmp(valid_cmds[i].cmd, line, MAX_CMD_LENGTH) == 0) {
+		if (strncmp(valid_cmds[i].cmd, line, MAX_CMD_LENGTH) == 0)
 			return (*valid_cmds[i].func)();
-		} else if (strncmp("", line, MAX_CMD_LENGTH) == 0) {
+		else if (strncmp("", line, MAX_CMD_LENGTH) == 0)
 			return 0;
-		}
 	}
 
 	printk ("Unknown command: %s\n", cmdline);
@@ -127,8 +126,8 @@ static int run(const char *cmdline)
 void start_interactive_shell()
 {
 	printk("\nOdyssey v%s\n",
-			STRINGIFY(CONFIG_VERSION_MAJOR) "." \
-			STRINGIFY(CONFIG_VERSION_MINOR));
+		STRINGIFY(CONFIG_VERSION_MAJOR) "." \
+		STRINGIFY(CONFIG_VERSION_MINOR));
 
 #if CONFIG_KEYBOARD || CONFIG_SERIAL
 	while(1) {
@@ -142,7 +141,7 @@ void start_interactive_shell()
 	while(1) {
 #if ARCH_X86
 		asm("hlt");
-#endif
+#endif /* ARCH_X86 */
 	}
-#endif
+#endif /* CONFIG_KEYBOARD || CONFIG_SERIAL */
 }
