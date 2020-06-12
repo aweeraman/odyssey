@@ -16,8 +16,8 @@
 
 void kernel_main() {
 	printk("\nOdyssey v%s\n",
-			STRINGIFY(CONFIG_VERSION_MAJOR) "." \
-			STRINGIFY(CONFIG_VERSION_MINOR));
+		STRINGIFY(CONFIG_VERSION_MAJOR) "." \
+		STRINGIFY(CONFIG_VERSION_MINOR));
 
 	init_mm();
 

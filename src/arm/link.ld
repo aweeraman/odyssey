@@ -7,23 +7,23 @@ MEMORY
  
 SECTIONS
 {
-        kernel_begin = .;
-        .text :
-        {
-                *(.boot)
-                *(.text)
-        } > ram
-        .rodata :
-        {
-                *(.rodata)
-        } > ram
-        .data :
-        {
-                *(.data)
-        } > ram
-        .bss :
-        {
-                *(.bss)
-        } > ram
-        kernel_end = .;
+	kernel_begin = .;
+	.text :
+	{
+		*(.boot)
+		*(.text)
+	} > ram
+	.rodata :
+	{
+		*(.rodata)
+	} > ram
+	.data :
+	{
+		*(.data)
+	} > ram
+	.bss :
+	{
+		*(.bss)
+	} > ram
+	kernel_end = .;
 }
