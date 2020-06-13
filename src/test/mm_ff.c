@@ -11,12 +11,17 @@
 #include <lib/stdio.h>
 #include <lib/mm.h>
 
-extern uint32_t test_heap_start_addr1, test_heap_end_addr1;
-extern uint32_t test_heap_start_addr2, test_heap_end_addr2;
+extern uint32_t test_heap_start_addr1;
+extern uint32_t test_heap_start_addr2;
+
+static uint32_t test_heap_end_addr1, test_heap_end_addr2;
 
 int ff_mm_1()
 {
 	int ret = 0;
+
+	test_heap_end_addr1 = test_heap_start_addr1 + 0x800;
+	test_heap_end_addr2 = test_heap_start_addr2 + 0x800;
 
 	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
 							test_heap_start_addr1,
