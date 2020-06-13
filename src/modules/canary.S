@@ -3,5 +3,5 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-mov $0x0dee5eee, %eax
+mov $0xdc0dc0dc, %eax
 ret

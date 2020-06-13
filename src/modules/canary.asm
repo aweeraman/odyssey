@@ -2,5 +2,5 @@
 ; SPDX-License-Identifier: GPL-3.0-or-later
 
 bits 32
-mov eax, 0x0DEE5EEE
+mov eax, $0xdc0dc0dc
 ret
