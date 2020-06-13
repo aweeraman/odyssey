@@ -9,22 +9,21 @@
 
 #if ARCH_X86
 #include <x86/32/paging.h>
+#elif ARCH_ARM
+#define PAGE_ALIGNMENT 4096
 #endif
 
-#ifdef ARCH_X86
-#define MEM_START_ADDR 0x700000
-#define MEM_END_ADDR   0x800000
-#elif ARCH_ARM
-#define MEM_START_ADDR 0x90300000
-#define MEM_END_ADDR   0x90400000
-#endif
+static uint32_t heap_start_addr, heap_end_addr;
+
+extern uint32_t kernel_end;
+static uint32_t kernel_end_addr = (uint32_t) &kernel_end;
 
 static mm_superblock_t *superblock;
 
 #if ARCH_X86
 void identity_map_kernel_heap()
 {
-	add_identity_map_region(MEM_START_ADDR, MEM_END_ADDR,
+	add_identity_map_region(heap_start_addr, heap_end_addr,
 				"kernel heap", PAGE_RW, PAGE_KERNEL);
 }
 #endif /* ARCH_X86 */
@@ -227,9 +226,15 @@ void print_superblocks(mm_superblock_t *sb)
 
 void init_mm()
 {
-	printk("Initializing FirstFit memory manager at 0x%x\n", MEM_START_ADDR);
-	superblock = create_superblock(MEM_START_ADDR,
-				       MEM_START_ADDR,
-				       MEM_END_ADDR);
+
+	heap_start_addr = (kernel_end_addr + 0x100000 + PAGE_ALIGNMENT) &
+			  ~(PAGE_ALIGNMENT - 1);
+	heap_end_addr   = heap_start_addr + 0x100000;
+
+	printk("Initializing FirstFit memory manager: 0x%x - 0x%x\n",
+			heap_start_addr, heap_end_addr);
+	superblock = create_superblock(heap_start_addr,
+				       heap_start_addr,
+				       heap_end_addr);
 	print_superblocks(NULL);
 }
