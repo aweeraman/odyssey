@@ -33,10 +33,11 @@ void identity_map_kernel_heap()
 #if CONFIG_TEST
 void identity_map_kernel_test_heap()
 {
-	add_identity_map_region(test_heap_start_addr1, test_heap_end_addr1 + 0x10000,
+	/* TODO investigate why +0x3000 padding needed to prevent page fault */
+	add_identity_map_region(test_heap_start_addr1, test_heap_end_addr1 + 0x3000,
 				"kernel test heap 1", PAGE_RW, PAGE_KERNEL);
 
-	add_identity_map_region(test_heap_start_addr2, test_heap_end_addr2 + 0x10000,
+	add_identity_map_region(test_heap_start_addr2, test_heap_end_addr2 + 0x3000,
 				"kernel test heap 2", PAGE_RW, PAGE_KERNEL);
 }
 #endif /* CONFIG_TEST */
@@ -241,15 +242,17 @@ void print_superblocks(mm_superblock_t *sb)
 void init_mm()
 {
 
-	heap_start_addr = (kernel_end_addr + 0x100000 + PAGE_ALIGNMENT) &
-			  ~(PAGE_ALIGNMENT - 1);
-	heap_end_addr   = heap_start_addr + 0x100000;
+	heap_start_addr       = (kernel_end_addr + 0x100000 + PAGE_ALIGNMENT)
+					& ~(PAGE_ALIGNMENT - 1);
+	heap_end_addr         = heap_start_addr + 0x100000;
 
 #if CONFIG_TEST
-	test_heap_start_addr1 = (heap_end_addr + PAGE_ALIGNMENT) & ~(PAGE_ALIGNMENT - 1);
+	test_heap_start_addr1 = (heap_end_addr + PAGE_ALIGNMENT)
+					& ~(PAGE_ALIGNMENT - 1);
 	test_heap_end_addr1   = test_heap_start_addr1 + 0x800;
 
-	test_heap_start_addr2 = (test_heap_end_addr1 + PAGE_ALIGNMENT) & ~(PAGE_ALIGNMENT - 1);
+	test_heap_start_addr2 = (test_heap_end_addr1 + PAGE_ALIGNMENT)
+					& ~(PAGE_ALIGNMENT - 1);
 	test_heap_end_addr2   = test_heap_start_addr2 + 0x800;
 #endif
 
