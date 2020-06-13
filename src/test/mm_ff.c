@@ -11,25 +11,16 @@
 #include <lib/stdio.h>
 #include <lib/mm.h>
 
-#ifdef ARCH_X86
-#define MEM_START_ADDR1 0x700000
-#define MEM_END_ADDR1   0x700800
-#define MEM_START_ADDR2 0x710000
-#define MEM_END_ADDR2   0x710800
-#elif ARCH_ARM
-#define MEM_START_ADDR1 0x90700000
-#define MEM_END_ADDR1   0x90700800
-#define MEM_START_ADDR2 0x91700000
-#define MEM_END_ADDR2   0x91700800
-#endif
+extern uint32_t test_heap_start_addr1, test_heap_end_addr1;
+extern uint32_t test_heap_start_addr2, test_heap_end_addr2;
 
 int ff_mm_1()
 {
 	int ret = 0;
 
-	mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
-							MEM_START_ADDR1,
-							MEM_END_ADDR1);
+	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
+							test_heap_start_addr1,
+							test_heap_end_addr1);
 
 	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
@@ -69,10 +60,10 @@ int ff_mm_2()
 {
 	int ret = 0;
 
-	mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
-							   MEM_START_ADDR1,
-							   MEM_END_ADDR1);
-	create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
+						        test_heap_start_addr1,
+						        test_heap_end_addr1);
+	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
@@ -109,10 +100,10 @@ int ff_mm_3()
 	mm_stats_t stats;
 	int ret = 0;
 
-	mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
-							   MEM_START_ADDR1,
-							   MEM_END_ADDR1);
-	create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
+						        test_heap_start_addr1,
+						        test_heap_end_addr1);
+	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
@@ -131,10 +122,10 @@ int ff_mm_4()
 {
 	int ret = 0;
 	mm_stats_t stats;
-	mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
-							   MEM_START_ADDR1,
-							   MEM_END_ADDR1);
-	create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
+						        test_heap_start_addr1,
+						        test_heap_end_addr1);
+	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	uint32_t *addr1 = (uint32_t *) kzalloc(superblock, sizeof(uint32_t), 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
@@ -161,10 +152,10 @@ int ff_mm_4()
 int ff_mm_5()
 {
 	int ret = 0;
-	mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
-							   MEM_START_ADDR1,
-							   MEM_END_ADDR1);
-	create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
+							test_heap_start_addr1,
+							test_heap_end_addr1);
+	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	char *addr1 = (char *) kzalloc(superblock, sizeof(uint32_t), 100);
 	FAIL_IF(addr1[0] != '\0', "kzalloc didn't zero the memory");
@@ -184,9 +175,9 @@ int ff_mm_6()
 	int ret = 0;
 	mm_stats_t stats;
 
-	mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
-							MEM_START_ADDR1,
-							MEM_END_ADDR1);
+	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
+							test_heap_start_addr1,
+							test_heap_end_addr1);
 
 	char *addr1 = (char *) kzalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
 	FAIL_IF(addr1 == NULL, "couldn't allocation block FRAME_BLOCK_SIZE*2");
@@ -207,10 +198,10 @@ int ff_mm_7()
 {
 	int ret = 0;
 
-	mm_superblock_t *superblock = create_superblock(MEM_START_ADDR1,
-							MEM_START_ADDR1,
-							MEM_END_ADDR1);
-	create_superblock((uint32_t) superblock, MEM_START_ADDR2, MEM_END_ADDR2);
+	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
+							test_heap_start_addr1,
+							test_heap_end_addr1);
+	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	char *addr1 = (char *) kzalloc(superblock, sizeof(char), 2048);
 	FAIL_IF(addr1 == NULL, "couldn't allocate maximum available in segment 1");

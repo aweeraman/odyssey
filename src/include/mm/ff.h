@@ -46,5 +46,6 @@ mm_superblock_t *create_superblock(uint32_t root_block,
 				   uint32_t start_addr,
 				   uint32_t end_addr);
 void identity_map_kernel_heap();
+void identity_map_kernel_test_heap();
 
 #endif

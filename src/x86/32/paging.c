@@ -118,6 +118,10 @@ void init_paging()
 	// Identity map the kernel allocator storage
 	identity_map_kernel_heap();
 
+#if ARCH_X86 && CONFIG_TEST
+	identity_map_kernel_test_heap();
+#endif
+
 	// Identity map RGB framebuffer
 	identity_map_framebuffer();
 
@@ -127,7 +131,7 @@ void init_paging()
 	// Map and validate the pages
 	identity_map_region(&kernel_pg_dir, identity_maps);
 
-#ifdef CONFIG_TEST
+#if ARCH_X86 && CONFIG_TEST
 	validate_identity_map_regions(&kernel_pg_dir, identity_maps);
 #endif
 
