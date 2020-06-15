@@ -50,16 +50,16 @@ uint32_t get_physical_addr(page_dir_entry_t *dir, uint32_t phys_addr)
 void identity_map_page(page_dir_entry_t *dir, uint32_t table, uint32_t page,
 		       uint32_t phys_addr, char present, char rw, char user)
 {
-	dir->tables[table][page].addr      = phys_addr / 0x1000;
-	dir->tables[table][page].present   = present;
-	dir->tables[table][page].rw        = rw;
-	dir->tables[table][page].user      = user;
-
 	uint32_t tbl_address = (uint32_t) &dir->tables[table][0];
 	dir->directory[table].addr      = tbl_address >> 12;
 	dir->directory[table].present   = present;
 	dir->directory[table].rw	= rw;
 	dir->directory[table].user      = user;
+
+	dir->tables[table][page].addr      = phys_addr / 0x1000;
+	dir->tables[table][page].present   = present;
+	dir->tables[table][page].rw        = rw;
+	dir->tables[table][page].user      = user;
 }
 
 void identity_map_region(page_dir_entry_t *dir, identity_map_entry_t map[])
