@@ -12,7 +12,7 @@ iso: odyssey
 	cp config/grub.cfg iso/boot/grub/
 	cp odyssey iso/boot/
 	mkdir -p iso/modules
-	cp src/modules/canary.bin iso/modules/
+	cp modules/canary.bin iso/modules/
 	grub-mkrescue -o $(ISO) iso
 
 boot: odyssey

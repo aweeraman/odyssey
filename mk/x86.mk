@@ -60,10 +60,10 @@ endif
 
 modules:
 ifneq (,$(findstring nasm,$(AS)))
-	$(AS) $(ASFLAGS_MOD) -o src/modules/canary.bin src/modules/canary.asm
+	$(AS) $(ASFLAGS_MOD) -o modules/canary.bin modules/canary.asm
 else
-	$(AS) $(CFLAGS) -o src/modules/canary.o src/modules/canary.S
-	$(OBJCOPY) -O binary src/modules/canary.o src/modules/canary.bin
+	$(AS) $(CFLAGS) -o modules/canary.o modules/canary.S
+	$(OBJCOPY) -O binary modules/canary.o modules/canary.bin
 endif
 
 src/sys/font.o:

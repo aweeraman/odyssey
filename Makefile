@@ -20,7 +20,7 @@ tags:
 clean:
 	-rm -rf $(ISO) iso odyssey.img odyssey-coverity.tar.gz cov-int
 	-rm -f odyssey odyssey.map odyssey.bin
-	-find src \( -name '*.o' -o -name '*.d' -o -name '*.bin' \) -exec rm {} \;
+	-find src modules \( -name '*.o' -o -name '*.d' -o -name '*.bin' \) -exec rm {} \;
 	-rm -f tags
 
 -include mk/qemu.mk
