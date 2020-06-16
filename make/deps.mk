@@ -12,9 +12,8 @@ deps:
 
 	# Coreboot
 	[ -e deps/coreboot/ ] || \
-		git clone --branch 4.11 https://www.github.com/coreboot/coreboot deps/coreboot
-	cd deps/coreboot && \
-		git submodule update --init --checkout
+		git clone https://www.github.com/coreboot/coreboot deps/coreboot
+	cd deps/coreboot && git submodule update --init --checkout --remote
 	cp config/coreboot.cfg deps/coreboot/.config
 
 	# x86 cross compiler
