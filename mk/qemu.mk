@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-.PHONY: boot boot-uboot boot-coreboot boot-efi
+.PHONY: image iso boot boot-uboot boot-coreboot boot-efi
 
 image: clean all
 	mkimage -A arm -O linux -T kernel -a 0x0082000000 -e 0x0082000000 \
