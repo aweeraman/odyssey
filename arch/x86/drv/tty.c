@@ -21,7 +21,7 @@
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
 #include <sys/ssfn.h>
 
-extern char _binary_sys_f_sfn_start;
+extern char _binary_sys_fnt_sfn_start;
 
 #define FONT_HEIGHT 16
 #define FONT_WIDTH  8
@@ -354,7 +354,7 @@ void init_console(framebuffer_t fb_init)
 		clear_screen();
 
 		//Setup scalable font library
-		ssfn_font = (ssfn_font_t *) &_binary_sys_f_sfn_start;
+		ssfn_font = (ssfn_font_t *) &_binary_sys_fnt_sfn_start;
 		ssfn_dst_ptr = (uint8_t *) (size_t) framebuffer.addr;
 		ssfn_dst_pitch = framebuffer.pitch;
 		ssfn_fg = 0xFFFFFFFF;
