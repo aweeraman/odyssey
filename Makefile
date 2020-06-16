@@ -3,7 +3,7 @@
 
 ARCH   := $(or $(ARCH),x86)
 
-include config/build_$(ARCH).cfg
+-include config/build_$(ARCH).cfg
 
 ifeq ($(DEBUG),yes)
 	QEMU_ARGS += -s -S
@@ -47,35 +47,6 @@ boot-efi: iso
 	# Qemu hangs when specifying the memory argument
 	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
-deps:
-	mkdir -p deps
-
-	# Scalable fonts
-	[ -e deps/scalable-font/ ] || \
-		git clone https://gitlab.com/bztsrc/scalable-font.git deps/scalable-font
-
-	# Coreboot
-	[ -e deps/coreboot/ ] || \
-		git clone --branch 4.11 https://www.github.com/coreboot/coreboot deps/coreboot
-	cd deps/coreboot && \
-		git submodule update --init --checkout
-	cp config/coreboot.cfg deps/coreboot/.config
-
-	# x86 cross compiler
-	$(MAKE) -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
-	# ARM cross compiler
-	$(MAKE) -C deps/coreboot/ crossgcc-arm CPUS=$(NPROCS)
-	# Coreboot ROM
-	$(MAKE) -C deps/coreboot/ -j$(NPROCS)
-
-	# u-boot
-	[ -e deps/u-boot/ ] || \
-		git clone --branch v2020.04 https://github.com/u-boot/u-boot.git deps/u-boot
-	$(MAKE) -C deps/u-boot vexpress_ca15_tc2_defconfig \
-		CROSS_COMPILE=$(PWD)/deps/coreboot/util/crossgcc/xgcc/bin/arm-eabi-
-	$(MAKE) -C deps/u-boot all \
-		CROSS_COMPILE=$(PWD)/deps/coreboot/util/crossgcc/xgcc/bin/arm-eabi-
-
 coverity:
 ifeq (, $(shell which cov-build))
 	$(error cov-build is not available in the PATH)
@@ -95,5 +66,7 @@ endif
 	--form description="An experimental x86 operating system" \
 	https://scan.coverity.com/builds?project=minos
 
+-include mk/deps.mk
+
 .PHONY: all clean image iso boot boot-uboot boot-coreboot \
-	boot-efi deps coverity coverity-submit
+	boot-efi coverity coverity-submit
