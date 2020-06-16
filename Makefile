@@ -10,14 +10,18 @@ ifeq ($(DEBUG),yes)
 	QEMU_ARGS += -s -S
 endif
 
-.PHONY: all clean
+.PHONY: clean tags
 
-all:
-	$(MAKE) ARCH=$(ARCH) -j $(NPROC) -C src
+-include mk/$(ARCH).mk
+
+tags:
+	ctags -R src
 
 clean:
-	-$(MAKE) -C src clean
 	-rm -rf $(ISO) iso odyssey.img odyssey-coverity.tar.gz cov-int
+	-rm -f odyssey odyssey.map odyssey.bin
+	-find src \( -name '*.o' -o -name '*.d' -o -name '*.bin' \) -exec rm {} \;
+	-rm -f tags
 
 -include mk/qemu.mk
 -include mk/deps.mk
