@@ -12,7 +12,7 @@ endif
 
 .PHONY: clean tags
 
--include mk/$(ARCH).mk
+-include make/$(ARCH).mk
 
 tags:
 	ctags --exclude=deps/* -R .
@@ -25,6 +25,6 @@ clean:
 		-exec rm {} \;
 	-rm -f tags
 
--include mk/qemu.mk
--include mk/deps.mk
--include mk/coverity.mk
+-include make/qemu.mk
+-include make/deps.mk
+-include make/coverity.mk
