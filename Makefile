@@ -15,7 +15,7 @@ endif
 -include mk/$(ARCH).mk
 
 tags:
-	ctags -R src
+	ctags --exclude=deps/* -R .
 
 clean:
 	-rm -rf $(ISO) iso odyssey.img odyssey-coverity.tar.gz cov-int
