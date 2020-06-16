@@ -47,26 +47,7 @@ boot-efi: iso
 	# Qemu hangs when specifying the memory argument
 	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
 
-coverity:
-ifeq (, $(shell which cov-build))
-	$(error cov-build is not available in the PATH)
-endif
-	$(MAKE) -C src cov-configure
-	cov-build --dir cov-int $(MAKE) all
-	tar zcvf odyssey-coverity.tar.gz cov-int
-
-coverity-submit: clean coverity
-ifndef COVERITY_TOKEN
-	$(error COVERITY_TOKEN is not set)
-endif
-	curl --form token=$(COVERITY_TOKEN) \
-	--form email=anuradha@weeraman.com \
-	--form file=@odyssey-coverity.tar.gz \
-	--form version="$(VERSION)" \
-	--form description="An experimental x86 operating system" \
-	https://scan.coverity.com/builds?project=minos
-
 -include mk/deps.mk
+-include mk/coverity.mk
 
-.PHONY: all clean image iso boot boot-uboot boot-coreboot \
-	boot-efi coverity coverity-submit
+.PHONY: all clean image iso boot boot-uboot boot-coreboot boot-efi
