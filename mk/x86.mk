@@ -22,11 +22,11 @@ OPTS_LIST  := $(shell grep -v "^\#" config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt)) -DARCH_X86
 CFLAGS     += $(OPTS)
 
-X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard src/x86/32/*.$(ASM_EXT))) \
-              $(patsubst %.c, %.o,          $(wildcard src/x86/32/*.c))
-DRV        := $(patsubst %.c, %.o,          $(wildcard src/x86/drv/*.c))
-BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard src/x86/boot/*.$(ASM_EXT))) \
-              $(patsubst %.c, %.o,          $(wildcard src/x86/boot/*.c))
+X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard arch/x86/32/*.$(ASM_EXT))) \
+              $(patsubst %.c, %.o,          $(wildcard arch/x86/32/*.c))
+DRV        := $(patsubst %.c, %.o,          $(wildcard arch/x86/drv/*.c))
+BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard arch/x86/boot/*.$(ASM_EXT))) \
+              $(patsubst %.c, %.o,          $(wildcard arch/x86/boot/*.c))
 SYS        := $(patsubst %.c, %.o,          $(wildcard sys/*.c))
 TEST       := $(patsubst %.c, %.o,          $(wildcard test/*.c))
 LIB        := $(patsubst %.c, %.o,          $(wildcard lib/*.c))

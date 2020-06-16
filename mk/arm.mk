@@ -11,9 +11,9 @@ OPTS_LIST  := $(shell grep -v "^\#" config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt)) -DARCH_ARM
 CFLAGS     += $(OPTS)
 
-BOOT       := $(patsubst %.s, %.o,          $(wildcard src/arm/boot/*.s)) \
-              $(patsubst %.c, %.o,          $(wildcard src/arm/boot/*.c))
-DRV        := $(patsubst %.c, %.o,          $(wildcard src/arm/drv/*.c))
+BOOT       := $(patsubst %.s, %.o,          $(wildcard arch/arm/boot/*.s)) \
+              $(patsubst %.c, %.o,          $(wildcard arch/arm/boot/*.c))
+DRV        := $(patsubst %.c, %.o,          $(wildcard arch/arm/drv/*.c))
 SYS        := $(patsubst %.c, %.o,          $(wildcard sys/*.c))
 TEST       := $(patsubst %.c, %.o,          $(wildcard test/*.c))
 LIB        := $(patsubst %.c, %.o,          $(wildcard lib/*.c))
