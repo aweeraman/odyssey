@@ -25,14 +25,14 @@ CFLAGS     += $(OPTS)
 X86_32     := $(patsubst %.$(ASM_EXT), %.o, $(wildcard src/x86/32/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o,          $(wildcard src/x86/32/*.c))
 DRV        := $(patsubst %.c, %.o,          $(wildcard src/x86/drv/*.c))
-SYS        := $(patsubst %.c, %.o,          $(wildcard src/sys/*.c))
 BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard src/x86/boot/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o,          $(wildcard src/x86/boot/*.c))
+SYS        := $(patsubst %.c, %.o,          $(wildcard sys/*.c))
 TEST       := $(patsubst %.c, %.o,          $(wildcard test/*.c))
 LIB        := $(patsubst %.c, %.o,          $(wildcard lib/*.c))
 CMD        := $(patsubst %.c, %.o,          $(wildcard cmd/*.c))
 MM         := $(patsubst %.c, %.o,          $(wildcard mm/*.c))
-FONT       := src/sys/font.o
+FONT       := sys/font.o
 
 OBJECTS    += $(BOOT) $(X86_32) $(DRV) $(MM) $(TEST) $(CMD) $(SYS) $(LIB) $(FONT)
 
@@ -45,7 +45,7 @@ OBJECTS    := $(filter-out sys/serial.o, $(OBJECTS))
 endif
 
 ifneq (CONFIG_FRAMEBUFFER_RGB,$(findstring CONFIG_FRAMEBUFFER_RGB,$(OPTS)))
-OBJECTS    := $(filter-out src/sys/font.o, $(OBJECTS))
+OBJECTS    := $(filter-out sys/font.o, $(OBJECTS))
 endif
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
@@ -66,8 +66,8 @@ else
 	$(OBJCOPY) -O binary modules/canary.o modules/canary.bin
 endif
 
-src/sys/font.o:
-	cd src/sys; ../../$(OBJCOPY) -O elf32-i386 -B i386 -I binary f.sfn font.o
+sys/font.o:
+	$(OBJCOPY) -O elf32-i386 -B i386 -I binary sys/f.sfn sys/font.o
 
 %.o: %.c
 ifeq (, $(shell which $(CC)))
