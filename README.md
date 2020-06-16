@@ -90,7 +90,7 @@ the following in in config/build.cfg. The GNU assembler will be used
 by default.
 
 ```
-AS        := ../coreboot/util/crossgcc/xgcc/bin/nasm
+AS        := deps/coreboot/util/crossgcc/xgcc/bin/nasm
 ```
 
 # Running in qemu
@@ -190,8 +190,8 @@ To configure GRUB, set a custom boot configuration such as follows:
 ```
 menuentry "odyssey" {
         set root='hd0,gpt2'
-        multiboot2 /home/anuradha/odyssey/src/odyssey
-        module2 /home/anuradha/odyssey/src/modules/canary.bin canary
+        multiboot2 /home/anuradha/odyssey/odyssey
+        module2 /home/anuradha/odyssey/modules/canary.bin canary
 }
 ```
 
@@ -243,8 +243,8 @@ Run 'make boot' and in a different shell start gdb and set a breakpoint to
 step through the code:
 
 ```
-$ gdb src/odyssey
-Reading symbols from src/odyssey...
+$ gdb odyssey
+Reading symbols from odyssey...
 (gdb) target remote :1234
 Remote debugging using :1234
 0x0000fff0 in ?? ()
