@@ -29,9 +29,9 @@ SYS        := $(patsubst %.c, %.o,          $(wildcard src/sys/*.c))
 BOOT       := $(patsubst %.$(ASM_EXT), %.o, $(wildcard src/x86/boot/*.$(ASM_EXT))) \
               $(patsubst %.c, %.o,          $(wildcard src/x86/boot/*.c))
 CMD        := $(patsubst %.c, %.o,          $(wildcard src/cmd/*.c))
-LIB        := $(patsubst %.c, %.o,          $(wildcard src/lib/*.c))
 MM         := $(patsubst %.c, %.o,          $(wildcard src/mm/*.c))
 TEST       := $(patsubst %.c, %.o,          $(wildcard test/*.c))
+LIB        := $(patsubst %.c, %.o,          $(wildcard lib/*.c))
 FONT       := src/sys/font.o
 
 OBJECTS    += $(BOOT) $(X86_32) $(DRV) $(MM) $(TEST) $(CMD) $(SYS) $(LIB) $(FONT)
