@@ -55,7 +55,7 @@ endif
 
 modules:
 ifneq (,$(findstring nasm,$(AS)))
-	$(AS) $(ASFLAGS_MOD) -o modules/canary.bin modules/canary.asm
+	$(AS) $(NASMFLAGS_BIN) -o modules/canary.bin modules/canary.asm
 else
 	$(AS) $(CFLAGS) -o modules/canary.o modules/canary.S
 	$(OBJCOPY) -O binary modules/canary.o modules/canary.bin
@@ -76,7 +76,7 @@ ifneq (,$(findstring nasm,$(AS)))
   ifeq (, $(shell which $(AS)))
 	$(error $(AS) not found)
   endif
-	$(AS) $(ASFLAGS) $(OPTS) -o $@ $<
+	$(AS) $(NASMFLAGS_ELF) $(OPTS) -o $@ $<
 else # GNU as
 %.o: %.S
   ifeq (, $(shell which $(AS)))
