@@ -229,7 +229,7 @@ $ screen /dev/ttyUSB0 115200
 
 ```
 set print pretty on
-set architecture i386:x86-64
+set architecture i386
 target remote :1234
 ```
 
@@ -244,13 +244,13 @@ step through the code:
 
 ```
 $ gdb odyssey
+--snip--
+x0000fff0 in ?? ()
 Reading symbols from odyssey...
-(gdb) target remote :1234
-Remote debugging using :1234
-0x0000fff0 in ?? ()
 (gdb) break kernel_main
-Breakpoint 1 at 0x1007c0: file main.c, line 26.
+Breakpoint 1 at 0x100517: file arch/x86/boot/main.c, line 39.
 (gdb) c
+Continuing.
 ```
 
 # Use of Free and Open Source Software

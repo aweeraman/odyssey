@@ -1,10 +1,6 @@
 # SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-ifneq (,$(findstring clang,$(CC)))
-	ARCHFLAGS := --target=i686-pc-none-elf -march=i686
-endif
-
 # Look for .S files when gcc is used as the assembler
 ifneq (,$(findstring nasm,$(AS)))
   ASM_EXT := asm
@@ -42,6 +38,11 @@ ifneq (CONFIG_FRAMEBUFFER_RGB,$(findstring CONFIG_FRAMEBUFFER_RGB,$(OPTS)))
 OBJECTS    := $(filter-out sys/fnt.o, $(OBJECTS))
 endif
 
+# Clang specific arguments
+ifneq (,$(findstring clang,$(CC)))
+	EXTRAFLAGS += $(CLANGFLAGS)
+endif
+
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 .PHONY: modules
@@ -67,7 +68,7 @@ sys/fnt.o:
 ifeq (, $(shell which $(CC)))
 	$(error $(CC) not found)
 endif
-	$(CC) $(ARCHFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(EXTRAFLAGS) -c $< -o $@
 
 # Compile either .asm or .S files depending on the choice of assembler
 ifneq (,$(findstring nasm,$(AS)))
