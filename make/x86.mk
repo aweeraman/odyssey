@@ -12,12 +12,6 @@ else
   ASM_EXT := S
 endif
 
-# Include debug symbols during build
-ifeq ($(DEBUG),yes)
-  CFLAGS     += -g
-  ASFLAGS    += -g
-endif
-
 OPTS_LIST  := $(shell grep -v "^\#" config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt)) -DARCH_X86
 CFLAGS     += $(OPTS)

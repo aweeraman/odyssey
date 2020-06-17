@@ -1,12 +1,6 @@
 # SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-# Include debug symbols during build
-ifeq ($(DEBUG),yes)
-  CFLAGS     += -g
-  ASFLAGS    += -g
-endif
-
 OPTS_LIST  := $(shell grep -v "^\#" config/kernel.cfg)
 OPTS       += $(foreach opt, $(OPTS_LIST), -D$(opt)) -DARCH_ARM
 CFLAGS     += $(OPTS)
