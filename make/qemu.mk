@@ -32,4 +32,4 @@ boot-coreboot: iso $(CBROM)
 
 boot-efi: iso
 	# Qemu hangs when specifying the memory argument
-	$(QEMU) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
+	$(QEMU_64) $(QEMU_ARGS) -serial stdio -bios $(EFIBIOS) -cdrom $(ISO)
