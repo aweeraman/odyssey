@@ -4,14 +4,9 @@
 # Default ARCH is x86
 ARCH := $(or $(ARCH),x86)
 
--include config/build_$(ARCH).cfg
-
-ifeq ($(DEBUG),yes)
-	QEMU_ARGS += -s -S
-endif
-
 .PHONY: clean tags
 
+-include config/build_$(ARCH).cfg
 -include make/$(ARCH).mk
 
 tags:

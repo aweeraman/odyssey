@@ -3,6 +3,10 @@
 
 .PHONY: image iso boot boot-uboot boot-coreboot boot-efi
 
+ifeq ($(DEBUG),yes)
+	QEMU_ARGS += -s -S
+endif
+
 image: odyssey
 	mkimage -A arm -O linux -T kernel -a 0x0082000000 -e 0x0082000000 \
 		-C none -d odyssey.bin odyssey.img
@@ -17,10 +21,10 @@ iso: odyssey
 
 boot: odyssey
 ifeq ($(ARCH),arm)
-	$(MAKE) ARCH=arm image
+	$(MAKE) ARCH=$(ARCH) image
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -kernel odyssey
 else ifeq ($(ARCH),x86)
-	$(MAKE) ARCH=x86 iso
+	$(MAKE) ARCH=$(ARCH) iso
 	$(QEMU) $(QEMU_ARGS) -m size=$(MEMORY) -serial stdio -cdrom $(ISO)
 endif
 
