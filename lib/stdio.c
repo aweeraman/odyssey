@@ -70,11 +70,11 @@ int prints(char *str)
 
 void printk(const char *fmt, ...)
 {
-	int	 i;
+	int	    i;
 	uint32_t    ul;
 	uint64_t    ull;
 	char       *str;
-	char	print_buf[128];
+	char	    print_buf[128];
 	const char *p;
 
 	va_list arg;
