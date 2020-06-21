@@ -10,10 +10,10 @@
 
 #define MAX_N_TICKS_TIMERS 5
 
-typedef struct n_ticks_timer {
+struct n_ticks_timer {
 	int n_ticks;
 	void (*callback)();
-} n_ticks_timer_t;
+};
 
 void tick();
 uint32_t get_loops_per_tick();

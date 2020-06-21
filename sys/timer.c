@@ -12,7 +12,7 @@
 uint32_t volatile ticks	= 0;
 static uint32_t loops_per_tick = 0;
 static int n_ticks_timer_idx   = 0;
-static n_ticks_timer_t n_ticks_timers[MAX_N_TICKS_TIMERS];
+static struct n_ticks_timer n_ticks_timers[MAX_N_TICKS_TIMERS];
 
 void busy_wait(int ticks_to_wait)
 {
@@ -57,7 +57,7 @@ int register_n_ticks_timer(int n_ticks, void (*timer_callback)())
 	if (timer_callback == NULL)
 		return ENULLPTR;
 
-	n_ticks_timers[n_ticks_timer_idx++] = (n_ticks_timer_t) {
+	n_ticks_timers[n_ticks_timer_idx++] = (struct n_ticks_timer) {
 		.n_ticks  = n_ticks,
 		.callback = timer_callback
 	};
