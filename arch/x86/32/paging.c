@@ -16,8 +16,8 @@ extern uint32_t kernel_end;
 static uint32_t kernel_start_addr = (uint32_t) &kernel_begin;
 static uint32_t kernel_end_addr   = (uint32_t) &kernel_end;
 
-static page_dir_entry_t kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)));
-static identity_map_entry_t identity_maps[MAX_IDENTITY_MAPS];
+static struct page_dir_entry kernel_pg_dir __attribute__((aligned(PAGE_ALIGNMENT)));
+static struct identity_map_entry identity_maps[MAX_IDENTITY_MAPS];
 static int current_id_map_entry = 0;
 
 void add_identity_map_region(uint32_t start, uint32_t end, char *desc,
@@ -36,7 +36,7 @@ void add_identity_map_region(uint32_t start, uint32_t end, char *desc,
 	}
 }
 
-uint32_t get_physical_addr(page_dir_entry_t *dir, uint32_t phys_addr)
+uint32_t get_physical_addr(struct page_dir_entry *dir, uint32_t phys_addr)
 {
 	uint32_t table_idx = phys_addr >> 22;
 	uint32_t page_idx = (phys_addr >> 12) & 0x3ff;
@@ -47,7 +47,7 @@ uint32_t get_physical_addr(page_dir_entry_t *dir, uint32_t phys_addr)
 	return virtual_addr;
 }
 
-void identity_map_page(page_dir_entry_t *dir, uint32_t table, uint32_t page,
+void identity_map_page(struct page_dir_entry *dir, uint32_t table, uint32_t page,
 		       uint32_t phys_addr, char present, char rw, char user)
 {
 	uint32_t tbl_address = (uint32_t) &dir->tables[table][0];
@@ -62,7 +62,7 @@ void identity_map_page(page_dir_entry_t *dir, uint32_t table, uint32_t page,
 	dir->tables[table][page].user      = user;
 }
 
-void identity_map_region(page_dir_entry_t *dir, identity_map_entry_t map[])
+void identity_map_region(struct page_dir_entry *dir, struct identity_map_entry map[])
 {
 	for (int i = 0; i < current_id_map_entry; i++) {
 		uint32_t phys_cur = map[i].start_addr;
@@ -84,8 +84,8 @@ void identity_map_region(page_dir_entry_t *dir, identity_map_entry_t map[])
 }
 
 #ifdef CONFIG_TEST
-static void validate_identity_map_regions(page_dir_entry_t *dir,
-					  identity_map_entry_t map[])
+static void validate_identity_map_regions(struct page_dir_entry *dir,
+					  struct identity_map_entry map[])
 {
 	printk("  Checking page mappings\n");
 	for (int i = 0; i < current_id_map_entry; i++) {
@@ -110,7 +110,7 @@ void flush_page(uint32_t addr)
 void init_paging()
 {
 	printk("Initializing paging: kernel page directory at 0x%x\n", &kernel_pg_dir);
-	memset(&kernel_pg_dir, 0, sizeof(page_dir_entry_t));
+	memset(&kernel_pg_dir, 0, sizeof(struct page_dir_entry));
 
 	// Identity map the kernel address space
 	add_identity_map_region(kernel_start_addr, kernel_end_addr, "kernel", 1, 0);
