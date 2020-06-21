@@ -45,7 +45,7 @@ void early_framebuffer_console_init(size_t magic, size_t structure_addr)
 		if (tag->type == MULTIBOOT_TAG_TYPE_FRAMEBUFFER) {
 			fb = (struct multiboot_tag_framebuffer *) tag;
 
-			framebuffer_t framebuffer = {
+			struct fb_info framebuffer = {
 				.type   = fb->common.framebuffer_type,
 				.bpp    = fb->common.framebuffer_bpp,
 				.addr   = (uint32_t *) (uint32_t) fb->common.framebuffer_addr,

@@ -74,7 +74,7 @@ static size_t cols  = 0;
 static size_t cur_x = 0;
 static size_t cur_y = 0;
 
-static framebuffer_t framebuffer;
+static struct fb_info framebuffer;
 
 #if ARCH_X86
 void identity_map_framebuffer()
@@ -342,7 +342,7 @@ void clear_screen(void)
 	cur_y = 0;
 }
 
-void init_console(framebuffer_t fb_init)
+void init_console(struct fb_info fb_init)
 {
 	framebuffer = fb_init;
 
