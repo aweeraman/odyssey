@@ -55,12 +55,12 @@ extern char _binary_sys_fnt_sfn_start;
 
 #define CLR_FG	    ((CLR_BLUE << 4) | (CLR_LIGHT_GREY & 0x0f))
 
-typedef struct {
+struct cell {
 	uint8_t ch;
 	uint8_t clr;
-} __attribute__((packed)) cell;
+} __attribute__((packed));
 
-static cell  *matrix = NULL;
+static struct cell  *matrix = NULL;
 
 #endif /* CONFIG_FRAMEBUFFER_RGB */
 
@@ -193,11 +193,11 @@ static void write_character(uint8_t c)
 	}
 #else /* EGA */
 	if (IS_EGA) {
-		matrix[(cur_x*cols) + cur_y] = (cell) {
+		matrix[(cur_x*cols) + cur_y] = (struct cell) {
 			.ch = c,
 			.clr = CLR_FG
 		};
-		matrix[(cur_x*cols) + cur_y+1] = (cell) {
+		matrix[(cur_x*cols) + cur_y+1] = (struct cell) {
 			.ch = 0,
 			.clr = CLR_FG
 		};
@@ -220,7 +220,7 @@ static void write_newline()
 	}
 #else /* EGA */
 	if (IS_EGA) {
-		matrix[(cur_x*cols) + cur_y] = (cell) {
+		matrix[(cur_x*cols) + cur_y] = (struct cell) {
 			.ch = 0,
 			.clr = CLR_FG
 		};
@@ -370,7 +370,7 @@ void init_console(struct fb_info fb_init)
 	}
 #else /* EGA */
 	if (IS_EGA) {
-		matrix = (cell *) (size_t) framebuffer.addr;
+		matrix = (struct cell *) (size_t) framebuffer.addr;
 		rows = framebuffer.height;
 		cols = framebuffer.width;
 		clear_screen();
