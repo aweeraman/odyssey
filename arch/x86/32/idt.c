@@ -8,8 +8,8 @@
 #include <x86/32/pic.h>
 #include <lib/stdio.h>
 
-static idt_descriptor_t idt;
-static idt_entry_t idt_entries[256];
+static struct idt_descriptor idt;
+static struct idt_entry idt_entries[256];
 
 static void idt_entry(int idx, uint32_t offset)
 {

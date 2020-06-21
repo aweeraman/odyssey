@@ -14,8 +14,6 @@ struct idt_descriptor {
 	uint16_t offset_hi;
 } __attribute__((packed));
 
-typedef struct idt_descriptor idt_descriptor_t;
-
 struct idt_entry {
 	uint16_t offset_lo;
 	uint16_t selector;
@@ -23,8 +21,6 @@ struct idt_entry {
 	uint8_t  type_attr;
 	uint16_t offset_hi;
 } __attribute__((packed));
-
-typedef struct idt_entry idt_entry_t;
 
 void idt_init();
 void load_idt();
