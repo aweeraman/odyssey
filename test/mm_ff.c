@@ -23,9 +23,9 @@ int ff_mm_1()
 	test_heap_end_addr1 = test_heap_start_addr1 + 0x800;
 	test_heap_end_addr2 = test_heap_start_addr2 + 0x800;
 
-	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
-							test_heap_start_addr1,
-							test_heap_end_addr1);
+	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
+							     test_heap_start_addr1,
+							     test_heap_end_addr1);
 
 	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
@@ -65,9 +65,9 @@ int ff_mm_2()
 {
 	int ret = 0;
 
-	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
-						        test_heap_start_addr1,
-						        test_heap_end_addr1);
+	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
+						             test_heap_start_addr1,
+						             test_heap_end_addr1);
 	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
@@ -102,12 +102,12 @@ int ff_mm_2()
 
 int ff_mm_3()
 {
-	mm_stats_t stats;
+	struct mm_stats stats;
 	int ret = 0;
 
-	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
-						        test_heap_start_addr1,
-						        test_heap_end_addr1);
+	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
+						             test_heap_start_addr1,
+						             test_heap_end_addr1);
 	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
@@ -126,10 +126,10 @@ int ff_mm_3()
 int ff_mm_4()
 {
 	int ret = 0;
-	mm_stats_t stats;
-	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
-						        test_heap_start_addr1,
-						        test_heap_end_addr1);
+	struct mm_stats stats;
+	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
+						             test_heap_start_addr1,
+						             test_heap_end_addr1);
 	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	uint32_t *addr1 = (uint32_t *) kzalloc(superblock, sizeof(uint32_t), 100);
@@ -157,9 +157,9 @@ int ff_mm_4()
 int ff_mm_5()
 {
 	int ret = 0;
-	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
-							test_heap_start_addr1,
-							test_heap_end_addr1);
+	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
+							     test_heap_start_addr1,
+							     test_heap_end_addr1);
 	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	char *addr1 = (char *) kzalloc(superblock, sizeof(uint32_t), 100);
@@ -178,11 +178,11 @@ int ff_mm_5()
 int ff_mm_6()
 {
 	int ret = 0;
-	mm_stats_t stats;
+	struct mm_stats stats;
 
-	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
-							test_heap_start_addr1,
-							test_heap_end_addr1);
+	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
+							     test_heap_start_addr1,
+							     test_heap_end_addr1);
 
 	char *addr1 = (char *) kzalloc(superblock, sizeof(char), FRAME_BLOCK_SIZE*2);
 	FAIL_IF(addr1 == NULL, "couldn't allocation block FRAME_BLOCK_SIZE*2");
@@ -203,9 +203,9 @@ int ff_mm_7()
 {
 	int ret = 0;
 
-	mm_superblock_t *superblock = create_superblock(test_heap_start_addr1,
-							test_heap_start_addr1,
-							test_heap_end_addr1);
+	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
+							     test_heap_start_addr1,
+							     test_heap_end_addr1);
 	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	char *addr1 = (char *) kzalloc(superblock, sizeof(char), 2048);

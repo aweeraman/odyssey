@@ -68,8 +68,8 @@ union mem_ptr {
 	} word;
 } __attribute__((packed));
 
-void *kzalloc(mm_superblock_t *sb, size_t memb, size_t count);
-void kzfree(mm_superblock_t *sb, void *ptr);
+void *kzalloc(struct mm_superblock *sb, size_t memb, size_t count);
+void kzfree(struct mm_superblock *sb, void *ptr);
 void peek(size_t addr, int count);
 
 #endif

@@ -10,12 +10,12 @@
 #include <mm/ff.h>
 #endif
 
-void *kzalloc(mm_superblock_t *sb, size_t memb, size_t count)
+void *kzalloc(struct mm_superblock *sb, size_t memb, size_t count)
 {
 	return get_available_frame(sb, memb * count);
 }
 
-void kzfree(mm_superblock_t *sb, void *ptr)
+void kzfree(struct mm_superblock *sb, void *ptr)
 {
 	free_frame(sb, ptr);
 }

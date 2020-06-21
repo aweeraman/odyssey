@@ -21,7 +21,7 @@ static uint32_t kernel_end_addr = (uint32_t) &kernel_end;
 uint32_t test_heap_start_addr1;
 uint32_t test_heap_start_addr2;
 
-static mm_superblock_t *superblock;
+static struct mm_superblock *superblock;
 
 #if ARCH_X86
 void identity_map_kernel_heap()
@@ -45,7 +45,7 @@ void identity_map_kernel_test_heap()
 #endif /* CONFIG_TEST */
 #endif /* ARCH_X86 */
 
-mm_stats_t get_mm_stats(mm_superblock_t *sb, mm_stats_t *stats)
+struct mm_stats get_mm_stats(struct mm_superblock *sb, struct mm_stats *stats)
 {
 	if (sb == NULL)
 		sb = superblock;
@@ -66,7 +66,7 @@ mm_stats_t get_mm_stats(mm_superblock_t *sb, mm_stats_t *stats)
 		sb = sb->next_super_block;
 	} while (sb != NULL);
 
-	return (mm_stats_t) (*stats);
+	return (struct mm_stats) (*stats);
 }
 
 static void mark_available(struct mm_frame *frame)
@@ -76,7 +76,7 @@ static void mark_available(struct mm_frame *frame)
 	memset(frame->addr, '\0', FRAME_BLOCK_SIZE);
 }
 
-void free_frame(mm_superblock_t *sb, uint32_t *addr)
+void free_frame(struct mm_superblock *sb, uint32_t *addr)
 {
 	if (sb == NULL)
 		sb = superblock;
@@ -106,7 +106,7 @@ void free_frame(mm_superblock_t *sb, uint32_t *addr)
 	} while (sb != NULL);
 }
 
-void *get_available_frame(mm_superblock_t *sb, size_t size)
+void *get_available_frame(struct mm_superblock *sb, size_t size)
 {
 	void *ptr = NULL;
 
@@ -186,28 +186,28 @@ void *get_available_frame(mm_superblock_t *sb, size_t size)
 	return ptr;
 }
 
-mm_superblock_t *create_superblock(uint32_t root_block,
+struct mm_superblock *create_superblock(uint32_t root_block,
 				   uint32_t start_addr,
 				   uint32_t end_addr)
 {
 	uint32_t available_memory;
 	uint32_t blocks;
-	mm_superblock_t *sb;
+	struct mm_superblock *sb;
 
-	sb = (mm_superblock_t *) (uint32_t) root_block;
+	sb = (struct mm_superblock *) (uint32_t) root_block;
 
 	if (root_block == start_addr) {
-		memset(sb, '\0', sizeof(mm_superblock_t));
+		memset(sb, '\0', sizeof(struct mm_superblock));
 	} else {
 		while (sb->next_super_block != NULL)
 		       sb = sb->next_super_block;
 
-		sb->next_super_block = (mm_superblock_t *) (uint32_t) start_addr;
+		sb->next_super_block = (struct mm_superblock *) (uint32_t) start_addr;
 		sb = sb->next_super_block;
-		memset(sb, '\0', sizeof(mm_superblock_t));
+		memset(sb, '\0', sizeof(struct mm_superblock));
 	}
 
-	sb->start_addr = (start_addr + sizeof(mm_superblock_t) + 1 + 7) & ~7;
+	sb->start_addr = (start_addr + sizeof(struct mm_superblock) + 1 + 7) & ~7;
 	sb->next_super_block = NULL;
 
 	available_memory = end_addr - start_addr;
@@ -224,7 +224,7 @@ mm_superblock_t *create_superblock(uint32_t root_block,
 	return sb;
 }
 
-void print_superblocks(mm_superblock_t *sb)
+void print_superblocks(struct mm_superblock *sb)
 {
 	int count = 0;
 
