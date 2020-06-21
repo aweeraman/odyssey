@@ -33,14 +33,14 @@ int cmd_canary()
 {
 	uint32_t i = 0;
 
-	module_t canary = (module_t) get_module_by_idx(0);
+	void (*canary)() = (void *) get_module_by_idx(0);
 
 	if (canary == 0) {
 		printk("Module not found!\n");
 		return 1;
 	}
 
-	canary();
+	(*canary)();
 	asm("\t movl %%eax, %0" : "=r"(i));
 
 	if (i == CANARY_MAGIC_STRING)

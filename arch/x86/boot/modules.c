@@ -10,7 +10,7 @@
 #include <x86/32/paging.h>
 
 static int module_idx = 0;
-static boot_module_t boot_modules[MAX_BOOT_MODULES];
+static struct boot_module boot_modules[MAX_BOOT_MODULES];
 
 void identity_map_modules()
 {
@@ -47,10 +47,10 @@ void print_boot_modules()
 
 }
 
-uint32_t get_module_by_idx(int idx)
+void *get_module_by_idx(int idx)
 {
 	if (idx < module_idx)
-		return boot_modules[idx].start;
+		return (void *) boot_modules[idx].start;
 
 	return 0;
 }
