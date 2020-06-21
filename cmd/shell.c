@@ -13,7 +13,7 @@
 
 static char line[MAX_CMD_LENGTH];
 
-static const cmd_t valid_cmds[] = {
+static const struct kcmd valid_cmds[] = {
 	{ .cmd="clear",     .func=cmd_clear },
 	{ .cmd="splash",    .func=cmd_splash },
 	{ .cmd="exit",      .func=cmd_exit },
@@ -104,7 +104,7 @@ int cmd_splash()
 int cmd_help()
 {
 	printk("Available commands:\n");
-	for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(cmd_t)); i++) {
+	for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(struct kcmd)); i++) {
 		printk("  %s\n", valid_cmds[i].cmd);
 	}
 	return 0;
@@ -112,7 +112,7 @@ int cmd_help()
 
 static int run(const char *cmdline)
 {
-	for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(cmd_t)); i++) {
+	for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(struct kcmd)); i++) {
 		if (strncmp(valid_cmds[i].cmd, line, MAX_CMD_LENGTH) == 0)
 			return (*valid_cmds[i].func)();
 		else if (strncmp("", line, MAX_CMD_LENGTH) == 0)

@@ -10,10 +10,10 @@
 
 #define MAX_CMD_LENGTH 256
 
-typedef struct cmd {
+struct kcmd {
 	const char *cmd;
 	int (*func)();
-} cmd_t;
+};
 
 int cmd_modules();
 int cmd_canary();
