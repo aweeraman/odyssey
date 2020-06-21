@@ -18,14 +18,14 @@ static char *MEMORY_REGION_T[MAX_REGION_TYPES] = {
 	"bad"
 };
 
-static basic_meminfo_t mem_info;
-static memory_region_t *mem_regions;
+static struct basic_meminfo  mem_info;
+static struct memory_region *mem_regions;
 static int num_regions = 0;
 static int max_regions = 0;
 
 void init_mem_regions(size_t count)
 {
-	mem_regions = kzalloc(NULL, sizeof(memory_region_t), count);
+	mem_regions = kzalloc(NULL, sizeof(struct memory_region), count);
 	max_regions = count;
 }
 
@@ -47,7 +47,7 @@ void print_mem_regions()
 {
 	printk("Memory map\n");
 	for (int idx = 0; idx < num_regions; idx++) {
-		memory_region_t mem_reg = mem_regions[idx];
+		struct memory_region mem_reg = mem_regions[idx];
 		printk("  %d: 0x%x - 0x%x %d (%s)\n",
 			idx,
 			mem_reg.start,

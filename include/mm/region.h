@@ -11,18 +11,18 @@
 
 #define MAX_REGION_TYPES  6
 
-typedef struct basic_meminfo {
+struct basic_meminfo {
 	size_t lower;
 	size_t upper;
 	size_t size;
-} basic_meminfo_t;
+};
 
-typedef struct memory_region_struct {
+struct memory_region {
 	size_t start;
 	size_t end;
 	size_t len;
 	size_t type;
-} memory_region_t;
+};
 
 void init_mem_regions(size_t count);
 void set_basic_meminfo(size_t lower, size_t upper);
