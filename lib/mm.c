@@ -22,7 +22,7 @@ void kzfree(mm_superblock_t *sb, void *ptr)
 
 void peek(size_t addr, int count)
 {
-	mem_ptr_t *p = (mem_ptr_t *) addr;
+	union mem_ptr *p = (union mem_ptr *) addr;
 
 	// ARM supports both little-endian and big-endian with the former
 	// being the norm

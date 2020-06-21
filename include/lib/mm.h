@@ -67,7 +67,6 @@ union mem_ptr {
 		uint16_t w2;
 	} word;
 } __attribute__((packed));
-typedef union mem_ptr mem_ptr_t;
 
 void *kzalloc(mm_superblock_t *sb, size_t memb, size_t count);
 void kzfree(mm_superblock_t *sb, void *ptr);
