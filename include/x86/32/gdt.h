@@ -15,8 +15,6 @@ struct gdt_descriptor {
 	uint32_t offset;
 } __attribute__((packed));
 
-typedef struct gdt_descriptor gdt_descriptor_t;
-
 struct gdt_entry {
 	uint16_t limit_lo;
 	uint16_t base_lo;
@@ -26,8 +24,6 @@ struct gdt_entry {
 	uint8_t  flags: 4;
 	uint8_t  base_hi;
 } __attribute__((packed));
-
-typedef struct gdt_entry gdt_entry_t;
 
 void gdt_init();
 void load_gdt();

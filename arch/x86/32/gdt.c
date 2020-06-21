@@ -6,8 +6,8 @@
 #include <x86/32/gdt.h>
 #include <lib/stdio.h>
 
-gdt_descriptor_t gdt;
-gdt_entry_t gdt_entries[GDT_ENTRIES];
+static struct gdt_descriptor gdt;
+static struct gdt_entry gdt_entries[GDT_ENTRIES];
 
 static void gdt_entry(int entry, int32_t base, int32_t limit,
 	              uint8_t access, uint8_t flags)
