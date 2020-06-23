@@ -16,10 +16,10 @@
 #endif
 
 #if CONFIG_FRAMEBUFFER_RGB
-
+#define uint8_t uint8_t // to appease ssfn.h
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
-#include <sys/ssfn.h>
+#include <ssfn.h>
 
 extern char _binary_sys_fnt_sfn_start;
 
