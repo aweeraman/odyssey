@@ -6,6 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - name: Checkout sources
+      uses: actions/checkout@v2
+
     - name: Cache dependencies
       uses: actions/cache@v2
       env:
@@ -13,9 +16,6 @@ jobs:
       with:
         path: deps
         key: cache-dependencies-${{ hashFiles('make/deps.mk') }}
-
-    - name: Checkout sources
-      uses: actions/checkout@v2
 
     - name: Build dependencies
       run: make deps
