@@ -1,0 +1,15 @@
+name: CI
+on: [push]
+jobs:
+  Linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
+    - name: Build dependencies
+      run: make deps
+    - name: Build Odyssey (x86)
+      run: make
+    - name: Build Odyssey (arm)
+      run: make ARCH=arm
