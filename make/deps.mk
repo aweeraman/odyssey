@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2020 Anuradha Weeraman <anuradha@weeraman.com>
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-.PHONY: download-deps build-deps
+.PHONY: download-deps deps
 
 download-deps:
 	mkdir -p deps
@@ -17,7 +17,7 @@ download-deps:
 	[ -e deps/u-boot/ ] || \
 		git clone --branch v2020.04 https://github.com/u-boot/u-boot.git deps/u-boot
 
-build-deps: download-deps
+deps: download-deps
 	# x86 cross compiler
 	$(MAKE) -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
 	# ARM cross compiler
