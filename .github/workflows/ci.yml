@@ -5,11 +5,26 @@ jobs:
     name: Linux
     runs-on: ubuntu-latest
     steps:
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-dependencies
+      with:
+        path: deps
+        key: cache-dependencies-${{ hashFiles('make/deps.mk') }}
+
     - name: Checkout sources
       uses: actions/checkout@v2
+
     - name: Build dependencies
       run: make deps
+
     - name: Build Odyssey (x86)
       run: make
+
+    - name: Clean workspace
+      run: make clean
+
     - name: Build Odyssey (arm)
       run: make ARCH=arm
