@@ -131,8 +131,7 @@ $ sudo systemctl start tftpd-hpa
 Build the OS image and copy over to the tftp server location:
 
 ```
-$ make ARCH=arm
-$ make ARCH=arm img
+$ make ARCH=arm image
 $ sudo cp odyssey.img /srv/tftp
 $ make ARCH=arm boot-uboot
 ```
