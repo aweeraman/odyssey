@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # Default ARCH is x86
-ARCH := $(or $(ARCH),x86)
+ARCH ?= x86
 
 .PHONY: clean tags
 

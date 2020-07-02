@@ -187,8 +187,8 @@ void *get_available_frame(struct mm_superblock *sb, size_t size)
 }
 
 struct mm_superblock *create_superblock(uint32_t root_block,
-				   uint32_t start_addr,
-				   uint32_t end_addr)
+				        uint32_t start_addr,
+				        uint32_t end_addr)
 {
 	uint32_t available_memory;
 	uint32_t blocks;
@@ -233,10 +233,10 @@ void print_superblocks(struct mm_superblock *sb)
 
 	do {
 		printk("  %d: start: 0x%x, blocks: %d, block_size: %dB\n",
-				count++,
-				sb->start_addr,
-				sb->block_count,
-				FRAME_BLOCK_SIZE);
+			count++,
+			sb->start_addr,
+			sb->block_count,
+			FRAME_BLOCK_SIZE);
 		sb = sb->next_super_block;
 	} while (sb != NULL);
 }
@@ -257,7 +257,7 @@ void init_mm()
 #endif
 
 	printk("Initializing FirstFit memory manager: 0x%x - 0x%x\n",
-			heap_start_addr, heap_end_addr);
+		heap_start_addr, heap_end_addr);
 	superblock = create_superblock(heap_start_addr,
 				       heap_start_addr,
 				       heap_end_addr);

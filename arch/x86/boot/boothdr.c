@@ -18,7 +18,7 @@ static char boot_cmdline[BOOT_CMDLINE_MAX];
 
 struct acpi_descriptor_v1	*acpi_v1;
 struct acpi_descriptor_v2	*acpi_v2;
-struct boot_device	       *boot_dev;
+struct boot_device	        *boot_dev;
 
 static size_t addr;
 
@@ -112,8 +112,8 @@ void read_multiboot_header_tags()
 				panic("OOM while allocating bootdev");
 
 			bootdev_tag = (struct multiboot_tag_bootdev *) tag;
-			boot_dev->biosdev = bootdev_tag->biosdev;
-			boot_dev->partition = bootdev_tag->slice;
+			boot_dev->biosdev       = bootdev_tag->biosdev;
+			boot_dev->partition     = bootdev_tag->slice;
 			boot_dev->sub_partition = bootdev_tag->part;
 
 			printk("Boot device: dev=0x%x slice=0x%x part=0x%x\n",
@@ -170,7 +170,7 @@ void read_multiboot_header_tags()
 				panic("OOM while allocating acpi_v1");
 			memcpy(acpi_v1, ((struct multiboot_tag_old_acpi *) tag)->rsdp,
 					sizeof(struct acpi_descriptor_v1));
-			acpi_v1->oem_id[5] = '\0';
+			acpi_v1->oem_id[5] = '\0'; // Null terminate the string
 
 			printk("ACPI v1 RSDP: rev=%d rsdt_addr=0x%x oem=%s\n",
 			    acpi_v1->revision,
