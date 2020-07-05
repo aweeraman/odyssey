@@ -47,12 +47,14 @@ OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 .PHONY: modules
 
+##     odyssey: build the odyssey kernel
 odyssey: $(OBJECTS) modules
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
 	$(LD) -o odyssey $(OBJECTS) $(LDFLAGS)
 
+##     modules: build the GRUB boot modules
 modules:
 ifneq (,$(findstring nasm,$(AS)))
 	$(AS) $(NASMFLAGS_BIN) -o modules/canary.bin modules/canary.asm

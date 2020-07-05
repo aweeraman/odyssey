@@ -3,6 +3,7 @@
 
 .PHONY: download-deps deps
 
+##     download-deps: download dependencies (cross-compiler, coreboot, u-boot etc)
 download-deps:
 	mkdir -p deps
 	# Scalable fonts
@@ -17,6 +18,7 @@ download-deps:
 	[ -e deps/u-boot/ ] || \
 		git clone --branch v2020.04 https://github.com/u-boot/u-boot.git deps/u-boot
 
+##     deps: compile the build-time dependencies
 deps: download-deps
 	# x86 cross compiler
 	$(MAKE) -C deps/coreboot/ crossgcc-i386 CPUS=$(NPROCS)
