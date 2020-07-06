@@ -10,20 +10,20 @@ ARCH ?= x86
 -include config/build_$(ARCH).cfg
 -include make/$(ARCH).mk
 
-## Usage: make [TARGET]
+## Usage: make [ARCH=arm|x86] [TARGET]
 ## Available targets:
 ##     tags: generates tag file for source code
 tags:
-	ctags --exclude=deps/* -R .
+	@ctags --exclude=deps/* -R .
 
 ##     clean: clears generated files
 clean:
-	-rm -rf $(ISO) iso odyssey.img odyssey-coverity.tar.gz cov-int
-	-rm -f odyssey odyssey.map odyssey.bin
-	-find . -not -path "./deps/*" -not -path "./.git/*" \
+	@rm -rf $(ISO) iso odyssey.img odyssey-coverity.tar.gz cov-int
+	@rm -f odyssey odyssey.map odyssey.bin
+	@find . -not -path "./deps/*" -not -path "./.git/*" \
 		\( -name '*.o' -o -name '*.d' -o -name '*.bin' \) \
 		-exec rm {} \;
-	-rm -f tags
+	@rm -f tags
 
 ##     help: how to build and run
 help:

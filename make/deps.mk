@@ -3,7 +3,7 @@
 
 .PHONY: download-deps deps
 
-##     download-deps: download dependencies (cross-compiler, coreboot, u-boot etc)
+##     download-deps: download dependencies (cross-compiler, coreboot, u-boot, fonts)
 download-deps:
 	mkdir -p deps
 	# Scalable fonts

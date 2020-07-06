@@ -52,7 +52,7 @@ odyssey: $(OBJECTS) modules
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
-	$(LD) -o odyssey $(OBJECTS) $(LDFLAGS)
+	$(LD) -o $@ $(OBJECTS) $(LDFLAGS)
 
 ##     modules: build the GRUB boot modules
 modules:
@@ -63,8 +63,8 @@ else
 	$(OBJCOPY) -O binary modules/canary.o modules/canary.bin
 endif
 
-sys/fnt.o:
-	$(OBJCOPY) -O elf32-i386 -B i386 -I binary sys/fnt.sfn sys/fnt.o
+sys/fnt.o: sys/fnt.sfn
+	$(OBJCOPY) -O elf32-i386 -B i386 -I binary $^ $@
 
 %.o: %.c
 ifeq (, $(shell which $(CC)))

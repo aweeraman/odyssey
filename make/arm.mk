@@ -21,8 +21,8 @@ odyssey: $(OBJECTS)
 ifeq (, $(shell which $(LD)))
 	$(error $(LD) not found)
 endif
-	$(LD) $(OBJECTS) -o odyssey $(LDFLAGS)
-	$(OBJCOPY) -O binary odyssey odyssey.bin
+	$(LD) $(OBJECTS) -o $@ $(LDFLAGS)
+	$(OBJCOPY) -O binary $@ $@.bin
 
 %.o: %.c
 ifeq (, $(shell which $(CC)))
