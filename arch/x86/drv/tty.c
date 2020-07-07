@@ -10,13 +10,14 @@
 #include <x86/io.h>
 #include <stddef.h>
 #include <x86/32/paging.h>
+#include <stdint.h>
 
 #ifdef CONFIG_SERIAL
 #include <sys/serial.h>
 #endif
 
 #if CONFIG_FRAMEBUFFER_RGB
-#define uint8_t uint8_t // to appease ssfn.h
+#define _STDINT_H /* appease ssfn */
 #define SSFN_NOIMPLEMENTATION
 #define SSFN_CONSOLEBITMAP_TRUECOLOR
 #include <ssfn.h>
@@ -36,13 +37,13 @@ extern char _binary_sys_fnt_sfn_start;
 #define VGA_IDX_PORT  0x3D4
 #define VGA_DATA_PORT (VGA_IDX_PORT+1)
 
-#define CLR_BLACK	 0
-#define CLR_BLUE	  1
-#define CLR_GREEN	 2
-#define CLR_CYAN	  3
-#define CLR_RED	   4
+#define CLR_BLACK         0
+#define CLR_BLUE          1
+#define CLR_GREEN         2
+#define CLR_CYAN          3
+#define CLR_RED           4
 #define CLR_MAGENTA       5
-#define CLR_BROWN	 6
+#define CLR_BROWN         6
 #define CLR_LIGHT_GREY    7
 #define CLR_DARK_GREY     8
 #define CLR_LIGHT_BLUE    9
@@ -51,7 +52,7 @@ extern char _binary_sys_fnt_sfn_start;
 #define CLR_LIGHT_RED     12
 #define CLR_LIGHT_MAGENTA 13
 #define CLR_LIGHT_BROWN   14
-#define CLR_WHITE	 15
+#define CLR_WHITE         15
 
 #define CLR_FG	    ((CLR_BLUE << 4) | (CLR_LIGHT_GREY & 0x0f))
 
@@ -157,12 +158,12 @@ void update_cursor()
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
 	if (IS_RGB) {
-		ssfn_y  = cur_x * FONT_HEIGHT;
-		ssfn_x  = cur_y * FONT_WIDTH;
+		ssfn_dst.y  = cur_x * FONT_HEIGHT;
+		ssfn_dst.x  = cur_y * FONT_WIDTH;
 		if (counter % 2 == 0)
-			ssfn_fg = RGB_FG;
+			ssfn_dst.fg = RGB_FG;
 		else
-			ssfn_fg = RGB_BG;
+			ssfn_dst.fg = RGB_BG;
 		ssfn_putc(UNICODE_CURSOR);
 	}
 #else /* EGA */
@@ -181,14 +182,14 @@ static void write_character(uint8_t c)
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
 	if (IS_RGB) {
-		ssfn_y = cur_x * FONT_HEIGHT;
-		ssfn_x = cur_y * FONT_WIDTH;
-		ssfn_fg = RGB_BG;
+		ssfn_dst.y = cur_x * FONT_HEIGHT;
+		ssfn_dst.x = cur_y * FONT_WIDTH;
+		ssfn_dst.fg = RGB_BG;
 		ssfn_putc(UNICODE_CURSOR);
 
-		ssfn_y = cur_x * FONT_HEIGHT;
-		ssfn_x = cur_y * FONT_WIDTH;
-		ssfn_fg = RGB_FG;
+		ssfn_dst.y = cur_x * FONT_HEIGHT;
+		ssfn_dst.x = cur_y * FONT_WIDTH;
+		ssfn_dst.fg = RGB_FG;
 		ssfn_putc(c);
 	}
 #else /* EGA */
@@ -213,9 +214,9 @@ static void write_newline()
 {
 #ifdef CONFIG_FRAMEBUFFER_RGB
 	if (IS_RGB) {
-		ssfn_y = cur_x * FONT_HEIGHT;
-		ssfn_x = cur_y * FONT_WIDTH;
-		ssfn_fg = RGB_BG;
+		ssfn_dst.y = cur_x * FONT_HEIGHT;
+		ssfn_dst.x = cur_y * FONT_WIDTH;
+		ssfn_dst.fg = RGB_BG;
 		ssfn_putc(UNICODE_CURSOR);
 	}
 #else /* EGA */
@@ -238,16 +239,16 @@ static void write_backspace()
 {
 #ifdef CONFIG_FRAMEBUFFER_RGB
 	if (IS_RGB) {
-		ssfn_y = cur_x * FONT_HEIGHT;
-		ssfn_x = cur_y * FONT_WIDTH;
-		ssfn_fg = RGB_BG;
+		ssfn_dst.y = cur_x * FONT_HEIGHT;
+		ssfn_dst.x = cur_y * FONT_WIDTH;
+		ssfn_dst.fg = RGB_BG;
 		ssfn_putc(UNICODE_CURSOR);
 
 		cur_y--;
 
-		ssfn_y = cur_x * FONT_HEIGHT;
-		ssfn_x = cur_y * FONT_WIDTH;
-		ssfn_fg = RGB_FG;
+		ssfn_dst.y = cur_x * FONT_HEIGHT;
+		ssfn_dst.x = cur_y * FONT_WIDTH;
+		ssfn_dst.fg = RGB_FG;
 		ssfn_putc(UNICODE_CURSOR);
 	}
 #else /* EGA */
@@ -354,12 +355,14 @@ void init_console(struct fb_info fb_init)
 		clear_screen();
 
 		//Setup scalable font library
-		ssfn_font = (ssfn_font_t *) &_binary_sys_fnt_sfn_start;
-		ssfn_dst_ptr = (uint8_t *) (size_t) framebuffer.addr;
-		ssfn_dst_pitch = framebuffer.pitch;
-		ssfn_fg = 0xFFFFFFFF;
-		ssfn_x = 0;
-		ssfn_y = 0;
+		ssfn_src     = (ssfn_font_t *) &_binary_sys_fnt_sfn_start;
+		ssfn_dst.ptr = (uint8_t *) (size_t) framebuffer.addr;
+		ssfn_dst.fg  = 0xFFFFFFFF;
+		ssfn_dst.w   = framebuffer.width;
+		ssfn_dst.h   = framebuffer.height;
+		ssfn_dst.p   = framebuffer.pitch;
+		ssfn_dst.x   = 0;
+		ssfn_dst.y   = 0;
 
 		printk("Initialized RGB framebuffer at 0x%x\n",
 			framebuffer.addr);

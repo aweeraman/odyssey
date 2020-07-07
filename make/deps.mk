@@ -8,10 +8,10 @@ download-deps:
 	mkdir -p deps
 	# Scalable fonts
 	[ -e deps/scalable-font/ ] || \
-		git clone https://gitlab.com/bztsrc/scalable-font.git deps/scalable-font
+		git clone https://gitlab.com/bztsrc/scalable-font2.git deps/scalable-font2
 	# Coreboot
 	[ -e deps/coreboot/ ] || \
-		git clone https://www.github.com/coreboot/coreboot deps/coreboot
+		git clone --branch 4.12 https://www.github.com/coreboot/coreboot deps/coreboot
 	cd deps/coreboot && git submodule update --init --checkout --remote
 	cp config/coreboot.cfg deps/coreboot/.config
 	# u-boot
