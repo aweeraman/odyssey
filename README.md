@@ -265,7 +265,7 @@ Odyssey makes use of following free and open source software:
 * [Coreboot](https://github.com/coreboot/coreboot)
 * [U-Boot](https://github.com/u-boot/u-boot)
 * [OVMF](https://github.com/tianocore/tianocore.github.io/wiki/OVMF)
-* [Scalable Screen Font](https://gitlab.com/bztsrc/scalable-font)
+* [Scalable Screen Font](https://gitlab.com/bztsrc/scalable-font2)
 * [CTAGS](http://ctags.sourceforge.net/)
 
 # License
