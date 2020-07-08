@@ -222,6 +222,18 @@ $ screen /dev/ttyUSB0 115200
 => go 0x82000000
 ```
 
+## Splash
+
+The 'splash' command displays an image on the framebuffer. To specify an
+image to converted to a C-header from a provided JPG, run the following
+command:
+
+```
+$ tools/ppm-to-array/jpeg-to-c.sh tools/ppm-to-array/img/kanagawa.jpg include/ppm/splash.h
+```
+
+Build and launch Odyssey and run the 'splash' command at the shell.
+
 # Debugging
 
 ~/.gdbinit:
