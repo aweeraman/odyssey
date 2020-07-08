@@ -101,9 +101,9 @@ int cmd_splash()
 	for (int prows = 0; prows < PPM_ROWS; prows++) {
 		for (int pcols = 0; pcols < PPM_COLS; pcols++) {
 			uint32_t pos = ((prows * PPM_COLS) + pcols) * 3;
-			char r = ppm_array[pos];
-			char g = ppm_array[pos+1];
-			char b = ppm_array[pos+2];
+			uint8_t r = ppm_array[pos];
+			uint8_t g = ppm_array[pos+1];
+			uint8_t b = ppm_array[pos+2];
 			int ri = (r << 16) & 0xff0000;
 			int gi = (g << 8) & 0xff00;
 			int bi = b & 0xff;

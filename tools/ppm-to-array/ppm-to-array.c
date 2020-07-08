@@ -46,7 +46,6 @@ int main(int argc, char **argv)
 	fprintf(header, "const int PPM_ROWS = %d;\n", rows);
 	fprintf(header, "const int PPM_COLS = %d;\n", cols);
 	fprintf(header, "const char ppm_array[%d * %d * 3] = {\n", rows, cols);
-	fseek(fp, 1, SEEK_CUR);
 	while (fread(&pix, sizeof(struct pixel), 1, fp) == 1) {
 		fprintf(header, "0x%x, 0x%x, 0x%x,\n", pix.r, pix.g, pix.b);
 	}
