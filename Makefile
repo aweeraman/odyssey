@@ -24,6 +24,7 @@ clean:
 		\( -name '*.o' -o -name '*.d' -o -name '*.bin' \) \
 		-exec rm {} \;
 	@rm -f tags
+	@$(MAKE) -C tools/ppm-to-array clean 2>/dev/null
 
 ##     help: how to build and run
 help:

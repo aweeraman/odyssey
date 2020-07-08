@@ -3,5 +3,5 @@
 ppm-to-array: ppm-to-array.o
 
 clean:
-	-rm ppm-to-array
-	-rm *.o
+	@rm -f ppm-to-array
+	@rm -f *.o
