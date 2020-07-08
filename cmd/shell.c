@@ -82,9 +82,10 @@ int cmd_trigger_exception()
 
 int cmd_splash()
 {
-	clear_screen();
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
+
+	clear_screen();
 
 	struct fb_info *fbi = get_fb_info();
 	uint32_t pad_cols = 0;
@@ -110,6 +111,11 @@ int cmd_splash()
 			draw_pixel(pad_rows + prows, pad_cols + pcols, ci);
 		}
 	}
+
+	getchar(); /* block on input */
+
+	clear_screen();
+
 #endif /* CONFIG_FRAMEBUFFER_RGB */
 
 	return 0;
