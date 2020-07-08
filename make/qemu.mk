@@ -10,7 +10,7 @@ endif
 ##     image: build the boot image (ARM)
 image: odyssey
 	mkimage -A arm -O linux -T kernel -a 0x0082000000 -e 0x0082000000 \
-		-C none -d odyssey.bin odyssey.img
+		-C none -d $<.bin $<.img
 
 ##     iso: build the ISO (x86)
 iso: odyssey

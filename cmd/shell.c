@@ -86,7 +86,7 @@ int cmd_splash()
 #ifdef CONFIG_FRAMEBUFFER_RGB
 	for (int prows = 0; prows < PPM_ROWS; prows++) {
 		for (int pcols = 0; pcols < PPM_COLS; pcols++) {
-			uint32_t pos = ((prows * pcols) + pcols) * 3;
+			uint32_t pos = ((prows * PPM_COLS) + pcols) * 3;
 			char r = ppm_array[pos];
 			char g = ppm_array[pos+1];
 			char b = ppm_array[pos+2];
