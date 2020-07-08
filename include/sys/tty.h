@@ -26,5 +26,6 @@ void printc(uint8_t ch);
 void draw_pixel(int x, int y, uint32_t color);
 void clear_screen(void);
 void identity_map_framebuffer();
+struct fb_info *get_fb_info();
 
 #endif

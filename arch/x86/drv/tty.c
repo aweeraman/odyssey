@@ -87,7 +87,13 @@ void identity_map_framebuffer()
 }
 #endif /* ARCH_X86 */
 
+struct fb_info *get_fb_info()
+{
+	return &framebuffer;
+}
+
 #if ! defined(CONFIG_FRAMEBUFFER_RGB)
+
 void enable_cursor(uint8_t cursor_start, uint8_t cursor_end)
 {
 	if (IS_EGA) {

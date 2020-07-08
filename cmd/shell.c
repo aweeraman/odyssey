@@ -83,7 +83,20 @@ int cmd_trigger_exception()
 int cmd_splash()
 {
 	clear_screen();
+
 #ifdef CONFIG_FRAMEBUFFER_RGB
+
+	struct fb_info *fbi = get_fb_info();
+	uint32_t pad_cols = 0;
+	uint32_t pad_rows = 0;
+
+	if ((fbi->width - PPM_COLS) > 0) {
+		if ((fbi->height - PPM_ROWS) > 0) {
+			pad_cols = (fbi->width / 2) - (PPM_COLS / 2);
+			pad_rows = (fbi->height / 2) - (PPM_ROWS / 2);
+		}
+	}
+
 	for (int prows = 0; prows < PPM_ROWS; prows++) {
 		for (int pcols = 0; pcols < PPM_COLS; pcols++) {
 			uint32_t pos = ((prows * PPM_COLS) + pcols) * 3;
@@ -94,10 +107,11 @@ int cmd_splash()
 			int gi = (g << 8) & 0xff00;
 			int bi = b & 0xff;
 			uint32_t ci = 0x00000000 | ri | gi | bi;
-			draw_pixel(prows, pcols, ci);
+			draw_pixel(pad_rows + prows, pad_cols + pcols, ci);
 		}
 	}
 #endif /* CONFIG_FRAMEBUFFER_RGB */
+
 	return 0;
 }
 
