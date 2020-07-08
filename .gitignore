@@ -11,3 +11,4 @@ odyssey
 iso/
 cov-int/
 deps/
+tools/ppm-to-array/ppm-to-array
