@@ -93,21 +93,19 @@ int cmd_splash()
 
 	if ((fbi->width - PPM_COLS) > 0) {
 		if ((fbi->height - PPM_ROWS) > 0) {
-			pad_cols = (fbi->width / 2) - (PPM_COLS / 2);
+			pad_cols = (fbi->width  / 2) - (PPM_COLS / 2);
 			pad_rows = (fbi->height / 2) - (PPM_ROWS / 2);
 		}
 	}
 
 	for (int prows = 0; prows < PPM_ROWS; prows++) {
 		for (int pcols = 0; pcols < PPM_COLS; pcols++) {
+
 			uint32_t pos = ((prows * PPM_COLS) + pcols) * 3;
-			uint8_t r = ppm_array[pos];
-			uint8_t g = ppm_array[pos+1];
-			uint8_t b = ppm_array[pos+2];
-			int ri = (r << 16) & 0xff0000;
-			int gi = (g << 8) & 0xff00;
-			int bi = b & 0xff;
-			uint32_t ci = 0x00000000 | ri | gi | bi;
+			uint32_t ci  = ((ppm_array[pos]   << 16) & 0xff0000) |
+				       ((ppm_array[pos+1] << 8)  & 0xff00)   |
+				        (ppm_array[pos+2]        & 0xff);
+
 			draw_pixel(pad_rows + prows, pad_cols + pcols, ci);
 		}
 	}
