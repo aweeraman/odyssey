@@ -16,8 +16,8 @@ jobs:
         path: deps
         key: cache-dependencies-${{ hashFiles('make/deps.mk') }}
 
-    - name: Download dependencies
-      run: make download-deps
+    - name: Build dependencies
+      run: make deps
 
     - name: Build Odyssey (x86)
       run: make
