@@ -5,8 +5,18 @@ jobs:
     name: Linux
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout sources
+      uses: actions/checkout@v2
 
-    - name: Build dependencies
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-dependencies
+      with:
+        path: deps
+        key: cache-dependencies-${{ hashFiles('make/deps.mk') }}
+
+    - name: Download dependencies
       run: make download-deps
 
     - name: Build Odyssey (x86)
