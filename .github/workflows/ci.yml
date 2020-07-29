@@ -6,22 +6,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - name: Checkout sources
-      uses: actions/checkout@v2
-
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-dependencies
-      with:
-        path: deps
-        key: cache-dependencies-${{ hashFiles('make/deps.mk') }}
-
-    - name: Install build dependencies
-      run: sudo apt-get install -y gnat
-
     - name: Build dependencies
-      run: make deps
+      run: make download-deps
 
     - name: Build Odyssey (x86)
       run: make
