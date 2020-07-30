@@ -16,8 +16,18 @@ jobs:
         path: deps
         key: cache-dependencies-${{ hashFiles('make/deps.mk') }}
 
-    - name: Build dependencies
-      run: make deps
+    - name: Download build dependencies
+      run: make download-deps
+
+    - name: Install build dependencies
+      run: sudo apt-get install gcc-arm-none-eabi
+
+    - name: Update build config for CI
+      run: |
+        sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/i386-elf-gcc/gcc/g' config/build_x86.cfg
+        sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/i386-elf-objcopy/objcopy/g' config/build_x86.cfg
+        sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/arm-eabi-gcc/arm-none-eabi-gcc/g' config/build_arm.cfg
+        sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/arm-eabi-objcopy/arm-none-eabi-objcopy/g' config/build_arm.cfg
 
     - name: Build Odyssey (x86)
       run: make
