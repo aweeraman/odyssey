@@ -27,6 +27,7 @@ jobs:
         sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/i386-elf-gcc/i686-linux-gnu-gcc/g' config/build_x86.cfg
         sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/i386-elf-objcopy/i686-linux-gnu-objcopy/g' config/build_x86.cfg
         sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/arm-eabi-gcc/arm-none-eabi-gcc/g' config/build_arm.cfg
+        sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/arm-eabi-as/arm-none-eabi-as/g' config/build_arm.cfg
         sed -i 's/deps\/coreboot\/util\/crossgcc\/xgcc\/bin\/arm-eabi-objcopy/arm-none-eabi-objcopy/g' config/build_arm.cfg
 
     - name: Build Odyssey (x86)
