@@ -8,14 +8,6 @@ jobs:
     - name: Checkout sources
       uses: actions/checkout@v2
 
-    - name: Cache dependencies
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-dependencies
-      with:
-        path: deps
-        key: cache-dependencies-${{ hashFiles('make/deps.mk') }}
-
     - name: Download build dependencies
       run: make download-deps
 
