@@ -68,7 +68,7 @@ static struct cell  *matrix = NULL;
 #define IS_RGB (framebuffer.type == MULTIBOOT_FRAMEBUFFER_TYPE_RGB)
 #define IS_EGA (framebuffer.type == MULTIBOOT_FRAMEBUFFER_TYPE_EGA_TEXT)
 
-static uint32_t counter = 0;
+static size_t counter = 0;
 
 static size_t rows  = 0;
 static size_t cols  = 0;
@@ -80,9 +80,9 @@ static struct fb_info framebuffer;
 #if ARCH_X86
 void identity_map_framebuffer()
 {
-	uint32_t start = (uint32_t) framebuffer.addr;
-	uint32_t size  = framebuffer.width * framebuffer.height * framebuffer.bpp;
-	uint32_t end   = start + size;
+	size_t start = (size_t) framebuffer.addr;
+	size_t size  = framebuffer.width * framebuffer.height * framebuffer.bpp;
+	size_t end   = start + size;
 	add_identity_map_region(start, end, "framebuffer", PAGE_RW, PAGE_KERNEL);
 }
 #endif /* ARCH_X86 */
@@ -321,7 +321,7 @@ void printc(uint8_t ch)
 }
 
 #ifdef CONFIG_FRAMEBUFFER_RGB
-void draw_pixel(int x, int y, uint32_t color)
+void draw_pixel(int x, int y, size_t color)
 {
 	framebuffer.addr[x * framebuffer.width + y] = color;
 }

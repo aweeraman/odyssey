@@ -48,7 +48,7 @@ void early_framebuffer_console_init(size_t magic, size_t structure_addr)
 			struct fb_info framebuffer = {
 				.type   = fb->common.framebuffer_type,
 				.bpp    = fb->common.framebuffer_bpp,
-				.addr   = (uint32_t *) (uint32_t) fb->common.framebuffer_addr,
+				.addr   = (size_t *) (size_t) fb->common.framebuffer_addr,
 				.width  = fb->common.framebuffer_width,
 				.height = fb->common.framebuffer_height,
 				.pitch  = fb->common.framebuffer_pitch,

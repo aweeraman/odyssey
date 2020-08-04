@@ -31,7 +31,7 @@ int cmd_modules()
 
 int cmd_canary()
 {
-	uint32_t i = 0;
+	size_t i = 0;
 
 	void (*canary)() = (void *) get_module_by_idx(0);
 
@@ -88,8 +88,8 @@ int cmd_splash()
 	clear_screen();
 
 	struct fb_info *fbi = get_fb_info();
-	uint32_t pad_cols = 0;
-	uint32_t pad_rows = 0;
+	size_t pad_cols = 0;
+	size_t pad_rows = 0;
 
 	if ((fbi->width - PPM_COLS) > 0) {
 		if ((fbi->height - PPM_ROWS) > 0) {
@@ -101,10 +101,10 @@ int cmd_splash()
 	for (int prows = 0; prows < PPM_ROWS; prows++) {
 		for (int pcols = 0; pcols < PPM_COLS; pcols++) {
 
-			uint32_t pos = ((prows * PPM_COLS) + pcols) * 3;
-			uint32_t ci  = ((ppm_array[pos]   << 16) & 0xff0000) |
-				       ((ppm_array[pos+1] << 8)  & 0xff00)   |
-				        (ppm_array[pos+2]        & 0xff);
+			size_t pos = ((prows * PPM_COLS) + pcols) * 3;
+			size_t ci  = ((ppm_array[pos]   << 16) & 0xff0000) |
+				     ((ppm_array[pos+1] << 8)  & 0xff00)   |
+				      (ppm_array[pos+2]        & 0xff);
 
 			draw_pixel(pad_rows + prows, pad_cols + pcols, ci);
 		}

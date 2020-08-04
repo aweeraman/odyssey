@@ -11,10 +11,10 @@
 #include <lib/stdio.h>
 #include <lib/mm.h>
 
-extern uint32_t test_heap_start_addr1;
-extern uint32_t test_heap_start_addr2;
+extern size_t test_heap_start_addr1;
+extern size_t test_heap_start_addr2;
 
-static uint32_t test_heap_end_addr1, test_heap_end_addr2;
+static size_t test_heap_end_addr1, test_heap_end_addr2;
 
 int ff_mm_1()
 {
@@ -27,24 +27,24 @@ int ff_mm_1()
 							     test_heap_start_addr1,
 							     test_heap_end_addr1);
 
-	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr1 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
 
-	uint32_t *addr2 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr2 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr2 == NULL, "couldn't get an available frame 2");
 
 	free_frame(superblock, addr2);
 
-	uint32_t *addr3 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr3 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr3 != addr2, "same frame was not returned after freeing");
 
-	uint32_t *addr5 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr5 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr5 == NULL, "couldn't get an available frame 3");
 
-	uint32_t *addr6 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr6 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr6 == NULL, "couldn't get an available frame 4");
 
-	uint32_t *addr7 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr7 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr7 != NULL, "should return null, out of memory");
 
 	free_frame(superblock, addr7);
@@ -53,7 +53,7 @@ int ff_mm_1()
 	free_frame(superblock, addr2);
 	free_frame(superblock, addr1);
 
-	uint32_t *addr8 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr8 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr8 != addr1, "should be the same as the first frame");
 
 	free_frame(superblock, addr8);
@@ -68,33 +68,33 @@ int ff_mm_2()
 	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
 						             test_heap_start_addr1,
 						             test_heap_end_addr1);
-	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
+	create_superblock((size_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
-	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr1 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
 
-	uint32_t *addr2 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr2 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr2 == NULL, "couldn't get an available frame 2");
 
-	uint32_t *addr3 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr3 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr3 == NULL, "couldn't get an available frame 3");
 
-	uint32_t *addr4 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr4 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr4 == NULL, "couldn't get an available frame 4");
 
-	uint32_t *addr5 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr5 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr5 == NULL, "couldn't get an available frame 5");
 
-	uint32_t *addr6 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr6 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr6 == NULL, "couldn't get an available frame 6");
 
-	uint32_t *addr7 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr7 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr7 == NULL, "couldn't get an available frame 7");
 
-	uint32_t *addr8 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr8 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr8 == NULL, "couldn't get an available frame 8");
 
-	uint32_t *addr9 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr9 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr9 != NULL, "returned frame 9 even though out of memory");
 
 	return ret;
@@ -108,12 +108,12 @@ int ff_mm_3()
 	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
 						             test_heap_start_addr1,
 						             test_heap_end_addr1);
-	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
+	create_superblock((size_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
-	uint32_t *addr1 = (uint32_t *) get_available_frame(superblock, 100);
+	size_t *addr1 = (size_t *) get_available_frame(superblock, 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
 
-	uint32_t *addr2 = (uint32_t *) get_available_frame(superblock, 150);
+	size_t *addr2 = (size_t *) get_available_frame(superblock, 150);
 	FAIL_IF(addr2 == NULL, "couldn't get an available frame 2");
 
 	stats = get_mm_stats(superblock, &stats);
@@ -130,12 +130,12 @@ int ff_mm_4()
 	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
 						             test_heap_start_addr1,
 						             test_heap_end_addr1);
-	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
+	create_superblock((size_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
-	uint32_t *addr1 = (uint32_t *) kzalloc(superblock, sizeof(uint32_t), 100);
+	size_t *addr1 = (size_t *) kzalloc(superblock, sizeof(size_t), 100);
 	FAIL_IF(addr1 == NULL, "couldn't get an available frame 1");
 
-	uint32_t *addr2 = (uint32_t *) kzalloc(superblock, sizeof(uint32_t), 100);
+	size_t *addr2 = (size_t *) kzalloc(superblock, sizeof(size_t), 100);
 	FAIL_IF(addr2 == NULL, "couldn't get an available frame 2");
 
 	stats = get_mm_stats(superblock, &stats);
@@ -143,7 +143,7 @@ int ff_mm_4()
 
 	kzfree(superblock, addr1);
 
-	uint32_t *addr3 = (uint32_t *) kzalloc(superblock, sizeof(uint32_t), 50);
+	size_t *addr3 = (size_t *) kzalloc(superblock, sizeof(size_t), 50);
 	FAIL_IF(addr3 == NULL, "couldn't get an available frame 3");
 	FAIL_IF(addr3 != addr1, "addr2 should equal addr1");
 
@@ -160,9 +160,9 @@ int ff_mm_5()
 	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
 							     test_heap_start_addr1,
 							     test_heap_end_addr1);
-	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
+	create_superblock((size_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
-	char *addr1 = (char *) kzalloc(superblock, sizeof(uint32_t), 100);
+	char *addr1 = (char *) kzalloc(superblock, sizeof(size_t), 100);
 	FAIL_IF(addr1[0] != '\0', "kzalloc didn't zero the memory");
 
 	strncpy(addr1, "123", 5);
@@ -206,7 +206,7 @@ int ff_mm_7()
 	struct mm_superblock *superblock = create_superblock(test_heap_start_addr1,
 							     test_heap_start_addr1,
 							     test_heap_end_addr1);
-	create_superblock((uint32_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
+	create_superblock((size_t) superblock, test_heap_start_addr2, test_heap_end_addr2);
 
 	char *addr1 = (char *) kzalloc(superblock, sizeof(char), 2048);
 	FAIL_IF(addr1 == NULL, "couldn't allocate maximum available in segment 1");

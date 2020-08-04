@@ -13,13 +13,13 @@
 #define PAGE_ALIGNMENT 4096
 #endif
 
-static uint32_t heap_start_addr, heap_end_addr;
+static size_t heap_start_addr, heap_end_addr;
 
-extern uint32_t kernel_end;
-static uint32_t kernel_end_addr = (uint32_t) &kernel_end;
+extern size_t kernel_end;
+static size_t kernel_end_addr = (size_t) &kernel_end;
 
-uint32_t test_heap_start_addr1;
-uint32_t test_heap_start_addr2;
+size_t test_heap_start_addr1;
+size_t test_heap_start_addr2;
 
 static struct mm_superblock *superblock;
 
@@ -54,7 +54,7 @@ struct mm_stats get_mm_stats(struct mm_superblock *sb, struct mm_stats *stats)
 	stats->total_bytes = 0;
 
 	do {
-		for (uint32_t i = 0; i < sb->block_count; i++) {
+		for (size_t i = 0; i < sb->block_count; i++) {
 			if (sb->blocks[i].flags == FRAME_INUSE ||
 			    sb->blocks[i].flags == FRAME_MULTI_START ||
 			    sb->blocks[i].flags == FRAME_MULTI) {
@@ -76,21 +76,21 @@ static void mark_available(struct mm_frame *frame)
 	memset(frame->addr, '\0', FRAME_BLOCK_SIZE);
 }
 
-void free_frame(struct mm_superblock *sb, uint32_t *addr)
+void free_frame(struct mm_superblock *sb, size_t *addr)
 {
 	if (sb == NULL)
 		sb = superblock;
 
 	do {
 		int multi_start = 0;
-		for (uint32_t i = 0; i < sb->block_count; i++) {
-			uint32_t frame_addr = (uint32_t) sb->blocks[i].addr;
+		for (size_t i = 0; i < sb->block_count; i++) {
+			size_t frame_addr = (size_t) sb->blocks[i].addr;
 			int flags = sb->blocks[i].flags;
 
-			if (frame_addr == (uint32_t) addr && flags == FRAME_MULTI_START) {
+			if (frame_addr == (size_t) addr && flags == FRAME_MULTI_START) {
 				multi_start = 1;
 				mark_available(&sb->blocks[i]);
-			} else if (frame_addr == (uint32_t) addr && flags == FRAME_INUSE) {
+			} else if (frame_addr == (size_t) addr && flags == FRAME_INUSE) {
 				mark_available(&sb->blocks[i]);
 			} else if (multi_start == 1 && flags == FRAME_MULTI) {
 				mark_available(&sb->blocks[i]);
@@ -115,7 +115,7 @@ void *get_available_frame(struct mm_superblock *sb, size_t size)
 
 	do {
 		if (size < FRAME_BLOCK_SIZE) {
-			for (uint32_t i = 0; i < sb->block_count; i++) {
+			for (size_t i = 0; i < sb->block_count; i++) {
 				if (sb->blocks[i].flags == FRAME_AVAILABLE) {
 					sb->blocks[i].flags      = FRAME_INUSE;
 					sb->blocks[i].bytes_used = size;
@@ -129,7 +129,7 @@ void *get_available_frame(struct mm_superblock *sb, size_t size)
 			int contiguous_blocks = 0;
 			int size_remaining    = size;
 
-			for (uint32_t i = 0; i < sb->block_count; i++) {
+			for (size_t i = 0; i < sb->block_count; i++) {
 				if (sb->blocks[i].flags == FRAME_AVAILABLE) {
 					if (start_block == -1) {
 						start_block     = i;
@@ -186,15 +186,15 @@ void *get_available_frame(struct mm_superblock *sb, size_t size)
 	return ptr;
 }
 
-struct mm_superblock *create_superblock(uint32_t root_block,
-				        uint32_t start_addr,
-				        uint32_t end_addr)
+struct mm_superblock *create_superblock(size_t root_block,
+				        size_t start_addr,
+				        size_t end_addr)
 {
-	uint32_t available_memory;
-	uint32_t blocks;
+	size_t available_memory;
+	size_t blocks;
 	struct mm_superblock *sb;
 
-	sb = (struct mm_superblock *) (uint32_t) root_block;
+	sb = (struct mm_superblock *) (size_t) root_block;
 
 	if (root_block == start_addr) {
 		memset(sb, '\0', sizeof(struct mm_superblock));
@@ -202,7 +202,7 @@ struct mm_superblock *create_superblock(uint32_t root_block,
 		while (sb->next_super_block != NULL)
 		       sb = sb->next_super_block;
 
-		sb->next_super_block = (struct mm_superblock *) (uint32_t) start_addr;
+		sb->next_super_block = (struct mm_superblock *) (size_t) start_addr;
 		sb = sb->next_super_block;
 		memset(sb, '\0', sizeof(struct mm_superblock));
 	}
@@ -211,12 +211,12 @@ struct mm_superblock *create_superblock(uint32_t root_block,
 	sb->next_super_block = NULL;
 
 	available_memory = end_addr - start_addr;
-	blocks = (uint32_t) available_memory / FRAME_BLOCK_SIZE;
+	blocks = (size_t) available_memory / FRAME_BLOCK_SIZE;
 
 	sb->block_count = blocks;
 
-	for (uint32_t i = 0; i < sb->block_count; i++) {
-		sb->blocks[i].addr = (uint32_t *) ((uint32_t) sb->start_addr)
+	for (size_t i = 0; i < sb->block_count; i++) {
+		sb->blocks[i].addr = (size_t *) ((size_t) sb->start_addr)
 						  + (FRAME_BLOCK_SIZE * i);
 		mark_available(&sb->blocks[i]);
 	}

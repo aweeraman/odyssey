@@ -22,7 +22,7 @@ void identity_map_modules()
 	}
 }
 
-void add_boot_module(uint32_t start, uint32_t end, char *name)
+void add_boot_module(size_t start, size_t end, char *name)
 {
 	if (module_idx >= MAX_BOOT_MODULES)
 		panic("Maximum boot modules reached");

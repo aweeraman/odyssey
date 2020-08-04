@@ -17,31 +17,31 @@
 #define FRAME_BLOCK_SIZE  512
 
 struct mm_stats {
-	uint32_t bytes_used;
-	uint32_t total_bytes;
+	size_t bytes_used;
+	size_t total_bytes;
 };
 
 struct mm_frame {
-	uint8_t   flags;
-	uint32_t *addr;
-	uint32_t  bytes_used;
+	uint8_t  flags;
+	size_t  *addr;
+	size_t   bytes_used;
 }__attribute__((packed));
 
 struct mm_superblock {
-	uint32_t start_addr;
-	uint32_t block_count;
-	struct   mm_superblock *next_super_block;
-	struct   mm_frame blocks[FRAME_BLOCK_COUNT];
+	size_t start_addr;
+	size_t block_count;
+	struct mm_superblock *next_super_block;
+	struct mm_frame blocks[FRAME_BLOCK_COUNT];
 }__attribute__((packed));
 
 void init_mm();
 void *get_available_frame(struct mm_superblock *sb, size_t size);
-void free_frame(struct mm_superblock *sb, uint32_t *addr);
+void free_frame(struct mm_superblock *sb, size_t *addr);
 void print_superblocks(struct mm_superblock *sb);
 struct mm_stats get_mm_stats(struct mm_superblock *sb, struct mm_stats *stats);
-struct mm_superblock *create_superblock(uint32_t root_block,
-				   uint32_t start_addr,
-				   uint32_t end_addr);
+struct mm_superblock *create_superblock(size_t root_block,
+				        size_t start_addr,
+				        size_t end_addr);
 void identity_map_kernel_heap();
 void identity_map_kernel_test_heap();
 

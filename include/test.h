@@ -6,6 +6,8 @@
 #ifndef TEST_H
 #define TEST_H
 
+#include <stddef.h>
+
 #define TEST(test) \
 	extern int test(); \
 	run(test)

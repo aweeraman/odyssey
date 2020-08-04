@@ -29,8 +29,8 @@
 #include <sys/keyboard.h>
 #endif
 
-extern uint32_t kernel_begin;
-extern uint32_t kernel_end;
+extern size_t kernel_begin;
+extern size_t kernel_end;
 
 /*
  * The entry point into the kernel

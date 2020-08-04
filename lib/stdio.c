@@ -71,7 +71,7 @@ int prints(char *str)
 void printk(const char *fmt, ...)
 {
 	int	    i;
-	uint32_t    ul;
+	size_t      ul;
 	uint64_t    ull;
 	char       *str;
 	char	    print_buf[128];
@@ -100,13 +100,13 @@ void printk(const char *fmt, ...)
 			break;
 
 		case 'b':
-			ul = va_arg(arg, uint32_t);
-			prints(itoa((uint32_t) ul, print_buf, 2));
+			ul = va_arg(arg, size_t);
+			prints(itoa((size_t) ul, print_buf, 2));
 			break;
 
 		case 'o':
-			ul = va_arg(arg, uint32_t);
-			prints(itoa((uint32_t) ul, print_buf, 8));
+			ul = va_arg(arg, size_t);
+			prints(itoa((size_t) ul, print_buf, 8));
 			break;
 
 		case 'i':
@@ -120,13 +120,13 @@ void printk(const char *fmt, ...)
 			break;
 
 		case 'u':
-			ul = va_arg(arg, uint32_t);
-			prints(itoa((uint32_t) ul, print_buf, 10));
+			ul = va_arg(arg, size_t);
+			prints(itoa((size_t) ul, print_buf, 10));
 			break;
 
 		case 'x':
-			ul = va_arg(arg, uint32_t);
-			prints(itoa((uint32_t) ul, print_buf, 16));
+			ul = va_arg(arg, size_t);
+			prints(itoa((size_t) ul, print_buf, 16));
 			break;
 
 		case 'X':

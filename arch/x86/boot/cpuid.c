@@ -4,13 +4,13 @@
  */
 
 #include <cpuid.h>
-#include <stdint.h>
+#include <stddef.h>
 #include <lib/stdio.h>
 
-static uint32_t cpuid_str[4];
-static uint32_t highest_functionality;
+static size_t cpuid_str[4];
+static size_t highest_functionality;
 
-uint32_t *cpuid()
+size_t *cpuid()
 {
 	asm("mov $0x0, %eax");
 	asm("cpuid");
@@ -21,7 +21,7 @@ uint32_t *cpuid()
 	cpuid_str[3] = '\0';
 
 	printk("Processor vendor ID is %s, highest function 0x%x\n",
-			cpuid_str, highest_functionality);
+		cpuid_str, highest_functionality);
 
 	return cpuid_str;
 }

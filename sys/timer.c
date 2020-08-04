@@ -9,15 +9,15 @@
 #include <stddef.h>
 #include <error.h>
 
-uint32_t volatile ticks	= 0;
-static uint32_t loops_per_tick = 0;
-static int n_ticks_timer_idx   = 0;
+size_t volatile ticks	     = 0;
+static size_t loops_per_tick = 0;
+static int n_ticks_timer_idx = 0;
 static struct n_ticks_timer n_ticks_timers[MAX_N_TICKS_TIMERS];
 
 void busy_wait(int ticks_to_wait)
 {
-	uint32_t start = ticks;
-	uint32_t end   = ticks + ticks_to_wait;
+	size_t start = ticks;
+	size_t end   = ticks + ticks_to_wait;
 
 	if (end < start)
 		while (ticks > start);
@@ -25,10 +25,10 @@ void busy_wait(int ticks_to_wait)
 	while (ticks < end);
 }
 
-uint32_t get_loops_per_tick()
+size_t get_loops_per_tick()
 {
-	uint32_t loops = 0;
-	uint32_t start_tick = ticks;
+	size_t loops = 0;
+	size_t start_tick = ticks;
 
 	for (loops = 0; start_tick == ticks; loops++);
 

@@ -6,6 +6,6 @@
 #ifndef CPUID_H
 #define CPUID_H
 
-uint32_t *cpuid();
+size_t *cpuid();
 
 #endif

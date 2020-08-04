@@ -6,19 +6,19 @@
 #ifndef MODULES_H
 #define MODULES_H
 
-#include <stdint.h>
+#include <stddef.h>
 
 #define MAX_BOOT_MODULES    10
 #define MODULE_NAME_MAX_LEN 128
 #define CANARY_MAGIC_STRING 0xdc0dc0dc
 
 struct boot_module {
-	uint32_t start;
-	uint32_t end;
-	char     name[MODULE_NAME_MAX_LEN];
+	size_t start;
+	size_t end;
+	char   name[MODULE_NAME_MAX_LEN];
 };
 
-void add_boot_module(uint32_t start, uint32_t end, char *name);
+void add_boot_module(size_t start, size_t end, char *name);
 void *get_module_by_idx(int idx);
 void print_boot_modules();
 void identity_map_modules();

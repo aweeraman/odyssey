@@ -11,7 +11,7 @@
 int canary_1()
 {
 	int ret = 0;
-	uint32_t tweet = 0;
+	size_t tweet = 0;
 
 	void (*canary)() = (void *) get_module_by_idx(0);
 	FAIL_AND_EXIT_IF(canary == 0, "No boot module returned for canary");
