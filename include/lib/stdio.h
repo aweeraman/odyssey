@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#ifndef TERMIO_H
-#define TERMIO_H
+#ifndef STDIO_H
+#define STDIO_H
 
 #include <stdint.h>
 

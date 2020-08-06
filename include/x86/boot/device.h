@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#ifndef BOOTDEV_H
-#define BOOTDEV_H
+#ifndef DEVICE_H
+#define DEVICE_H
 
 struct boot_device {
 	size_t biosdev;
