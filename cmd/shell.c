@@ -21,6 +21,7 @@ static const struct kcmd valid_cmds[] = {
 	{ .cmd="help",      .func=cmd_help },
 	{ .cmd="modules",   .func=cmd_modules },
 	{ .cmd="canary",    .func=cmd_canary },
+	{ .cmd="osver",     .func=cmd_osver },
 };
 
 int cmd_modules()
@@ -128,6 +129,14 @@ int cmd_help()
 	return 0;
 }
 
+int cmd_osver()
+{
+	printk("Odyssey v%s\n",
+		STRINGIFY(CONFIG_VERSION_MAJOR) "." \
+		STRINGIFY(CONFIG_VERSION_MINOR));
+	return 0;
+}
+
 static int run(const char *cmdline)
 {
 	for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(struct kcmd)); i++) {
@@ -143,9 +152,7 @@ static int run(const char *cmdline)
 
 void start_interactive_shell()
 {
-	printk("\nOdyssey v%s\n",
-		STRINGIFY(CONFIG_VERSION_MAJOR) "." \
-		STRINGIFY(CONFIG_VERSION_MINOR));
+	cmd_osver();
 
 #if CONFIG_KEYBOARD || CONFIG_SERIAL
 	while(1) {
