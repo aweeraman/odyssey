@@ -6,24 +6,30 @@
 #include <cmd/shell.h>
 #include <lib/stdio.h>
 #include <lib/string.h>
+
+#if ARCH_X86
 #include <ppm/splash.h>
 #include <sys/tty.h>
 #include <x86/io.h>
 #include <x86/boot/modules.h>
+#endif
 
 static char line[MAX_CMD_LENGTH];
 
 static const struct kcmd valid_cmds[] = {
+#if ARCH_X86
 	{ .cmd="clear",     .func=cmd_clear },
 	{ .cmd="splash",    .func=cmd_splash },
-	{ .cmd="exit",      .func=cmd_exit },
 	{ .cmd="exception", .func=cmd_trigger_exception },
-	{ .cmd="help",      .func=cmd_help },
 	{ .cmd="modules",   .func=cmd_modules },
 	{ .cmd="canary",    .func=cmd_canary },
+#endif
+	{ .cmd="exit",      .func=cmd_exit },
+	{ .cmd="help",      .func=cmd_help },
 	{ .cmd="osver",     .func=cmd_osver },
 };
 
+#if ARCH_X86
 int cmd_modules()
 {
 	print_boot_modules();
@@ -55,20 +61,6 @@ int cmd_canary()
 int cmd_clear()
 {
 	clear_screen();
-	return 0;
-}
-
-int cmd_exit()
-{
-	// TODO Use ACPI for shutdown on real hardware
-
-	// in QEMU
-	outw(0x604, 0x2000);
-
-	// in Virtualbox
-	outw(0x4004, 0x3400);
-
-	// Won't get here, hopefully
 	return 0;
 }
 
@@ -119,6 +111,23 @@ int cmd_splash()
 
 	return 0;
 }
+#endif /* ARCH_X86 */
+
+int cmd_exit()
+{
+	// TODO Use ACPI for shutdown on real hardware
+
+#if ARCH_X86
+	// in QEMU
+	outw(0x604, 0x2000);
+
+	// in Virtualbox
+	outw(0x4004, 0x3400);
+#endif
+
+	// Won't get here, hopefully
+	return 0;
+}
 
 int cmd_help()
 {
@@ -154,19 +163,21 @@ void start_interactive_shell()
 {
 	cmd_osver();
 
-#if CONFIG_KEYBOARD || CONFIG_SERIAL
+#if (CONFIG_KEYBOARD || CONFIG_SERIAL) && ARCH_X86
 	while(1) {
 		printk("# ");
 		getstr(line, MAX_CMD_LENGTH);
 		run(line);
 	}
+#elif ARCH_ARM
+	printk("Serial input for ARM not supported yet\n");
 #else
 	printk("Enable keyboard driver for interactive shell\n");
 
 	while(1) {
 #if ARCH_X86
-	asm("hlt");
+		asm("hlt");
 #endif /* ARCH_X86 */
 	}
-#endif /* CONFIG_KEYBOARD || CONFIG_SERIAL */
+#endif /* (CONFIG_KEYBOARD || CONFIG_SERIAL) && ARCH_ARM */
 }
