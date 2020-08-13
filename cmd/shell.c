@@ -165,7 +165,7 @@ void start_interactive_shell()
 
 	while(1) {
 #if ARCH_X86
-		asm("hlt");
+	asm("hlt");
 #endif /* ARCH_X86 */
 	}
 #endif /* CONFIG_KEYBOARD || CONFIG_SERIAL */

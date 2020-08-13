@@ -243,7 +243,6 @@ void print_superblocks(struct mm_superblock *sb)
 
 void init_mm()
 {
-
 	heap_start_addr       = (kernel_end_addr + 0x100000 + PAGE_ALIGNMENT)
 					& ~(PAGE_ALIGNMENT - 1);
 	heap_end_addr         = heap_start_addr + 0x100000;
