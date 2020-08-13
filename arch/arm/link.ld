@@ -12,6 +12,7 @@ MEMORY
  
 SECTIONS
 {
+	. = 0x82000000;
 	kernel_begin = .;
 	.text :
 	{
