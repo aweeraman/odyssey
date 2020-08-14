@@ -20,8 +20,9 @@ uint8_t getchar()
 {
 #if (! defined CONFIG_KEYBOARD) && (defined CONFIG_SERIAL)
 	return read_serial();
-#endif
+#else
 	return block_and_read_char();
+#endif
 }
 
 char *getstr(char *line, int max_length)
