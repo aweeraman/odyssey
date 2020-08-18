@@ -6,6 +6,8 @@
 #ifndef CPUID_H
 #define CPUID_H
 
+#include <stddef.h>
+
 size_t *cpuid();
 
 #endif

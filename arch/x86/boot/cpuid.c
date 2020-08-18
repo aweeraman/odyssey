@@ -3,12 +3,24 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-#include <cpuid.h>
-#include <stddef.h>
+#include <x86/boot/cpuid.h>
 #include <lib/stdio.h>
 
 static size_t cpuid_str[4];
 static size_t highest_functionality, ecx, edx;
+static char *cpu_features_ecx[32] = {
+	"fpu", "vme", "de", "pse", "tsc", "msr", "pae", "mce", "cx8",
+	"apic", "reserved", "sep", "mtrr", "pge", "mca", "cmov", "pat",
+	"pse-36", "psn", "clfsh", "reserved", "ds", "acpi", "mmx",
+	"fxsr", "sse", "sse2", "ss", "htt", "tm", "ia64", "pbe"
+};
+static char *cpu_features_edx[32] = {
+	"sse3", "pclmulqdq", "dtes64", "monitor", "ds-cpl", "vmx",
+	"smx", "est", "tm2", "ssse3", "cnxt-id", "sdbg", "fma", "cx16",
+	"xtpr", "pdcm", "reserved", "pcid", "dca", "sse4.1", "sse4.2",
+	"x2apic", "movbe", "popcnt", "tsc-deadline", "aes", "xsave",
+	"osxsave", "avx", "f16c", "rdrnd", "hypervisor"
+};
 
 size_t *cpuid()
 {
@@ -28,7 +40,14 @@ size_t *cpuid()
 	asm("mov %%ecx, %0" :"=r" (ecx));
 	asm("mov %%edx, %0" :"=r" (edx));
 
-	printk("  ecx: %b, edx: %b\n", ecx, edx);
+	printk("  Features: ");
+	for (int i = 0; i < 32; i++) {
+		if ((ecx >> i) & 0x1)
+			printk("%s ", cpu_features_ecx[i]);
+		if ((edx >> i) & 0x1)
+			printk("%s ", cpu_features_edx[i]);
+	}
+	printk("\n");
 
 	return cpuid_str;
 }
