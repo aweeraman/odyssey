@@ -8,7 +8,7 @@
 #include <lib/stdio.h>
 
 static size_t cpuid_str[4];
-static size_t highest_functionality;
+static size_t highest_functionality, ecx, edx;
 
 size_t *cpuid()
 {
@@ -22,6 +22,13 @@ size_t *cpuid()
 
 	printk("Processor vendor ID is %s, highest function 0x%x\n",
 		cpuid_str, highest_functionality);
+
+	asm("mov $0x1, %eax");
+	asm("cpuid");
+	asm("mov %%ecx, %0" :"=r" (ecx));
+	asm("mov %%edx, %0" :"=r" (edx));
+
+	printk("  ecx: %b, edx: %b\n", ecx, edx);
 
 	return cpuid_str;
 }
