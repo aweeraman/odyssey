@@ -23,6 +23,7 @@ int cmd_exit();
 int cmd_trigger_exception();
 int cmd_help();
 int cmd_osver();
+int cmd_ret();
 void start_interactive_shell();
 
 #endif

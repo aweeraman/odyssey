@@ -15,6 +15,7 @@
 #endif
 
 static char line[MAX_CMD_LENGTH];
+static int  retcode;
 
 static const struct kcmd valid_cmds[] = {
 #if ARCH_X86
@@ -27,6 +28,7 @@ static const struct kcmd valid_cmds[] = {
 	{ .cmd="exit",      .func=cmd_exit },
 	{ .cmd="help",      .func=cmd_help },
 	{ .cmd="osver",     .func=cmd_osver },
+	{ .cmd="ret",       .func=cmd_ret },
 };
 
 #if ARCH_X86
@@ -50,11 +52,12 @@ int cmd_canary()
 	(*canary)();
 	asm("\t movl %%eax, %0" : "=r"(i));
 
-	if (i == CANARY_MAGIC_STRING)
-		printk("The canary is alive.\n");
-	else
+	if (i != CANARY_MAGIC_STRING) {
 		printk("The canary is dead.\n");
+		return 1;
+	}
 
+	printk("The canary is alive.\n");
 	return 0;
 }
 
@@ -146,6 +149,12 @@ int cmd_osver()
 	return 0;
 }
 
+int cmd_ret()
+{
+	printk("%d\n", retcode);
+	return 0;
+}
+
 static int run(const char *cmdline)
 {
 	for (size_t i = 0; i < (sizeof(valid_cmds) / sizeof(struct kcmd)); i++) {
@@ -167,7 +176,7 @@ void start_interactive_shell()
 	while(1) {
 		printk("# ");
 		getstr(line, MAX_CMD_LENGTH);
-		run(line);
+		retcode = run(line);
 	}
 #elif ARCH_ARM
 	printk("Serial input for ARM not supported yet\n");
