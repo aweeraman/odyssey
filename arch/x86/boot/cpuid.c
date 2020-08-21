@@ -8,29 +8,21 @@
 
 static size_t cpuid_str[4];
 static size_t highest_functionality, cpu_feature_flags_ecx, cpu_feature_flags_edx;
-static char *cpu_features_ecx[32] = {
+static const char *cpu_features_ecx[32] = {
 	"sse3", "pclmulqdq", "dtes64", "monitor", "ds-cpl", "vmx",
 	"smx", "est", "tm2", "ssse3", "cnxt-id", "sdbg", "fma", "cx16",
 	"xtpr", "pdcm", "reserved", "pcid", "dca", "sse4.1", "sse4.2",
 	"x2apic", "movbe", "popcnt", "tsc-deadline", "aes", "xsave",
 	"osxsave", "avx", "f16c", "rdrnd", "hypervisor"
 };
-static char *cpu_features_edx[32] = {
+static const char *cpu_features_edx[32] = {
 	"fpu", "vme", "de", "pse", "tsc", "msr", "pae", "mce", "cx8",
 	"apic", "reserved", "sep", "mtrr", "pge", "mca", "cmov", "pat",
 	"pse-36", "psn", "clfsh", "reserved", "ds", "acpi", "mmx",
 	"fxsr", "sse", "sse2", "ss", "htt", "tm", "ia64", "pbe"
 };
 
-int cpu_has_fpu()
-{
-	return (cpu_feature_flags_edx >> 0) & 0x1;
-}
-
-int cpu_has_vme()
-{
-	return (cpu_feature_flags_edx >> 1) & 0x1;
-}
+int cpu_has_fpu, cpu_has_vme;
 
 size_t *cpuid()
 {
@@ -58,6 +50,9 @@ size_t *cpuid()
 			printk("%s ", cpu_features_edx[i]);
 	}
 	printk("\n");
+
+	cpu_has_fpu = (cpu_feature_flags_edx >> 0) & 0x1;
+	cpu_has_vme = (cpu_feature_flags_edx >> 1) & 0x1;
 
 	return cpuid_str;
 }

@@ -8,8 +8,6 @@
 
 #include <stddef.h>
 
-int cpu_has_fpu();
-int cpu_has_vmu();
 size_t *cpuid();
 
 #endif
