@@ -43,8 +43,38 @@ void get_cpu_features() {
 	}
 	printk("\n");
 
-	cpu_has_fpu = (cpu_feature_flags_edx >> 0) & 0x1;
-	cpu_has_vme = (cpu_feature_flags_edx >> 1) & 0x1;
+	cpu_has_fpu    = (cpu_feature_flags_edx >> 0) & 0x1;
+	cpu_has_vme    = (cpu_feature_flags_edx >> 1) & 0x1;
+	cpu_has_de     = (cpu_feature_flags_edx >> 2) & 0x1;
+	cpu_has_pse    = (cpu_feature_flags_edx >> 3) & 0x1;
+	cpu_has_tsc    = (cpu_feature_flags_edx >> 4) & 0x1;
+	cpu_has_msr    = (cpu_feature_flags_edx >> 5) & 0x1;
+	cpu_has_pae    = (cpu_feature_flags_edx >> 6) & 0x1;
+	cpu_has_mce    = (cpu_feature_flags_edx >> 7) & 0x1;
+	cpu_has_cx8    = (cpu_feature_flags_edx >> 8) & 0x1;
+	cpu_has_apic   = (cpu_feature_flags_edx >> 9) & 0x1;
+	// reserved
+	cpu_has_sep    = (cpu_feature_flags_edx >> 11) & 0x1;
+	cpu_has_mtrr   = (cpu_feature_flags_edx >> 12) & 0x1;
+	cpu_has_pge    = (cpu_feature_flags_edx >> 13) & 0x1;
+	cpu_has_mca    = (cpu_feature_flags_edx >> 14) & 0x1;
+	cpu_has_cmov   = (cpu_feature_flags_edx >> 15) & 0x1;
+	cpu_has_pat    = (cpu_feature_flags_edx >> 16) & 0x1;
+	cpu_has_pse_36 = (cpu_feature_flags_edx >> 17) & 0x1;
+	cpu_has_psn    = (cpu_feature_flags_edx >> 18) & 0x1;
+	cpu_has_clfsh  = (cpu_feature_flags_edx >> 19) & 0x1;
+	//reserved
+	cpu_has_ds     = (cpu_feature_flags_edx >> 21) & 0x1;
+	cpu_has_acpi   = (cpu_feature_flags_edx >> 22) & 0x1;
+	cpu_has_mmx    = (cpu_feature_flags_edx >> 23) & 0x1;
+	cpu_has_fxsr   = (cpu_feature_flags_edx >> 24) & 0x1;
+	cpu_has_sse    = (cpu_feature_flags_edx >> 25) & 0x1;
+	cpu_has_sse2   = (cpu_feature_flags_edx >> 26) & 0x1;
+	cpu_has_ss     = (cpu_feature_flags_edx >> 27) & 0x1;
+	cpu_has_htt    = (cpu_feature_flags_edx >> 28) & 0x1;
+	cpu_has_tm     = (cpu_feature_flags_edx >> 29) & 0x1;
+	cpu_has_ia64   = (cpu_feature_flags_edx >> 30) & 0x1;
+	cpu_has_pbe    = (cpu_feature_flags_edx >> 31) & 0x1;
 }
 
 size_t *cpuid()
