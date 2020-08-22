@@ -11,7 +11,6 @@
 #include <cmd/shell.h>
 #include <sys/timer.h>
 #include <x86/32/paging.h>
-#include <x86/boot/cpuid.h>
 
 #ifdef CONFIG_SERIAL
 #include <sys/serial.h>
