@@ -24,19 +24,7 @@ static const char *cpu_features_edx[32] = {
 
 int cpu_has_fpu, cpu_has_vme;
 
-size_t *cpuid()
-{
-	asm("mov $0x0, %eax");
-	asm("cpuid");
-	asm("mov %%eax, %0" :"=r" (highest_functionality));
-	asm("mov %%ebx, %0" :"=r" (cpuid_str[0]));
-	asm("mov %%edx, %0" :"=r" (cpuid_str[1]));
-	asm("mov %%ecx, %0" :"=r" (cpuid_str[2]));
-	cpuid_str[3] = '\0';
-
-	printk("Processor vendor ID is %s, highest function 0x%x\n",
-		cpuid_str, highest_functionality);
-
+void get_cpu_features() {
 	asm("mov $0x1, %eax");
 	asm("cpuid");
 	asm("mov %%ecx, %0" :"=r" (cpu_feature_flags_ecx));
@@ -53,6 +41,22 @@ size_t *cpuid()
 
 	cpu_has_fpu = (cpu_feature_flags_edx >> 0) & 0x1;
 	cpu_has_vme = (cpu_feature_flags_edx >> 1) & 0x1;
+}
+
+size_t *cpuid()
+{
+	asm("mov $0x0, %eax");
+	asm("cpuid");
+	asm("mov %%eax, %0" :"=r" (highest_functionality));
+	asm("mov %%ebx, %0" :"=r" (cpuid_str[0]));
+	asm("mov %%edx, %0" :"=r" (cpuid_str[1]));
+	asm("mov %%ecx, %0" :"=r" (cpuid_str[2]));
+	cpuid_str[3] = '\0';
+
+	printk("Processor vendor ID is %s, highest function 0x%x\n",
+		cpuid_str, highest_functionality);
+
+	get_cpu_features();
 
 	return cpuid_str;
 }

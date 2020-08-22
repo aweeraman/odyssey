@@ -9,5 +9,6 @@
 #include <stddef.h>
 
 size_t *cpuid();
+void get_cpu_features();
 
 #endif
