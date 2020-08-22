@@ -34,7 +34,7 @@ void get_cpu_features() {
 	asm("mov %%ecx, %0" :"=r" (cpu_feature_flags_ecx));
 	asm("mov %%edx, %0" :"=r" (cpu_feature_flags_edx));
 
-	printk("  Features: ");
+	printk("  ");
 	for (int i = 0; i < 32; i++) {
 		if ((cpu_feature_flags_ecx >> i) & 0x1)
 			printk("%s ", cpu_features_ecx[i]);
