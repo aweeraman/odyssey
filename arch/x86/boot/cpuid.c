@@ -10,7 +10,7 @@ static size_t cpuid_str[4];
 static size_t highest_functionality, cpu_feature_flags_ecx, cpu_feature_flags_edx;
 
 // Define the CPU features when EAX is 1
-int CPU_FEATURES_1;
+int CPU_FEATURES;
 
 static const char *cpu_features_ecx[32] = {
 	"sse3", "pclmulqdq", "dtes64", "monitor", "ds-cpl", "vmx",
