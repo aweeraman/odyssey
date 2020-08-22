@@ -8,6 +8,10 @@
 
 static size_t cpuid_str[4];
 static size_t highest_functionality, cpu_feature_flags_ecx, cpu_feature_flags_edx;
+
+// Define the CPU features when EAX is 1
+int CPU_FEATURES_1;
+
 static const char *cpu_features_ecx[32] = {
 	"sse3", "pclmulqdq", "dtes64", "monitor", "ds-cpl", "vmx",
 	"smx", "est", "tm2", "ssse3", "cnxt-id", "sdbg", "fma", "cx16",
@@ -15,14 +19,14 @@ static const char *cpu_features_ecx[32] = {
 	"x2apic", "movbe", "popcnt", "tsc-deadline", "aes", "xsave",
 	"osxsave", "avx", "f16c", "rdrnd", "hypervisor"
 };
+
 static const char *cpu_features_edx[32] = {
 	"fpu", "vme", "de", "pse", "tsc", "msr", "pae", "mce", "cx8",
 	"apic", "reserved", "sep", "mtrr", "pge", "mca", "cmov", "pat",
 	"pse-36", "psn", "clfsh", "reserved", "ds", "acpi", "mmx",
 	"fxsr", "sse", "sse2", "ss", "htt", "tm", "ia64", "pbe"
 };
-
-int cpu_has_fpu, cpu_has_vme;
+//------ EAX 1
 
 void get_cpu_features() {
 	asm("mov $0x1, %eax");
