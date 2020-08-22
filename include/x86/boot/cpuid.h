@@ -15,7 +15,7 @@
 	   cpu_has_clfsh, cpu_has_ds, cpu_has_acpi, cpu_has_mmx, cpu_has_fxsr, \
 	   cpu_has_sse, cpu_has_sse2, cpu_has_ss, cpu_has_htt, cpu_has_tm, \
 	   cpu_has_ia64, cpu_has_pbe, cpu_has_sse3, cpu_has_pclmulqdq, \
-	   cpu_has_dtes64, cpu_has_monitor, cpu_has_dc_cpl, cpu_has_vmx, \
+	   cpu_has_dtes64, cpu_has_monitor, cpu_has_ds_cpl, cpu_has_vmx, \
 	   cpu_has_smx, cpu_has_est, cpu_has_tm2, cpu_has_ssse3, cpu_has_cnxt_id, \
 	   cpu_has_sdbg, cpu_has_fma, cpu_has_cx16, cpu_has_xtpr, cpu_has_pdcm, \
 	   cpu_has_pcid, cpu_has_dca, cpu_has_sse4_1, cpu_has_sse4_2, \

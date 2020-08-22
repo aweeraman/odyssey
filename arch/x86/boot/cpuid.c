@@ -43,16 +43,49 @@ void get_cpu_features() {
 	}
 	printk("\n");
 
-	cpu_has_fpu    = (cpu_feature_flags_edx >> 0) & 0x1;
-	cpu_has_vme    = (cpu_feature_flags_edx >> 1) & 0x1;
-	cpu_has_de     = (cpu_feature_flags_edx >> 2) & 0x1;
-	cpu_has_pse    = (cpu_feature_flags_edx >> 3) & 0x1;
-	cpu_has_tsc    = (cpu_feature_flags_edx >> 4) & 0x1;
-	cpu_has_msr    = (cpu_feature_flags_edx >> 5) & 0x1;
-	cpu_has_pae    = (cpu_feature_flags_edx >> 6) & 0x1;
-	cpu_has_mce    = (cpu_feature_flags_edx >> 7) & 0x1;
-	cpu_has_cx8    = (cpu_feature_flags_edx >> 8) & 0x1;
-	cpu_has_apic   = (cpu_feature_flags_edx >> 9) & 0x1;
+	cpu_has_sse3         = (cpu_feature_flags_ecx >> 0)  & 0x1;
+	cpu_has_pclmulqdq    = (cpu_feature_flags_ecx >> 1)  & 0x1;
+	cpu_has_dtes64       = (cpu_feature_flags_ecx >> 2)  & 0x1;
+	cpu_has_monitor      = (cpu_feature_flags_ecx >> 3)  & 0x1;
+	cpu_has_ds_cpl       = (cpu_feature_flags_ecx >> 4)  & 0x1;
+	cpu_has_vmx          = (cpu_feature_flags_ecx >> 5)  & 0x1;
+	cpu_has_smx          = (cpu_feature_flags_ecx >> 6)  & 0x1;
+	cpu_has_est          = (cpu_feature_flags_ecx >> 7)  & 0x1;
+	cpu_has_tm2          = (cpu_feature_flags_ecx >> 8)  & 0x1;
+	cpu_has_ssse3        = (cpu_feature_flags_ecx >> 9)  & 0x1;
+	cpu_has_cnxt_id      = (cpu_feature_flags_ecx >> 10) & 0x1;
+	cpu_has_sdbg         = (cpu_feature_flags_ecx >> 11) & 0x1;
+	cpu_has_fma          = (cpu_feature_flags_ecx >> 12) & 0x1;
+	cpu_has_cx16         = (cpu_feature_flags_ecx >> 13) & 0x1;
+	cpu_has_xtpr         = (cpu_feature_flags_ecx >> 14) & 0x1;
+	cpu_has_pdcm         = (cpu_feature_flags_ecx >> 15) & 0x1;
+	//reserved
+	cpu_has_pcid         = (cpu_feature_flags_ecx >> 17) & 0x1;
+	cpu_has_dca          = (cpu_feature_flags_ecx >> 18) & 0x1;
+	cpu_has_sse4_1       = (cpu_feature_flags_ecx >> 19) & 0x1;
+	cpu_has_sse4_2       = (cpu_feature_flags_ecx >> 20) & 0x1;
+	cpu_has_x2apic       = (cpu_feature_flags_ecx >> 21) & 0x1;
+	cpu_has_movbe        = (cpu_feature_flags_ecx >> 22) & 0x1;
+	cpu_has_popcnt       = (cpu_feature_flags_ecx >> 23) & 0x1;
+	cpu_has_tsc_deadline = (cpu_feature_flags_ecx >> 24) & 0x1;
+	cpu_has_aes          = (cpu_feature_flags_ecx >> 25) & 0x1;
+	cpu_has_xsave        = (cpu_feature_flags_ecx >> 26) & 0x1;
+	cpu_has_osxsave      = (cpu_feature_flags_ecx >> 27) & 0x1;
+	cpu_has_avx          = (cpu_feature_flags_ecx >> 28) & 0x1;
+	cpu_has_f16c         = (cpu_feature_flags_ecx >> 29) & 0x1;
+	cpu_has_rdrnd        = (cpu_feature_flags_ecx >> 30) & 0x1;
+	cpu_has_hypervisor   = (cpu_feature_flags_ecx >> 31) & 0x1;
+
+	cpu_has_fpu    = (cpu_feature_flags_edx >> 0)  & 0x1;
+	cpu_has_vme    = (cpu_feature_flags_edx >> 1)  & 0x1;
+	cpu_has_de     = (cpu_feature_flags_edx >> 2)  & 0x1;
+	cpu_has_pse    = (cpu_feature_flags_edx >> 3)  & 0x1;
+	cpu_has_tsc    = (cpu_feature_flags_edx >> 4)  & 0x1;
+	cpu_has_msr    = (cpu_feature_flags_edx >> 5)  & 0x1;
+	cpu_has_pae    = (cpu_feature_flags_edx >> 6)  & 0x1;
+	cpu_has_mce    = (cpu_feature_flags_edx >> 7)  & 0x1;
+	cpu_has_cx8    = (cpu_feature_flags_edx >> 8)  & 0x1;
+	cpu_has_apic   = (cpu_feature_flags_edx >> 9)  & 0x1;
 	// reserved
 	cpu_has_sep    = (cpu_feature_flags_edx >> 11) & 0x1;
 	cpu_has_mtrr   = (cpu_feature_flags_edx >> 12) & 0x1;
