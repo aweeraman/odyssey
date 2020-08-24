@@ -6,6 +6,7 @@
 #include <cmd/shell.h>
 #include <lib/stdio.h>
 #include <lib/string.h>
+#include <mm/region.h>
 
 #if ARCH_X86
 #include <ppm/splash.h>
@@ -19,16 +20,17 @@ static int  retcode;
 
 static const struct kcmd valid_cmds[] = {
 #if ARCH_X86
-	{ .cmd="clear",     .func=cmd_clear },
-	{ .cmd="splash",    .func=cmd_splash },
+	{ .cmd="clear",     .func=cmd_clear             },
+	{ .cmd="splash",    .func=cmd_splash            },
 	{ .cmd="exception", .func=cmd_trigger_exception },
-	{ .cmd="modules",   .func=cmd_modules },
-	{ .cmd="canary",    .func=cmd_canary },
+	{ .cmd="modules",   .func=cmd_modules           },
+	{ .cmd="canary",    .func=cmd_canary            },
 #endif
-	{ .cmd="exit",      .func=cmd_exit },
-	{ .cmd="help",      .func=cmd_help },
-	{ .cmd="osver",     .func=cmd_osver },
-	{ .cmd="ret",       .func=cmd_ret },
+	{ .cmd="exit",      .func=cmd_exit              },
+	{ .cmd="help",      .func=cmd_help              },
+	{ .cmd="osver",     .func=cmd_osver             },
+	{ .cmd="ret",       .func=cmd_ret               },
+	{ .cmd="memmap",    .func=cmd_memmap            },
 };
 
 #if ARCH_X86
@@ -152,6 +154,12 @@ int cmd_osver()
 int cmd_ret()
 {
 	printk("%d\n", retcode);
+	return 0;
+}
+
+int cmd_memmap()
+{
+	print_mem_regions();
 	return 0;
 }
 
