@@ -8,7 +8,7 @@
 
 #include <stdint.h>
 
-#define GDT_ENTRIES 3
+#define GDT_ENTRIES 5
 
 struct gdt_descriptor {
 	uint16_t size;
