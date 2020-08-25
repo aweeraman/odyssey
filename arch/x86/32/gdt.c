@@ -9,7 +9,7 @@
 static struct gdt_descriptor gdt;
 static struct gdt_entry gdt_entries[GDT_ENTRIES];
 
-static void gdt_entry(int entry, int32_t base, int32_t limit,
+static void gdt_entry(int32_t entry, int32_t base, int32_t limit,
 	              uint8_t access, uint8_t flags)
 {
 	gdt_entries[entry].limit_lo = limit & 0xFFFF;
