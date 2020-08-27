@@ -26,7 +26,8 @@ static void gdt_entry(int32_t entry, int32_t base, int32_t limit,
 	       entry,base, limit, access, flags);
 }
 
-static void tss_entry(size_t entry, uint8_t access, uint8_t flags)
+static void tss_entry(size_t entry, uint8_t access, uint8_t flags,
+		      uint32_t ss0, uint32_t esp0)
 {
 	memset(&tss, 0, sizeof(tss));
 
@@ -34,6 +35,9 @@ static void tss_entry(size_t entry, uint8_t access, uint8_t flags)
 	uint32_t limit = sizeof(tss);
 
 	gdt_entry(entry, base, limit, access, flags);
+
+	tss.ss0  = ss0;
+	tss.esp0 = esp0;
 }
 
 void gdt_init()
@@ -45,7 +49,7 @@ void gdt_init()
 	gdt_entry(2, 0, 0xFFFFFFFF, 0x92, 0xC); /* kernel data segment */
 	gdt_entry(3, 0, 0xFFFFFFFF, 0xFA, 0xC); /* user code segment */
 	gdt_entry(4, 0, 0xFFFFFFFF, 0xF2, 0xC); /* user data segment */
-	tss_entry(5, 0x89, 0xC);                /* tss */
+	tss_entry(5, 0x89, 0xC, 0x10, 0x0);     /* tss */
 
 	gdt.size   = sizeof(gdt_entries);
 	gdt.offset = (uint32_t) &gdt_entries;
