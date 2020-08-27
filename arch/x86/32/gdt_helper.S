@@ -25,7 +25,7 @@ load_gdt:
 
 flush_tss:
 	movw TASK_STATE_SEGMENT, %ax
-	ltr  %ax
+	ltr %ax
 	ret
 
 reload:
