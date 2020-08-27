@@ -5,9 +5,11 @@
 
 #include <x86/32/gdt.h>
 #include <lib/stdio.h>
+#include <lib/string.h>
 
 static struct gdt_descriptor gdt;
 static struct gdt_entry gdt_entries[GDT_ENTRIES];
+static struct tss_entry tss;
 
 static void gdt_entry(int32_t entry, int32_t base, int32_t limit,
 	              uint8_t access, uint8_t flags)
@@ -24,6 +26,16 @@ static void gdt_entry(int32_t entry, int32_t base, int32_t limit,
 	       entry,base, limit, access, flags);
 }
 
+static void tss_entry(size_t entry, uint8_t access, uint8_t flags)
+{
+	memset(&tss, 0, sizeof(tss));
+
+	uint32_t base = (uint32_t) &tss;
+	uint32_t limit = sizeof(tss);
+
+	gdt_entry(entry, base, limit, access, flags);
+}
+
 void gdt_init()
 {
 	printk("GDT [%d]\n", GDT_ENTRIES);
@@ -33,6 +45,7 @@ void gdt_init()
 	gdt_entry(2, 0, 0xFFFFFFFF, 0x92, 0xC); /* kernel data segment */
 	gdt_entry(3, 0, 0xFFFFFFFF, 0xFA, 0xC); /* user code segment */
 	gdt_entry(4, 0, 0xFFFFFFFF, 0xF2, 0xC); /* user data segment */
+	tss_entry(5, 0x89, 0xC);                /* tss */
 
 	gdt.size   = sizeof(gdt_entries);
 	gdt.offset = (uint32_t) &gdt_entries;
