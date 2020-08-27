@@ -62,4 +62,5 @@ void gdt_init()
 	gdt.offset = (uint32_t) &gdt_entries;
 
 	load_gdt((uint32_t) (&gdt));
+	flush_tss();
 }

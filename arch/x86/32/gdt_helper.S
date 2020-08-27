@@ -5,8 +5,10 @@
 
 #define KERNEL_CODE_SEGMENT $0x08
 #define KERNEL_DATA_SEGMENT $0x10
+#define TASK_STATE_SEGMENT  $0x28
 
         .global load_gdt
+	.global flush_tss
 
 load_gdt:
         movl 4(%esp), %eax
@@ -20,6 +22,11 @@ load_gdt:
         movw %ax, %ss
 
         jmp KERNEL_CODE_SEGMENT, $reload
+
+flush_tss:
+	movw TASK_STATE_SEGMENT, %ax
+	ltr  %ax
+	ret
 
 reload:
         ret
