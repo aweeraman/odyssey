@@ -64,3 +64,10 @@ void gdt_init()
 	load_gdt((uint32_t) (&gdt));
 	flush_tss();
 }
+
+void user_function()
+{
+	while(1) {
+		1;
+	}
+}

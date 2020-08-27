@@ -11,6 +11,7 @@
 #include <cmd/shell.h>
 #include <sys/timer.h>
 #include <x86/32/paging.h>
+#include <x86/32/gdt.h>
 
 #ifdef CONFIG_SERIAL
 #include <sys/serial.h>
@@ -69,5 +70,6 @@ void kernel_main()
 	register_n_ticks_timer(5, update_cursor);
 #endif
 
+	//user_mode_init();
 	start_interactive_shell();
 }

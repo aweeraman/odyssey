@@ -9,6 +9,7 @@
 
         .global load_gdt
 	.global flush_tss
+	.global user_mode_init
 
 load_gdt:
         movl 4(%esp), %eax
@@ -27,6 +28,21 @@ flush_tss:
 	movw TASK_STATE_SEGMENT, %ax
 	ltr %ax
 	ret
+
+user_mode_init:
+	movw $0x2B, %ax	# user data segment, bottom 2 bits set for user mode
+	movw %ax, %ds
+	movw %ax, %es
+	movw %ax, %fs
+	movw %ax, %gs
+
+	movl %eax, %esp
+	pushw 0x2B
+	pushl %eax
+	pushf
+	pushw 0x1B
+	pushl user_function
+	iret
 
 reload:
         ret

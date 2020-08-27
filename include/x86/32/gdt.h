@@ -60,5 +60,7 @@ void gdt_init();
 void load_gdt();
 void set_kernel_stack();
 void flush_tss();
+void user_mode_init();
+void user_function();
 
 #endif
