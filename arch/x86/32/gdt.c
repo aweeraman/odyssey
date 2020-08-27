@@ -38,6 +38,13 @@ static void tss_entry(size_t entry, uint8_t access, uint8_t flags,
 
 	tss.ss0  = ss0;
 	tss.esp0 = esp0;
+	tss.cs   = 0x0b;
+	tss.ss   = tss.ds = tss.es = tss.fs = tss.gs = 0x13;
+}
+
+void set_kernel_stack(uint32_t stack)
+{
+	tss.esp0 = stack;
 }
 
 void gdt_init()

@@ -58,5 +58,6 @@ struct tss_entry
 
 void gdt_init();
 void load_gdt();
+void set_kernel_stack();
 
 #endif
