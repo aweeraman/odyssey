@@ -67,7 +67,5 @@ void gdt_init()
 
 void user_function()
 {
-	while(1) {
-		1;
-	}
+	while(1);
 }

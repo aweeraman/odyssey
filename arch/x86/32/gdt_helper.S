@@ -5,7 +5,7 @@
 
 #define KERNEL_CODE_SEGMENT $0x08
 #define KERNEL_DATA_SEGMENT $0x10
-#define TASK_STATE_SEGMENT  $0x28
+#define TASK_STATE_SEGMENT  $0x2B
 
         .global load_gdt
 	.global flush_tss
@@ -30,17 +30,18 @@ flush_tss:
 	ret
 
 user_mode_init:
-	movw $0x2B, %ax	# user data segment, bottom 2 bits set for user mode
+	cli
+	movw $0x23, %ax	# user data segment, bottom 2 bits set for user mode
 	movw %ax, %ds
 	movw %ax, %es
 	movw %ax, %fs
 	movw %ax, %gs
 
-	movl %eax, %esp
-	pushw 0x2B
+	movl %esp, %eax
+	pushl $0x23
 	pushl %eax
 	pushf
-	pushw 0x1B
+	pushl $0x1B
 	pushl user_function
 	iret
 
