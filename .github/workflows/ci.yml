@@ -12,7 +12,7 @@ jobs:
       run: make download-deps
 
     - name: Install build dependencies
-      run: sudo apt-get update && sudo apt-get install -y gcc-i686-linux-gnu binutils-i686-linux-gnu gcc-arm-none-eabi
+      run: sudo apt-get update && sudo apt-get install -y gcc-i686-linux-gnu binutils-i686-linux-gnu gcc-arm-none-eabi grub-common
 
     - name: Update build config for CI
       run: |
@@ -24,6 +24,14 @@ jobs:
 
     - name: Build Odyssey (x86)
       run: make
+
+    - name: Build ISO
+      run: make iso
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: odyssey.iso
+        path: odyssey.iso
 
     - name: Clean workspace
       run: make clean
