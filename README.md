@@ -234,6 +234,8 @@ $ tools/ppm-to-array/jpeg-to-c.sh tools/ppm-to-array/img/kanagawa.jpg include/pp
 
 Build and launch Odyssey and run the 'splash' command at the shell.
 
+![Splash](https://raw.githubusercontent.com/aweeraman/odyssey/master/docs/img/splash.png "Splash")
+
 # Debugging
 
 ~/.gdbinit:
