@@ -68,7 +68,7 @@ Install additional dependencies required for building and running odyssey
 in qemu:
 
 ```
-$ sudo apt-get install grub-common mtools qemu-system-gui qemu-system-x86 qemu-system-arm ovmf exuberant-ctags u-boot-tools netbpm
+$ sudo apt-get install grub-common mtools qemu-system-gui qemu-system-x86 qemu-system-arm ovmf exuberant-ctags u-boot-tools netpbm
 ```
 
 Optionally, if you wish to use clang, you can install it and configure
