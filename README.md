@@ -236,6 +236,25 @@ Build and launch Odyssey and run the 'splash' command at the shell.
 
 ![Splash](https://raw.githubusercontent.com/aweeraman/odyssey/master/docs/img/splash.png "Splash")
 
+## Call Graph
+
+Optionally, to create a graphical view of the C function call graph when using gcc, run:
+
+```
+$ make call_graph
+$ make ARCH=arm call_graph
+```
+
+You will need graphviz for this to work:
+
+```
+$ sudo apt-get install graphviz
+```
+
+This will create an SVG file called "call_graph.svg" on the top level directory.
+
+![Call graph](https://raw.githubusercontent.com/aweeraman/odyssey/master/docs/img/call_graph.svg "Call graph")
+
 # Debugging
 
 ~/.gdbinit:

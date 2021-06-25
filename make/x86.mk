@@ -41,6 +41,8 @@ endif
 # Clang specific arguments
 ifneq (,$(findstring clang,$(CC)))
 	EXTRAFLAGS += $(CLANGFLAGS)
+else
+	EXTRAFLAGS += $(RTL_FLAGS)
 endif
 
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))

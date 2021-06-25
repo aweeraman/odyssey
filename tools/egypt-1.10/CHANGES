@@ -1,0 +1,29 @@
+-- 1.10 released --
+
+Support the RTL function comment syntax of gcc 4.4.0
+when compiling for ARM.
+
+-- 1.9 released --
+
+Support the new RTL function comment syntax of gcc 4.7.
+
+-- 1.8 released --
+
+Deal with CRLF terminated RTL files.
+
+The graph now includes any functions that are defined in the
+compilation unit but do not call nor get called by other functions.
+
+-- 1.7 released --
+
+Added this file.
+
+Added more text about indirect calls to man page.
+
+Documented the C++ demangling support.
+
+Ignore caret prefix on ARM short calls (from Lennert Buytenhek).
+
+Escape quote characters in demangled C++ names.
+
+-- 1.6 released --
