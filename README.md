@@ -300,6 +300,9 @@ Odyssey makes use of following free and open source software:
 * [OVMF](https://github.com/tianocore/tianocore.github.io/wiki/OVMF)
 * [Scalable Screen Font](https://gitlab.com/bztsrc/scalable-font2)
 * [CTAGS](http://ctags.sourceforge.net/)
+* [Egypt](http://www.gson.org/egypt/)
+* [Graphviz](https://graphviz.org/)
+* [Perl](https://www.perl.org/)
 
 # License
 
