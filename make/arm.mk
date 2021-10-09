@@ -19,20 +19,20 @@ OBJECTS    += $(BOOT) $(DRV) $(TEST) $(LIB) $(MM) $(SYS) $(CMD)
 OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 odyssey: $(OBJECTS)
-ifeq (, $(shell which $(LD)))
+ifeq (, $(shell command -v $(LD)))
 	$(error $(LD) not found)
 endif
 	$(LD) $(OBJECTS) -o $@ $(LDFLAGS)
 	$(OBJCOPY) -O binary $@ $@.bin
 
 %.o: %.c
-ifeq (, $(shell which $(CC)))
+ifeq (, $(shell command -v $(CC)))
 	$(error $(CC) not found)
 endif
 	$(CC) $(CFLAGS) -c $< -o $@
 
 %.o: %.s
-ifeq (, $(shell which $(AS)))
+ifeq (, $(shell command -v $(AS)))
 	$(error $(AS) not found)
 endif
 	$(AS) $(ASFLAGS) -o $@ $<

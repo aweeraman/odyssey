@@ -5,7 +5,7 @@
 
 ##     coverity: run coverity static analyzer for security
 coverity: cov-configure
-ifeq (, $(shell which cov-build))
+ifeq (, $(shell command -v cov-build))
 	$(error cov-build is not available in the PATH)
 endif
 	cov-build --dir cov-int $(MAKE)
@@ -25,7 +25,7 @@ endif
 
 ##     cov-configure: configure compiler for coverity scanning
 cov-configure:
-ifeq (, $(shell which cov-configure))
+ifeq (, $(shell command -v cov-configure))
 	$(error cov-configure is not available in the PATH)
 endif
 	cov-configure -co $(CC) -- -ffreestanding

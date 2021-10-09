@@ -51,7 +51,7 @@ OBJDEPS    := $(patsubst %.o, %.d, $(OBJECTS))
 
 ##     odyssey: build the odyssey kernel
 odyssey: $(OBJECTS) modules
-ifeq (, $(shell which $(LD)))
+ifeq (, $(shell command -v $(LD)))
 	$(error $(LD) not found)
 endif
 	$(LD) -o $@ $(OBJECTS) $(LDFLAGS)
@@ -69,7 +69,7 @@ sys/fnt.o: sys/fnt.sfn
 	$(OBJCOPY) -O elf32-i386 -B i386 -I binary $^ $@
 
 %.o: %.c
-ifeq (, $(shell which $(CC)))
+ifeq (, $(shell command -v $(CC)))
 	$(error $(CC) not found)
 endif
 	$(CC) $(CFLAGS) $(EXTRAFLAGS) -c $< -o $@
@@ -77,13 +77,13 @@ endif
 # Compile either .asm or .S files depending on the choice of assembler
 ifneq (,$(findstring nasm,$(AS)))
 %.o: %.asm
-  ifeq (, $(shell which $(AS)))
+  ifeq (, $(shell command -v $(AS)))
 	$(error $(AS) not found)
   endif
 	$(AS) $(NASMFLAGS_ELF) $(OPTS) -o $@ $<
 else # GNU as
 %.o: %.S
-  ifeq (, $(shell which $(AS)))
+  ifeq (, $(shell command -v $(AS)))
 	$(error $(AS) not found)
   endif
 	$(AS) $(CFLAGS) -o $@ $<
