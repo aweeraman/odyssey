@@ -8,8 +8,8 @@ ARCH ?= x86
 .SILENT: help
 
 -include config/build_$(ARCH).cfg
--include make/$(ARCH).mk
--include make/common.mk
--include make/qemu.mk
--include make/deps.mk
--include make/coverity.mk
+-include scripts/$(ARCH).mk
+-include scripts/common.mk
+-include scripts/qemu.mk
+-include scripts/deps.mk
+-include scripts/coverity.mk
